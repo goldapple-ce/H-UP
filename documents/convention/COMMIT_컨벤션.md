@@ -1,6 +1,6 @@
-## Github Commit
+## Git Commit
 
-`Github Commit` 은 [다음](https://velog.io/@shin6403/Git-git-%EC%BB%A4%EB%B0%8B-%EC%BB%A8%EB%B2%A4%EC%85%98-%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0)을 참고하여 작성하였습니다.
+`Git Commit` 은 [다음](https://velog.io/@shin6403/Git-git-%EC%BB%A4%EB%B0%8B-%EC%BB%A8%EB%B2%A4%EC%85%98-%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0)을 참고하여 작성하였습니다.
 
 ### Commit 구조
 
@@ -8,25 +8,16 @@
 
 커밋 메시지의 구조는 아래와 같이 이루어져 있습니다.
 
-1. Part
-2. Type
-3. Name
-4. Body
-5. Footer
-
-### Part
-
----
-
-| BE  | Back-End  |
-| --- | --------- |
-| FE  | Front-End |
+1. Type
+2. Name
+3. Body (선택)
+4. Footer (선택)
 
 ### Type
 
 ---
 
-타입은 태그와 제목으로 구성되고, 태그는 영어로 쓰되 첫 문자는 대문자로 합니다.
+타입은 태그와 제목으로 구성되고, 태그는 영어로 작성합니다.
 
 태그의 종류는 다음과 같습니다.
 
@@ -45,13 +36,20 @@
 
 제목을 작성할 때 주의할 점은 다음과 같습니다.
 
-- 제목의 처음은 동사 원형으로 시작하고 첫 글자는 대문자로 작성한다.
-- `Fixed`, `Added`, `Changed`등 과제 시제가 아닌 `Fix`, `Add`, `Change`로 명령어로 시작한다.
-- 총 글자 수는 50자 이내며 마지막에 마침표(`.`)를 붙이지 않는다.
+- ~~제목의 처음은 동사 원형으로 시작한다.~~
+- ~~`fixed`, `added`, `changed`등 과제 시제가 아닌 `fix`, `add`, `change`로 명령어로 시작한다.~~
+- ~~총 글자 수는 50자 이내며 마지막에 마침표(`.`)를 붙이지 않는다.~~
+- 영어로 해도 되나 한글로 작성해도 무관.
 
-> 예시 ) Docs: Edit Readme.md to include New Features Use-Cases
+> 예시 ) 
+> docs: edit Readme.md to include New Features Use-Cases
 > 
-- 커밋 컨벤션 추가
+> - add commit convention.md
+>
+> feat : 로그인 기능 구현
+>
+> - Security 적용
+> - JWT 내용 변경
 
 ### Body
 
@@ -84,13 +82,13 @@
 ### Commit 예시
 
 ```
-Feat: 회원 가입 기능 구현
+feat: 회원 가입 기능 구현
 
-SMS, 이메일 중복확인 API 개발
+- SNS, 이메일 중복확인 API 개발
 
-Resolves: #123
-Ref: #456
-Related to: #48, #45
+Resolves: #S10P31A702-123
+Ref: #S10P31A702-120
+Related to: #S10P31A702-118, #S10P31A702-102
 ```
 
 # 커밋 템플릿 적용
@@ -103,14 +101,14 @@ Related to: #48, #45
 
 1. 프로젝트 루트 폴더 ( ..\S10P12A708\ )에서 아래 명령어 실행
 
-```bash
+``` bash
 git config commit.template .gitmessage
 ```
 
 1. 실행 후 모습
     1. in IntelliJ
         
-        ![Untitled](https://github.com/lkt9899/PS/assets/80976609/606141a1-2dc5-4155-8b74-cb6afee9799c)
+        ![인텔리 커밋](https://github.com/lkt9899/PS/assets/80976609/606141a1-2dc5-4155-8b74-cb6afee9799c)
         
     2. in terminal
         
@@ -119,13 +117,13 @@ git config commit.template .gitmessage
         git commit
         ```
         
-        ![Untitled](https://github.com/lkt9899/PS/assets/80976609/8c3b4d3d-d7c4-4487-be8d-5dc87792fa30)
+        ![git bash](https://github.com/lkt9899/PS/assets/80976609/8c3b4d3d-d7c4-4487-be8d-5dc87792fa30)
         
         위 사진 처럼 열린 경우 메세지 작성 후 창 닫으면 커밋됨
         
     3. 위처럼 vscode로 열리지 않고 콘솔 창에서 vim으로 열린 경우
         
-        ```markdown
+        ``` markdown
         - i    문자 입력
         - :wq  저장 후 나가기
         - q!   저장 없이 강제 종료
