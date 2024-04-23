@@ -1,0 +1,21 @@
+.issue_container {
+    width: 100%;
+    padding: 0px 20px;
+    border-radius: 8px;
+    margin: 50px auto;
+}
+
+.issue_page {
+    display: flex;
+}
+
+.issue_section {
+    flex: 1;
+    align-items: center;
+    width: 70%;
+}
+
+.Imminent_issue_section {
+    flex: 1;
+    align-items: center;
+}
