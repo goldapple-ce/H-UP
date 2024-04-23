@@ -1,21 +1,27 @@
 .issue_container {
-    width: 100%;
-    padding: 0px 20px;
+    width: 95%;
+    padding: 10px;
     border-radius: 8px;
-    margin: 50px auto;
+    margin: 10px;
+
+        
+    h4 {
+        padding-left: 20px;
+    }
 }
 
 .issue_page {
     display: flex;
+    gap: 20px;
 }
 
 .issue_section {
-    flex: 1;
-    align-items: center;
+    flex: 7;
     width: 70%;
 }
 
 .Imminent_issue_section {
-    flex: 1;
-    align-items: center;
+    flex: 3;
+    width: 30%;
+    min-width: 300px;
 }

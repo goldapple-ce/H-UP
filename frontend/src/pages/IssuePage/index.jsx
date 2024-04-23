@@ -38,6 +38,7 @@ const IssuePage = (props) => {
         <div className={styles.issue_page}>
             {/* 이슈 목록 */}
             <div className={styles.issue_section}>
+            <h4>이슈</h4>
                 <ul>
                     {issueList.map((issue) => (
                         <li key={issue.id}>
@@ -47,7 +48,9 @@ const IssuePage = (props) => {
                 </ul>
             </div>
             {/* 마감 임박 이슈 목록 */}
+            
             <div className={styles.imminent_issue_section}>
+                <h4>마감이 임박한 이슈</h4>
                 <ul>
                     {imminentIssueList.map((issue) => (
                         <li key={issue.id}>
