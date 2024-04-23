@@ -72,7 +72,7 @@ function SignupPage() {
             required
           />
         </div>
-        <div>
+        {/* <div>
           <label htmlFor="email">이메일</label>
           <input
             type="email"
@@ -81,7 +81,7 @@ function SignupPage() {
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-        </div>
+        </div> */}
         <button type="submit">가입하기</button>
       </form>
     </div>
