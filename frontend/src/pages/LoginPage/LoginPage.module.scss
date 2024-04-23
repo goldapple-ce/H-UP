@@ -11,6 +11,13 @@
     h2 {
       margin-bottom: 20px;
     }
+    h5 {
+        color:#0056b3;
+        cursor: pointer;
+        &:hover{
+            color:#007BFF;
+        }
+    }
   
     form {
       width: 100%;
@@ -25,6 +32,8 @@
       label {
         display: block;
         margin-bottom: 5px;
+        font-size: 12px;
+        color: red;
       }
   
       input[type="userId"],
@@ -48,10 +57,6 @@
         &:hover {
           background-color: #0056b3;
         }
-      }
-
-      .errorLabel {
-        font-size: 5px;
       }
     }
   }

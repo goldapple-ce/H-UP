@@ -34,32 +34,51 @@ const LoginPage = (props) => {
     //   setPasswordError('The password must be 8 characters or longer')
     //   return
     // }
+
+    // if (loggedIn) {
+      // localStorage.removeItem('user')
+      // props.setLoggedIn(false)
+    // } else {
+      navigate('/IssuePage')
+    // }
+  }
+
+  const onButtonSignup = () => {
+    navigate('/SignupPage')
   }
 
   return (
-    <div className={styles.login_container}>
-      <form>
-        <h2>Login</h2>
-          <p>아이디 : </p>
-          <input
-            type="userId"
-            value={userId}
-            placeholder="Enter your userId here"
-            onChange={(ev) => setUserId(ev.target.value)}
-            className={'inputBox'}
-          />
-          <label className="errorLabel">{userIdError}</label>
-          <p>비밀번호 : </p>
-          <input
-            type="password"
-            value={password}
-            placeholder="Enter your password here"
-            onChange={(ev) => setPassword(ev.target.value)}
-            className={'inputBox'}
-          />
-          <label className="errorLabel">{passwordError}</label>
-          <input className={'inputButton'} type="button" onClick={onButtonClick} value={'Log in'} />
-      </form>
+    <div>
+      <div className={styles.login_container}>
+        <form>
+          <h2>로그인</h2>
+            <p>아이디 : </p>
+            <input
+              type="userId"
+              value={userId}
+              placeholder="아이디를 입력하세요."
+              onChange={(ev) => setUserId(ev.target.value)}
+              className={'inputBox'}
+            />
+            <label className="errorLabel">{userIdError}</label>
+            <p>비밀번호 : </p>
+            <input
+              type="password"
+              value={password}
+              placeholder="비밀번호를 입력하세요."
+              onChange={(ev) => setPassword(ev.target.value)}
+              className={'inputBox'}
+            />
+            <label className="errorLabel">{passwordError}</label>
+            <input className={'inputButton'} type="button" onClick={onButtonClick} value={'Log in'} />
+            
+            <p>아이디 찾기 / 비밀번호 재설정</p>
+        </form>
+        <p>
+          아직 회원이 아니신가요?
+        </p> 
+        <h5 onClick={onButtonSignup}>회원가입</h5>
+      </div>
     </div>
   )
 }
