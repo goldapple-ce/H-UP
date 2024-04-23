@@ -4,7 +4,7 @@ import { Slate, Editable, withReact } from 'slate-react';
 
 function IssueEditorPage() {
     const editor = useMemo(() => withReact(createEditor()), []);
-    const [value, setValue] = useState([]);
+    const [initialValue, setValue] = useState([]);
     const [loading, setLoading] = useState(true);
   
     useEffect(() => {
@@ -73,7 +73,7 @@ function IssueEditorPage() {
 }
 
   return (
-    <Slate editor={editor} value={value} onChange={value => setValue(value)}>
+    <Slate editor={editor} initialValue={initialValue} onChange={value => setValue(value)}>
       <Editable
         renderElement={renderElement}
         renderLeaf={renderLeaf}
