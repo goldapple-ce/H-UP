@@ -1,5 +1,6 @@
-package com.a702.hup.domain.member.entity;
+package com.a702.hup.domain.project.entity;
 
+import com.a702.hup.domain.team.entity.Team;
 import com.a702.hup.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -7,23 +8,25 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class Member extends BaseEntity {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Project extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "team_id")
+    private Team team;
+
     private String name;
-    private String userId;
-    private String password;
     private String img;
 
     @Builder
-    public Member(String name, String userId, String password, String img) {
+    public Project(Team team, String name, String img) {
+        this.team = team;
         this.name = name;
-        this.userId = userId;
-        this.password = password;
         this.img = img;
     }
 }
