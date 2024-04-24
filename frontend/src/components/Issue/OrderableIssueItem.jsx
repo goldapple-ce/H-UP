@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import IssueItem from "../../components/IssueItem";
+import IssueItem from "./IssueItem";
 
 const OrderableIssueItem = ({ issue }) => {
   const navigate = useNavigate();
