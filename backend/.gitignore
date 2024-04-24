@@ -36,6 +36,12 @@ out/
 ### VS Code ###
 .vscode/
 
+### env ###
+.env
+
+### db for dev ###
+**/volume/
+
 ### macOS ###
 # General
 .DS_Store
