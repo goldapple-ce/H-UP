@@ -7,13 +7,15 @@ import Layout from './components/layout/Layout';
 import IssueEditorPage from './pages/IssueEditorPage';
 import NavBar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
+import Sidebar from './components/Sidebar/Sidebar';
 
 function App() {
   return (
     <BrowserRouter>
     <div>
       <NavBar/>
-    <Routes>
+      <Sidebar/>
+      <Routes>
         <Route path='/' element={<Layout />}>
 
           <Route index element={<LoginPage />} />

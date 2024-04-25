@@ -1,4 +1,15 @@
-nav ul {
+nav {
+  background-color: white;
+  height: 50px;
+  border-radius: 5px;
+  position: fixed; /* Make the navigation bar fixed to the viewport */
+  top: 0; /* Position it at the top of the viewport */
+  width: 100%; /* Make it span the full width */
+  /* Other styles for your navigation bar */
+  z-index: 1;
+}
+
+  nav ul {
     list-style-type: none;
     padding: 0;
   }
