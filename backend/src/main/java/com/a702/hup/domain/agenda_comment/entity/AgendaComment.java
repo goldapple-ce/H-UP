@@ -2,6 +2,7 @@ package com.a702.hup.domain.agenda_comment.entity;
 
 import com.a702.hup.domain.agenda.entity.Agenda;
 import com.a702.hup.domain.member.entity.Member;
+import com.a702.hup.domain.todo.entity.Todo;
 import com.a702.hup.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -30,7 +31,17 @@ public class AgendaComment extends BaseEntity {
     @Builder
     public AgendaComment(String content, Agenda agenda, Member member) {
         this.content = content;
+        addRelatedAgenda(agenda);
+        addRelatedMember(member);
+    }
+
+    private void addRelatedAgenda(Agenda agenda) {
+        agenda.getAgendaCommentList().add(this);
         this.agenda = agenda;
+    }
+
+    private void addRelatedMember(Member member) {
+        member.getAgendaCommentList().add(this);
         this.member = member;
     }
 }

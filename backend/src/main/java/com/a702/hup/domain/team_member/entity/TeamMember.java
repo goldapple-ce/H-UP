@@ -26,7 +26,18 @@ public class TeamMember {
 
     @Builder
     public TeamMember(Team team, Member member) {
+        addRelatedTeam(team);
+        addRelatedMember(member);
+    }
+
+    private void addRelatedTeam(Team team) {
+        team.getTeamMemberList().add(this);
         this.team = team;
+    }
+
+    private void addRelatedMember(Member member) {
+        member.getTeamMemberList().add(this);
         this.member = member;
     }
+
 }

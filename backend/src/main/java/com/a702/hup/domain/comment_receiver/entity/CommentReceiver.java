@@ -18,21 +18,27 @@ public class CommentReceiver extends BaseEntity {
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comment_id")
     private Comment comment;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
+
     @Builder
-    public CommentReceiver(Member member, Comment comment) {
-        this.member = member;
-        addRelated(comment);
+    public CommentReceiver(Comment comment, Member member) {
+        addRelatedComment(comment);
+        addRelatedMember(member);
     }
 
-    private void addRelated(Comment comment){
-        this.comment = comment;
-        comment.getCommentReceiverList().add(this);
+    private void addRelatedMember(Member member){
+        member.getCommentReceiverList().add(this);
+        this.member = member;
     }
+
+    private void addRelatedComment(Comment comment){
+        comment.getCommentReceiverList().add(this);
+        this.comment = comment;
+    }
+
 }

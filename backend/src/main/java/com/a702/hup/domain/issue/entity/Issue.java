@@ -1,7 +1,10 @@
 package com.a702.hup.domain.issue.entity;
 
+import com.a702.hup.domain.agenda.entity.Agenda;
+import com.a702.hup.domain.comment.entity.Comment;
 import com.a702.hup.domain.member.entity.Member;
 import com.a702.hup.domain.project.entity.Project;
+import com.a702.hup.domain.todo.entity.Todo;
 import com.a702.hup.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -10,6 +13,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -36,13 +41,32 @@ public class Issue extends BaseEntity {
     @JoinColumn(name = "project_id")
     private Project project;
 
+    @OneToMany(mappedBy = "issue")
+    private List<Comment> commentList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "issue")
+    private List<Agenda> agendaList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "issue")
+    private List<Todo> todoList = new ArrayList<>();
+
     @Builder
-    public Issue(String title, LocalDate startDate, LocalDate endDate, Member member, Project project) {
+    public Issue(Member member, Project project, String title, LocalDate startDate, LocalDate endDate) {
+        addRelatedMember(member);
+        addRelatedProject(project);
         this.title = title;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.member = member;
-        this.project = project;
         status = IssueStatus.CREATED;
+    }
+
+    private void addRelatedMember(Member member) {
+        member.getIssueList().add(this);
+        this.member = member;
+    }
+
+    private void addRelatedProject(Project project) {
+        project.getIssueList().add(this);
+        this.project = project;
     }
 }
