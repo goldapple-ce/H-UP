@@ -6,6 +6,7 @@ import IssuePage from './pages/IssuePage';
 import Layout from './components/layout/Layout';
 import IssueEditorPage from './pages/IssueEditorPage';
 import NavBar from './components/Navbar/Navbar';
+import Footer from './components/Footer/Footer';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path='Issue/:id' element={<IssueEditorPage />} />
         </Route>
       </Routes>
+      <Footer/>
     </div>
       
     </BrowserRouter>
