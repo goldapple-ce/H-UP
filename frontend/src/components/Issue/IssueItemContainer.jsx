@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import IssueItem from "./IssueItem";
 
-const OrderableIssueItem = ({ issue }) => {
+const IssueItemContainer = ({ issue }) => {
   const navigate = useNavigate();
   const handleClick = () => {
     navigate(`/issueId=${issue.id}`);
@@ -9,4 +9,4 @@ const OrderableIssueItem = ({ issue }) => {
   return <IssueItem issue={issue} onClick={handleClick} />;
 };
 
-export default OrderableIssueItem;
+export default IssueItemContainer;
