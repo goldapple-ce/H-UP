@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./MainTab.module.scss"
 import IssueForm from "../Issue/IssueForm";
+import Calendar from "../Calendar/Calendar";
 
 const MainTab = () => {
 
@@ -51,7 +52,7 @@ const MainTab = () => {
                     <label className={styles.tab__label} for="tab-5">캘린더</label>
                     
                     <div className={styles.tab__content}>
-                        캘린더가 들어갈 공간입니다.
+                        <Calendar/>
                     </div> 
                 </div>
             
