@@ -2,6 +2,7 @@ package com.a702.hup.domain.agenda_member.entity;
 
 import com.a702.hup.domain.agenda.entity.Agenda;
 import com.a702.hup.domain.member.entity.Member;
+import com.a702.hup.domain.todo.entity.Todo;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -26,7 +27,18 @@ public class AgendaMember {
 
     @Builder
     public AgendaMember(Agenda agenda, Member member) {
+        addRelatedAgenda(agenda);
+        addRelatedMember(member);
+    }
+
+    private void addRelatedAgenda(Agenda agenda) {
+        agenda.getAgendaMemberList().add(this);
         this.agenda = agenda;
+    }
+
+    private void addRelatedMember(Member member) {
+        member.getAgendaMemberList().add(this);
         this.member = member;
     }
+
 }
