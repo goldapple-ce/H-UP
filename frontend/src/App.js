@@ -12,7 +12,6 @@ import Sidebar from './components/Sidebar/Sidebar';
 function App() {
   return (
     <BrowserRouter>
-    <div>
       <NavBar/>
       <Sidebar/>
       <Routes>
@@ -25,8 +24,6 @@ function App() {
         </Route>
       </Routes>
       <Footer/>
-    </div>
-      
     </BrowserRouter>
   );
 }
