@@ -1,0 +1,30 @@
+.issue_container {
+    width: 95%;
+    padding: 10px;
+    border-radius: 8px;
+    margin: 10px;
+    
+    h4 {
+        padding-left: 20px;
+    }
+}
+
+.issue_page {
+    display: flex;
+    gap: 20px;
+}
+
+.issue_section {
+  flex: 6;
+  width: 60%;
+  padding: 20px;
+  height: 90%; /* Adjust height as needed */
+  overflow-y: auto;
+}
+
+.Imminent_issue_section {
+  flex: 3;
+  width: 30%;
+  min-width: 300px;
+  overflow-y: auto;
+}
