@@ -33,7 +33,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         format_sql: true
@@ -41,16 +41,10 @@ spring:
 
 # jwt
 jwt:
-  access:
-    token:
-      expiration:
-        seconds: 3600
-  refresh:
-    token:
-      expiration:
-        seconds: 604800
-  token:
-    secret-key: ${JWT_SECRET}
+  expiration:
+    access : ${JWT_EXPIRATION_ACCESS}
+    refresh: ${JWT_EXPIRATION_REFRESH}
+  secret: ${JWT_SECRET}
 
 # log
 logging:
