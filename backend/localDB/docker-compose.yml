@@ -6,20 +6,23 @@ services:
     container_name: mysql
     restart: always
     ports:
-      - 3306:3306
+      - "3306:3306"
     env_file:
       - ./mysql/.mysql.env
     volumes:
       - ./mysql/volume/data:/var/lib/mysql
       - ./mysql/volume/initdb.d:/docker-entrypoint-initdb.d
       - ./mysql/volume/dump:/disk
+    networks:
+      - hup
+
 
   redis:
     image: redis
     container_name: redis
     restart: always
     ports:
-      - 6379:6379
+      - "6379:6379"
     command: redis-server /usr/local/etc/redis/redis.conf
     volumes:
       - ./redis/volume/data:/data
@@ -27,3 +30,23 @@ services:
     labels:
       - "name=redis"
       - "mode=standalone"
+    networks:
+      - hup
+
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    command: [--auth]
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongodb/volume/data:/data/db
+    env_file:
+      - ./mongodb/.mongo.env
+    networks:
+      - hup
+
+networks:
+  hup:
+    external: true
