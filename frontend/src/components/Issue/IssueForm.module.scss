@@ -3,7 +3,7 @@
     padding: 10px;
     border-radius: 8px;
     margin: 10px;
-    
+  
     h4 {
         padding-left: 20px;
     }
@@ -14,17 +14,23 @@
     gap: 20px;
 }
 
-.issue_section {
-  flex: 6;
-  width: 60%;
-  padding: 20px;
-  height: 90%; /* Adjust height as needed */
-  overflow-y: auto;
+.column1 {
+  width: 65%;
+  overflow-y: scroll;
 }
 
-.Imminent_issue_section {
-  flex: 3;
-  width: 30%;
+.issue_section {
+  height: 600px;
+  padding: 0 15px;
+}
+
+.column2 {
+  width: 35%;
+  overflow-y: scroll;
+}
+
+.imminent_issue_section {
+  height: 600px;
   min-width: 300px;
-  overflow-y: auto;
+  padding: 0 15px;
 }
