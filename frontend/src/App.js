@@ -19,7 +19,7 @@ function App() {
           <Route index element={<LoginPage />} />
           <Route path='SignupPage' element={<SignupPage />} />
           <Route path='ProjectPage' element={<ProjectPage />} />
-          <Route path='Issue' element={<IssueEditorPage />} />
+          <Route path='Issue/:id' element={<IssueEditorPage />} />
         </Route>
       </Routes>
       <Footer/>
