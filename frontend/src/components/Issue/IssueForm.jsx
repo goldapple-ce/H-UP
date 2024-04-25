@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './IssueForm.module.scss'
-import OrderableIssueItem from "../../components/Issue/OrderableIssueItem";
+import IssueItemContainer from "./IssueItemContainer";
 
 const IssueForm = () => {
 
@@ -65,7 +65,7 @@ const IssueForm = () => {
                 <ul>
                     {issueList.map((issue) => (
                         <li key={issue.id}>
-                            <OrderableIssueItem issue={issue} />
+                            <IssueItemContainer issue={issue} />
                         </li>
                     ))}
                 </ul>
@@ -77,7 +77,7 @@ const IssueForm = () => {
                 <ul>
                     {imminentIssueList.map((issue) => (
                         <li key={issue.id}>
-                            <OrderableIssueItem issue={issue} />
+                            <IssueItemContainer issue={issue} />
                         </li>
                     ))}
                 </ul>
