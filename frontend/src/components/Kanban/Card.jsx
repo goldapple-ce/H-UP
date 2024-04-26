@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDrag } from 'react-dnd';
 import { useRecoilState } from 'recoil';
 import { TITLE_NAME } from './Kanban';
-import { kanbanListState } from './recoil';
+import { kanbanListState } from '../../recoil/recoil';
 import './Card.scss';
 
 function Card({ item }) {
