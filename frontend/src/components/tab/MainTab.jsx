@@ -2,6 +2,8 @@ import React from "react";
 import styles from "./MainTab.module.scss"
 import IssueForm from "../Issue/IssueForm";
 import Calendar from "../Calendar/Calendar";
+import Kanban from "../Kanban/Kanban";
+import { RecoilRoot } from "recoil";
 
 const MainTab = () => {
 
@@ -25,7 +27,7 @@ const MainTab = () => {
                     <label className={styles.tab__label} for="tab-2">칸반</label>
                     
                     <div className={styles.tab__content}>
-                        칸반 보드가 들어갈 공간입니다.
+                        <Kanban/>
                     </div> 
                 </div>
             

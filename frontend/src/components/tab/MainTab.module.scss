@@ -7,7 +7,7 @@
 }
 
 $tab-label-height: 40px;
-$tab-content-height: 400px;
+$tab-content-height: 550px;
 
 * { box-sizing: border-box; }
 body { background: #F1F1F1; padding: 0px;}
@@ -41,8 +41,8 @@ body { background: #F1F1F1; padding: 0px;}
     left: 0;
     right: 0;
     padding: 20px;
-    overflow: hidden;
-    
+    overflow: auto;
+
     background: #fff;
   }
   
@@ -60,4 +60,8 @@ body { background: #F1F1F1; padding: 0px;}
       }
     }
   }
+}
+
+.kanban {
+  width: 300px;
 }
