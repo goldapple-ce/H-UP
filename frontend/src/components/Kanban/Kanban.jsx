@@ -3,7 +3,7 @@ import KanbanList from '../Kanban/KanbanList';
 import Card from '../Kanban/Card';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { kanbanListState } from '../Kanban/recoil';
+import { kanbanListState } from '../../recoil/recoil';
 import styles from './Kanban.module.scss'
 
 function Kanban() {

@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { useRecoilState } from 'recoil';
-import { kanbanListState } from './recoil';
+import { kanbanListState } from '../../recoil/recoil';
 import React from 'react';
 import './KanbanCreator.module.scss';
 
