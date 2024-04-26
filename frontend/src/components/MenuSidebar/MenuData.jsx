@@ -1,7 +1,7 @@
 import React from 'react';
 import { Folder2, Folder2Open, FolderCheck, People, file} from 'react-bootstrap-icons';
 
-export const SidebarData = [
+export const MenuData = [
   {
     title: '프로젝트 1',
     path: '/reports',
