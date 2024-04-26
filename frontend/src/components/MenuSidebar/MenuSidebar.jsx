@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import styles from "./Sidebar.module.scss";
+import styles from "./MenuSidebar.module.scss";
 import { Link } from 'react-router-dom';
 import {List} from 'react-bootstrap-icons';
 
