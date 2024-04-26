@@ -1,7 +1,9 @@
 
 .kanbanListContainer {
-    display: flex;
     justify-content: space-evenly;
     margin: 30px 0 15px 0;
     height: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(20%, 1fr));
+    gap: 20px; /* Adjust spacing between columns as needed */
   }
