@@ -8,12 +8,14 @@ import IssueEditorPage from './pages/IssueEditorPage';
 import NavBar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
 import MenuSidebar from './components/MenuSidebar/MenuSidebar';
+import MessengerSidebar from './components/MessengerSidebar/MessengerSidebar';
 
 function App() {
   return (
     <BrowserRouter>
       <NavBar/>
       <MenuSidebar/>
+      <MessengerSidebar/>
       <Routes>
         <Route path='/' element={<Layout />}>
 
