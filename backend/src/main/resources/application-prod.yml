@@ -38,21 +38,3 @@ spring:
       hibernate:
         format_sql: true
         show_sql: true
-
-# jwt
-#jwt:
-#  access:
-#    token:
-#      expiration:
-#        seconds: 3600
-#  refresh:
-#    token:
-#      expiration:
-#        seconds: 604800
-#  token:
-#    secret-key: ${JWT_SECRET}
-
-# log
-#logging:
-#  level:
-#    org.hibernate.jpa: info
