@@ -15,6 +15,7 @@ java {
 }
 
 configurations {
+	asciidoctorExt
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
@@ -63,6 +64,8 @@ dependencies {
 	testImplementation 'org.springframework.kafka:spring-kafka-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 
+	//RESTDOCS
+	asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 
 	// ETC
@@ -76,11 +79,28 @@ tasks.named('test') {
 }
 
 tasks.named('asciidoctor') {
-	inputs.dir snippetsDir
 	dependsOn test
+	inputs.dir snippetsDir
 }
 
 // RESTDOCS
+asciidoctor {
+	dependsOn test
+	configurations('asciidoctorExt')
+	baseDirFollowsSourceFile()
+	inputs.dir snippetsDir
+
+}
+
+asciidoctor.doFirst {
+	delete 'src/main/resources/static/docs'
+}
+
+tasks.register('copyDocument', Copy) {
+	dependsOn asciidoctor
+	from file("build/docs/asciidoc")
+	into file("src/main/resources/statis/docs")
+}
 
 // CODE ANALYSIS
 sonarqube {
