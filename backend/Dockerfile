@@ -4,11 +4,11 @@ FROM openjdk:17-jdk-alpine AS builder
 ENV USE_PROFILE USE_PROFILE
 
 # necessary files copy
-COPY backend/gradlew .
-COPY backend/build.gradle .
-COPY backend/settings.gradle .
-COPY backend/gradle gradle
-COPY backend/src src
+COPY gradlew .
+COPY build.gradle .
+COPY settings.gradle .
+COPY gradle gradle
+COPY src src
 
 # 권한 변경
 RUN chmod +x ./gradlew
