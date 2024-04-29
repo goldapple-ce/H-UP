@@ -4,7 +4,7 @@ import IssueItem from "./IssueItem";
 const IssueItemContainer = ({ issue }) => {
   const navigate = useNavigate();
   const handleClick = () => {
-    navigate(`/issueId=${issue.id}`);
+    navigate(`/issue/${issue.id}`);
   };
   return <IssueItem issue={issue} onClick={handleClick} />;
 };

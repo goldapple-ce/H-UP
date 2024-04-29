@@ -1,30 +1,66 @@
 import React, { useState } from 'react';
 import styles from './SignupPage.module.scss'; // SCSS 스타일 시트 임포트
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function SignupPage() {
-  const [id, setId] = useState('');
+
+  const [usernameValid, setUsernameValid] = useState(true);
+  const [userId, setuserId] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
+  const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // 입력 데이터 유효성 검사 및 회원가입 처리 로직
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!usernameValid) {
+      alert('Please use a different username.');
+      return;
+    }
+
     if (password !== passwordConfirm) {
       alert('비밀번호가 일치하지 않습니다.');
       return;
     }
-    console.log('ID:', id);
-    console.log('Password:', password);
-    console.log('Name:', name);
-    console.log('Email:', email);
-    // 회원가입 로직을 여기에 추가하세요.
+
+    const formData = {
+      userId:userId,
+      password:password,
+      name:name
+    }
+
+    try {
+      const response = await axios.post('api/member/signup', formData);
+      console.log('Server Response:', response.data);
+
+      alert('회원가입 성공')
+
+      navigate('/ProjectPage');
+      
+    } catch (error) {
+      console.error('Signup error:', error.response ? error.response.data : error);
+    }
   };
 
-  const checkIdAvailability = () => {
-    console.log('ID 중복 확인:', id);
-    // ID 중복 검사 로직 구현
+  const handleCheckUsername = async () => {
+    if (!userId) {
+      alert('Please enter a username.');
+      return;
+    }
+    try {
+      const response = await axios.get(`api/member/check?userId=${userId}`);
+      if (response.data.available) {
+        alert('ID is available.');
+        setUsernameValid(true);
+      } else {
+        alert('ID is already taken.');
+        setUsernameValid(false);
+      }
+    } catch (error) {
+      console.error('Error checking username:', error.response ? error.response.data : error);
+      setUsernameValid(false);
+    }
   };
 
   return (
@@ -32,15 +68,15 @@ function SignupPage() {
       <h2>회원 가입</h2>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="id">ID:</label>
+          <label htmlFor="userId">ID:</label>
           <input
             type="text"
-            id="id"
-            value={id}
-            onChange={(e) => setId(e.target.value)}
+            id="userId"
+            value={userId}
+            onChange={(e) => setuserId(e.target.value)}
             required
           />
-          <button type="button" onClick={checkIdAvailability}>중복 확인</button>
+          <button type="button" onClick={handleCheckUsername}>중복 확인</button>
         </div>
         <div>
           <label htmlFor="password">비밀번호</label>
