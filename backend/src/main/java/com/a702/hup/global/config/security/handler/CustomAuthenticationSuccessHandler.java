@@ -1,6 +1,6 @@
 package com.a702.hup.global.config.security.handler;
 
-import com.a702.hup.application.dto.response.MemberLoginResponse;
+import com.a702.hup.application.data.response.MemberLoginResponse;
 import com.a702.hup.global.config.security.MemberDto;
 import com.a702.hup.global.config.security.SecurityUserDetailsDto;
 import com.a702.hup.global.config.security.jwt.JwtToken;
