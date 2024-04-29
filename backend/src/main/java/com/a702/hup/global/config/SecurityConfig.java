@@ -32,6 +32,7 @@ import java.util.Collections;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+    private static final String HOME = "/";
     private static final String SIGNUP = "/member";
     private static final String LOGIN_URL = "/member/login";
     private static final String ERROR = "/error";
@@ -61,7 +62,7 @@ public class SecurityConfig {
                 // 인가 처리 요청 구분
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(
-                                "/",
+                                HOME,
                                 SIGNUP,
                                 LOGIN_URL,
                                 ERROR).permitAll()
@@ -89,7 +90,7 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedHeaders(Collections.singletonList("*"));
         config.setAllowedMethods(Collections.singletonList("*"));
-        config.setAllowedOriginPatterns(Collections.singletonList("http://localhost:8081"));
+        config.setAllowedOriginPatterns(Collections.singletonList("**"));
         config.setAllowCredentials(true);
         config.setMaxAge(3600L);
 
