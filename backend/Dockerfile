@@ -1,8 +1,5 @@
 FROM openjdk:17-jdk-alpine AS builder
 
-# .env
-ENV USE_PROFILE USE_PROFILE
-
 # necessary files copy
 COPY gradlew .
 COPY build.gradle .
@@ -25,5 +22,5 @@ COPY --from=builder build/libs/*.jar app.jar
 EXPOSE 8080
 
 # 환경변수 적용 및 실행
-ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=${USE_PROFILE}", "/app.jar"]
+ENTRYPOINT ["java", "-jar", "/app.jar"]
 
