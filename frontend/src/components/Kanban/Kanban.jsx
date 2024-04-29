@@ -3,11 +3,11 @@ import KanbanList from '../Kanban/KanbanList';
 import Card from '../Kanban/Card';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { kanbanListState } from '../../recoil/recoil';
+import { issueListState } from '../../recoil/recoil';
 import styles from './Kanban.module.scss'
 
 function Kanban() {
-  const kanbanList = useRecoilValue(kanbanListState);
+  const kanbanList = useRecoilValue(issueListState);
   const { TO_DO, IN_PROGRESS, DONE, NOTE } = TITLE_NAME;
 
   const cardDataHandler = (cardTitle) => {
@@ -21,6 +21,10 @@ function Kanban() {
       <header>
         <span className="title">칸반 보드!!!</span>
       </header>
+      <div>
+        {/* <div>할 일</div>
+        <input></input> */}
+      </div>
       <section className={styles.kanbanListContainer}>
         <DndProvider backend={HTML5Backend}>
           <KanbanList title={TO_DO}>{cardDataHandler(TO_DO)}</KanbanList>

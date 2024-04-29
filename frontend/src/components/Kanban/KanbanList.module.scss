@@ -7,16 +7,17 @@
 
 .column {
     height: 400px;
-    width: 200px;
+    width: 400px;
     margin: 20px;
     border-radius: 10px;
     box-shadow: 1px 1px 6px rgba(0,0,0,0.5);
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
+    overflow-y: auto;
 }
 
-.movable-item {
+.movable_item {
     border-radius: 10px;
     background-color: #fff3f3;
     height: 100px;

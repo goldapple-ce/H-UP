@@ -2,11 +2,11 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDrag } from 'react-dnd';
 import { useRecoilState } from 'recoil';
 import { TITLE_NAME } from './Kanban';
-import { kanbanListState } from '../../recoil/recoil';
+import { issueListState } from '../../recoil/recoil';
 import './Card.scss';
 
 function Card({ item }) {
-  const [list, setList] = useRecoilState(kanbanListState);
+  const [list, setList] = useRecoilState(issueListState);
   const [badgeColor, setBadgeColor] = useState('');
   const index = list.findIndex((data) => data === item);
   const ref = useRef(null);
@@ -98,6 +98,8 @@ function Card({ item }) {
     }
   }, [item]);
 
+  
+
   return (
     <div
       className="cardWrap"
@@ -105,35 +107,17 @@ function Card({ item }) {
       style={{ opacity: isDragging ? '0.3' : '1' }}
     >
       <div className="cardHeaderWrap">
-        <span
-          className="cardTitleBadge"
-          style={{ backgroundColor: badgeColor }}
-        >
-          {item.category}
-        </span>
-        <img
-          className="deleteimg"
-          src="images/cancel.png"
-          alt="delete"
-          onClick={deleteItem}
-        />
+        <h5>{item.title}</h5>
+        <p>{item.content}</p>
       </div>
-      <input
-        className="cardTitle"
-        type="text"
-        value={item.title}
-        onChange={editTitle}
-        placeholder="제목을 입력하세요"
-      />
-      <textarea
-        className="cardContent"
-        value={item.content}
-        onChange={editText}
-        onInput={handleResizeHeight}
-        ref={ref}
-        placeholder="내용을 입력하세요"
-        spellCheck="false"
-      />
+      <div>
+        {item.imageList && item.imageList.map((image) => (
+        <img key={image.id}
+            src={image.src}
+            alt={image.alt}>
+        </img>
+        ))}
+      </div>
     </div>
   );
 }

@@ -1,11 +1,11 @@
 import { useCallback } from 'react';
 import { useRecoilState } from 'recoil';
-import { kanbanListState } from '../../recoil/recoil';
+import { issueListState } from '../../recoil/recoil';
 import React from 'react';
 import './KanbanCreator.module.scss';
 
 function KanbanCreator({ title }) {
-  const [kanbanList, setKanbanList] = useRecoilState(kanbanListState);
+  const [kanbanList, setKanbanList] = useRecoilState(issueListState);
 
   const getId =
     kanbanList.length > 0 ? kanbanList[kanbanList.length - 1].id + 1 : 0;
