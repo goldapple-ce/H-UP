@@ -1,0 +1,88 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "API 문서",
+    "description" : "RestDocsWithSwagger Docs",
+    "version" : "0.0.1"
+  },
+  "servers" : [ {
+    "url" : "http://localhost:8081/api"
+  } ],
+  "tags" : [ ],
+  "paths" : {
+    "/hello" : {
+      "get" : {
+        "tags" : [ "hello" ],
+        "operationId" : "hello-get",
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/hello-1270671984"
+                },
+                "examples" : {
+                  "hello-get" : {
+                    "value" : "{\r\n  \"body\" : \"hello\"\r\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "hello" ],
+        "operationId" : "hello-post",
+        "requestBody" : {
+          "content" : {
+            "application/x-www-form-urlencoded" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/hello486549215"
+              },
+              "examples" : {
+                "hello-post" : {
+                  "value" : "_csrf=3FaHqGGXjBE4VToFvLmMDoY7NYFA1yacwqm7dRwFfwJzii4bvzexzQKn73cVY18835S4N-UIGON5sx6x9JneTHpnRztCuRh_"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/hello-1270671984"
+                },
+                "examples" : {
+                  "hello-post" : {
+                    "value" : "{\r\n  \"body\" : \"hello\"\r\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "hello-1270671984" : {
+        "type" : "object",
+        "properties" : {
+          "body" : {
+            "type" : "string",
+            "description" : "바디"
+          }
+        }
+      },
+      "hello486549215" : {
+        "type" : "object"
+      }
+    }
+  }
+}
