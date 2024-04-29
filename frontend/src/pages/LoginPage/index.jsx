@@ -20,7 +20,7 @@ const LoginPage = (props) => {
       try {
           const response = await loginAPI(userId, password);
 
-          console.log(response.data);
+          console.log(response);
 
           if (response.data.status === 200) {
               const user = response.data.memberId;
