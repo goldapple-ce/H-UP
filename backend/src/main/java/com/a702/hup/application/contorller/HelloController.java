@@ -1,7 +1,6 @@
 package com.a702.hup.application.contorller;
 
-import com.a702.hup.application.dto.response.HelloResponse;
-import com.a702.hup.application.facade.AgendaFacade;
+import com.a702.hup.application.data.response.HelloResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

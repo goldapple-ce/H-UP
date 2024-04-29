@@ -1,17 +1,19 @@
-package com.a702.hup.application.dto.request;
+package com.a702.hup.application.data.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class AgendaMemberCreateRequest {
+@AllArgsConstructor
+public class AgendaCreateRequest {
     @NotNull
-    private Integer determinantId;
+    private Integer issueId;
 
-    @NotNull
-    private Integer AgendaId;
+    @NotBlank
+    private String content;
 }
