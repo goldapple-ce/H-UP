@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import styles from './LoginPage.module.scss'; // SCSS 스타일 시트 임포트
+import styles from './LoginPage.module.scss'; 
+import { loginAPI } from "../../api/service/user";
 
 
 const LoginPage = (props) => {
@@ -14,7 +15,26 @@ const LoginPage = (props) => {
   const onButtonClick = () => {
     setUserIdError('')
     setPasswordError('')
+    const login = async (userId, password) => {
+        
+      try {
+          const response = await loginAPI(userId, password);
 
+          if (response.status === 200) {
+              const user = response.data;
+              console.log('Login successful:', user);
+              return user;
+          } else {
+              const error = response.data;
+              console.error('Login failed:', error.message);
+              return error;
+          }
+
+          } catch (error) {
+          console.error('Login error:', error);
+          return error;
+      }
+  }
     if ('' === userId) {
       setUserIdError('Please enter your userId')
       return
@@ -39,7 +59,8 @@ const LoginPage = (props) => {
       // localStorage.removeItem('user')
       // props.setLoggedIn(false)
     // } else {
-      navigate('/IssuePage')
+        const response = login(userId, password);
+        console.log("response", response)
     // }
   }
 
