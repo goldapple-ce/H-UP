@@ -39,7 +39,7 @@ function SignupPage() {
   };
 
   const handleCheckUsername = async () => {
-    if (!formData.id) {
+    if (!formData.userId) {
       alert('Please enter a username.');
       return;
     }
@@ -74,7 +74,7 @@ function SignupPage() {
           <input
             type="text"
             id="id"
-            value={formData.id}
+            value={formData.userId}
             onChange={handleChange}
             required
           />
