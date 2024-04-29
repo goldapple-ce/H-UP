@@ -27,9 +27,14 @@ public class Member extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
+
+    @Column(unique = true)
     private String userId;
     private String password;
     private String img;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @OneToMany(mappedBy = "member")
     private List<TeamMember> teamMemberList = new ArrayList<>();
@@ -64,5 +69,6 @@ public class Member extends BaseEntity {
         this.userId = userId;
         this.password = password;
         this.img = img;
+        this.role = Role.USER;
     }
 }
