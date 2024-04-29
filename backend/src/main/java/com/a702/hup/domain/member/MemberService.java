@@ -1,19 +1,13 @@
 package com.a702.hup.domain.member;
 
-<<<<<<< Updated upstream
 import com.a702.hup.application.dto.request.MemberSignUpRequest;
 import com.a702.hup.application.dto.response.IdCheckResponse;
 import com.a702.hup.application.dto.response.MemberInfoResponse;
 import com.a702.hup.domain.member.entity.Member;
 import com.a702.hup.global.config.security.SecurityUserDetailsDto;
-=======
-import com.a702.hup.domain.member.entity.Member;
-import com.a702.hup.domain.member.execption.MemberException;
->>>>>>> Stashed changes
 import com.a702.hup.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.User;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -86,7 +80,7 @@ public class MemberService {
      * @date 2024-04-29
      * @description Id로 member 찾는 함수
      **/
-    private Member findById(Integer id) {
+    public Member findById(Integer id) {
         return memberRepository.findById(id)
             .orElseThrow(() -> new MemberException(ErrorCode.API_ERROR_MEMBER_NOT_FOUND));
     }
@@ -100,10 +94,6 @@ public class MemberService {
         SecurityUserDetailsDto securityUserDetailsDto = (SecurityUserDetailsDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         log.info("[+] MemberService :: findMemberInfoById :: requested Id : {}, logined Id : {}", memberId, securityUserDetailsDto.memberId());
         return memberId.equals(securityUserDetailsDto.memberId());
-
-
-    public Member findById(Integer memberId) {
-        return memberRepository.findById(memberId).orElseThrow(
-                () -> new MemberException(ErrorCode.NONEXISTENT_MEMBER));
     }
+
 }
