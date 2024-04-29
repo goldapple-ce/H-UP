@@ -61,7 +61,7 @@ function SignupPage() {
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.userId]: e.target.value
+      [e.target.id]: e.target.value
     });
   };
 
@@ -70,10 +70,10 @@ function SignupPage() {
       <h2>회원 가입</h2>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="id">ID:</label>
+          <label htmlFor="userId">ID:</label>
           <input
             type="text"
-            id="id"
+            id="userId"
             value={formData.userId}
             onChange={handleChange}
             required
