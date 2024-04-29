@@ -1,12 +1,14 @@
 package com.a702.hup.domain.member;
 
 import com.a702.hup.application.dto.request.MemberSignUpRequest;
+import com.a702.hup.application.dto.response.IdCheckResponse;
 import com.a702.hup.application.dto.response.MemberInfoResponse;
 import com.a702.hup.domain.member.entity.Member;
 import com.a702.hup.global.config.security.SecurityUserDetailsDto;
 import com.a702.hup.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.User;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -40,6 +42,12 @@ public class MemberService {
         if(!isAuthorized(id))
             throw new MemberException(ErrorCode.API_ERROR_UNAUTHORIZED);
         return MemberInfoResponse.from(findById(id));
+    }
+
+    public IdCheckResponse idCheck(String userId) {
+        return IdCheckResponse.builder()
+                .isAvailable(!memberRepository.existsByUserIdAndDeletedAtIsNull(userId))
+                .build();
     }
 
     /**

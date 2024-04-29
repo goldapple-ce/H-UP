@@ -1,10 +1,12 @@
 package com.a702.hup.application.contorller;
 
 import com.a702.hup.application.dto.request.MemberSignUpRequest;
+import com.a702.hup.application.dto.response.IdCheckResponse;
 import com.a702.hup.application.dto.response.MemberInfoResponse;
 import com.a702.hup.domain.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +25,13 @@ public class MemberController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .build();
+    }
+
+    @GetMapping("/check")
+    public ResponseEntity<IdCheckResponse> idCheck(@RequestParam String userId) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(memberService.idCheck(userId));
     }
 
     @GetMapping
