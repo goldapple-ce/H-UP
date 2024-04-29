@@ -21,8 +21,9 @@ const LoginPage = (props) => {
           const response = await loginAPI(userId, password);
 
           console.log(response);
+          console.log(response.status);
 
-          if (response.status == 200) {
+          if (response.status === 200) {
               const user = response.data.memberId;
               console.log('Login successful:', user);
               return user;
