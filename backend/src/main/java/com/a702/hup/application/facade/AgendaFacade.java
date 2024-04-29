@@ -44,8 +44,8 @@ public class AgendaFacade {
      * @date 2024-
      * @description
      */
-    @Transactional
-    public void saveAgendaMember(User user, Integer agendaId, Integer determinantId) {
+//    @Transactional
+//    public void saveAgendaMember(User user, Integer agendaId, Integer determinantId) {
 //        agendaService.fin
-    }
+//    }
 }

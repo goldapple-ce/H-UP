@@ -21,9 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/agenda")
 public class AgendaController {
     private final AgendaFacade agendaFacade;
-    private final AgendaService agendaService;
 
-    @PostMapping("")
+    @PostMapping
     public ResponseEntity<Void> saveAgenda(@AuthenticationPrincipal(errorOnInvalidType = true) User user, @RequestBody @Valid AgendaCreateRequest request){
         agendaFacade.saveAgenda(user, request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
