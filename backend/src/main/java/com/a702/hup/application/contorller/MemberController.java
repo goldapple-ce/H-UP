@@ -1,6 +1,6 @@
 package com.a702.hup.application.contorller;
 
-import com.a702.hup.application.data.dto.MemberSignUpRequest;
+import com.a702.hup.application.data.request.MemberSignUpRequest;
 import com.a702.hup.application.data.response.IdCheckResponse;
 import com.a702.hup.application.data.response.MemberInfoResponse;
 import com.a702.hup.domain.member.MemberService;

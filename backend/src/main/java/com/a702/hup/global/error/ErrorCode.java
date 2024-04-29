@@ -18,6 +18,9 @@ public enum ErrorCode {
     API_ERROR_ISSUE_NOT_FOUND(400,"I001","이슈를 찾을 수 없음"),
     API_ERROR_ISSUE_NOT_ROLE(400,"I002","해당 이슈에 대한 권한 없음"),
 
+    // Document
+    API_ERROR_DOCUMENT_NOT_FOUND(400, "D001", "문서를 찾을 수 없음"),
+
     // Agenda
     API_ERROR_AGENDA_NOT_FOUND(400,"A001","의사결정을 찾을 수 없음"),
 

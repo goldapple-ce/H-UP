@@ -1,4 +1,4 @@
-package com.a702.hup.application.data.dto;
+package com.a702.hup.application.data.request;
 
 import com.a702.hup.domain.member.entity.Member;
 import lombok.AccessLevel;

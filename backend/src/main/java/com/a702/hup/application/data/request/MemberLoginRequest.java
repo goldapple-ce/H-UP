@@ -1,4 +1,4 @@
-package com.a702.hup.application.data.dto;
+package com.a702.hup.application.data.request;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;

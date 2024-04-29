@@ -1,15 +1,12 @@
 package com.a702.hup.application.facade;
 
-import com.a702.hup.application.dto.request.AgendaCreateRequest;
-import com.a702.hup.application.exception.AgendaFacadeException;
+import com.a702.hup.application.data.request.AgendaCreateRequest;
 import com.a702.hup.domain.agenda.AgendaService;
 import com.a702.hup.domain.issue.IssueService;
 import com.a702.hup.domain.issue.entity.Issue;
 import com.a702.hup.domain.issue_member.IssueMemberService;
 import com.a702.hup.domain.member.MemberService;
 import com.a702.hup.domain.member.entity.Member;
-import com.a702.hup.domain.todo_member.TodoMemberService;
-import com.a702.hup.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.User;
