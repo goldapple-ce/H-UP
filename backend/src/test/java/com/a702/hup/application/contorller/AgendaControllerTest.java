@@ -1,93 +1,94 @@
 package com.a702.hup.application.contorller;
 
+import com.a702.hup.application.dto.request.AgendaCreateRequest;
+import com.a702.hup.application.facade.AgendaFacade;
+import com.a702.hup.global.config.SecurityConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.test.context.support.TestExecutionEvent;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.WebApplicationContext;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(SpringExtension.class)
+@Transactional
 @SpringBootTest
 @AutoConfigureRestDocs
 @AutoConfigureMockMvc
+@Import(SecurityConfig.class)
 class AgendaControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @WithMockUser(username = "test")
-    @Test
-    void checkGetApi() throws Exception {
-        mockMvc.perform(RestDocumentationRequestBuilders
-                        .get("/hello")
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andDo(document("hello-get",
-                                preprocessRequest(prettyPrint()),
-                                preprocessResponse(prettyPrint()),
-//                                pathParameters(),
-//                                requestFields(),
-                                responseFields(
-                                        fieldWithPath("body").type(JsonFieldType.STRING).description("바디")
-                                )
-                        )
-                );
+    @MockBean
+    private AgendaFacade agendaFacade;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @Autowired
+    private WebApplicationContext context;
+
+
+    @BeforeEach
+    public void setup() {
+        mockMvc = MockMvcBuilders
+                .webAppContextSetup(context)
+                .apply(springSecurity())
+                .build();
     }
 
-//    @Test
-//    public void checkPostApi() throws Exception {
-//        HelloRequestDto requestDto = HelloRequestDto.builder()
-//                .stringValue("example")
-//                .intValue(1L)
-//                .build();
-//        String requestBody = objectMapper.writeValueAsString(requestDto);
-//
-//        mockMvc.perform(RestDocumentationRequestBuilders.post("/api/v1/hello")
-//                        .accept(MediaType.APPLICATION_JSON)
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(requestBody))
-//                .andDo(print())
-//                .andExpect(status().is(200))
-//                .andDo(document("hello-create",
-//                        preprocessRequest(prettyPrint()),
-//                        preprocessResponse(prettyPrint()),
-//                        resource(
-//                                ResourceSnippetParameters.builder()
-//                                        .description("Hello 객체를 POST로 만듭니다.")
-//                                        .summary("Hello 객체 생성")
-//                                        .requestFields(
-//                                                fieldWithPath("stringValue").type(
-//                                                        JsonFieldType.STRING).description("문자열 값"),
-//                                                fieldWithPath("intValue").type(JsonFieldType.NUMBER)
-//                                                        .description("정수 값")
-//                                        )
-//                                        .responseFields(
-//                                                fieldWithPath("value").type(JsonFieldType.STRING)
-//                                                        .description("리스폰스 메시지"),
-//                                                fieldWithPath("success").type(JsonFieldType.BOOLEAN)
-//                                                        .description("성공 여부를 나타내는 불린 변수"),
-//                                                fieldWithPath("createdOn").type(
-//                                                                JsonFieldType.STRING)
-//                                                        .description("객체 생성 시각")
-//                                        )
-//                                        .build()
-//                        )
-//                ));
-//    }
+    @DisplayName("세이브 테스트")
+    @Nested
+    class SaveTest{
+        @Test
+        @WithMockUser
+//        @WithUserDetails(setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        void whenSuccess() throws Exception {
+            AgendaCreateRequest request = new AgendaCreateRequest(1,"의사결정 제공");
+
+            mockMvc.perform(RestDocumentationRequestBuilders
+                            .post("/agenda").with(csrf())
+                            .header("Authorization","testToken")
+                            .content(objectMapper.writeValueAsString(request))
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isCreated())
+                    .andDo(document("Agenda save",
+                                    preprocessRequest(prettyPrint()),
+                                    preprocessResponse(prettyPrint())
+                            )
+                    );
+        }
+    }
+
 }
