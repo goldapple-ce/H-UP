@@ -39,12 +39,19 @@ public class MemberService {
      * @description 멤버 정보 반환 함수
      **/
     public MemberInfoResponse findMemberInfoById(Integer id) {
+        // 본인 아니면 에러
         if(!isAuthorized(id))
             throw new MemberException(ErrorCode.API_ERROR_UNAUTHORIZED);
         return MemberInfoResponse.from(findById(id));
     }
 
+    /**
+     * @author 이경태
+     * @date 2024-04-29
+     * @description 아이디 중복 검사
+     **/
     public IdCheckResponse idCheck(String userId) {
+        // TODO : 추후 Redis 이용해서 임시 저장 구현
         return IdCheckResponse.builder()
                 .isAvailable(!memberRepository.existsByUserIdAndDeletedAtIsNull(userId))
                 .build();
@@ -79,6 +86,11 @@ public class MemberService {
             .orElseThrow(() -> new MemberException(ErrorCode.API_ERROR_MEMBER_NOT_FOUND));
     }
 
+    /**
+     * @author 이경태
+     * @date 2024-04-29
+     * @description 권한 검사. 본인 맞는지 확인.
+     **/
     private boolean isAuthorized(Integer memberId) {
         SecurityUserDetailsDto securityUserDetailsDto = (SecurityUserDetailsDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         log.info("[+] MemberService :: findMemberInfoById :: requested Id : {}, logined Id : {}", memberId, securityUserDetailsDto.memberId());

@@ -43,15 +43,15 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         // token 필요없는 api paths
         List<String> list = Arrays.asList(
                 "/api/member/login",
-                "/api/member"
+                "/api/member/signup",
+                "/api/member/check"
         );
         log.debug("[+] JwtAuthorizationFilter :: doFilterInternal :: requestURI : {}", request.getRequestURI());
         log.debug("[+] JwtAuthorizationFilter :: doFilterInternal :: requestMethod : {}", request.getMethod());
 
         // 토큰이 필요하지 않으면 그냥 넘김
         // METHOD == OPTIONS 바로 넘김
-        if(
-                (list.contains(request.getRequestURI()) && request.getMethod().equalsIgnoreCase("POST"))
+        if((list.contains(request.getRequestURI()))
                 || request.getMethod().equalsIgnoreCase("OPTIONS")) {
             filterChain.doFilter(request, response);
             return;

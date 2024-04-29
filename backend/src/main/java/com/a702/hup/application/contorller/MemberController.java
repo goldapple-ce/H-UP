@@ -18,7 +18,12 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
     private final MemberService memberService;
 
-    @PostMapping
+    /**
+     * @author 이경태
+     * @date 2024-04-29
+     * @description 회원 가입
+     **/
+    @PostMapping("/signup")
     public ResponseEntity<Void> signUp(@RequestBody MemberSignUpRequest memberSignUpRequest) {
         log.info("[+] MemberController :: signUp :: start");
         memberService.signUp(memberSignUpRequest);
@@ -27,6 +32,11 @@ public class MemberController {
                 .build();
     }
 
+    /**
+     * @author 이경태
+     * @date 2024-04-29
+     * @description 아이디 중복 검사
+     **/
     @GetMapping("/check")
     public ResponseEntity<IdCheckResponse> idCheck(@RequestParam String userId) {
         return ResponseEntity
@@ -34,6 +44,11 @@ public class MemberController {
                 .body(memberService.idCheck(userId));
     }
 
+    /**
+     * @author 이경태
+     * @date 2024-04-29
+     * @description 회원 정보 조회
+     **/
     @GetMapping
     public ResponseEntity<MemberInfoResponse> getInfo(@RequestParam int memberId) {
         log.info("[+] MemberController :: getInfo :: start");
@@ -41,4 +56,6 @@ public class MemberController {
                 .status(HttpStatus.OK)
                 .body(memberService.findMemberInfoById(memberId));
     }
+
+//    public ResponseEntity<Void> updateInfo(@RequestParam int memberId, MemberInfoResponse memberInfoResponse) {}
 }

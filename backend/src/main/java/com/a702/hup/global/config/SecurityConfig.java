@@ -33,8 +33,9 @@ import java.util.Collections;
 @EnableWebSecurity
 public class SecurityConfig {
     private static final String HOME = "/";
-    private static final String SIGNUP = "/member";
+    private static final String SIGNUP = "/member/signup";
     private static final String LOGIN_URL = "/member/login";
+    private static final String CHECK = "/member/check";
     private static final String ERROR = "/error";
     /**
      * @author 이경태
@@ -65,7 +66,8 @@ public class SecurityConfig {
                                 HOME,
                                 SIGNUP,
                                 LOGIN_URL,
-                                ERROR).permitAll()
+                                ERROR,
+                                CHECK).permitAll()
                         .anyRequest().authenticated()
                 )
                 // filter 추가
