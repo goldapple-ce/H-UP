@@ -26,7 +26,7 @@ function SignupPage() {
     }
 
     try {
-      const response = await axios.post('member', formData);
+      const response = await axios.post('api/member', formData);
       console.log('Server Response:', response.data);
 
       navigate('/ProjectPage');
@@ -42,7 +42,7 @@ function SignupPage() {
       return;
     }
     try {
-      const response = await axios.get(`member/check?userId=${formData.id}`);
+      const response = await axios.get(`api/member/check?userId=${formData.id}`);
       if (response.data.isAvailable) {
         alert('ID is available.');
         setUsernameValid(true);
