@@ -1,5 +1,6 @@
 package com.a702.hup.global.config.security.handler;
 
+import com.a702.hup.application.dto.response.MemberLoginResponse;
 import com.a702.hup.global.config.security.MemberDto;
 import com.a702.hup.global.config.security.SecurityUserDetailsDto;
 import com.a702.hup.global.config.security.jwt.JwtToken;
@@ -12,6 +13,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -44,6 +47,14 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
         // 활성화 계정인 경우
         JwtToken token = tokenProvider.createToken(authentication);
         log.debug("[+] CustomAuthenticationSuccessHandler :: onAuthenticationSuccess :: generated Token : {}", token);
-        response.addHeader("Authorization", token.accessToken());
+
+        // response setting
+        response.setStatus(HttpStatus.OK.value());
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        objectMapper.writeValue(response.getWriter(), MemberLoginResponse.builder()
+                .memberId(memberDto.memberId())
+                .jwtToken(token)
+                .build()
+        );
     }
 }
