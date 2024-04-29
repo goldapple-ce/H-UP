@@ -26,8 +26,10 @@ function SignupPage() {
     }
 
     try {
-      const response = await axios.post('api/member', formData);
+      const response = await axios.post('api/member/signup', formData);
       console.log('Server Response:', response.data);
+
+      alert('회원가입 성공')
 
       navigate('/ProjectPage');
       
