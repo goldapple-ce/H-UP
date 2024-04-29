@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import styles from "./MainTab.module.scss"
 import IssueForm from "../Issue/IssueForm";
 import Calendar from "../Calendar/Calendar";
@@ -7,6 +7,10 @@ import { RecoilRoot } from "recoil";
 
 const MainTab = () => {
 
+    useEffect(() => {
+        let option = document.getElementById("tab-1");
+        option.checked = true;
+      }, []);
 
     return (
         <div className={styles.maintab_container}>

@@ -1,7 +1,7 @@
 .container {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    grid-row: auto;
     padding: 10px;
 }
 
@@ -14,14 +14,6 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-}
-
-.first-column {
-    background-color: #f5ffea;
-}
-
-.second-column {
-    background-color: #fffbf5;
 }
 
 .movable-item {

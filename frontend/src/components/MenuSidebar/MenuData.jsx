@@ -11,18 +11,19 @@ export const MenuData = [
 
     subNav: [
       {
+        id: 1,
         title: '이슈 1',
-        path: '/issueId=1',
         // icon: 'IoIcons.IoIosPaper',
         cName: 'sub-nav'
       },
       {
+        id: 2,
         title: '이슈 2',
-        path: '/issueId=2',
         // icon: 'IoIcons.IoIosPaper',
         cName: 'sub-nav'
       },
       {
+        id: 3,
         title: '이슈 3',
         path: '/issueId=3',
         // icon: 'IoIcons.IoIosPaper'
@@ -38,20 +39,20 @@ export const MenuData = [
 
     subNav: [
       {
+        id: 1,
         title: '이슈 1',
-        path: '/issueId=1',
         // icon: 'IoIcons.IoIosPaper',
         cName: 'sub-nav'
       },
       {
+        id: 2,
         title: '이슈 2',
-        path: '/issueId=2',
         // icon: 'IoIcons.IoIosPaper',
         cName: 'sub-nav'
       },
       {
+        id: 3,
         title: '이슈 3',
-        path: '/issueId=3',
         // icon: 'IoIcons.IoIosPaper'
       }
     ]
