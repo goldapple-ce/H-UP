@@ -1,5 +1,6 @@
 package com.a702.hup.domain.member.entity;
 
+import com.a702.hup.domain.agenda.entity.Agenda;
 import com.a702.hup.domain.agenda_comment.entity.AgendaComment;
 import com.a702.hup.domain.agenda_member.entity.AgendaMember;
 import com.a702.hup.domain.comment.entity.Comment;
@@ -45,6 +46,9 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy = "member")
     private List<AgendaMember> agendaMemberList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "requester")
+    private List<Agenda> agendaList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
     private List<AgendaComment> agendaCommentList = new ArrayList<>();
