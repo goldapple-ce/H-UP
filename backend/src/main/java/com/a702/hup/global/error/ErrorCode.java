@@ -21,6 +21,12 @@ public enum ErrorCode {
     // Member
     API_ERROR_MEMBER_NOT_FOUND(400, "M001", "존재하지 않는 멤버"),
     API_ERROR_IS_DELETED_MEMBER(400, "M002", "탈퇴된 계정"),
+
+    // Member
+    NONEXISTENT_MEMBER(400,"M001", "존재하지 않는 회원"),
+
+    // Document
+    NONEXISTENT_DOCUMENT(400, "D001", "존재하지 않는 문서")
     ;
     private final int status;
     private final String code;

@@ -1,10 +1,15 @@
 package com.a702.hup.domain.member;
 
+<<<<<<< Updated upstream
 import com.a702.hup.application.dto.request.MemberSignUpRequest;
 import com.a702.hup.application.dto.response.IdCheckResponse;
 import com.a702.hup.application.dto.response.MemberInfoResponse;
 import com.a702.hup.domain.member.entity.Member;
 import com.a702.hup.global.config.security.SecurityUserDetailsDto;
+=======
+import com.a702.hup.domain.member.entity.Member;
+import com.a702.hup.domain.member.execption.MemberException;
+>>>>>>> Stashed changes
 import com.a702.hup.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -95,5 +100,10 @@ public class MemberService {
         SecurityUserDetailsDto securityUserDetailsDto = (SecurityUserDetailsDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         log.info("[+] MemberService :: findMemberInfoById :: requested Id : {}, logined Id : {}", memberId, securityUserDetailsDto.memberId());
         return memberId.equals(securityUserDetailsDto.memberId());
+
+
+    public Member findById(Integer memberId) {
+        return memberRepository.findById(memberId).orElseThrow(
+                () -> new MemberException(ErrorCode.NONEXISTENT_MEMBER));
     }
 }
