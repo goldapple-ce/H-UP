@@ -22,7 +22,7 @@ const LoginPage = (props) => {
 
           console.log(response);
 
-          if (response.data.status === 200) {
+          if (response.status === 200) {
               const user = response.data.memberId;
               console.log('Login successful:', user);
               return user;
