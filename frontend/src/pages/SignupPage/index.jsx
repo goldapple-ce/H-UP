@@ -43,7 +43,7 @@ function SignupPage() {
     }
     try {
       const response = await axios.get(`api/member/check?userId=${formData.id}`);
-      if (response.data.isAvailable) {
+      if (response.data.available) {
         alert('ID is available.');
         setUsernameValid(true);
       } else {
