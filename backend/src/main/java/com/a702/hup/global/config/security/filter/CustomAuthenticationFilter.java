@@ -1,6 +1,6 @@
 package com.a702.hup.global.config.security.filter;
 
-import com.a702.hup.application.dto.request.MemberLoginRequest;
+import com.a702.hup.application.data.dto.MemberLoginRequest;
 import com.a702.hup.global.error.ErrorCode;
 import com.a702.hup.global.error.exception.BusinessException;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -1,8 +1,8 @@
 package com.a702.hup.domain.member;
 
-import com.a702.hup.application.dto.request.MemberSignUpRequest;
-import com.a702.hup.application.dto.response.IdCheckResponse;
-import com.a702.hup.application.dto.response.MemberInfoResponse;
+import com.a702.hup.application.data.dto.MemberSignUpRequest;
+import com.a702.hup.application.data.response.IdCheckResponse;
+import com.a702.hup.application.data.response.MemberInfoResponse;
 import com.a702.hup.domain.member.entity.Member;
 import com.a702.hup.global.config.security.SecurityUserDetailsDto;
 import com.a702.hup.global.error.ErrorCode;
