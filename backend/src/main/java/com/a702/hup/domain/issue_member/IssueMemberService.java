@@ -20,7 +20,7 @@ public class IssueMemberService {
     /**
      * @author 강용민
      * @date 2024-04-25
-     * @description 이슈에 권한이 있는지 확인하는 함수
+     * @description 이슈에 권한이 있는지 확인하는 함수. 해당 이슈 담당자나 참여자, 또는 높은 직급이 아닐 경우 예외 발생
      */
     public void validationRole(Issue issue, Member member) {
         // todo : member에 Role 생기면 추가해야함. owner, maintainer면 가능

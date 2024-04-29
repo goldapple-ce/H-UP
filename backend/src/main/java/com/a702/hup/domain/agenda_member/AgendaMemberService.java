@@ -1,5 +1,8 @@
 package com.a702.hup.domain.agenda_member;
 
+import com.a702.hup.domain.agenda.entity.Agenda;
+import com.a702.hup.domain.agenda_member.entity.AgendaMember;
+import com.a702.hup.domain.member.entity.Member;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -10,4 +13,19 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class AgendaMemberService {
+    private final AgendaMemberRepository agendaMemberRepository;
+
+    /**
+     * @author 강용민
+     * @date 2024-04-29
+     * @description 의사결정 담당자 저장
+     */
+    public AgendaMember save(Agenda agenda, Member member) {
+        return agendaMemberRepository.findByMemberAndAgendaAndDeletedAtIsNull(member, agenda).orElseGet(() ->
+                agendaMemberRepository.save(AgendaMember.builder()
+                        .agenda(agenda)
+                        .member(member).build()
+                )
+        );
+    }
 }

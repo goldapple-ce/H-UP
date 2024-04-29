@@ -32,6 +32,10 @@ public class MemberService {
                 .toEntity(passwordEncoder.encode(memberSignUpRequest.getPassword())));
     }
 
+    public void signUp(Member member){
+        save(member);
+    }
+
     /**
      * @author 이경태
      * @date 2024-04-29
@@ -83,6 +87,10 @@ public class MemberService {
     public Member findById(Integer id) {
         return memberRepository.findById(id)
             .orElseThrow(() -> new MemberException(ErrorCode.API_ERROR_MEMBER_NOT_FOUND));
+    }
+
+    public Member findById(String id){
+        return this.findById(Integer.parseInt(id));
     }
 
     /**

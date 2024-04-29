@@ -2,7 +2,7 @@ package com.a702.hup.domain.agenda_member.entity;
 
 import com.a702.hup.domain.agenda.entity.Agenda;
 import com.a702.hup.domain.member.entity.Member;
-import com.a702.hup.domain.todo.entity.Todo;
+import com.a702.hup.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class AgendaMember {
+public class AgendaMember extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

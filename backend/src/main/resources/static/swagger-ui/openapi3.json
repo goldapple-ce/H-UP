@@ -35,6 +35,31 @@
         }
       }
     },
+    "/agenda/assignee" : {
+      "post" : {
+        "tags" : [ "agenda" ],
+        "operationId" : "agenda-assignee-save",
+        "requestBody" : {
+          "content" : {
+            "application/json;charset=UTF-8" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/agenda-assignee-831680420"
+              },
+              "examples" : {
+                "agenda-assignee-save" : {
+                  "value" : "{\r\n  \"agendaId\" : 1,\r\n  \"assigneeId\" : 1\r\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "201"
+          }
+        }
+      }
+    },
     "/hello" : {
       "get" : {
         "tags" : [ "hello" ],
@@ -80,6 +105,19 @@
           "content" : {
             "type" : "string",
             "description" : "의사결정 내용"
+          }
+        }
+      },
+      "agenda-assignee-831680420" : {
+        "type" : "object",
+        "properties" : {
+          "assigneeId" : {
+            "type" : "number",
+            "description" : "담당자 Id"
+          },
+          "agendaId" : {
+            "type" : "number",
+            "description" : "의사결정 Id"
           }
         }
       },
