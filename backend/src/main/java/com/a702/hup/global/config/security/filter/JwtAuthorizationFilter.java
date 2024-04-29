@@ -44,14 +44,15 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         List<String> list = Arrays.asList(
                 "/api/member/login",
                 "/api/member/signup",
-                "/api/member/check"
+                "/api/member/check",
+                "/api/swagger-ui/swagger-ui.html"
         );
         log.debug("[+] JwtAuthorizationFilter :: doFilterInternal :: requestURI : {}", request.getRequestURI());
         log.debug("[+] JwtAuthorizationFilter :: doFilterInternal :: requestMethod : {}", request.getMethod());
 
         // 토큰이 필요하지 않으면 그냥 넘김
         // METHOD == OPTIONS 바로 넘김
-        if((list.contains(request.getRequestURI()))
+        if(request.getRequestURI().startsWith("/api")
                 || request.getMethod().equalsIgnoreCase("OPTIONS")) {
             filterChain.doFilter(request, response);
             return;
