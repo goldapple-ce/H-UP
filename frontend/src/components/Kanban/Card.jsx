@@ -4,6 +4,7 @@ import { useRecoilState } from 'recoil';
 import { TITLE_NAME } from './Kanban';
 import { issueListState } from '../../recoil/recoil';
 import './Card.scss';
+import { useNavigate } from 'react-router-dom';
 
 function Card({ item }) {
   const [list, setList] = useRecoilState(issueListState);
@@ -11,6 +12,7 @@ function Card({ item }) {
   const index = list.findIndex((data) => data === item);
   const ref = useRef(null);
   const { TO_DO, IN_PROGRESS, DONE, NOTE } = TITLE_NAME;
+  const navigate = useNavigate();
 
   const replaceIndex = (list, index, data) => {
     return [...list.slice(0, index), data, ...list.slice(index + 1)];
@@ -43,16 +45,13 @@ function Card({ item }) {
     setList([...list.slice(0, index), ...list.slice(index + 1)]);
   };
 
-  const changeItemCategory = (selectedItem, title) => {
-    setList((prev) => {
-      return prev.map((e) => {
-        return {
-          ...e,
-          category: e.id === selectedItem.id ? title : e.category,
-        };
-      });
-    });
-  };
+  const changeItemCategory = (selectedItem, newCategory) => {
+    setList((prevList) =>
+    prevList.map((item) =>
+      item.id === selectedItem.id ? { ...item, category: newCategory } : item
+    )
+  );
+};
 
   const [{ isDragging }, dragRef] = useDrag(() => ({
     type: 'card',
@@ -81,6 +80,11 @@ function Card({ item }) {
     },
   }));
 
+  const handleClick = (e) => {
+    e.preventDefault();
+    navigate(`/issue/${item.id}`);
+  };
+
   useEffect(() => {
     switch (item.category) {
       case TO_DO:
@@ -105,6 +109,7 @@ function Card({ item }) {
       className="cardWrap"
       ref={dragRef}
       style={{ opacity: isDragging ? '0.3' : '1' }}
+      onClick={handleClick}
     >
       <div className="cardHeaderWrap">
         <h5>{item.title}</h5>

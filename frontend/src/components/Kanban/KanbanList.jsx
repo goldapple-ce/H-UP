@@ -16,7 +16,7 @@ function KanbanList({ title, children }) {
   return (
     <div className={styles.container}>
       <div className={styles.column}>
-        <div className="kanbanListWrap" ref={drop}>
+        <div className={styles.kanbanListWrap} ref={drop}>
           <div className="kanbanTitle">{title}</div>
           {children}
           <KanbanCreator title={title} />

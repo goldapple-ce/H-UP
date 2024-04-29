@@ -18,12 +18,10 @@ function Kanban() {
 
   return (
     <div>
-      <header>
-        <span className="title">칸반 보드!!!</span>
-      </header>
-      <div>
-        {/* <div>할 일</div>
-        <input></input> */}
+      <div className={styles.cardDataHandler}>
+        <div>할 일</div>
+        <input placeholder='검색'></input>
+        {/* <div> 담당자들 이미지 리스트 </div> */}
       </div>
       <section className={styles.kanbanListContainer}>
         <DndProvider backend={HTML5Backend}>
@@ -31,8 +29,8 @@ function Kanban() {
           <KanbanList title={IN_PROGRESS}>
             {cardDataHandler(IN_PROGRESS)}
           </KanbanList>
-          <KanbanList title={DONE}>{cardDataHandler(DONE)}</KanbanList>
           <KanbanList title={NOTE}>{cardDataHandler(NOTE)}</KanbanList>
+          <KanbanList title={DONE}>{cardDataHandler(DONE)}</KanbanList>
         </DndProvider>
       </section>
     </div>
@@ -42,8 +40,8 @@ function Kanban() {
 export default Kanban;
 
 export const TITLE_NAME = {
-  TO_DO: 'To do',
-  IN_PROGRESS: 'In progress',
-  DONE: 'Done',
-  NOTE: 'Notes & Reference',
+  TO_DO: '발의됨',
+  IN_PROGRESS: '진행중',
+  DONE: '완료',
+  NOTE: '선택됨',
 };
