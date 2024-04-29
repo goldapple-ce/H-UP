@@ -1,30 +1,66 @@
 import React, { useState } from 'react';
 import styles from './SignupPage.module.scss'; // SCSS 스타일 시트 임포트
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function SignupPage() {
-  const [id, setId] = useState('');
-  const [password, setPassword] = useState('');
+  const [formData, setFormData] = useState({
+    id: '',
+    password: '',
+    name: ''
+  });
+  const [usernameValid, setUsernameValid] = useState(true);
   const [passwordConfirm, setPasswordConfirm] = useState('');
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
+  const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // 입력 데이터 유효성 검사 및 회원가입 처리 로직
-    if (password !== passwordConfirm) {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!usernameValid) {
+      alert('Please use a different username.');
+      return;
+    }
+
+    if (formData.password !== passwordConfirm) {
       alert('비밀번호가 일치하지 않습니다.');
       return;
     }
-    console.log('ID:', id);
-    console.log('Password:', password);
-    console.log('Name:', name);
-    console.log('Email:', email);
-    // 회원가입 로직을 여기에 추가하세요.
+
+    try {
+      const response = await axios.post('member', formData);
+      console.log('Server Response:', response.data);
+
+      navigate('/ProjectPage');
+      
+    } catch (error) {
+      console.error('Signup error:', error.response ? error.response.data : error);
+    }
   };
 
-  const checkIdAvailability = () => {
-    console.log('ID 중복 확인:', id);
-    // ID 중복 검사 로직 구현
+  const handleCheckUsername = async () => {
+    if (!formData.id) {
+      alert('Please enter a username.');
+      return;
+    }
+    try {
+      const response = await axios.get(`member/check?userId=${formData.id}`);
+      if (response.data.isAvailable) {
+        alert('ID is available.');
+        setUsernameValid(true);
+      } else {
+        alert('ID is already taken.');
+        setUsernameValid(false);
+      }
+    } catch (error) {
+      console.error('Error checking username:', error.response ? error.response.data : error);
+      setUsernameValid(false);
+    }
+  };
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.id]: e.target.value
+    });
   };
 
   return (
@@ -36,19 +72,19 @@ function SignupPage() {
           <input
             type="text"
             id="id"
-            value={id}
-            onChange={(e) => setId(e.target.value)}
+            value={formData.id}
+            onChange={handleChange}
             required
           />
-          <button type="button" onClick={checkIdAvailability}>중복 확인</button>
+          <button type="button" onClick={handleCheckUsername}>중복 확인</button>
         </div>
         <div>
           <label htmlFor="password">비밀번호</label>
           <input
             type="password"
             id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={formData.password}
+            onChange={handleChange}
             required
           />
         </div>
@@ -67,8 +103,8 @@ function SignupPage() {
           <input
             type="text"
             id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={formData.name}
+            onChange={handleChange}
             required
           />
         </div>
