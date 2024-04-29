@@ -4,13 +4,12 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 function SignupPage() {
-  const [formData, setFormData] = useState({
-    userId: '',
-    password: '',
-    name: ''
-  });
+
   const [usernameValid, setUsernameValid] = useState(true);
+  const [userId, setuserId] = useState('');
+  const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
+  const [name, setName] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -20,9 +19,15 @@ function SignupPage() {
       return;
     }
 
-    if (formData.password !== passwordConfirm) {
+    if (password !== passwordConfirm) {
       alert('비밀번호가 일치하지 않습니다.');
       return;
+    }
+
+    const formData = {
+      userId:userId,
+      password:password,
+      name:name
     }
 
     try {
@@ -39,12 +44,12 @@ function SignupPage() {
   };
 
   const handleCheckUsername = async () => {
-    if (!formData.userId) {
+    if (!userId) {
       alert('Please enter a username.');
       return;
     }
     try {
-      const response = await axios.get(`api/member/check?userId=${formData.id}`);
+      const response = await axios.get(`api/member/check?userId=${userId}`);
       if (response.data.available) {
         alert('ID is available.');
         setUsernameValid(true);
@@ -58,13 +63,6 @@ function SignupPage() {
     }
   };
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.id]: e.target.value
-    });
-  };
-
   return (
     <div className={styles.signup_container}>
       <h2>회원 가입</h2>
@@ -74,8 +72,8 @@ function SignupPage() {
           <input
             type="text"
             id="userId"
-            value={formData.userId}
-            onChange={handleChange}
+            value={userId}
+            onChange={(e) => setuserId(e.target.value)}
             required
           />
           <button type="button" onClick={handleCheckUsername}>중복 확인</button>
@@ -85,8 +83,8 @@ function SignupPage() {
           <input
             type="password"
             id="password"
-            value={formData.password}
-            onChange={handleChange}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             required
           />
         </div>
@@ -105,8 +103,8 @@ function SignupPage() {
           <input
             type="text"
             id="name"
-            value={formData.name}
-            onChange={handleChange}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             required
           />
         </div>
