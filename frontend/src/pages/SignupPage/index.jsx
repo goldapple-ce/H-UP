@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 function SignupPage() {
   const [formData, setFormData] = useState({
-    id: '',
+    userId: '',
     password: '',
     name: ''
   });
