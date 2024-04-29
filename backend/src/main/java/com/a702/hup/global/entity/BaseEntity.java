@@ -11,7 +11,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 
 @Getter
-@Setter
+//@Setter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public class BaseEntity {
@@ -29,10 +29,12 @@ public class BaseEntity {
     }
 
     public boolean isSoftDeleted() {
-        return null != deletedAt;
+        return this.deletedAt != null;
     }
 
-    public void undoDeletion(){
-        this.deletedAt = null;
+    public void undoDeletion() {
+        if (isSoftDeleted()) {
+            this.deletedAt = null;
+        }
     }
 }

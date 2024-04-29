@@ -3,6 +3,7 @@ package com.a702.hup.domain.agenda.entity;
 import com.a702.hup.domain.agenda_comment.entity.AgendaComment;
 import com.a702.hup.domain.agenda_member.entity.AgendaMember;
 import com.a702.hup.domain.issue.entity.Issue;
+import com.a702.hup.domain.member.entity.Member;
 import com.a702.hup.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -27,6 +28,10 @@ public class Agenda extends BaseEntity {
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member requester;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "issue_id")
     private Issue issue;
 
@@ -37,10 +42,16 @@ public class Agenda extends BaseEntity {
     private List<AgendaComment> agendaCommentList = new ArrayList<>();
 
     @Builder
-    public Agenda(Issue issue, String content) {
+    public Agenda(Issue issue, Member requester,String content) {
         addRelatedIssue(issue);
+        addRelatedMember(requester);
         this.content = content;
         this.status = AgendaStatus.ASSIGNED;
+    }
+
+    private void addRelatedMember(Member member){
+        this.requester = member;
+        member.getAgendaList().add(this);
     }
 
     private void addRelatedIssue(Issue issue) {

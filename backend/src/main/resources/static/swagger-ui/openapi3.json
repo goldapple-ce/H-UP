@@ -1,0 +1,97 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "API 문서",
+    "description" : "RestDocsWithSwagger Docs",
+    "version" : "0.0.1"
+  },
+  "servers" : [ {
+    "url" : "http://localhost:8081/api"
+  } ],
+  "tags" : [ ],
+  "paths" : {
+    "/agenda" : {
+      "post" : {
+        "tags" : [ "agenda" ],
+        "operationId" : "agenda-save",
+        "requestBody" : {
+          "content" : {
+            "application/json;charset=UTF-8" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/agenda1755123133"
+              },
+              "examples" : {
+                "agenda-save" : {
+                  "value" : "{\r\n  \"issueId\" : 1,\r\n  \"content\" : \"의사결정 제공\"\r\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "201"
+          }
+        }
+      }
+    },
+    "/hello" : {
+      "get" : {
+        "tags" : [ "hello" ],
+        "operationId" : "hello-get",
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/hello-1270671984"
+                },
+                "examples" : {
+                  "hello-get" : {
+                    "value" : "{\r\n  \"body\" : \"hello\"\r\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "hello" ],
+        "operationId" : "hello-post",
+        "responses" : {
+          "201" : {
+            "description" : "201"
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "agenda1755123133" : {
+        "type" : "object",
+        "properties" : {
+          "issueId" : {
+            "type" : "number",
+            "description" : "이슈 Id"
+          },
+          "content" : {
+            "type" : "string",
+            "description" : "의사결정 내용"
+          }
+        }
+      },
+      "hello-1270671984" : {
+        "type" : "object",
+        "properties" : {
+          "body" : {
+            "type" : "string",
+            "description" : "바디"
+          }
+        }
+      }
+    }
+  }
+}

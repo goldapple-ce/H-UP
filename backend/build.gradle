@@ -37,11 +37,11 @@ dependencies {
 
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
-	// 웹소켓 (STOMP)
-	implementation 'org.springframework.boot:spring-boot-starter-websocket'
-	implementation 'org.webjars:stomp-websocket:2.3.3'
+    // 웹소켓 (STOMP)
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    implementation 'org.webjars:stomp-websocket:2.3.3'
 
-	// DATA
+    // DATA
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
@@ -67,130 +67,116 @@ dependencies {
 	testImplementation 'org.springframework.kafka:spring-kafka-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 
-	//RESTDOCS
-	asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
-	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+    // RESTDOCS
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+    testImplementation 'com.epages:restdocs-api-spec-mockmvc:0.18.4'
 
-	// ETC
+    // ETC
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 }
 
-tasks.named('test') {
-	outputs.dir snippetsDir
-	useJUnitPlatform()
-}
-
-tasks.named('asciidoctor') {
-	dependsOn test
-	inputs.dir snippetsDir
-}
-
 // RESTDOCS
-asciidoctor {
-	dependsOn test
-	configurations('asciidoctorExt')
-	baseDirFollowsSourceFile()
-	inputs.dir snippetsDir
-
+openapi3 {
+    servers = [
+            { url = "http://localhost:8081/api" }
+    ]
+    title = "API 문서"
+    description = "RestDocsWithSwagger Docs"
+    version = "0.0.1"
+    format = "json"
+    outputDirectory = 'src/main/resources/static/swagger-ui/.'
 }
 
-asciidoctor.doFirst {
-	delete 'src/main/resources/static/docs'
-}
-
-tasks.register('copyDocument', Copy) {
-	dependsOn asciidoctor
-	from file("build/docs/asciidoc")
-	into file("src/main/resources/statis/docs")
-}
 
 // CODE ANALYSIS
 sonarqube {
-	properties {
-		property("sonar.sourceEncoding", "UTF-8")
-		property("sonar.projectKey", "S10P31A702")
-		property("sonar.host.url", "https://sonarqube.ssafy.com")
-		property("sonar.login", "b44c7b1716bb2d09854acdc70d608f7153ffefdc")
-	}
+    properties {
+        property("sonar.sourceEncoding", "UTF-8")
+        property("sonar.projectKey", "S10P31A702")
+        property("sonar.host.url", "https://sonarqube.ssafy.com")
+        property("sonar.login", "b44c7b1716bb2d09854acdc70d608f7153ffefdc")
+    }
 }
 
 jacoco {
-	toolVersion = "0.8.10"
+    toolVersion = "0.8.10"
 }
 
 jacocoTestReport {
-	dependsOn test
-	mustRunAfter test
-	reports {
-		xml.required = false
-		csv.required = false
-		html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
-	}
+    dependsOn test
+    mustRunAfter test
+    reports {
+        xml.required = false
+        csv.required = false
+        html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+    }
 
-	afterEvaluate {
-		classDirectories.setFrom(
-				files(classDirectories.files.collect {
-					fileTree(dir: it, excludes: [
-							'**/*Application*',
-							'**/*Exception*',
-							'**/global',
-							'**/entity'
-					])
-				})
-		)
-	}
+    afterEvaluate {
+        classDirectories.setFrom(
+                files(classDirectories.files.collect {
+                    fileTree(dir: it, excludes: [
+                            '**/*Application*',
+                            '**/*Exception*',
+                            '**/global',
+                            '**/entity'
+                    ])
+                })
+        )
+    }
 }
 
 jacocoTestCoverageVerification {
-	mustRunAfter jacocoTestReport
+    mustRunAfter jacocoTestReport
 
-	violationRules {
-		rule {
-			enabled = true
+    violationRules {
+        rule {
+            enabled = true
 
-			element = 'CLASS'
+            element = 'CLASS'
 
-			limit {
-				counter = 'BRANCH'
-				value = 'COVEREDRATIO'
-				minimum = 0.70
-			}
+            limit {
+                counter = 'BRANCH'
+                value = 'COVEREDRATIO'
+                minimum = 0.70
+            }
 
-			limit {
-				counter = 'LINE'
-				value = 'COVEREDRATIO'
-				minimum = 0.80
-			}
+            limit {
+                counter = 'LINE'
+                value = 'COVEREDRATIO'
+                minimum = 0.80
+            }
 
-			limit {
-				counter = 'METHOD'
-				value = 'COVEREDRATIO'
-				minimum = 0.80
-			}
-		}
+            limit {
+                counter = 'METHOD'
+                value = 'COVEREDRATIO'
+                minimum = 0.80
+            }
+        }
 
-		rule {
-			element = 'METHOD'
+        rule {
+            element = 'METHOD'
 
-			excludes = [
-					"*"
-			]
+            excludes = [
+                    "*"
+            ]
 
-			limit {
-				counter = 'LINE'
-				value = 'TOTALCOUNT'
-				maximum = 200
-			}
-		}
-	}
+            limit {
+                counter = 'LINE'
+                value = 'TOTALCOUNT'
+                maximum = 200
+            }
+        }
+    }
 }
 
 tasks.register('testCoverage', Test) {
-	group 'verification'
-	description 'Runs the unit tests with coverage'
+    group 'verification'
+    description 'Runs the unit tests with coverage'
 
-	dependsOn('test',
-			'jacocoTestReport',
-			'jacocoTestCoverageVerification')
+    dependsOn('test',
+            'jacocoTestReport',
+            'jacocoTestCoverageVerification',
+            'openapi3'
+    )
 }

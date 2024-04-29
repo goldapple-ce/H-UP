@@ -62,13 +62,14 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 // 인가 처리 요청 구분
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(
-                                HOME,
-                                SIGNUP,
-                                LOGIN_URL,
-                                ERROR,
-                                CHECK).permitAll()
-                        .anyRequest().authenticated()
+//                        .requestMatchers(
+//                                HOME,
+//                                SIGNUP,
+//                                LOGIN_URL,
+//                                ERROR,
+//                                CHECK).permitAll()
+//                        .anyRequest().authenticated()
+                                .anyRequest().permitAll()
                 )
                 // filter 추가
                 .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
