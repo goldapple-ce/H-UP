@@ -57,3 +57,26 @@ export const MessengerSidebarState = atom({
   key: 'MessengerSideState',
   default: []
 })
+
+
+export const issueListFilterState = atom({
+  key: 'issueListFilterState',
+  default: 'Show All',
+})
+
+const filteredIssueListState = selector({
+  key: 'filteredIssueListState',
+  get: ({get}) => {
+    const filter = get(issueListFilterState);
+    const list = get(issueListState);
+
+    switch (filter) {
+      case 'Show Completed':
+        return list.filter((item) => item.isComplete);
+      case 'Show Uncompleted':
+        return list.filter((item) => !item.isComplete);
+      default:
+        return list;
+    }
+  },
+});
