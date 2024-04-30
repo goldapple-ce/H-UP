@@ -59,4 +59,8 @@ public class Agenda extends BaseEntity {
         this.issue = issue;
     }
 
+    public void update(String content, AgendaStatus status){
+        this.content = content;
+        this.status = status;
+    }
 }

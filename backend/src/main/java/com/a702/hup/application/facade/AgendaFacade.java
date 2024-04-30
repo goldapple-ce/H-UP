@@ -1,7 +1,12 @@
 package com.a702.hup.application.facade;
 
+import com.a702.hup.application.data.request.AgendaAssigneeSaveRequest;
 import com.a702.hup.application.data.request.AgendaCreateRequest;
+import com.a702.hup.application.data.request.AgendaUpdateRequest;
 import com.a702.hup.domain.agenda.AgendaService;
+import com.a702.hup.domain.agenda.entity.Agenda;
+import com.a702.hup.domain.agenda.entity.AgendaStatus;
+import com.a702.hup.domain.agenda_member.AgendaMemberService;
 import com.a702.hup.domain.issue.IssueService;
 import com.a702.hup.domain.issue.entity.Issue;
 import com.a702.hup.domain.issue_member.IssueMemberService;
@@ -22,6 +27,7 @@ public class AgendaFacade {
     private final MemberService memberService;
     private final IssueService issueService;
     private final IssueMemberService issueMemberService;
+    private final AgendaMemberService agendaMemberService;
 
     /**
      * @author 강용민
@@ -38,11 +44,38 @@ public class AgendaFacade {
 
     /**
      * @author 강용민
-     * @date 2024-
-     * @description
+     * @date 2024-04-30
+     * @description 의사결정 담당자 요청
      */
-//    @Transactional
-//    public void saveAgendaMember(User user, Integer agendaId, Integer determinantId) {
-//        agendaService.fin
-//    }
+    @Transactional
+    public void saveAssignee(User user, AgendaAssigneeSaveRequest request) {
+        Agenda agenda = agendaService.findById(request.getAgendaId());
+        validation(agenda,user);
+
+        Member assignee = memberService.findById(request.getAssigneeId());
+        agendaMemberService.save(agenda,assignee);
+    }
+
+
+    /**
+     * @author 강용민
+     * @date 2024-04-30
+     * @description 의사결정 수정
+     */
+    @Transactional
+    public void updateAgenda(User user, AgendaUpdateRequest request) {
+        Agenda agenda = agendaService.findById(request.getAgendaId());
+        validation(agenda,user);
+        agenda.update(request.getContent(), AgendaStatus.valueOf(request.getStatus()));
+    }
+
+    /**
+     * @author 강용민
+     * @date 2024-04-30
+     * @description 해당 이슈에 권한이 있는지 검사
+     */
+    private void validation(Agenda agenda,User user){
+        Member member = memberService.findById(user.getUsername());
+        issueMemberService.validationRole(agenda.getIssue(),member);
+    }
 }
