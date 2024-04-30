@@ -8,8 +8,8 @@ export const loginUser = createAsyncThunk(
     try {
       const response = await axios.post('api/member/login', credentials);
       console.log(response);
-      const data = await response.json();
-      if (data.success) {
+
+      if (response.status === 200) {
         dispatch(loginSuccess(data.user));
       } else {
         dispatch(loginFailure('Invalid credentials'));
