@@ -2,6 +2,7 @@ package com.a702.hup.application.contorller;
 
 import com.a702.hup.application.data.request.AgendaAssigneeSaveRequest;
 import com.a702.hup.application.data.request.AgendaCreateRequest;
+import com.a702.hup.application.data.request.AgendaUpdateRequest;
 import com.a702.hup.application.facade.AgendaFacade;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -9,10 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -40,5 +38,16 @@ public class AgendaController {
     public ResponseEntity<Void> saveAssignee(@AuthenticationPrincipal(errorOnInvalidType = true) User user, @RequestBody @Valid AgendaAssigneeSaveRequest request){
         agendaFacade.saveAssignee(user, request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    /**
+     * @author 강용민
+     * @date 2024-04-30
+     * @description 의사결정 수정
+     */
+    @PutMapping
+    public ResponseEntity<Void> updateAgenda(@AuthenticationPrincipal(errorOnInvalidType = true) User user, AgendaUpdateRequest request){
+        agendaFacade.updateAgenda(user, request);
+        return ResponseEntity.ok().build();
     }
 }

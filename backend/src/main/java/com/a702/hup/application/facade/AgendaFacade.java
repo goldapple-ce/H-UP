@@ -2,8 +2,10 @@ package com.a702.hup.application.facade;
 
 import com.a702.hup.application.data.request.AgendaAssigneeSaveRequest;
 import com.a702.hup.application.data.request.AgendaCreateRequest;
+import com.a702.hup.application.data.request.AgendaUpdateRequest;
 import com.a702.hup.domain.agenda.AgendaService;
 import com.a702.hup.domain.agenda.entity.Agenda;
+import com.a702.hup.domain.agenda.entity.AgendaStatus;
 import com.a702.hup.domain.agenda_member.AgendaMemberService;
 import com.a702.hup.domain.issue.IssueService;
 import com.a702.hup.domain.issue.entity.Issue;
@@ -47,11 +49,33 @@ public class AgendaFacade {
      */
     @Transactional
     public void saveAssignee(User user, AgendaAssigneeSaveRequest request) {
-        Member requester = memberService.findById(Integer.parseInt(user.getUsername()));
         Agenda agenda = agendaService.findById(request.getAgendaId());
-        issueMemberService.validationRole(agenda.getIssue(),requester);
+        validation(agenda,user);
 
         Member assignee = memberService.findById(request.getAssigneeId());
         agendaMemberService.save(agenda,assignee);
+    }
+
+
+    /**
+     * @author 강용민
+     * @date 2024-04-30
+     * @description 의사결정 수정
+     */
+    @Transactional
+    public void updateAgenda(User user, AgendaUpdateRequest request) {
+        Agenda agenda = agendaService.findById(request.getAgendaId());
+        validation(agenda,user);
+        agenda.update(request.getContent(), AgendaStatus.valueOf(request.getStatus()));
+    }
+
+    /**
+     * @author 강용민
+     * @date 2024-04-30
+     * @description 해당 이슈에 권한이 있는지 검사
+     */
+    private void validation(Agenda agenda,User user){
+        Member member = memberService.findById(user.getUsername());
+        issueMemberService.validationRole(agenda.getIssue(),member);
     }
 }

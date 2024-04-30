@@ -1,8 +1,10 @@
 package com.a702.hup.domain.issue_member;
 
-import com.a702.hup.application.exception.AgendaFacadeException;
+import com.a702.hup.domain.agenda.AgendaService;
 import com.a702.hup.domain.issue.IssueException;
+import com.a702.hup.domain.issue.IssueService;
 import com.a702.hup.domain.issue.entity.Issue;
+import com.a702.hup.domain.member.MemberService;
 import com.a702.hup.domain.member.entity.Member;
 import com.a702.hup.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 public class IssueMemberService {
     private final IssueMemberRepository issueMemberRepository;
+    private final MemberService memberService;
+    private final IssueService issueService;
+    private final AgendaService agendaService;
 
     /**
      * @author 강용민
