@@ -1,37 +1,68 @@
-import React from 'react';
-import styles from './Calendar.module.scss';
+import React, { Fragment, useCallback, useMemo, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
+import { Calendar, Views, momentLocalizer } from 'react-big-calendar';
+import moment from 'moment';
+import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+import Toolbar from './Toolbar';
+import events from './Events'
 
-function Calendar() {
-  const today = new Date();
-  const currentYear = today.getFullYear();
-  const currentMonth = today.getMonth();
+const MyCalendar = () => {
+    const [myEvents, setMyEvents] = useState(events)
+    const navigate = useNavigate();
 
-  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-  const startDay = new Date(currentYear, currentMonth).getDay();
+    moment.locale('ko-KR');
+    const localizer = momentLocalizer(moment);
+    const DragAndDropCalendar = withDragAndDrop(Calendar);
 
-  const days = [];
-  for (let i = 0; i < startDay; i++) {
-    days.push(<div className={styles.empty} key={`empty-${i}`}></div>);
-  }
-  for (let i = 1; i <= daysInMonth; i++) {
-    days.push(<div key={`day-${i}`}>{i}</div>);
-  }
+    const moveEvent = useCallback(
+      ({ event, start, end, isAllDay: droppedOnAllDaySlot = false }) => {
+        const { allDay } = event
+        if (!allDay && droppedOnAllDaySlot) {
+          event.allDay = true
+        }
+  
+        setMyEvents((prev) => {
+          const existing = prev.find((ev) => ev.id === event.id) ?? {}
+          const filtered = prev.filter((ev) => ev.id !== event.id)
+          return [...filtered, { ...existing, start, end, allDay }]
+        })
+      },
+      [setMyEvents]
+    )
+      
+    const resizeEvent = useCallback(
+      ({ event, start, end }) => {
+        setMyEvents((prev) => {
+          const existing = prev.find((ev) => ev.id === event.id) ?? {}
+          const filtered = prev.filter((ev) => ev.id !== event.id)
+          return [...filtered, { ...existing, start, end }]
+        })
+      },
+      [setMyEvents]
+    )
 
-  return (
-    <div className={styles.calendar}>
-      <div className={styles.header}>{`${today.toLocaleString('default', { month: 'long' })} ${currentYear}`}</div>
-      <div className={styles.weekdays}>
-        <div>Sun</div>
-        <div>Mon</div>
-        <div>Tue</div>
-        <div>Wed</div>
-        <div>Thu</div>
-        <div>Fri</div>
-        <div>Sat</div>
-      </div>
-      <div className={styles.days}>{days}</div>
-    </div>
-  );
+
+    const handleClick = (issue) => {
+      navigate(`/issue/${issue.id}`)
+    }
+
+    return (
+        <DragAndDropCalendar
+          style={{ height: 500 }}
+          components={{
+            toolbar: Toolbar, // 툴바 커스터마이징
+          }}
+          defaultView={Views.MONTH}
+          events={myEvents}
+          localizer={localizer}
+          onEventDrop={moveEvent}
+          onEventResize={resizeEvent}
+          onSelectEvent={handleClick}
+          popup
+          resizable
+        />
+    )
 }
 
-export default Calendar;
+export default MyCalendar;
