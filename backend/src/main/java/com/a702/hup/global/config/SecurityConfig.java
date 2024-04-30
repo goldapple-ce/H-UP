@@ -9,19 +9,21 @@ import com.a702.hup.global.config.security.handler.CustomAuthenticationUnsuccess
 import com.a702.hup.global.config.security.jwt.TokenProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HttpBasicConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -33,10 +35,22 @@ import java.util.Collections;
 @EnableWebSecurity
 public class SecurityConfig {
     private static final String HOME = "/";
-    private static final String SIGNUP = "/member/signup";
     private static final String LOGIN_URL = "/member/login";
-    private static final String CHECK = "/member/check";
-    private static final String ERROR = "/error";
+    private static final String MEMBER = "/member/**";
+    private static final String RESOURCES = "/resources/**";
+    private static final String SWAGGER = "/swagger-ui/**";
+
+    /**
+     * @author 이경태
+     * @date 2024-04-29
+     * @description 정적 자원에 대해 보안 패스
+     **/
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return web -> web.ignoring()
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+    }
+
     /**
      * @author 이경태
      * @date 2024-04-26
@@ -62,18 +76,17 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 // 인가 처리 요청 구분
                 .authorizeHttpRequests(authorize -> authorize
-//                        .requestMatchers(
-//                                HOME,
-//                                SIGNUP,
-//                                LOGIN_URL,
-//                                ERROR,
-//                                CHECK).permitAll()
-//                        .anyRequest().authenticated()
-                                .anyRequest().permitAll()
+                        .requestMatchers(
+                                HOME,
+                                MEMBER,
+                                RESOURCES,
+                                SWAGGER
+                        ).permitAll()
+                        .anyRequest().authenticated()
                 )
                 // filter 추가
-                .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(customAuthenticationFilter, JwtAuthorizationFilter.class)
+                .addFilterBefore(jwtAuthorizationFilter, BasicAuthenticationFilter.class)
+                .addFilterBefore(customAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 
                 // 인증 / 인가 과정 중의 에러를 처리
 //                .exceptionHandling(exceptions -> exceptions
@@ -93,7 +106,7 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedHeaders(Collections.singletonList("*"));
         config.setAllowedMethods(Collections.singletonList("*"));
-        config.setAllowedOriginPatterns(Collections.singletonList("**"));
+        config.setAllowedOriginPatterns(Collections.singletonList("*"));
         config.setAllowCredentials(true);
         config.setMaxAge(3600L);
 
@@ -141,7 +154,7 @@ public class SecurityConfig {
      **/
     @Bean
     public CustomAuthenticationProvider customAuthenticationProvider(
-            UserDetailsService userDetailsService,
+            CustomUserDetailsService userDetailsService,
             PasswordEncoder passwordEncoder
     ) {
         return new CustomAuthenticationProvider(
@@ -180,10 +193,9 @@ public class SecurityConfig {
      **/
     @Bean
     public JwtAuthorizationFilter jwtAuthorizationFilter(
-            CustomUserDetailsService userDetailsService,
             TokenProvider tokenProvider
     ) {
-        return new JwtAuthorizationFilter(userDetailsService, tokenProvider);
+        return new JwtAuthorizationFilter(tokenProvider);
     }
 }
 

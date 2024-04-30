@@ -12,10 +12,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -30,7 +28,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     private static final String AUTHORIZATION = "Authorization";
     private static final String BEARER_TOKEN_PREFIX = "Bearer ";
 
-    private final UserDetailsService userDetailsService;
     private final TokenProvider tokenProvider;
 
     @Override
@@ -40,20 +37,24 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
         log.debug("[+] JwtAuthorizationFilter :: doFilterInternal :: start");
-        // token 필요없는 api paths
-        List<String> list = Arrays.asList(
-                "/api/member/login",
-                "/api/member/signup",
-                "/api/member/check",
-                "/api/swagger-ui/swagger-ui.html"
-        );
         log.debug("[+] JwtAuthorizationFilter :: doFilterInternal :: requestURI : {}", request.getRequestURI());
         log.debug("[+] JwtAuthorizationFilter :: doFilterInternal :: requestMethod : {}", request.getMethod());
 
-        // 토큰이 필요하지 않으면 그냥 넘김
+        // token 검증 제외 api path
+        List<String> apiList = Arrays.asList(
+                "/api/swagger-ui"
+        );
+
+        // 제외 api인지 확인
+        for(String api : apiList) {
+            if(request.getRequestURI().startsWith(api)) {
+                filterChain.doFilter(request, response);
+                return;
+            }
+        }
+
         // METHOD == OPTIONS 바로 넘김
-        if(request.getRequestURI().startsWith("/api")
-                || request.getMethod().equalsIgnoreCase("OPTIONS")) {
+        if(request.getMethod().equalsIgnoreCase("OPTIONS")) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -69,8 +70,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             log.debug("[+] JwtAuthorizationFilter :: doFilterInternal :: userId = {}", userId);
 
             if(userId != null && !userId.isEmpty()) {
-                UserDetails userDetails = userDetailsService.loadUserByUsername(userId);
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                Authentication authentication = tokenProvider.getAuthentication(token);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 filterChain.doFilter(request, response);
             } else {
