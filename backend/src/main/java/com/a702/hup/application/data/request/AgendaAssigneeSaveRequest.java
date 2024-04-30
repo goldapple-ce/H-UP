@@ -12,5 +12,5 @@ public class AgendaAssigneeSaveRequest {
     private int agendaId;
 
     @NotNull
-    private int assigneeId;
+    private int memberId;
 }

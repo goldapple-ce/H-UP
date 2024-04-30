@@ -7,6 +7,7 @@ import com.a702.hup.domain.agenda.AgendaService;
 import com.a702.hup.domain.agenda.entity.Agenda;
 import com.a702.hup.domain.agenda.entity.AgendaStatus;
 import com.a702.hup.domain.agenda_member.AgendaMemberService;
+import com.a702.hup.domain.agenda_member.entity.AgendaMember;
 import com.a702.hup.domain.issue.IssueService;
 import com.a702.hup.domain.issue.entity.Issue;
 import com.a702.hup.domain.issue_member.IssueMemberService;
@@ -23,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 @Service
 public class AgendaFacade {
+    // todo 모든 메서드에 인증이 필요함. AOP 활용해서 인증 로직 빼야함.
     private final AgendaService agendaService;
     private final MemberService memberService;
     private final IssueService issueService;
@@ -52,7 +54,7 @@ public class AgendaFacade {
         Agenda agenda = agendaService.findById(request.getAgendaId());
         validation(agenda,user);
 
-        Member assignee = memberService.findById(request.getAssigneeId());
+        Member assignee = memberService.findById(request.getMemberId());
         agendaMemberService.save(agenda,assignee);
     }
 
@@ -77,5 +79,27 @@ public class AgendaFacade {
     private void validation(Agenda agenda,User user){
         Member member = memberService.findById(user.getUsername());
         issueMemberService.validationRole(agenda.getIssue(),member);
+    }
+
+    /**
+     * @author 강용민
+     * @date 2024-04-30
+     * @description 의사결정 삭제
+     */
+    @Transactional
+    public void deleteAgenda(User user, int agendaId) {
+        Agenda agenda = agendaService.findById(agendaId);
+        Member member = memberService.findById(user.getUsername());
+        issueMemberService.validationRole(agenda.getIssue(),member);
+        agenda.deleteSoftly();
+    }
+
+    @Transactional
+    public void deleteAssignee(User user, int assigneeId) {
+        Member member = memberService.findById(user.getUsername());
+        AgendaMember assignee = agendaMemberService.findById(assigneeId);
+
+        issueMemberService.validationRole(assignee.getAgenda().getIssue(), member);
+        assignee.deleteSoftly();
     }
 }
