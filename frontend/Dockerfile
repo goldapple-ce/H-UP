@@ -14,10 +14,10 @@ RUN npm run build
 
 FROM nginx:alpine
 
-COPY ./nginx/nginx.conf /cicd/nginx/conf.d/default.conf
+COPY --from=0 /app/dist /usr/share/nginx/html
 
-COPY --from=0 /app/dist /cicd/nginx/html
+COPY ./nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
-EXPOSE 80
+EXPOSE 3000
 
 CMD ["nginx", "-g", "daemon off;"]
