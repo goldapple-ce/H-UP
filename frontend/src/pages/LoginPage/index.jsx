@@ -87,6 +87,7 @@ const LoginPage = (props) => {
             <input className={'inputButton'} type="button" onClick={onButtonClick} value={'Log in'} />
             
             <p>아이디 찾기 / 비밀번호 재설정</p>
+            {auth.error && <p>{auth.error}</p>}
         </form>
         <p>
           아직 회원이 아니신가요?
