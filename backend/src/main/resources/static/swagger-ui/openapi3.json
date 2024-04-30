@@ -61,17 +61,6 @@
         }
       }
     },
-    "/agenda/1" : {
-      "delete" : {
-        "tags" : [ "agenda" ],
-        "operationId" : "delete-agenda-assignee",
-        "responses" : {
-          "200" : {
-            "description" : "200"
-          }
-        }
-      }
-    },
     "/agenda/assignee" : {
       "post" : {
         "tags" : [ "agenda" ],
@@ -80,11 +69,11 @@
           "content" : {
             "application/json;charset=UTF-8" : {
               "schema" : {
-                "$ref" : "#/components/schemas/agenda-assignee-831680420"
+                "$ref" : "#/components/schemas/agenda-assignee-1533037509"
               },
               "examples" : {
                 "save-agenda-assignee" : {
-                  "value" : "{\r\n  \"agendaId\" : 1,\r\n  \"assigneeId\" : 1\r\n}"
+                  "value" : "{\r\n  \"agendaId\" : 1,\r\n  \"memberId\" : 1\r\n}"
                 }
               }
             }
@@ -93,6 +82,46 @@
         "responses" : {
           "201" : {
             "description" : "201"
+          }
+        }
+      }
+    },
+    "/agenda/{agendaId}" : {
+      "delete" : {
+        "tags" : [ "agenda" ],
+        "operationId" : "delete-agenda",
+        "parameters" : [ {
+          "name" : "agendaId",
+          "in" : "path",
+          "description" : "",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200"
+          }
+        }
+      }
+    },
+    "/agenda/assignee/{assigneeId}" : {
+      "delete" : {
+        "tags" : [ "agenda" ],
+        "operationId" : "delete-agenda-assignee",
+        "parameters" : [ {
+          "name" : "assigneeId",
+          "in" : "path",
+          "description" : "",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200"
           }
         }
       }
@@ -162,25 +191,25 @@
           }
         }
       },
-      "agenda-assignee-831680420" : {
-        "type" : "object",
-        "properties" : {
-          "assigneeId" : {
-            "type" : "number",
-            "description" : "담당자 Id"
-          },
-          "agendaId" : {
-            "type" : "number",
-            "description" : "의사결정 Id"
-          }
-        }
-      },
       "hello-1270671984" : {
         "type" : "object",
         "properties" : {
           "body" : {
             "type" : "string",
             "description" : "바디"
+          }
+        }
+      },
+      "agenda-assignee-1533037509" : {
+        "type" : "object",
+        "properties" : {
+          "agendaId" : {
+            "type" : "number",
+            "description" : "의사결정 Id"
+          },
+          "memberId" : {
+            "type" : "number",
+            "description" : "담당자 Id"
           }
         }
       }

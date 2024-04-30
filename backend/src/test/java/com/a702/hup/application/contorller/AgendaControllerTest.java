@@ -64,7 +64,7 @@ class AgendaControllerTest {
     void SaveAgendaAssigneeTestWhenSuccess() throws Exception {
         Map<String, Integer> request = new HashMap<>();
         request.put("agendaId", 1);
-        request.put("assigneeId", 1);
+        request.put("memberId", 1);
 
         mockMvc.perform(RestDocumentationRequestBuilders
                         .post("/agenda/assignee").with(csrf())
@@ -76,7 +76,7 @@ class AgendaControllerTest {
                         preprocessResponse(prettyPrint()),
                         requestFields(
                                 fieldWithPath("agendaId").type(JsonFieldType.NUMBER).description("의사결정 Id"),
-                                fieldWithPath("assigneeId").type(JsonFieldType.NUMBER).description("담당자 Id")
+                                fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("담당자 Id")
                         )
                 ));
     }
@@ -104,7 +104,21 @@ class AgendaControllerTest {
     @Test
     void deleteAgendaTestWhenSuccess() throws Exception {
         mockMvc.perform(RestDocumentationRequestBuilders
-                        .delete("/agenda/1").with(csrf())
+                        .delete("/agenda/{agendaId}",1)
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(document("delete-agenda",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())
+                ));
+    }
+
+    @Test
+    void deleteAssigneeTestWhenSuccess() throws Exception {
+        mockMvc.perform(RestDocumentationRequestBuilders
+                        .delete("/agenda/assignee/{assigneeId}",1)
+                        .param("assignId","1").with(csrf())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(document("delete-agenda-assignee",

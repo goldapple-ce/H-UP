@@ -58,7 +58,18 @@ public class AgendaController {
      */
     @DeleteMapping("/{agendaId}")
     public ResponseEntity<Void> deleteAgenda(@AuthenticationPrincipal(errorOnInvalidType = true) User user,@PathVariable(name = "agendaId") int agendaId){
-        agendaFacade.delete(user, agendaId);
+        agendaFacade.deleteAgenda(user, agendaId);
+        return ResponseEntity.ok().build();
+    }
+
+    /**
+     * @author 강용민
+     * @date 2024-
+     * @description
+     */
+    @DeleteMapping("/assignee/{assigneeId}")
+    public ResponseEntity<Void> deleteAssignee(@AuthenticationPrincipal(errorOnInvalidType = true) User user,@PathVariable(name = "assigneeId") int assigneeId){
+        agendaFacade.deleteAssignee(user, assigneeId);
         return ResponseEntity.ok().build();
     }
 }
