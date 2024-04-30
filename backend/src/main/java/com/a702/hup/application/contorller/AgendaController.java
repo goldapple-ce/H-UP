@@ -1,5 +1,6 @@
 package com.a702.hup.application.contorller;
 
+import com.a702.hup.application.data.request.AgendaAssigneeSaveRequest;
 import com.a702.hup.application.data.request.AgendaCreateRequest;
 import com.a702.hup.application.facade.AgendaFacade;
 import jakarta.validation.Valid;
@@ -33,11 +34,11 @@ public class AgendaController {
     /**
      * @author 강용민
      * @date 2024-04-29
-     * @description 의사결정 저장
+     * @description 의사결정 담당자 저장
      */
     @PostMapping("/assignee")
     public ResponseEntity<Void> saveAssignee(@AuthenticationPrincipal(errorOnInvalidType = true) User user, @RequestBody @Valid AgendaAssigneeSaveRequest request){
-        agendaFacade.saveAgendaMember(user, request);
+        agendaFacade.saveAssignee(user, request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

@@ -1,5 +1,6 @@
 package com.a702.hup.application.facade;
 
+import com.a702.hup.application.data.request.AgendaAssigneeSaveRequest;
 import com.a702.hup.application.data.request.AgendaCreateRequest;
 import com.a702.hup.domain.agenda.AgendaService;
 import com.a702.hup.domain.agenda.entity.Agenda;
@@ -41,11 +42,11 @@ public class AgendaFacade {
 
     /**
      * @author 강용민
-     * @date 2024-
-     * @description
+     * @date 2024-04-30
+     * @description 의사결정 담당자 요청
      */
     @Transactional
-    public void saveAgendaMember(User user, com.a702.hup.application.dto.request.AgendaAssigneeSaveRequest request) {
+    public void saveAssignee(User user, AgendaAssigneeSaveRequest request) {
         Member requester = memberService.findById(Integer.parseInt(user.getUsername()));
         Agenda agenda = agendaService.findById(request.getAgendaId());
         issueMemberService.validationRole(agenda.getIssue(),requester);
