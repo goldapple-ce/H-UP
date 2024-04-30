@@ -1,0 +1,16 @@
+version: '3.0'
+
+services:
+  backend:
+    image: muuuumbi/a702
+    container_name: backend
+    env_file:
+      - ./backend/.env
+    ports:
+      - 8081:8081
+    networks:
+      - a702
+      
+networks:
+  a702:
+    external: true
