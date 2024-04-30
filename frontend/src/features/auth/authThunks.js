@@ -10,7 +10,7 @@ export const loginUser = createAsyncThunk(
       console.log(response);
 
       if (response.status === 200) {
-        dispatch(loginSuccess(data.user));
+        dispatch(loginSuccess(response.data.memberId));
       } else {
         dispatch(loginFailure('Invalid credentials'));
       }
