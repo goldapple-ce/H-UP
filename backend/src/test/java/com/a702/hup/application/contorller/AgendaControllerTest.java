@@ -1,6 +1,7 @@
 package com.a702.hup.application.contorller;
 
 import com.a702.hup.application.data.request.AgendaCreateRequest;
+import com.a702.hup.application.data.request.AgendaUpdateRequest;
 import com.a702.hup.application.facade.AgendaFacade;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -49,7 +50,7 @@ class AgendaControllerTest {
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
-                .andDo(document("agenda-save",
+                .andDo(document("save-agenda",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestFields(
@@ -59,7 +60,7 @@ class AgendaControllerTest {
                 ));
     }
     @Test
-    void whenSuccess() throws Exception {
+    void SaveAgendaAssigneeTestWhenSuccess() throws Exception {
         Map<String, Integer> request = new HashMap<>();
         request.put("agendaId", 1);
         request.put("assigneeId", 1);
@@ -69,12 +70,32 @@ class AgendaControllerTest {
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
-                .andDo(document("agenda-assignee-save",
+                .andDo(document("save-agenda-assignee",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestFields(
                                 fieldWithPath("agendaId").type(JsonFieldType.NUMBER).description("의사결정 Id"),
                                 fieldWithPath("assigneeId").type(JsonFieldType.NUMBER).description("담당자 Id")
+                        )
+                ));
+    }
+
+    @Test
+    void updateAgendaTestWhenSuccess() throws Exception {
+        AgendaUpdateRequest request = new AgendaUpdateRequest(1,"수정된 내용","완료");
+
+        mockMvc.perform(RestDocumentationRequestBuilders
+                .put("/agenda").with(csrf())
+                        .content(objectMapper.writeValueAsString(request))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(document("update-agenda-assignee",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestFields(
+                                fieldWithPath("agendaId").type(JsonFieldType.NUMBER).description("의사결정 Id"),
+                                fieldWithPath("content").type(JsonFieldType.STRING).description("수정할 내용"),
+                                fieldWithPath("status").type(JsonFieldType.STRING).description("상태 변경,[ASSIGNED,PROGRESS,COMPLETED,APPROVED]")
                         )
                 ));
     }

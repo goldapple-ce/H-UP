@@ -11,9 +11,32 @@
   "tags" : [ ],
   "paths" : {
     "/agenda" : {
+      "put" : {
+        "tags" : [ "agenda" ],
+        "operationId" : "update-agenda-assignee",
+        "requestBody" : {
+          "content" : {
+            "application/json;charset=UTF-8" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/agenda-1829758783"
+              },
+              "examples" : {
+                "update-agenda-assignee" : {
+                  "value" : "{\r\n  \"agendaId\" : 1,\r\n  \"content\" : \"수정된 내용\",\r\n  \"status\" : \"완료\"\r\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200"
+          }
+        }
+      },
       "post" : {
         "tags" : [ "agenda" ],
-        "operationId" : "agenda-save",
+        "operationId" : "agenda-savesave-agenda",
         "requestBody" : {
           "content" : {
             "application/json;charset=UTF-8" : {
@@ -22,6 +45,9 @@
               },
               "examples" : {
                 "agenda-save" : {
+                  "value" : "{\r\n  \"issueId\" : 1,\r\n  \"content\" : \"의사결정 제공\"\r\n}"
+                },
+                "save-agenda" : {
                   "value" : "{\r\n  \"issueId\" : 1,\r\n  \"content\" : \"의사결정 제공\"\r\n}"
                 }
               }
@@ -38,7 +64,7 @@
     "/agenda/assignee" : {
       "post" : {
         "tags" : [ "agenda" ],
-        "operationId" : "agenda-assignee-save",
+        "operationId" : "save-agenda-assignee",
         "requestBody" : {
           "content" : {
             "application/json;charset=UTF-8" : {
@@ -46,7 +72,7 @@
                 "$ref" : "#/components/schemas/agenda-assignee-831680420"
               },
               "examples" : {
-                "agenda-assignee-save" : {
+                "save-agenda-assignee" : {
                   "value" : "{\r\n  \"agendaId\" : 1,\r\n  \"assigneeId\" : 1\r\n}"
                 }
               }
@@ -105,6 +131,23 @@
           "content" : {
             "type" : "string",
             "description" : "의사결정 내용"
+          }
+        }
+      },
+      "agenda-1829758783" : {
+        "type" : "object",
+        "properties" : {
+          "agendaId" : {
+            "type" : "number",
+            "description" : "의사결정 Id"
+          },
+          "content" : {
+            "type" : "string",
+            "description" : "수정할 내용"
+          },
+          "status" : {
+            "type" : "string",
+            "description" : "상태 변경,[ASSIGNED,PROGRESS,COMPLETED,APPROVED]"
           }
         }
       },
