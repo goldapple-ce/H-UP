@@ -72,4 +72,7 @@ public class AgendaController {
         agendaFacade.deleteAssignee(user, assigneeId);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/{agendaId}")
+    public ResponseEntity<>
 }
