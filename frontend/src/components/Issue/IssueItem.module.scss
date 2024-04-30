@@ -1,0 +1,27 @@
+.issue_item_container {
+    margin: 0 auto;
+    width: 100%;
+    min-width: 300px;
+    border-bottom: 1px solid #333;
+    border-radius: 5px;
+    padding: 20px;
+    margin : 10px ;
+    background-color: white;
+    display: flex;
+
+    p {
+        padding-left: 20px;
+    }
+
+    img {
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        margin-right: -10px;
+        object-fit: cover;
+    }
+
+    &:hover {
+        transform: translatex(2px);
+    }
+}
