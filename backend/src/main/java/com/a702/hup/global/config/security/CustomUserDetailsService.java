@@ -24,14 +24,16 @@ public class CustomUserDetailsService implements UserDetailsService {
      * @description db에서 member 정보 확인 후 UserDetails로 변환
      **/
     @Override
-    public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
+    public SecurityUserDetailsDto loadUserByUsername(String userId) throws UsernameNotFoundException {
         log.debug("[+] CustomUserDetailsService :: loadUserByUsername :: start");
         // get Member
         Member member = memberService.findByUserId(userId);
         MemberDto memberDto = MemberDto.from(member);
-
         SimpleGrantedAuthority grantedAuthority = new SimpleGrantedAuthority(memberDto.role().name());
 
+        log.debug("[+] CustomUserDetailsService :: loadUserByUsername :: memberId : {}", memberDto.memberId());
+        log.debug("[+] CustomUserDetailsService :: loadUserByUsername :: userId : {}", memberDto.userId());
+        log.debug("[+] CustomUserDetailsService :: loadUserByUsername :: name : {}", memberDto.name());
         log.debug("[+] CustomUserDetailsService :: loadUserByUsername :: role : {}", memberDto.role().name());
         log.debug("[+] CustomUserDetailsService :: loadUserByUsername :: end");
         return new SecurityUserDetailsDto(

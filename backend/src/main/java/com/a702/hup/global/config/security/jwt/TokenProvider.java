@@ -1,14 +1,16 @@
 package com.a702.hup.global.config.security.jwt;
 
+import com.a702.hup.global.config.security.CustomUserDetailsService;
 import com.a702.hup.global.error.ErrorCode;
 import com.a702.hup.global.error.exception.BusinessException;
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -34,13 +36,16 @@ public class TokenProvider {
     @Value("${jwt.expiration.refresh}")
     private long REFRESH_EXPIRATION;
 
+    private final CustomUserDetailsService customUserDetailsService;
+
     /**
      * @author 이경태
      * @date 2024-04-25
      * @description 키 생성
      **/
-    public TokenProvider(@Value("${jwt.secret}") String secret) {
+    public TokenProvider(@Value("${jwt.secret}") String secret, CustomUserDetailsService customUserDetailsService) {
         this.SECRET_KEY = Keys.hmacShaKeyFor(secret.getBytes());
+        this.customUserDetailsService = customUserDetailsService;
     }
 
     /**
@@ -80,9 +85,10 @@ public class TokenProvider {
      * @date 2024-04-25
      * @description
      **/
-    public Authentication getAuthentication(Claims claims) {
-        UserDetails principal = new User(claims.getSubject(), "", null);
-        return new UsernamePasswordAuthenticationToken(principal, "", null);
+    public Authentication getAuthentication(String token) {
+        Claims claims = extractAllClaims(token);
+        UserDetails principal = customUserDetailsService.loadUserByUsername(claims.getSubject());
+        return new UsernamePasswordAuthenticationToken(principal, token, principal.getAuthorities());
     }
 
 

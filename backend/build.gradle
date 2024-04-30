@@ -76,6 +76,11 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 }
 
+tasks.named('test') {
+    outputs.dir snippetsDir
+    useJUnitPlatform()
+}
+
 // RESTDOCS
 openapi3 {
     servers = [

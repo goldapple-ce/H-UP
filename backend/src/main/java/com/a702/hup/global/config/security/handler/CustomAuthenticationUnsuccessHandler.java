@@ -38,6 +38,8 @@ public class CustomAuthenticationUnsuccessHandler implements AuthenticationFailu
         log.debug("[+] CustomAuthenticationUnsuccessHandler :: onAuthenticationFailure :: start");
         if(exception instanceof AuthenticationServiceException) {
             throw new BusinessException(ErrorCode.API_ERROR_AUTHENTICATION_FAIL);
+        } else {
+            throw new BusinessException(ErrorCode.API_ERROR_INTERNAL_SERVER_ERROR);
         }
     }
 }
