@@ -1,8 +1,8 @@
 package com.a702.hup.domain.member;
 
-import com.a702.hup.application.dto.request.MemberSignUpRequest;
-import com.a702.hup.application.dto.response.IdCheckResponse;
-import com.a702.hup.application.dto.response.MemberInfoResponse;
+import com.a702.hup.application.data.request.MemberSignUpRequest;
+import com.a702.hup.application.data.response.IdCheckResponse;
+import com.a702.hup.application.data.response.MemberInfoResponse;
 import com.a702.hup.domain.member.entity.Member;
 import com.a702.hup.global.config.security.SecurityUserDetailsDto;
 import com.a702.hup.global.error.ErrorCode;
@@ -103,4 +103,5 @@ public class MemberService {
         log.info("[+] MemberService :: findMemberInfoById :: requested Id : {}, logined Id : {}", memberId, securityUserDetailsDto.memberId());
         return memberId.equals(securityUserDetailsDto.memberId());
     }
+
 }

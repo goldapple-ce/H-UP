@@ -1,4 +1,4 @@
-package com.a702.hup.application.dto.response;
+package com.a702.hup.application.data.response;
 
 import lombok.Builder;
 import lombok.Getter;

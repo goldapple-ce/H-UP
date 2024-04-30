@@ -25,12 +25,15 @@ public class CustomUserDetailsService implements UserDetailsService {
      **/
     @Override
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
+        log.debug("[+] CustomUserDetailsService :: loadUserByUsername :: start");
         // get Member
         Member member = memberService.findByUserId(userId);
         MemberDto memberDto = MemberDto.from(member);
 
         SimpleGrantedAuthority grantedAuthority = new SimpleGrantedAuthority(memberDto.role().name());
 
+        log.debug("[+] CustomUserDetailsService :: loadUserByUsername :: role : {}", memberDto.role().name());
+        log.debug("[+] CustomUserDetailsService :: loadUserByUsername :: end");
         return new SecurityUserDetailsDto(
                 memberDto,
                 Collections.singleton(grantedAuthority)
