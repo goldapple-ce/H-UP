@@ -78,4 +78,16 @@ public class AgendaFacade {
         Member member = memberService.findById(user.getUsername());
         issueMemberService.validationRole(agenda.getIssue(),member);
     }
+
+    /**
+     * @author 강용민
+     * @date 2024-04-30
+     * @description 의사결정 삭제
+     */
+    @Transactional
+    public void delete(User user, int agendaId) {
+        Agenda agenda = agendaService.findById(agendaId);
+        validation(agenda,user);
+        agenda.deleteSoftly();
+    }
 }

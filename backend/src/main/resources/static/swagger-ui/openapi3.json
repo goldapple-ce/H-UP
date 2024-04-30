@@ -61,6 +61,17 @@
         }
       }
     },
+    "/agenda/1" : {
+      "delete" : {
+        "tags" : [ "agenda" ],
+        "operationId" : "delete-agenda-assignee",
+        "responses" : {
+          "200" : {
+            "description" : "200"
+          }
+        }
+      }
+    },
     "/agenda/assignee" : {
       "post" : {
         "tags" : [ "agenda" ],
