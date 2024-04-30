@@ -7,3 +7,8 @@
     grid-template-columns: repeat(auto-fit, minmax(20%, 1fr));
     gap: 20px; /* Adjust spacing between columns as needed */
   }
+
+  .cardDataHandler {
+    display: flex;
+    flex-direction: row;
+  }
