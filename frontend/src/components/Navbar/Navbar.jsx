@@ -33,7 +33,7 @@ const NavBar = () => {
           <li><Link to="/IssuePage"className="navbar-brand text-secondary mr-0">Issue</Link></li>
           <li><div className="btn" onClick={ShowMenuSidebar}>메뉴</div></li>
           <li><div className="btn" onClick={ShowMessengerSidebar}>메신저</div></li>
-          <li><div className="navbar-brand text-secondary mr-0" onClick={dispatch(loginOut())}>로그아웃</div></li>
+          <li><div className="navbar-brand text-secondary mr-0" onClick={dispatch(logout())}>로그아웃</div></li>
         </ul>
       </nav>
     );
