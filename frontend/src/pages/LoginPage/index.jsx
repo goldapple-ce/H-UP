@@ -16,14 +16,14 @@ const LoginPage = (props) => {
   const dispatch = useDispatch();
   const auth = useSelector(state => state.auth);
 
-  const onButtonClick = () => {
+  const onButtonClick = async () => {
     setUserIdError('')
     setPasswordError('')
     const login = async (userId, password) => {
         
       try {
           dispatch(loginUser({userId:userId, password:password}));
-          return {data:'success'};
+          return 'success';
 
           // if (response.status === 200) {
           //     const user = response.data.memberId;
@@ -49,8 +49,7 @@ const LoginPage = (props) => {
       setPasswordError('Please enter a password')
       return
     }
-        const response = login(userId, password);
-        console.log(response);
+        const response = await login(userId, password);
 
         if (response.data === 'success') {
           navigate('/ProjectPage');
