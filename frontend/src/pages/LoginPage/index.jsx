@@ -23,7 +23,7 @@ const LoginPage = (props) => {
         
       try {
           dispatch(loginUser({userId:userId, password:password}));
-
+          console.log('check');
           return 'success';
 
           // if (response.status === 200) {
@@ -51,7 +51,7 @@ const LoginPage = (props) => {
       return
     }
         const response = login(userId, password);
-        
+        console.log(response);
         if (response === 'success') {
           navigate('/ProjectPage');
         }

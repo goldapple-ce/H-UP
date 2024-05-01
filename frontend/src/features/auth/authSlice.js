@@ -9,7 +9,6 @@ export const authSlice = createSlice({
   },
   reducers: {
     loginSuccess: (state, action) => {
-      console.log(action);
       state.isAuthenticated = true;
       state.memberId = action.payload;
     },
