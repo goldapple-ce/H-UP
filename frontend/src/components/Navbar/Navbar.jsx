@@ -21,6 +21,7 @@ const NavBar = () => {
   }
 
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+  const dispatch = useDispatch();
 
   if (isAuthenticated) {
     return (
