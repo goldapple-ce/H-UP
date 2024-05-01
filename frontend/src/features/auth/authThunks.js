@@ -7,7 +7,6 @@ export const loginUser = createAsyncThunk(
   async (credentials, { dispatch }) => {
     try {
       const response = await axios.post('api/member/login', credentials);
-      console.log(response);
 
       if (response.status === 200) {
         dispatch(loginSuccess(credentials.userId));
