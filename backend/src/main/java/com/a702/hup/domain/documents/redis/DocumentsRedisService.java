@@ -91,13 +91,40 @@ public class DocumentsRedisService {
     /**
      * @author 손현조
      * @date 2024-04-28
-     * @description 문서를 사용중인 멤버 제거, 현재 사용중인 멤버들 정보 (Id, 이름, 이미지 url) 반환
+     * @description
+     *      - 문서를 사용중인 멤버 제거, 현재 사용중인 멤버들 정보 (Id, 이름, 이미지 url) 반환
+     *      - 문서를 사용중인 마지막 멤버가 연결을 종료하면, 문서 내용 영구 저장
      **/
     public DocumentsMembersResponse removeMember(String documentsId, DocumentsMemberInfo memberDto) {
         ActiveDocumentsMembersRedis activeDocumentsMembersRedis = activeDocumentsMembersRedisRepository.findById(documentsId)
                 .orElseThrow(() -> new DocumentException(ErrorCode.API_ERROR_ACTIVE_DOCUMENT_MEMBER_NOT_FOUND));
 
         activeDocumentsMembersRedis.removeMember(memberDto);
+        if (activeDocumentsMembersRedis.isDocumentMemberEmpty()) {
+            documentsMongoService.save(documentsId, getLatestContent(documentsId));
+        }
         return DocumentsMembersResponse.from(activeDocumentsMembersRedisRepository.save(activeDocumentsMembersRedis));
     }
+
+    /**
+     * @author 손현조
+     * @date 2024-04-30
+     * @description 최근 문서 내용 Redis 에서 가져오기
+     **/
+    private String getLatestContent(String documentsId) {
+        return findDocumentRedisById(documentsId).getContent();
+    }
+
+    /**
+     * @author 손현조
+     * @date 2024-04-30
+     * @description Redis 에서 문서 조회
+     **/
+    public DocumentsRedis findDocumentRedisById(String documentsId) {
+        return documentsRedisRepository.findById(documentsId).orElseThrow(
+                () -> new DocumentException(ErrorCode.API_ERROR_DOCUMENT_NOT_FOUND)
+        );
+    }
+
+
 }
