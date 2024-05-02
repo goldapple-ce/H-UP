@@ -1,13 +1,14 @@
 import React from 'react'
 import styles from './IssueForm.module.scss'
 import IssueItemContainer from "./IssueItemContainer";
-import { issueDummyList } from '../../test/issueTest';
+import { issueDummyList } from '../../test/issueData';
 
 const IssueForm = () => {
 
     // const [issueList, setIssueList] = React.useState([]);
     // const { startLoading, finishLoading } = MyLayout.useLoading();
     // const { openDialog } = MyLayout.useDialog();
+    
 
     const issueList = issueDummyList;
 
