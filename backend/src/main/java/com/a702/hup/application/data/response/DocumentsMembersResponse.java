@@ -6,19 +6,19 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.util.List;
+import java.util.Set;
 
 @Getter
 @Builder
 @AllArgsConstructor
 public class DocumentsMembersResponse {
-    private Integer documentId;
-    private List<DocumentsMemberInfo> documentsMemberInfoList;
+    private Integer documentsId;
+    private Set<DocumentsMemberInfo> documentsMemberInfoSet;
 
     public static DocumentsMembersResponse from(ActiveDocumentsMembersRedis activeDocumentsMembersRedis) {
         return DocumentsMembersResponse.builder()
-                .documentId(Integer.parseInt(activeDocumentsMembersRedis.getDocumentsId()))
-                .documentsMemberInfoList(activeDocumentsMembersRedis.getMemberInfoList())
+                .documentsId(Integer.parseInt(activeDocumentsMembersRedis.getDocumentsId()))
+                .documentsMemberInfoSet(activeDocumentsMembersRedis.getMemberInfoSet())
                 .build();
     }
 }
