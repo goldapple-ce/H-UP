@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import styles from "./MainTab.module.scss"
 import IssueForm from "../Issue/IssueForm";
-import Calendar from "../Calendar/Calendar";
+import MyCalendar from "../Calendar/Calendar";
 import Kanban from "../Kanban/Kanban";
 import { RecoilRoot } from "recoil";
 
@@ -58,7 +58,7 @@ const MainTab = () => {
                     <label className={styles.tab__label} for="tab-5">캘린더</label>
                     
                     <div className={styles.tab__content}>
-                        <Calendar/>
+                        <MyCalendar/>
                     </div> 
                 </div>
             
