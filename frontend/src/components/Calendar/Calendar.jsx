@@ -43,7 +43,6 @@ const MyCalendar = () => {
       [setMyEvents]
     )
 
-
     const handleClick = (issue) => {
       navigate(`/issue/${issue.id}`)
     }
@@ -58,12 +57,29 @@ const MyCalendar = () => {
       )
     }
 
+    // event 색 변경
+    const eventStyleGetter = (event, start, end, isSelected) => {
+      let newStyle = {
+        backgroundColor: "lightgreen",
+        color: 'black',
+        borderRadius: "20px",
+      };
+      if (event.isMine){
+        newStyle.backgroundColor = "green"
+      }
+      return {
+        className: "",
+        style: newStyle
+      };
+    }
+  
     return (
         <DragAndDropCalendar
           style={{ height: 500 }}
           components={{
             toolbar: Toolbar, // 툴바 커스터마이징
           }}
+          eventPropGetter={eventStyleGetter}
           defaultView={Views.MONTH}
           events={myEvents}
           localizer={localizer}
