@@ -50,7 +50,7 @@ const LoginPage = (props) => {
       return
     }
         const response = await login(userId, password);
-        console.log(response);
+
         if (response === 'success') {
           navigate('/ProjectPage');
         }
