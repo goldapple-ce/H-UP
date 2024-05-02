@@ -1,15 +1,20 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useEditor, EditorContent, Editor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Placeholder from '@tiptap/extension-placeholder';
 import Link from '@tiptap/extension-link';
 import Image from '@tiptap/extension-image';
-import { Collaboration } from '@tiptap/extension-collaboration';
-import { CollaborationCursor } from '@tiptap/extension-collaboration-cursor';
-import { WebsocketProvider } from 'y-websocket';
-import * as Y from 'yjs';
+// import { Collaboration } from '@tiptap/extension-collaboration';
+// import { CollaborationCursor } from '@tiptap/extension-collaboration-cursor';
+// import { WebsocketProvider } from 'y-websocket';
+import { Client } from '@stomp/stompjs';
+import SockJS from 'sockjs-client';
+import { useParams } from 'react-router-dom';
 
 function IssueEditorPage() {
+    const {id} = useParams();
+    const [client, setClient] = useState(null);
+    
     const editor = useEditor({
         extensions: [
             StarterKit,
@@ -17,20 +22,21 @@ function IssueEditorPage() {
               placeholder: 'Start typing something...' // 플레이스홀더 텍스트 설정
             }),
             Link,
-            Image,
-            Collaboration.configure({
-              document: new Y.Doc(),
-              field: 'tiptap',  // This should match the room name used on the server-side
-            }),
-            CollaborationCursor.configure({
-              provider: null, // We will configure this in the useEffect
-            }),
+            Image
         ],
         // content: '<p>Hello World!</p>',
         // onUpdate: ({ editor }) => {
         //   const html = editor.getHTML();
         //   console.log(html);  // 실시간으로 변경된 내용을 콘솔에 출력
         // },
+        onUpdate: ({ editor }) => {
+          // 변화가 사용자에 의해 발생했다면 서버에 전송
+          const json = editor.getJSON();
+          client.publish({
+              destination: `/pub/document`,
+              body: JSON.stringify({ id, content: json }),
+          });
+        },
         editorProps: {
           attributes: {
             class: 'my-editor'
@@ -39,35 +45,46 @@ function IssueEditorPage() {
       });
     
       useEffect(() => {
-        if (editor) {
-          const ydoc = editor.extensionManager.extensions.find(extension => extension.name === 'collaboration').options.document;
-          const provider = new WebsocketProvider('wss://your-websocket-server.com', 'your-room-id', ydoc);
-    
-          // Update the cursor extension's provider
-          const cursorExtension = editor.extensionManager.extensions.find(extension => extension.name === 'collaborationCursor');
-          cursorExtension.options.provider = provider;
-    
-          return () => {
-            provider.disconnect();
-          };
-        }
-      }, [editor]);
+        // STOMP client setup
+        const sock = new SockJS('ws://k10a702.p.ssafy.io:8081/api/ws/1');
+        const stompClient = new Client({
+            webSocketFactory: () => sock,
+            onConnect: () => {
+                console.log("Connected to STOMP server");
 
-      if (!editor) {
-        return <div>Loading...</div>;
-      }
-    
-      return (
-      <div>
-        <div>
-          <h1>Title</h1>
-        </div>
+                stompClient.subscribe(`/sub/document`, (message) => {
+                  const { content } = JSON.parse(message.body);
+                  if (editor && content) {
+                      editor.commands.setContent(content, false); // 변경사항 적용
+                  }
+              });
 
+
+                stompClient.send('/pub/document', {}, JSON.stringify({ documentId: 'doc1' }));
+            },
+            onDisconnect: () => {
+                console.log("Disconnected from STOMP server");
+            }
+        });
+
+        stompClient.activate();
+        setClient(stompClient);
+
+        return () => {
+            stompClient.deactivate();
+        };
+    }, [editor]);
+
+    const handleUpdate = (props) => {
+        const json = editor.getJSON();
+        client.send('/pub/document', {}, JSON.stringify({ documentId: 'doc1', content: json }));
+    };
+
+    return (
         <div>
-          <EditorContent editor={editor} />
+            <EditorContent editor={editor} onUpdate={handleUpdate} />
         </div>
-      </div>  
-      )
+    );
 }
 
 export default IssueEditorPage;
