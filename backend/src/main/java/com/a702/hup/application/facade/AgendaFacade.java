@@ -3,6 +3,7 @@ package com.a702.hup.application.facade;
 import com.a702.hup.application.data.request.AgendaAssigneeSaveRequest;
 import com.a702.hup.application.data.request.AgendaCreateRequest;
 import com.a702.hup.application.data.request.AgendaUpdateRequest;
+import com.a702.hup.application.data.response.AgendaInfoResponse;
 import com.a702.hup.domain.agenda.AgendaService;
 import com.a702.hup.domain.agenda.entity.Agenda;
 import com.a702.hup.domain.agenda.entity.AgendaStatus;
@@ -102,4 +103,6 @@ public class AgendaFacade {
         issueMemberService.validationRole(assignee.getAgenda().getIssue(), member);
         assignee.deleteSoftly();
     }
+
+
 }
