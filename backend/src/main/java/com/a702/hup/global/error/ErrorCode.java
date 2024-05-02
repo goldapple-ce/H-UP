@@ -21,6 +21,9 @@ public enum ErrorCode {
     // Document
     API_ERROR_DOCUMENT_NOT_FOUND(400, "D001", "문서를 찾을 수 없음"),
 
+    // Document Member
+    API_ERROR_ACTIVE_DOCUMENT_MEMBER_NOT_FOUND(400, "DM001", "사용자가 사용중인 문서를 찾을 수 없음"),
+
     // Agenda
     API_ERROR_AGENDA_NOT_FOUND(400,"A001","의사결정을 찾을 수 없음"),
     API_ERROR_AGENDA_MEMBER_NOT_FOUND(400,"A002","의사결정 담당자가 아닙니다"),
