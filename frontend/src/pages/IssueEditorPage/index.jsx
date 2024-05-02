@@ -73,14 +73,10 @@ function IssueEditorPage() {
         };
     }, [editor]);
 
-    const handleUpdate = (props) => {
-        const json = editor.getJSON();
-        client.send('/pub/document', {}, JSON.stringify({ id: 'doc1', content: json }));
-    };
 
     return (
         <div>
-            <EditorContent editor={editor} onUpdate={handleUpdate} />
+            <EditorContent editor={editor} />
         </div>
     );
 }
