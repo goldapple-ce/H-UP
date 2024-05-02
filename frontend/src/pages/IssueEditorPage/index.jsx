@@ -14,7 +14,7 @@ import { useParams } from 'react-router-dom';
 function IssueEditorPage() {
     const {id} = useParams();
     const [client, setClient] = useState(null);
-    
+
     const editor = useEditor({
         extensions: [
             StarterKit,
@@ -59,8 +59,6 @@ function IssueEditorPage() {
                   }
               });
 
-
-                stompClient.send('/pub/document', {}, JSON.stringify({ documentId: 'doc1' }));
             },
             onDisconnect: () => {
                 console.log("Disconnected from STOMP server");
