@@ -1,7 +1,7 @@
 package com.a702.hup.application.data.response;
 
 import com.a702.hup.application.data.dto.DocumentsMemberInfo;
-import com.a702.hup.domain.document.redis.entity.ActiveDocumentsMembersRedis;
+import com.a702.hup.domain.documents.redis.entity.ActiveDocumentsMembersRedis;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,8 +17,8 @@ public class DocumentsMembersResponse {
 
     public static DocumentsMembersResponse from(ActiveDocumentsMembersRedis activeDocumentsMembersRedis) {
         return DocumentsMembersResponse.builder()
-                .documentId(Integer.parseInt(activeDocumentsMembersRedis.getDocumentId()))
-                .documentsMemberInfoList(activeDocumentsMembersRedis.getMemberDtoList())
+                .documentId(Integer.parseInt(activeDocumentsMembersRedis.getDocumentsId()))
+                .documentsMemberInfoList(activeDocumentsMembersRedis.getMemberInfoList())
                 .build();
     }
 }
