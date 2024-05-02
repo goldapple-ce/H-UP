@@ -113,7 +113,6 @@ function Card({ item }) {
        }}
       onClick={handleClick}
     >
-      <span></span>
       <div className={styles.cardHeaderWrap}>
         <h5>{item.title}</h5>
         <p>{item.content}</p>
