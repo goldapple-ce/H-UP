@@ -42,7 +42,9 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
         // token 검증 제외 api path
         List<String> apiList = Arrays.asList(
-                "/api/swagger-ui"
+                "/api/swagger-ui",
+                "/api/ws",              // 웹소켓
+                "/api/member/signup"    // 회원가입
         );
 
         // 제외 api인지 확인
