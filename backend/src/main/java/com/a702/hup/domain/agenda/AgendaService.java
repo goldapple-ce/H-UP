@@ -1,16 +1,14 @@
 package com.a702.hup.domain.agenda;
 
+import com.a702.hup.application.data.response.AgendaInfoResponse;
 import com.a702.hup.domain.agenda.entity.Agenda;
 import com.a702.hup.domain.issue.entity.Issue;
 import com.a702.hup.domain.member.entity.Member;
-import com.a702.hup.global.entity.BaseEntity;
 import com.a702.hup.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -45,5 +43,15 @@ public class AgendaService {
         return agendaRepository.findByIdAndDeletedAtIsNull(id).orElseThrow(() ->
                 new AgendaException(ErrorCode.API_ERROR_AGENDA_NOT_FOUND)
         );
+    }
+
+    /**
+     * @author 강용민
+     * @date 2024-05-02
+     * @description Id별 의사결정 가져오기
+     */
+    public AgendaInfoResponse getAgendaInfo(int agendaId) {
+        Agenda agenda = this.findById(agendaId);
+        return AgendaInfoResponse.from(agenda);
     }
 }
