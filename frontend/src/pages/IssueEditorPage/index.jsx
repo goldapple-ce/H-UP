@@ -46,7 +46,7 @@ function IssueEditorPage() {
     
       useEffect(() => {
         // STOMP client setup
-        const sock = new SockJS(`api/ws/${id}`);
+        const sock = new SockJS(`https://h-up.site:8081/api/ws/${id}`);
         const stompClient = new Client({
             webSocketFactory: () => sock,
             onConnect: () => {
