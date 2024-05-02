@@ -9,12 +9,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "documents")
 public class DocumentsMongo {
     @Id
-    private String documentsId;
+    private String _id;
     private String content;
 
     @Builder
-    public DocumentsMongo(String documentsId) {
-        this.documentsId = documentsId;
+    public DocumentsMongo(String _id) {
+        this._id = _id;
         content = "";
     }
 

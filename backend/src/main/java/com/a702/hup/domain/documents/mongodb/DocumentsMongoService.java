@@ -31,7 +31,7 @@ public class DocumentsMongoService {
      **/
     private DocumentsMongo findOrCreateDocuments(String documentsId) {
         return documentsMongoRepository.findById(documentsId).orElseGet(
-                () -> DocumentsMongo.builder().documentsId(documentsId).build()
+                () -> DocumentsMongo.builder()._id(documentsId).build()
         );
     }
 
