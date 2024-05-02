@@ -1,4 +1,4 @@
-package com.a702.hup.domain.document.redis.entity;
+package com.a702.hup.domain.documents.redis.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,13 +10,13 @@ import org.springframework.data.redis.core.RedisHash;
 @Getter
 @NoArgsConstructor
 @RequiredArgsConstructor
-@RedisHash(value = "document")
+@RedisHash(value = "documents")
 public class DocumentsRedis {
     @Id
     @NonNull
-    private String documentId;
+    private String documentsId;
     @NonNull
-    private String senderId;
+    private String memberId;
     private String content = "";
 
     public void updateContent(String content) {

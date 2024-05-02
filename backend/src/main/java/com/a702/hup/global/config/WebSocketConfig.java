@@ -1,4 +1,4 @@
-package com.a702.hup.domain.document;
+package com.a702.hup.global.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
@@ -19,7 +19,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
      **/
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws/{documentId}")
+        registry.addEndpoint("/ws/{documentsId}")
                 .setAllowedOriginPatterns("*")
                 .withSockJS()
                 .setHeartbeatTime(5000); // 5초 동안 메시지 교환이 없으면 세션 종료;
