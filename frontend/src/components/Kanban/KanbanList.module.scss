@@ -15,6 +15,9 @@
     justify-content: center;
     flex-wrap: wrap;
     overflow-y: auto;
+    justify-content: center;
+    text-align: center;
+    
 }
 
 .movable_item {
@@ -31,4 +34,11 @@
 
 .kanbanListWrap {
     width: 250px;
+
+    top: 0; /* 띠 요소의 상단 위치 */
+    left: 0; /* 띠 요소의 왼쪽 위치 */
+    width: 100%; /* 띠 요소의 너비 */
+    height: 7px; /* 띠 요소의 높이 */
+    background-color: rgb(195, 244, 255); /* 띠 요소의 색상 */
+    border-radius: 7px 0 0 7px;
 }
