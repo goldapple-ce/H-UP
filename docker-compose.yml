@@ -2,7 +2,7 @@ version: '3.0'
 
 services:
   backend:
-    image: muuuumbi/a702:backend
+    image: muuuumbi/a702-backend:latest
     container_name: backend
     env_file:
       - ./backend/.env
@@ -12,7 +12,7 @@ services:
       - a702
 
   frontend:
-    image: muuuumbi/a702:frontend
+    image: muuuumbi/a702-frontend:latest
     container_name: frontend
     ports:
       - 3000:3000
