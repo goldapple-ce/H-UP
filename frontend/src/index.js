@@ -6,13 +6,17 @@ import reportWebVitals from './reportWebVitals';
 import { RecoilRoot } from 'recoil';
 import { Provider } from 'react-redux';
 import { store } from './app/store';
+import { QueryClientProvider, QueryClient } from 'react-query';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+const queryClient = new QueryClient();
 root.render(
   <React.StrictMode>
     <Provider store={store}>
       <RecoilRoot>
+      <QueryClientProvider client={queryClient}>
         <App />
+        </QueryClientProvider>
       </RecoilRoot>
     </Provider>
   </React.StrictMode>
