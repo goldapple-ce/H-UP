@@ -3,7 +3,9 @@ package com.a702.hup.application.contorller;
 import com.a702.hup.application.data.request.AgendaAssigneeSaveRequest;
 import com.a702.hup.application.data.request.AgendaCreateRequest;
 import com.a702.hup.application.data.request.AgendaUpdateRequest;
+import com.a702.hup.application.data.response.AgendaInfoResponse;
 import com.a702.hup.application.facade.AgendaFacade;
+import com.a702.hup.domain.agenda.AgendaService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/agenda")
 public class AgendaController {
     private final AgendaFacade agendaFacade;
+    private final AgendaService agendaService;
 
     /**
      * @author 강용민
@@ -73,6 +76,14 @@ public class AgendaController {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * @author 강용민
+     * @date 2024-05-02
+     * @description 의사결정 정보 가져오기
+     */
     @GetMapping("/{agendaId}")
-    public ResponseEntity<>
+    public ResponseEntity<AgendaInfoResponse> getAgendaInfo(@PathVariable(name = "agendaId") int agendaId){
+        AgendaInfoResponse response = agendaService.getAgendaInfo(agendaId);
+        return ResponseEntity.ok(response);
+    }
 }
