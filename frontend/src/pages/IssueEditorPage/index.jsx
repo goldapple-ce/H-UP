@@ -46,7 +46,7 @@ function IssueEditorPage() {
     
       useEffect(() => {
         // STOMP client setup
-        const sock = new SockJS('ws://k10a702.p.ssafy.io:8081/api/ws/1');
+        const sock = new SockJS('https://h-up.site:8081/api/ws/1');
         const stompClient = new Client({
             webSocketFactory: () => sock,
             onConnect: () => {
@@ -75,7 +75,7 @@ function IssueEditorPage() {
 
     const handleUpdate = (props) => {
         const json = editor.getJSON();
-        client.send('/pub/document', {}, JSON.stringify({ documentId: 'doc1', content: json }));
+        client.send('/pub/document', {}, JSON.stringify({ id: 'doc1', content: json }));
     };
 
     return (
