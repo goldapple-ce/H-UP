@@ -1,4 +1,4 @@
-package com.a702.hup.application.data.response;
+package com.a702.hup.application.data.dto;
 
 import com.a702.hup.domain.member.entity.Member;
 import lombok.AccessLevel;
@@ -9,12 +9,12 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class MemberInfoResponse {
+public class MemberInfo {
     private Integer id;
     private String name;
     private String img;
 
-    public static MemberInfoResponse from(Member member) {
-        return new MemberInfoResponse(member.getId(), member.getName(), member.getImg());
+    public static MemberInfo from(Member member) {
+        return new MemberInfo(member.getId(), member.getName(), member.getImg());
     }
 }

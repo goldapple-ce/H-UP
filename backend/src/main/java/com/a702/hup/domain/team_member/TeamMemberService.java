@@ -20,6 +20,15 @@ public class TeamMemberService {
     /**
      * @author 이경태
      * @date 2024-05-03
+     * @description 팀 소속 멤버 전원 검색
+     **/
+    public List<TeamMember> findAllInTeam(Team team) {
+        return teamMemberRepository.findAllByTeam(team);
+    }
+
+    /**
+     * @author 이경태
+     * @date 2024-05-03
      * @description 팀에 멤버 추가
      **/
     @Transactional
@@ -30,11 +39,21 @@ public class TeamMemberService {
                 .build());
     }
 
+    /**
+     * @author 이경태
+     * @date 2024-05-03
+     * @description teamMember 일괄 저장
+     **/
     @Transactional
     public void saveAll(List<TeamMember> teamMembers) {
         teamMemberRepository.saveAll(teamMembers);
     }
 
+    /**
+     * @author 이경태
+     * @date 2024-05-03
+     * @description 팀 소속 여부 체크
+     **/
     public boolean isMember(Member member, Team team) {
         return teamMemberRepository.existsByTeamAndMember(team, member);
     }
