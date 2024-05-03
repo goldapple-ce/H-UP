@@ -1,0 +1,47 @@
+// EditorPage.scss
+.editor_page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    min-height: 100vh;
+    padding: 20px;
+    background-color: #f4f4f4;
+  
+    .editor_header {
+      width: 100%;
+      text-align: center;
+      padding: 10px 0;
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  
+      h1 {
+        margin: 0;
+        font-size: 24px;
+        color: #333;
+      }
+    }
+  
+    .editor_container {
+      width: 80%;
+      max-width: 960px;
+      margin-top: 20px;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  
+      .tiptap_editor {
+        padding: 20px;
+        min-height: 300px;
+        line-height: 1.6;
+        font-size: 16px;
+        color: #333;
+  
+        &:focus {
+          outline: none;
+          border: none;
+        }
+      }
+    }
+  }
+  
