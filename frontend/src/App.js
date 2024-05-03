@@ -10,6 +10,7 @@ import Footer from './components/Footer/Footer';
 import MenuSidebar from './components/MenuSidebar/MenuSidebar';
 import MessengerSidebar from './components/MessengerSidebar/MessengerSidebar';
 import PrivateRoute from './features/auth/PrivateRoute';
+import PrivateRouteLogin from './features/auth/PrivateRouteLogin';
 
 function App() {
   return (
@@ -18,7 +19,9 @@ function App() {
       <MenuSidebar/>
       <MessengerSidebar/>
       <Routes>
-        <Route path='/LoginPage' element={<LoginPage/>} />
+        <Route element={<PrivateRouteLogin/>}>
+          <Route path='/LoginPage' element={<LoginPage/>} />
+        </Route>
         <Route element={<PrivateRoute/>}>
         <Route path='/' element={<Layout />}>
           <Route index element={<ProjectPage />} />
