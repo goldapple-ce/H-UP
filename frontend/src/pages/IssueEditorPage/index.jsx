@@ -50,9 +50,10 @@ function IssueEditorPage() {
 
                 stompClient.subscribe(`/sub/document/${id}`, (message) => {
                   const { content } = JSON.parse(message.body);
+                  console.log(content);
                   if (editor && content) {
                       editor.commands.setContent(content, false); // 변경사항 적용
-                      console.log(content);
+                      console.log('변경'+content);
                   }
               });
 
