@@ -28,6 +28,7 @@ function IssueEditorPage() {
         onUpdate: ({ editor }) => {
           // 변화가 사용자에 의해 발생했다면 서버에 전송
           const json = editor.getJSON();
+          console.log('변경 추적:' + json);
           client.publish({
               destination: `/pub/document`,
               body: JSON.stringify({ id, content: json }),
