@@ -49,7 +49,7 @@ function IssueEditorPage() {
                 console.log("Connected to STOMP server");
 
                 stompClient.subscribe(`/sub/document/${id}`, (message) => {
-                  const { content } = JSON.parse(message.body);
+                  const content = JSON.parse(message.body);
                   if (editor && content) {
                       editor.commands.setContent(content, false); // 변경사항 적용
                   }
