@@ -22,8 +22,7 @@ import org.springframework.security.config.annotation.web.configurers.HttpBasicC
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.access.intercept.AuthorizationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -89,8 +88,8 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 // filter 추가
-                .addFilterBefore(jwtAuthorizationFilter, BasicAuthenticationFilter.class)
-                .addFilterBefore(customAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthorizationFilter, AuthorizationFilter.class)
+                .addFilterBefore(customAuthenticationFilter, JwtAuthorizationFilter.class)
 
                 // 인증 / 인가 과정 중의 에러를 처리
 //                .exceptionHandling(exceptions -> exceptions

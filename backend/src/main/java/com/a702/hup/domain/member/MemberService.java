@@ -13,10 +13,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Slf4j
+@Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-@Service
 public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
@@ -30,10 +32,6 @@ public class MemberService {
     public void signUp(MemberSignUpRequest memberSignUpRequest) {
         save(memberSignUpRequest
                 .toEntity(passwordEncoder.encode(memberSignUpRequest.getPassword())));
-    }
-
-    public void signUp(Member member){
-        save(member);
     }
 
     /**
@@ -72,15 +70,6 @@ public class MemberService {
 
     /**
      * @author 이경태
-     * @date 2024-04-28
-     * @description repository save
-     **/
-    private void save(Member member) {
-        memberRepository.save(member);
-    }
-
-    /**
-     * @author 이경태
      * @date 2024-04-29
      * @description Id로 member 찾는 함수
      **/
@@ -89,8 +78,21 @@ public class MemberService {
             .orElseThrow(() -> new MemberException(ErrorCode.API_ERROR_MEMBER_NOT_FOUND));
     }
 
+    public List<Member> findAll(List<Integer> memberIdList) {
+        return memberRepository.findByIdIsInAndDeletedAtIsNull(memberIdList);
+    }
+
     public Member findById(String id){
         return this.findById(Integer.parseInt(id));
+    }
+
+    /**
+     * @author 이경태
+     * @date 2024-04-28
+     * @description repository save
+     **/
+    private void save(Member member) {
+        memberRepository.save(member);
     }
 
     /**
@@ -103,5 +105,4 @@ public class MemberService {
         log.info("[+] MemberService :: findMemberInfoById :: requested Id : {}, logined Id : {}", memberId, securityUserDetailsDto.memberId());
         return memberId.equals(securityUserDetailsDto.memberId());
     }
-
 }
