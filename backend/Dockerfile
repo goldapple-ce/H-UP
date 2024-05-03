@@ -1,4 +1,4 @@
-FROM openjdk:17-jdk AS builder
+FROM openjdk:17-jdk-alpine AS builder
 
 # necessary files copy
 COPY gradlew .
