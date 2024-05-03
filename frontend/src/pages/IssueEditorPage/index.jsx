@@ -12,7 +12,7 @@ import { useParams } from 'react-router-dom';
 import styles from './IssueEditorPage.module.scss';
 
 function IssueEditorPage() {
-    const id = useParams();
+    const {id} = useParams();
     const [client, setClient] = useState(null);
 
     const editor = useEditor({
@@ -28,12 +28,10 @@ function IssueEditorPage() {
         onUpdate: ({ editor }) => {
           // 변화가 사용자에 의해 발생했다면 서버에 전송
           const json = editor.getJSON();
-          console.log(json);
           client.publish({
               destination: `/pub/document`,
-              body: JSON.stringify({ id, content: json }),
+              body: JSON.stringify({ content: json }),
           });
-          console.log(client);
         },
         editorProps: {
           attributes: {
@@ -52,10 +50,8 @@ function IssueEditorPage() {
 
                 stompClient.subscribe(`/sub/document/${id}`, (message) => {
                   const { content } = JSON.parse(message.body);
-                  console.log(content);
                   if (editor && content) {
                       editor.commands.setContent(content, false); // 변경사항 적용
-                      console.log('변경'+content);
                   }
               });
 
