@@ -28,13 +28,11 @@ const NavBar = () => {
     return (
       <nav>
         <ul>
-          <li><Link to="/ProjectPage" className="navbar-brand text-primary mr-0">H-UP</Link></li>
-          {/* <li><Link to="/ProjectPage" className="navbar-brand text-secondary mr-0">Home</Link></li> */}
-          <li><Link to="/ProjectPage" className="navbar-brand text-secondary mr-0">Project</Link></li>
-          <li><Link to="/IssuePage"className="navbar-brand text-secondary mr-0">Issue</Link></li>
+          <li><Link to="/" className="navbar-brand text-primary mr-0">H-UP</Link></li>
+          <li><Link to="/" className="navbar-brand text-secondary mr-0">Project</Link></li>
           <li><div className="btn" onClick={ShowMenuSidebar}>메뉴</div></li>
           <li><div className="btn" onClick={ShowMessengerSidebar}>메신저</div></li>
-          <li><div className="btn" onClick={()=> {dispatch(logout()); navigate('/')}}>로그아웃</div></li>
+          <li><div className="btn" onClick={()=> {dispatch(logout()); navigate('/LoginPage')}}>로그아웃</div></li>
         </ul>
       </nav>
     );
@@ -42,7 +40,7 @@ const NavBar = () => {
     return (
       <nav>
         <ul>
-          <li><Link to="/" className="navbar-brand text-primary mr-0">H-UP</Link></li>
+          <li><Link to="/LoginPage" className="navbar-brand text-primary mr-0">H-UP</Link></li>
         </ul>
       </nav>
     );
