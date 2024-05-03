@@ -26,7 +26,7 @@ function IssueEditorPage() {
           // 변화가 사용자에 의해 발생했다면 서버에 전송
           const json = editor.getJSON();
           client.publish({
-              destination: `/pub/document`,
+              destination: `/pub/documents`,
               body: JSON.stringify({ content: json }),
           });
         },
@@ -45,7 +45,7 @@ function IssueEditorPage() {
             onConnect: () => {
                 console.log("Connected to STOMP server");
 
-                stompClient.subscribe(`/sub/document/${id}`, (message) => {
+                stompClient.subscribe(`/sub/documents/${id}`, (message) => {
                   const content = JSON.parse(message.body);
                   editor.commands.setContent(content, false); // 변경사항 적용
               });
