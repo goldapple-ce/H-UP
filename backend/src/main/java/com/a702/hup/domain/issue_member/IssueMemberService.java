@@ -4,6 +4,7 @@ import com.a702.hup.domain.agenda.AgendaService;
 import com.a702.hup.domain.issue.IssueException;
 import com.a702.hup.domain.issue.IssueService;
 import com.a702.hup.domain.issue.entity.Issue;
+import com.a702.hup.domain.issue_member.entity.IssueMember;
 import com.a702.hup.domain.member.MemberService;
 import com.a702.hup.domain.member.entity.Member;
 import com.a702.hup.global.error.ErrorCode;
@@ -33,5 +34,16 @@ public class IssueMemberService {
                 issueMemberRepository.existsByIssueAndMemberAndDeletedAtIsNull(issue, member)) {
             throw new IssueException(ErrorCode.API_ERROR_ISSUE_NOT_ROLE);
         }
+    }
+
+    @Transactional
+    public IssueMember save(Issue issue, Member member) {
+        IssueMember issueMember = issueMemberRepository.findByIssueAndMember(issue,member).orElseGet(()->
+            issueMemberRepository.save(IssueMember.builder()
+                    .issue(issue)
+                    .member(member).build())
+        );
+        issueMember.undoDeletion();
+        return issueMember;
     }
 }

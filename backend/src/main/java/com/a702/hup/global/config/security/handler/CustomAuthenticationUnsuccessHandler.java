@@ -35,6 +35,7 @@ public class CustomAuthenticationUnsuccessHandler implements AuthenticationFailu
             HttpServletResponse response,
             AuthenticationException exception
     ) throws IOException, ServletException {
+        // todo : throw가 아닌 response 변경으로 교체 필요
         log.debug("[+] CustomAuthenticationUnsuccessHandler :: onAuthenticationFailure :: start");
         if(exception instanceof AuthenticationServiceException) {
             throw new BusinessException(ErrorCode.API_ERROR_AUTHENTICATION_FAIL);

@@ -9,4 +9,6 @@ import java.util.Optional;
 
 interface IssueMemberRepository extends JpaRepository<IssueMember,Integer> {
     boolean existsByIssueAndMemberAndDeletedAtIsNull(Issue issue, Member member);
+
+    Optional<IssueMember> findByIssueAndMember(Issue issue, Member member);
 }
