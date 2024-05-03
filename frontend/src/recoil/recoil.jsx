@@ -27,7 +27,38 @@ export const issueListState = atom({
           src: "https://images.unsplash.com/photo-1455504490126-80ed4d83b3b9?ixlib=rb-1.2.1&auto=format&fit=crop&w=2250&q=80",
           alt: 4,
       }]
-    }],
+    },
+    {
+      id: 1,
+      title: "title",
+      content: 'content',
+      category: '선택됨',
+      imageList: [{
+          id: 1,
+          src: "https://images.unsplash.com/photo-1491349174775-aaafddd81942?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80",
+          alt: 1,
+      }, {
+          id: 2,
+          src: "https://images.unsplash.com/photo-1476657680631-c07285ff2581?ixlib=rb-1.2.1&auto=format&fit=crop&w=2210&q=80",
+          alt: 2,
+      }]
+    },
+    {
+      id: 2,
+      title: "title",
+      content: 'content',
+      category: '완료',
+      imageList: [{
+          id: 1,
+          src: "https://images.unsplash.com/photo-1491349174775-aaafddd81942?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80",
+          alt: 1,
+      }, {
+          id: 4,
+          src: "https://images.unsplash.com/photo-1455504490126-80ed4d83b3b9?ixlib=rb-1.2.1&auto=format&fit=crop&w=2250&q=80",
+          alt: 4,
+      }]
+    },
+  ],
 });
 
 // 이슈 List에 대한 Selector
@@ -79,4 +110,10 @@ const filteredIssueListState = selector({
         return list;
     }
   },
+});
+
+// 캘린더 데이터에 대한 atom
+export const calendarData = atom({
+  key: 'calnderData',
+  default: [],
 });

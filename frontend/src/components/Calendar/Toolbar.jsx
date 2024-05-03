@@ -1,4 +1,5 @@
 import React from "react";
+import styles from "./Toolbar.module.scss"
 
 export default function Toolbar(props) {
     const {
@@ -28,7 +29,11 @@ export default function Toolbar(props) {
           >
             다음
           </button>
-        </span>
+        </span> 
+        <div className={styles.checkbox}>
+          <input type="checkbox" id="isMine"/>
+          <label htmlFor="isMine">내 할일</label>
+        </div>
       </div>
     );
   }
