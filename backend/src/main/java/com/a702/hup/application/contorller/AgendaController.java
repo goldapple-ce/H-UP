@@ -6,12 +6,12 @@ import com.a702.hup.application.data.request.AgendaUpdateRequest;
 import com.a702.hup.application.data.response.AgendaInfoResponse;
 import com.a702.hup.application.facade.AgendaFacade;
 import com.a702.hup.domain.agenda.AgendaService;
+import com.a702.hup.global.config.security.SecurityUserDetailsDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
@@ -27,8 +27,8 @@ public class AgendaController {
      * @description 의사결정 저장
      */
     @PostMapping
-    public ResponseEntity<Void> saveAgenda(@AuthenticationPrincipal(errorOnInvalidType = true) User user, @RequestBody @Valid AgendaCreateRequest request){
-        agendaFacade.saveAgenda(user, request);
+    public ResponseEntity<Void> saveAgenda(@AuthenticationPrincipal(errorOnInvalidType = true) SecurityUserDetailsDto user, @RequestBody @Valid AgendaCreateRequest request){
+        agendaFacade.saveAgenda(user.memberId(), request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -38,8 +38,8 @@ public class AgendaController {
      * @description 의사결정 담당자 저장
      */
     @PostMapping("/assignee")
-    public ResponseEntity<Void> saveAssignee(@AuthenticationPrincipal(errorOnInvalidType = true) User user, @RequestBody @Valid AgendaAssigneeSaveRequest request){
-        agendaFacade.saveAssignee(user, request);
+    public ResponseEntity<Void> saveAssignee(@AuthenticationPrincipal(errorOnInvalidType = true) SecurityUserDetailsDto user, @RequestBody @Valid AgendaAssigneeSaveRequest request){
+        agendaFacade.saveAssignee(user.memberId(), request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -49,8 +49,8 @@ public class AgendaController {
      * @description 의사결정 수정
      */
     @PutMapping
-    public ResponseEntity<Void> updateAgenda(@AuthenticationPrincipal(errorOnInvalidType = true) User user, AgendaUpdateRequest request){
-        agendaFacade.updateAgenda(user, request);
+    public ResponseEntity<Void> updateAgenda(@AuthenticationPrincipal(errorOnInvalidType = true) SecurityUserDetailsDto user, AgendaUpdateRequest request){
+        agendaFacade.updateAgenda(user.memberId(), request);
         return ResponseEntity.ok().build();
     }
 
@@ -60,8 +60,8 @@ public class AgendaController {
      * @description 의사결정 삭제
      */
     @DeleteMapping("/{agendaId}")
-    public ResponseEntity<Void> deleteAgenda(@AuthenticationPrincipal(errorOnInvalidType = true) User user,@PathVariable(name = "agendaId") int agendaId){
-        agendaFacade.deleteAgenda(user, agendaId);
+    public ResponseEntity<Void> deleteAgenda(@AuthenticationPrincipal(errorOnInvalidType = true) SecurityUserDetailsDto user,@PathVariable(name = "agendaId") int agendaId){
+        agendaFacade.deleteAgenda(user.memberId(), agendaId);
         return ResponseEntity.ok().build();
     }
 
@@ -71,8 +71,8 @@ public class AgendaController {
      * @description
      */
     @DeleteMapping("/assignee/{assigneeId}")
-    public ResponseEntity<Void> deleteAssignee(@AuthenticationPrincipal(errorOnInvalidType = true) User user,@PathVariable(name = "assigneeId") int assigneeId){
-        agendaFacade.deleteAssignee(user, assigneeId);
+    public ResponseEntity<Void> deleteAssignee(@AuthenticationPrincipal(errorOnInvalidType = true) SecurityUserDetailsDto user,@PathVariable(name = "assigneeId") int assigneeId){
+        agendaFacade.deleteAssignee(user.memberId(), assigneeId);
         return ResponseEntity.ok().build();
     }
 

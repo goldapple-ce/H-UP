@@ -18,7 +18,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
                 title = "H-Up API Document",
                 description = "H-Up 프로젝트의 API 명세서"),
         servers = {
-                @Server(url = "http://localhost:8080/api",description = "로컬 도메인"),
+                @Server(url = "http://localhost:8081/api",description = "로컬 도메인"),
                 @Server(url = "https://h-up.site/api",description = "H-UP 도메인")
         }
 )

@@ -43,4 +43,11 @@ public class IssueService {
                 .build());
     }
 
+    public Issue save(Project project, Member member) {
+        return issueRepository.save(Issue.builder()
+                .project(project)
+                .member(member)
+                .build());
+    }
+
 }
