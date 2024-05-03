@@ -40,7 +40,7 @@ const NavBar = () => {
     return (
       <nav>
         <ul>
-          <li><Link to="/" className="navbar-brand text-primary mr-0">H-UP</Link></li>
+          <li><Link to="/LoginPage" className="navbar-brand text-primary mr-0">H-UP</Link></li>
         </ul>
       </nav>
     );
