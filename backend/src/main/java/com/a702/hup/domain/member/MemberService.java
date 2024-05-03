@@ -2,7 +2,7 @@ package com.a702.hup.domain.member;
 
 import com.a702.hup.application.data.request.MemberSignUpRequest;
 import com.a702.hup.application.data.response.IdCheckResponse;
-import com.a702.hup.application.data.response.MemberInfoResponse;
+import com.a702.hup.application.data.dto.MemberInfo;
 import com.a702.hup.domain.member.entity.Member;
 import com.a702.hup.global.config.security.SecurityUserDetailsDto;
 import com.a702.hup.global.error.ErrorCode;
@@ -39,11 +39,11 @@ public class MemberService {
      * @date 2024-04-29
      * @description 멤버 정보 반환 함수
      **/
-    public MemberInfoResponse findMemberInfoById(Integer id) {
+    public MemberInfo findMemberInfoById(Integer id) {
         // 본인 아니면 에러
         if(!isAuthorized(id))
             throw new MemberException(ErrorCode.API_ERROR_UNAUTHORIZED);
-        return MemberInfoResponse.from(findById(id));
+        return MemberInfo.from(findById(id));
     }
 
     /**
