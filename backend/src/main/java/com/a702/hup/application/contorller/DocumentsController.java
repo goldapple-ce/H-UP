@@ -24,9 +24,10 @@ public class DocumentsController {
      * @description 현재 문서를 받아 저장 후 사용중인 사용자들에게 전송
      **/
     @MessageMapping("/documents")
-    public void handleMessage(DocumentsSaveRequest documentsSaveRequest) {
+    public void handleMessage(DocumentsSaveRequest request) {
         simpMessageSendingOperations.convertAndSend(
-                "/sub/documents", documentsRedisService.saveDocument(documentsSaveRequest));
+                "/sub/documents/" + request.getDocumentsId(),
+                documentsRedisService.saveDocument(request));
     }
 
     /**
@@ -37,7 +38,8 @@ public class DocumentsController {
     @MessageMapping("/connection")
     public void connect(DocumentsMemberUpdateRequest request) {
         simpMessageSendingOperations.convertAndSend(
-                "/sub/members", documentsFacade.saveDocumentMember(request));
+                "/sub/members/" + request.getDocumentsId(),
+                documentsFacade.saveDocumentMember(request));
     }
 
     /**
@@ -48,6 +50,7 @@ public class DocumentsController {
     @MessageMapping("/disconnection")
     public void disconnect(DocumentsMemberUpdateRequest request) {
         simpMessageSendingOperations.convertAndSend(
-                "/sub/members", documentsFacade.removeDocumentMember(request));
+                "/sub/members/" + request.getDocumentsId(),
+                documentsFacade.removeDocumentMember(request));
     }
 }
