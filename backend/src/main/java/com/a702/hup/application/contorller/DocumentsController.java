@@ -25,7 +25,7 @@ public class DocumentsController {
      **/
     @MessageMapping("/documents")
     public void handleMessage(DocumentsSaveRequest request) {
-        log.info("PUB Documents Message ::: documentsId = " + request.getDocumentsId() + ", memberId = " + request.getMemberId() + ", content : " + request.getContent());
+        log.info("[+] PUB Message :: Documents :: documentsId = " + request.getDocumentsId() + ", memberId = " + request.getMemberId() + ", content : " + request.getContent());
         simpMessageSendingOperations.convertAndSend(
                 "/sub/documents/" + request.getDocumentsId(),
                 documentsRedisService.saveDocument(request));
@@ -38,7 +38,7 @@ public class DocumentsController {
      **/
     @MessageMapping("/connection")
     public void connect(DocumentsMemberUpdateRequest request) {
-        log.info("PUB Conn Message ::: documentsId = " + request.getDocumentsId() + ", memberId = " + request.getMemberId());
+        log.info("[+] PUB Message :: Conn :: documentsId = " + request.getDocumentsId() + ", memberId = " + request.getMemberId());
         simpMessageSendingOperations.convertAndSend(
                 "/sub/members/" + request.getDocumentsId(),
                 documentsFacade.saveDocumentMember(request));
@@ -51,7 +51,7 @@ public class DocumentsController {
      **/
     @MessageMapping("/disconnection")
     public void disconnect(DocumentsMemberUpdateRequest request) {
-        log.info("PUB DisConn Message ::: documentsId = " + request.getDocumentsId() + ", memberId = " + request.getMemberId());
+        log.info("[+] PUB Message :: DisConn :: documentsId = " + request.getDocumentsId() + ", memberId = " + request.getMemberId());
         simpMessageSendingOperations.convertAndSend(
                 "/sub/members/" + request.getDocumentsId(),
                 documentsFacade.removeDocumentMember(request));
