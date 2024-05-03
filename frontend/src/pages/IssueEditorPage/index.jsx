@@ -52,6 +52,7 @@ function IssueEditorPage() {
                   const { content } = JSON.parse(message.body);
                   if (editor && content) {
                       editor.commands.setContent(content, false); // 변경사항 적용
+                      console.log(content);
                   }
               });
 
