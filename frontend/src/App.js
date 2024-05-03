@@ -21,11 +21,11 @@ function App() {
       <Routes>
         <Route element={<PrivateRouteLogin/>}>
           <Route path='/LoginPage' element={<LoginPage/>} />
+          <Route path='SignupPage' element={<SignupPage />} />
         </Route>
         <Route element={<PrivateRoute/>}>
         <Route path='/' element={<Layout />}>
           <Route index element={<ProjectPage />} />
-            <Route path='SignupPage' element={<SignupPage />} />
             <Route path='Issue/:id' element={<IssueEditorPage />} />
           </Route>
         </Route>
