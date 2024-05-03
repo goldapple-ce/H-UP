@@ -4,11 +4,14 @@ import com.a702.hup.application.data.response.AgendaInfoResponse;
 import com.a702.hup.domain.agenda.entity.Agenda;
 import com.a702.hup.domain.issue.entity.Issue;
 import com.a702.hup.domain.member.entity.Member;
+import com.a702.hup.domain.project.entity.Project;
 import com.a702.hup.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Slf4j
 @Service
@@ -53,5 +56,23 @@ public class AgendaService {
     public AgendaInfoResponse getAgendaInfo(int agendaId) {
         Agenda agenda = this.findById(agendaId);
         return AgendaInfoResponse.from(agenda);
+    }
+
+    /**
+     * @author 강용민
+     * @date 2024-05-02
+     * @description Project 별 의사결정 가져오기
+     */
+    public List<Agenda> findByProject(Project project){
+        return agendaRepository.findAllByProject(project);
+    }
+
+    /**
+     * @author 강용민
+     * @date 2024-05-03
+     * @description Project 별 의사결정 가져오기
+     */
+    public List<Agenda> findNearByProject(Member member, Project project) {
+        return agendaRepository.findAllByProject(member,project);
     }
 }

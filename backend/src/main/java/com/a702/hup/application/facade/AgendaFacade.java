@@ -3,6 +3,8 @@ package com.a702.hup.application.facade;
 import com.a702.hup.application.data.request.AgendaAssigneeSaveRequest;
 import com.a702.hup.application.data.request.AgendaCreateRequest;
 import com.a702.hup.application.data.request.AgendaUpdateRequest;
+import com.a702.hup.application.data.response.AgendaInfoListByIssueResponse;
+import com.a702.hup.application.data.response.AgendaInfoListByProjectResponse;
 import com.a702.hup.domain.agenda.AgendaService;
 import com.a702.hup.domain.agenda.entity.Agenda;
 import com.a702.hup.domain.agenda.entity.AgendaStatus;
@@ -13,10 +15,14 @@ import com.a702.hup.domain.issue.entity.Issue;
 import com.a702.hup.domain.issue_member.IssueMemberService;
 import com.a702.hup.domain.member.MemberService;
 import com.a702.hup.domain.member.entity.Member;
+import com.a702.hup.domain.project.ProjectService;
+import com.a702.hup.domain.project.entity.Project;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -29,6 +35,7 @@ public class AgendaFacade {
     private final IssueService issueService;
     private final IssueMemberService issueMemberService;
     private final AgendaMemberService agendaMemberService;
+    private final ProjectService projectService;
 
     /**
      * @author 강용민
@@ -102,5 +109,22 @@ public class AgendaFacade {
         assignee.deleteSoftly();
     }
 
+    public AgendaInfoListByIssueResponse getAgendaInfoListByIssue(int issueId){
+        Issue issue = issueService.findById(issueId);
+        return AgendaInfoListByIssueResponse.from(issue);
+    }
 
+    public AgendaInfoListByProjectResponse getAgendaInfoListByProject(int projectId){
+        Project project = projectService.findById(projectId);
+        List<Agenda> agendaList = agendaService.findByProject(project);
+        return AgendaInfoListByProjectResponse.from(agendaList);
+    }
+
+    public AgendaInfoListByProjectResponse getNearAgendaInfoListByProject(int memberId, int projectId) {
+        Member member = memberService.findById(memberId);
+        Project project = projectService.findById(projectId);
+        List<Agenda> agendaList = agendaService.findNearByProject(member,project);
+        return AgendaInfoListByProjectResponse.from(agendaList);
+
+    }
 }
