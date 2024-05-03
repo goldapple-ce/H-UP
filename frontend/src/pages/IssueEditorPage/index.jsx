@@ -18,9 +18,6 @@ function IssueEditorPage() {
     const editor = useEditor({
         extensions: [
             StarterKit,
-            Placeholder.configure({
-              placeholder: 'Start typing something...' // 플레이스홀더 텍스트 설정
-            }),
             Link,
             Image
         ],
@@ -50,9 +47,7 @@ function IssueEditorPage() {
 
                 stompClient.subscribe(`/sub/document/${id}`, (message) => {
                   const content = JSON.parse(message.body);
-                  if (editor && content) {
-                      editor.commands.setContent(content, false); // 변경사항 적용
-                  }
+                  editor.commands.setContent(content, false); // 변경사항 적용
               });
 
             },
