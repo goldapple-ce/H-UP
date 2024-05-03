@@ -25,10 +25,9 @@ spring:
     mongodb:
       host: ${MONGO_HOST}
       port: ${MONGO_PORT}
-      authentication-database: ${MONGO_ADMIN}
+      database: ${MONGO_DATABASE}
       username: ${MONGO_USERNAME}
       password: ${MONGO_PASSWORD}
-      database: ${MONGO_DATABASE}
 
   jpa:
     hibernate:
