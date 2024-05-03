@@ -44,7 +44,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         List<String> apiList = Arrays.asList(
                 "/api/swagger-ui",
                 "/api/ws",               // 웹소켓
-                "/api/info",             // 웹소켓 연결 설정
                 "/api/member/signup",    // 회원가입
                 "/api/member/check",     // ID Check
                 "/api/v3/api-docs"       // swagger
