@@ -1,8 +1,21 @@
 import { configureStore } from '@reduxjs/toolkit';
 import rootReducer from './rootReducer'; // 모든 리듀서를 결합한 루트 리듀서
+import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
+import { persistReducer, persistStore } from 'redux-persist';
 
-export const store = configureStore({
-  reducer: rootReducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
-  devTools: process.env.NODE_ENV !== 'production', // 개발 환경에서만 DevTools 활성화
+const persistConfig = {
+  key: 'root',
+  storage,
+  whitelist: ['auth'] // you can choose to persist only specific reducers
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+
+const store = configureStore({
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware()
 });
+
+export const persistor = persistStore(store);
+export default store;
