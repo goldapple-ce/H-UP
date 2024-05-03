@@ -22,6 +22,7 @@ public enum ErrorCode {
 
     // Project
     API_ERROR_PROJECT_NOT_FOUND(400, "P001", "프로젝트를 찾을 수 없음"),
+    API_ERROR_PROJECT_NOT_ROLE(400,"P002","해당 프로젝트에 대한 권한 없음"),
 
     // Issue
     API_ERROR_ISSUE_NOT_FOUND(400,"I001","이슈를 찾을 수 없음"),
