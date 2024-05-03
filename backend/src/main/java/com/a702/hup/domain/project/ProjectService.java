@@ -11,9 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
+@Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-@Service
 public class ProjectService {
     private final ProjectRepository projectRepository;
     private final ProjectMemberService projectMemberService;
@@ -33,8 +33,13 @@ public class ProjectService {
         return project;
     }
 
-    public Project findById(int id) {
-        return projectRepository.findById(id).orElseThrow(()->
-                new ProjectException(ErrorCode.API_ERROR_PROJECT_NOT_FOUND));
+    /**
+     * @author 이경태
+     * @date 2024-05-03
+     * @description 프로젝트 검색
+     **/
+    public Project findById(int projectId) {
+        return projectRepository.findById(projectId)
+                .orElseThrow(() -> new ProjectException(ErrorCode.API_ERROR_PROJECT_NOT_FOUND));
     }
 }
