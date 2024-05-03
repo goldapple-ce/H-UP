@@ -36,7 +36,7 @@ function SignupPage() {
 
       alert('회원가입 성공')
 
-      navigate('/ProjectPage');
+      navigate('/');
       
     } catch (error) {
       console.error('Signup error:', error.response ? error.response.data : error);
