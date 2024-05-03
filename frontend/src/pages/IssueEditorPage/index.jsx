@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { useEditor, EditorContent, Editor } from '@tiptap/react';
+import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Placeholder from '@tiptap/extension-placeholder';
 import Link from '@tiptap/extension-link';
 import Image from '@tiptap/extension-image';
 // import { Collaboration } from '@tiptap/extension-collaboration';
 // import { CollaborationCursor } from '@tiptap/extension-collaboration-cursor';
-// import { WebsocketProvider } from 'y-websocket';
 import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import { useParams } from 'react-router-dom';
+import styles from './IssueEditorPage.module.scss';
 
 function IssueEditorPage() {
-    const {id} = useParams();
+    const id = useParams();
     const [client, setClient] = useState(null);
 
     const editor = useEditor({
@@ -24,11 +24,7 @@ function IssueEditorPage() {
             Link,
             Image
         ],
-        // content: '<p>Hello World!</p>',
-        // onUpdate: ({ editor }) => {
-        //   const html = editor.getHTML();
-        //   console.log(html);  // 실시간으로 변경된 내용을 콘솔에 출력
-        // },
+        content: '<p>Hello World!</p>',
         onUpdate: ({ editor }) => {
           // 변화가 사용자에 의해 발생했다면 서버에 전송
           const json = editor.getJSON();
@@ -46,13 +42,13 @@ function IssueEditorPage() {
     
       useEffect(() => {
         // STOMP client setup
-        const sock = new SockJS(`https://h-up.site:8081/api/ws/${id}`);
+        const sock = new SockJS(`https://h-up.site/api/ws`);
         const stompClient = new Client({
             webSocketFactory: () => sock,
             onConnect: () => {
                 console.log("Connected to STOMP server");
 
-                stompClient.subscribe(`/sub/document`, (message) => {
+                stompClient.subscribe(`/sub/document/${id}`, (message) => {
                   const { content } = JSON.parse(message.body);
                   if (editor && content) {
                       editor.commands.setContent(content, false); // 변경사항 적용
@@ -71,13 +67,18 @@ function IssueEditorPage() {
         return () => {
             stompClient.deactivate();
         };
-    }, [editor]);
+    }, [editor, id]);
 
 
     return (
-        <div>
-            <EditorContent editor={editor} />
-        </div>
+      <div className={styles.editor_page}>
+      <div className={styles.editor_header}>
+        <h1>Real-Time Collaborative Editor</h1>
+      </div>
+      <div className={styles.editor_container}>
+        {editor ? <EditorContent editor={editor} className={styles.tiptap_editor} /> : <p>Loading...</p>}
+      </div>
+    </div>
     );
 }
 
