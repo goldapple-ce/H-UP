@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styles from './LoginPage.module.scss'; 
-import { loginAPI } from "../../api/service/user";
-
+//import { loginAPI } from "../../api/service/user";
+import { useSelector, useDispatch } from 'react-redux';
+import { loginUser } from '../../features/auth/authThunks'
 
 const LoginPage = (props) => {
   const [userId, setUserId] = useState('')
@@ -12,26 +13,27 @@ const LoginPage = (props) => {
 
   const navigate = useNavigate()
 
-  const onButtonClick = () => {
+  const dispatch = useDispatch();
+  const auth = useSelector(state => state.auth);
+
+  const onButtonClick = async () => {
     setUserIdError('')
     setPasswordError('')
     const login = async (userId, password) => {
         
       try {
-          const response = await loginAPI(userId, password);
+          dispatch(loginUser({userId:userId, password:password}));
+          return 'success';
 
-          console.log(response);
-          console.log(response.status);
-
-          if (response.status === 200) {
-              const user = response.data.memberId;
-              console.log('Login successful:', user);
-              return user;
-          } else {
-              const error = response.data;
-              console.error('Login failed:', error.message);
-              return error;
-          }
+          // if (response.status === 200) {
+          //     const user = response.data.memberId;
+          //     console.log('Login successful:', user);
+          //     return user;
+          // } else {
+          //     const error = response.data;
+          //     console.error('Login failed:', error.message);
+          //     return error;
+          // }
 
           } catch (error) {
           console.error('Login error:', error);
@@ -43,28 +45,15 @@ const LoginPage = (props) => {
       return
     }
 
-    // if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(Email)) {
-    //   setEmailError('Please enter a valid Email')
-    //   return
-    // }
-
     if ('' === password) {
       setPasswordError('Please enter a password')
       return
     }
+        const response = await login(userId, password);
 
-    // if (password.length < 7) {
-    //   setPasswordError('The password must be 8 characters or longer')
-    //   return
-    // }
-
-    // if (loggedIn) {
-      // localStorage.removeItem('user')
-      // props.setLoggedIn(false)
-    // } else {
-        const response = login(userId, password);
-        console.log("response", response)
-    // }
+        if (response === 'success') {
+          navigate('/');
+        }
   }
 
   const onButtonSignup = () => {
@@ -97,6 +86,7 @@ const LoginPage = (props) => {
             <input className={'inputButton'} type="button" onClick={onButtonClick} value={'Log in'} />
             
             <p>아이디 찾기 / 비밀번호 재설정</p>
+            {auth.error && <p>{auth.error}</p>}
         </form>
         <p>
           아직 회원이 아니신가요?

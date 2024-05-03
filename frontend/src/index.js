@@ -4,13 +4,24 @@ import './global.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { RecoilRoot } from 'recoil';
+import { Provider } from 'react-redux';
+import store, {persistor} from './app/store';
+import { PersistGate } from 'redux-persist/integration/react';
+import { QueryClientProvider, QueryClient } from 'react-query';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+const queryClient = new QueryClient();
 root.render(
   <React.StrictMode>
-    <RecoilRoot>
-      <App />
-    </RecoilRoot>
+    <Provider store={store}>
+      <PersistGate loading={<div>Loading...</div>} persistor={persistor}>
+        <RecoilRoot>
+          <QueryClientProvider client={queryClient}>
+        <App />
+          </QueryClientProvider>
+      </RecoilRoot>
+      </PersistGate>
+    </Provider>
   </React.StrictMode>
 );
 

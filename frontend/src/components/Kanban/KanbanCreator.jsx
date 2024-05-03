@@ -18,7 +18,7 @@ function KanbanCreator({ title }) {
           id: getId,
           title: '',
           content: '',
-          category: title,
+          progress: title,
           isChecked: false,
         },
       ]);
