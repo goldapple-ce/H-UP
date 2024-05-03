@@ -14,6 +14,12 @@ public enum ErrorCode {
     API_ERROR_MEMBER_NOT_FOUND(400,"M001","멤버를 찾을 수 없음"),
     API_ERROR_IS_DELETED_MEMBER(400, "M002", "탈퇴된 계정"),
 
+    // Team
+    API_ERROR_TEAM_NOT_FOUND(400, "T001", "팀을 찾을 수 없음"),
+
+    // Project
+    API_ERROR_PROJECT_NOT_FOUND(400, "P001", "프로젝트를 찾을 수 없음"),
+
     // Issue
     API_ERROR_ISSUE_NOT_FOUND(400,"I001","이슈를 찾을 수 없음"),
     API_ERROR_ISSUE_NOT_ROLE(400,"I002","해당 이슈에 대한 권한 없음"),
