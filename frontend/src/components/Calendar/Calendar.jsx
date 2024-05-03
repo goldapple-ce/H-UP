@@ -16,7 +16,6 @@ const Container = styled.div`
 .rbc-addons-dnd {
   .rbc-addons-dnd-row-body {
     position: relative;
-    margin-top: 10px;
   }
   .rbc-addons-dnd-drag-row {
     position: absolute;
@@ -41,11 +40,22 @@ const Container = styled.div`
   .rbc-event {
     transition: opacity 150ms;
     width: 100%;
+    height: 30px;
     &:hover {
       .rbc-addons-dnd-resize-ns-icon,
       .rbc-addons-dnd-resize-ew-icon {
         display: block;
         background-color: #ccc;
+      }
+    }
+
+    .rbc-event-content {
+      font-size: 16px;
+      margin: -4px 0 0 -2px;
+
+      img {
+        height: 25px;
+        width: 25px;
       }
     }
   }
@@ -82,14 +92,14 @@ const Container = styled.div`
       display: none;
       border-top: 3px double;
       margin: 0 auto;
-      width: 25px;
+      width: 20px;
       cursor: ns-resize;
     }
   }
 
   .rbc-addons-dnd-resize-ew-anchor {
     position: absolute;
-    top: 4px;
+    top: 7px;
     bottom: 0;
     &:first-child {
       left: 0;
@@ -103,7 +113,7 @@ const Container = styled.div`
       border-left: 3px double;
       margin-top: auto;
       margin-bottom: auto;
-      height: 25px;
+      height: 20px;
       cursor: ew-resize;
     }
   }
@@ -251,6 +261,7 @@ const MyCalendar = () => {
       };
     }
 
+
     //user id값을 받아와서 다른 캘린더의 정보를 받아올 때 컬러를 변경하도록한다.
     const eventPropGetter = useCallback(
       (event) => ({
@@ -261,15 +272,28 @@ const MyCalendar = () => {
       []
     );
 
-  
-  
+    const DateCellContent = (props) => {
+      const {date} = props;
+      const dayOfWeek = date.getDay();
+      const className = dayOfWeek === 0 ? styles.day_weekend : styles.day_working;
+
+      return (
+        <div className={className}>
+          {props.label}
+        </div>
+      )
+    }
+    
     return (
       <Container>
         <DragAndDropCalendar
           style={{ height: 500 }}
-          // components={{
-          //   toolbar: Toolbar, // 툴바 커스터마이징
-          // }}
+          components={{
+            toolbar: Toolbar,
+            month: {
+              dateHeader: DateCellContent,
+            }
+          }}
           eventPropGetter={eventStyleGetter}
           defaultView={Views.MONTH}
           events={myEvents}
@@ -285,6 +309,7 @@ const MyCalendar = () => {
           onView={handleViewChange}
           //보여질 화면
           view={currentView}
+          popup
           resizable
           selectable
           titleAccessor={loadProfileImage}
