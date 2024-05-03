@@ -1,4 +1,4 @@
-import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
@@ -9,24 +9,26 @@ import NavBar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
 import MenuSidebar from './components/MenuSidebar/MenuSidebar';
 import MessengerSidebar from './components/MessengerSidebar/MessengerSidebar';
+import PrivateRoute from './features/auth/PrivateRoute';
 
 function App() {
   return (
-    <BrowserRouter>
+    <Router>
       <NavBar/>
       <MenuSidebar/>
       <MessengerSidebar/>
       <Routes>
+        <Route path='/LoginPage' element={<LoginPage/>} />
+        <Route element={<PrivateRoute/>}>
         <Route path='/' element={<Layout />}>
-
-          <Route index element={<LoginPage />} />
-          <Route path='SignupPage' element={<SignupPage />} />
-          <Route path='ProjectPage' element={<ProjectPage />} />
-          <Route path='Issue/:id' element={<IssueEditorPage />} />
+          <Route index element={<ProjectPage />} />
+            <Route path='SignupPage' element={<SignupPage />} />
+            <Route path='Issue/:id' element={<IssueEditorPage />} />
+          </Route>
         </Route>
       </Routes>
       <Footer/>
-    </BrowserRouter>
+    </Router>
   );
 }
 
