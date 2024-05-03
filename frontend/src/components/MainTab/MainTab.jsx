@@ -18,7 +18,7 @@ const MainTab = () => {
             
                 <div className={styles.tab}>
                     <input className={styles.tab__radio} type="radio" id="tab-1" name="tab-group-1"/>
-                    <label className={styles.tab__label} for="tab-1">이슈</label>
+                    <label className={styles.tab__label} htmlFor="tab-1">이슈</label>
                     
                     <div className={styles.tab__content}>
                         {/* 이슈 목록 */}
@@ -28,7 +28,7 @@ const MainTab = () => {
                 
                 <div className={styles.tab}>
                     <input className={styles.tab__radio} type="radio" id="tab-2" name="tab-group-1"/>
-                    <label className={styles.tab__label} for="tab-2">칸반</label>
+                    <label className={styles.tab__label} htmlFor="tab-2">칸반</label>
                     
                     <div className={styles.tab__content}>
                         <Kanban/>
@@ -37,7 +37,7 @@ const MainTab = () => {
             
                 <div className={styles.tab}>
                     <input className={styles.tab__radio} type="radio" id="tab-3" name="tab-group-1"/>
-                    <label className={styles.tab__label} for="tab-3">할 일</label>
+                    <label className={styles.tab__label} htmlFor="tab-3">할 일</label>
                     
                     <div className={styles.tab__content}>
                         할 일 목록이 들어갈 공간입니다.
@@ -46,16 +46,16 @@ const MainTab = () => {
 
                 <div className={styles.tab}>
                     <input className={styles.tab__radio} type="radio" id="tab-4" name="tab-group-1"/>
-                    <label className={styles.tab__label} for="tab-4">의사결정</label>
+                    <label className={styles.tab__label} htmlFor="tab-4">의사결정</label>
                     
                     <div className={styles.tab__content}>
                         의사결정이 들어갈 공간입니다.
-                    </div> 
+                    </div>
                 </div>
 
                 <div className={styles.tab}>
                     <input className={styles.tab__radio} type="radio" id="tab-5" name="tab-group-1"/>
-                    <label className={styles.tab__label} for="tab-5">캘린더</label>
+                    <label className={styles.tab__label} htmlFor="tab-5">캘린더</label>
                     
                     <div className={styles.tab__content}>
                         <MyCalendar/>
