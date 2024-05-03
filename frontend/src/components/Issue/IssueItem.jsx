@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./IssueItem.module.scss";
 
 const IssueItem = ({ issue, onClick }) => {
-    const {id, title, content, category, start, end, imageList }= issue;
+    const {id, title, content, progress, start, end, imageList }= issue;
 
     const formatToDate = (jsDateStr) => {
         const date = new Date(jsDateStr);
@@ -19,7 +19,7 @@ const IssueItem = ({ issue, onClick }) => {
         <div className={styles.issue_item_container} onClick={onClick}>
             <div>
                 <div>
-                    <div className="status">{category}</div>
+                    <div className="status">{progress}</div>
                     <div className="time">{formatToDate(start)} - {formatToDate(end)}</div>
                     <div className="task-name">{title}</div>
                 </div>

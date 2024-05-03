@@ -42,7 +42,7 @@ const IssueForm = () => {
                     <h4>마감이 임박한 이슈</h4>
                     <ul>
                         {issueList
-                            .filter((issue) => new Date() >= imminentDate(issue) && issue.category !== '완료')
+                            .filter((issue) => new Date() >= imminentDate(issue) && issue.progress !== '완료')
                             .map((issue) => (
                                 <li key={issue.id}>
                                     <IssueItemContainer issue={issue} />

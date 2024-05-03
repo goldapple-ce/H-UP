@@ -9,7 +9,7 @@ export const issueListState = atom({
       id: 1,
       title: "title1",
       content: 'content',
-      category: '발의됨',
+      progress: '발의됨',
       start: new Date(2024, 3, 12, 10, 30, 0, 0),
       end: new Date(2024, 4, 12, 12, 30, 0, 0),
       imageList: [{
@@ -34,7 +34,7 @@ export const issueListState = atom({
       id: 2,
       title: "title2",
       content: 'content',
-      category: '진행중',
+      progress: '진행중',
       start: new Date(2024, 3, 23, 11, 30, 0, 0),
       end: new Date(2024, 4, 5, 15, 30, 0, 0),
       imageList: [{
@@ -51,7 +51,7 @@ export const issueListState = atom({
       id: 3,
       title: "title3",
       content: 'content',
-      category: '완료',
+      progress: '완료',
       start: new Date(2024, 3, 4, 15, 30, 0, 0),
       end: new Date(2024, 4, 2, 10, 30, 0, 0),
       imageList: [{

@@ -45,10 +45,10 @@ function Card({ item }) {
     setList([...list.slice(0, index), ...list.slice(index + 1)]);
   };
 
-  const changeItemCategory = (selectedItem, newCategory) => {
+  const changeItemProgress = (selectedItem, newProgress) => {
     setList((prevList) =>
     prevList.map((item) =>
-      item.id === selectedItem.id ? { ...item, category: newCategory } : item
+      item.id === selectedItem.id ? { ...item, progress: newProgress } : item
     )
   );
 };
@@ -64,16 +64,16 @@ function Card({ item }) {
       if (dropResult) {
         switch (dropResult.name) {
           case TO_DO:
-            changeItemCategory(item, TO_DO);
+            changeItemProgress(item, TO_DO);
             break;
           case IN_PROGRESS:
-            changeItemCategory(item, IN_PROGRESS);
+            changeItemProgress(item, IN_PROGRESS);
             break;
           case DONE:
-            changeItemCategory(item, DONE);
+            changeItemProgress(item, DONE);
             break;
           case NOTE:
-            changeItemCategory(item, NOTE);
+            changeItemProgress(item, NOTE);
             break;
         }
       }
@@ -86,7 +86,7 @@ function Card({ item }) {
   };
 
   useEffect(() => {
-    switch (item.category) {
+    switch (item.progress) {
       case TO_DO:
         setCardColor('#ef5777');
         break;
