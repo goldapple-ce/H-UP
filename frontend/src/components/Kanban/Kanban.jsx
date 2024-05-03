@@ -14,8 +14,9 @@ function Kanban() {
 
   const cardDataHandler = (cardTitle) => {
     return kanbanList
-      .filter((data) => data.category === cardTitle)
-      .map((item, index) => <Card key={item.id} item={item} />);
+      .filter((data) => data.progress === cardTitle
+      //  && data.category === selectedCategory)
+      ).map((item, index) => <Card key={item.id} item={item} />);
   };
 
   const handleCategoryChange = (event) => {

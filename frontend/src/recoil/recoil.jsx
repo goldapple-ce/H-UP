@@ -3,13 +3,15 @@ import axios from 'axios'
 
 // 이슈 List에 대한 Atom
 export const issueListState = atom({
-  key: "listState",
+  key: "issueListState",
   default: [
     {
-      id: 0,
-      title: "title",
+      id: 1,
+      title: "title1",
       content: 'content',
-      category: '발의됨',
+      progress: '발의됨',
+      start: new Date(2024, 3, 12, 10, 30, 0, 0),
+      end: new Date(2024, 4, 12, 12, 30, 0, 0),
       imageList: [{
           id: 1,
           src: "https://images.unsplash.com/photo-1491349174775-aaafddd81942?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80",
@@ -29,10 +31,12 @@ export const issueListState = atom({
       }]
     },
     {
-      id: 1,
-      title: "title",
+      id: 2,
+      title: "title2",
       content: 'content',
-      category: '선택됨',
+      progress: '진행중',
+      start: new Date(2024, 3, 23, 11, 30, 0, 0),
+      end: new Date(2024, 4, 5, 15, 30, 0, 0),
       imageList: [{
           id: 1,
           src: "https://images.unsplash.com/photo-1491349174775-aaafddd81942?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80",
@@ -44,10 +48,12 @@ export const issueListState = atom({
       }]
     },
     {
-      id: 2,
-      title: "title",
+      id: 3,
+      title: "title3",
       content: 'content',
-      category: '완료',
+      progress: '완료',
+      start: new Date(2024, 3, 4, 15, 30, 0, 0),
+      end: new Date(2024, 4, 2, 10, 30, 0, 0),
       imageList: [{
           id: 1,
           src: "https://images.unsplash.com/photo-1491349174775-aaafddd81942?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80",
