@@ -18,14 +18,13 @@ function App() {
       <MenuSidebar/>
       <MessengerSidebar/>
       <Routes>
+        <Route path='/LoginPage' element={<LoginPage/>} />
+        <Route element={<PrivateRoute/>}>
         <Route path='/' element={<Layout />}>
-          <Route index element={<LoginPage />} />
-          <Route element={<PrivateRoute/>}>
+          <Route index element={<ProjectPage />} />
             <Route path='SignupPage' element={<SignupPage />} />
-            <Route path='ProjectPage' element={<ProjectPage />} />
             <Route path='Issue/:id' element={<IssueEditorPage />} />
           </Route>
-          
         </Route>
       </Routes>
       <Footer/>

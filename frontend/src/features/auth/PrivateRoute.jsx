@@ -12,5 +12,5 @@ export default function PrivateRoute() {
     return <Outlet />;
   }
   // 미로그인 유저가 이동할 곳
-  return <Navigate replace to="/" />;
+  return <Navigate replace to="/LoginPage" />;
 }

@@ -52,7 +52,7 @@ const LoginPage = (props) => {
         const response = await login(userId, password);
 
         if (response === 'success') {
-          navigate('/ProjectPage');
+          navigate('/');
         }
   }
 
