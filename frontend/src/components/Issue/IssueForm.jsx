@@ -2,24 +2,24 @@ import React from 'react'
 import styles from './IssueForm.module.scss'
 import IssueItemContainer from "./IssueItemContainer";
 import { issueDummyList } from '../../test/issueData';
+import { useRecoilState } from 'recoil';
+import { issueListState } from '../../recoil/recoil';
 
 const IssueForm = () => {
 
-    // const [issueList, setIssueList] = React.useState([]);
+    const [issueList, setIssueList] = useRecoilState(issueListState)
     // const { startLoading, finishLoading } = MyLayout.useLoading();
     // const { openDialog } = MyLayout.useDialog();
-    
 
-    const issueList = issueDummyList;
+    const imminentDate = (issue) => {
+        const date = issue.end
 
-    const imminentIssueList = [{
-        id: 1,
-        name: "마감 이슈 1",
-    }, {
-        id: 2,
-        name: "마감 이슈 2",
-    }]
+        const year = date.getFullYear();
+        const month = date.getMonth();
+        const day = date.getDate() - 7;
 
+        return new Date(year,month,day,0,0,0,0)
+    }
 
     return (
         <div className={styles.issue_page}>
@@ -41,10 +41,12 @@ const IssueForm = () => {
                 <div className={styles.imminent_issue_section}>
                     <h4>마감이 임박한 이슈</h4>
                     <ul>
-                        {imminentIssueList.map((issue) => (
-                            <li key={issue.id}>
-                                <IssueItemContainer issue={issue} />
-                            </li>
+                        {issueList
+                            .filter((issue) => new Date() >= imminentDate(issue) && issue.category !== '완료')
+                            .map((issue) => (
+                                <li key={issue.id}>
+                                    <IssueItemContainer issue={issue} />
+                                </li>
                         ))}
                     </ul>
                 </div>
