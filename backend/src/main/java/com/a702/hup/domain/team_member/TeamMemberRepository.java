@@ -4,4 +4,5 @@ import com.a702.hup.domain.team_member.entity.TeamMember;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TeamMemberRepository extends JpaRepository<TeamMember,Integer> {
+    boolean existsByTeamIdAndMemberId(Integer teamId, Integer memberId);
 }

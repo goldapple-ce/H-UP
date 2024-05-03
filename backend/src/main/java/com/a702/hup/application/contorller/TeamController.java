@@ -33,7 +33,7 @@ public class TeamController {
 
     @PostMapping("/add")
     public ResponseEntity<Void> addMembers(@AuthenticationPrincipal SecurityUserDetailsDto user, @RequestBody AddTeamMembersRequest addTeamMembersRequest) {
-
+        teamFacade.addMembers(user.memberId(), addTeamMembersRequest);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .build();

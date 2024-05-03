@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -28,7 +30,12 @@ public class TeamMemberService {
                 .build());
     }
 
-    public boolean isMember(int memberId, Team team) {
-        return false;
+    @Transactional
+    public void saveAll(List<TeamMember> teamMembers) {
+        teamMemberRepository.saveAll(teamMembers);
+    }
+
+    public boolean isMember(Member member, Team team) {
+        return teamMemberRepository.existsByTeamIdAndMemberId(teamId, memberId);
     }
 }

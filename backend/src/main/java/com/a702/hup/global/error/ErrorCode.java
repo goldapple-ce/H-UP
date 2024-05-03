@@ -14,6 +14,9 @@ public enum ErrorCode {
     API_ERROR_MEMBER_NOT_FOUND(400,"M001","멤버를 찾을 수 없음"),
     API_ERROR_IS_DELETED_MEMBER(400, "M002", "탈퇴된 계정"),
 
+    // TeamMember
+    API_ERROR_IS_NOT_TEAM_MEMBER(400, "TM001", "팀 소속 멤버가 아님"),
+
     // Team
     API_ERROR_TEAM_NOT_FOUND(400, "T001", "팀을 찾을 수 없음"),
 
