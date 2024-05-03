@@ -27,7 +27,7 @@ function IssueEditorPage() {
           const json = editor.getJSON();
           client.publish({
               destination: `/pub/documents`,
-              body: JSON.stringify({ id:id, content: json }),
+              body: JSON.stringify({ documentsId:id, content: json }),
           });
         },
         editorProps: {
