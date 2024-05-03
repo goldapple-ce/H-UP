@@ -35,4 +35,13 @@ public class Team extends BaseEntity {
         this.name = name;
         this.img = img;
     }
+
+    /**
+     * @author 이경태
+     * @date 2024-05-03
+     * @description 팀 스페이스 이미지 변경
+     **/
+    public void updateImg(String img) {
+        this.img = img;
+    }
 }
