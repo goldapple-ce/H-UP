@@ -2,7 +2,7 @@ package com.a702.hup.application.contorller;
 
 import com.a702.hup.application.data.request.MemberSignUpRequest;
 import com.a702.hup.application.data.response.IdCheckResponse;
-import com.a702.hup.application.data.response.MemberInfoResponse;
+import com.a702.hup.application.data.dto.MemberInfo;
 import com.a702.hup.domain.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -49,7 +49,7 @@ public class MemberController {
      * @description 회원 정보 조회
      **/
     @GetMapping
-    public ResponseEntity<MemberInfoResponse> getInfo(@RequestParam int memberId) {
+    public ResponseEntity<MemberInfo> getInfo(@RequestParam int memberId) {
         log.info("[+] MemberController :: getInfo :: start");
         return ResponseEntity
                 .status(HttpStatus.OK)
