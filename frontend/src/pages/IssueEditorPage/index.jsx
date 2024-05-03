@@ -33,6 +33,7 @@ function IssueEditorPage() {
               destination: `/pub/document`,
               body: JSON.stringify({ id, content: json }),
           });
+          console.log('클라이언트 추적:'+client);
         },
         editorProps: {
           attributes: {
