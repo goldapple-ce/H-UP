@@ -5,7 +5,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { RecoilRoot } from 'recoil';
 import { Provider } from 'react-redux';
-import { store } from './app/store';
+import store, {persistor} from './app/store';
+import { PersistGate } from 'redux-persist/integration/react';
 import { QueryClientProvider, QueryClient } from 'react-query';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -13,11 +14,13 @@ const queryClient = new QueryClient();
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <RecoilRoot>
-      <QueryClientProvider client={queryClient}>
+      <PersistGate loading={<div>Loading...</div>} persistor={persistor}>
+        <RecoilRoot>
+          <QueryClientProvider client={queryClient}>
         <App />
-        </QueryClientProvider>
+          </QueryClientProvider>
       </RecoilRoot>
+      </PersistGate>
     </Provider>
   </React.StrictMode>
 );
