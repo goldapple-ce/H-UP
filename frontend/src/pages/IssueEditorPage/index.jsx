@@ -20,7 +20,7 @@ function IssueEditorPage() {
         onUpdate: ({ editor }) => {
             const json = editor.getJSON();
             if (stompClient) {
-                stompClient.current.publish(`/app/documents`, {}, JSON.stringify({ documentsId: id, memberId: memberId, content: json }));
+                stompClient.current.publish(`/pub/documents`, {}, JSON.stringify({ documentsId: id, memberId: memberId, content: json }));
             }
         },
         editorProps: {
