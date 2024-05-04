@@ -14,7 +14,7 @@ import styles from './IssueEditorPage.module.scss';
 function IssueEditorPage() {
     const {id} = useParams();
     //const [client, setClient] = useState(null);
-    const stompClient = useRef<Client | null>(null);
+    let stompClient = useRef<Client | null>(null);
     const editor = useEditor({
         extensions: [
             StarterKit,
@@ -25,11 +25,13 @@ function IssueEditorPage() {
         onUpdate: ({ editor }) => {
           // 변화가 사용자에 의해 발생했다면 서버에 전송
           const json = editor.getJSON();
-
-          stompClient.publish({
+          
+          if (stompClient.current) {
+            stompClient.current.publish({
               destination: `/pub/documents`,
               body: JSON.stringify({ documentsId:id, content: json }),
-          });
+            });
+          }
         },
         editorProps: {
           attributes: {
@@ -41,12 +43,12 @@ function IssueEditorPage() {
       useEffect(() => {
         // STOMP client setup
         const sock = new SockJS(`https://h-up.site/api/ws`);
-        stompClient.current = new Client({
+        stompClient = new Client({
             webSocketFactory: () => sock,
             onConnect: () => {
                 console.log("Connected to STOMP server");
 
-                stompClient.subscribe(`/sub/documents/${id}`, (message) => {
+                stompClient.current.subscribe(`/sub/documents/${id}`, (message) => {
                   const content = JSON.parse(message.body);
                   editor.commands.setContent(content, false); // 변경사항 적용
               });
@@ -57,11 +59,11 @@ function IssueEditorPage() {
             }
         });
 
-        stompClient.current.activate();
+        stompClient.activate();
         //setClient(stompClient);
 
         return () => {
-            stompClient.current.deactivate();
+            stompClient.deactivate();
         };
     }, [editor, id]);
 
