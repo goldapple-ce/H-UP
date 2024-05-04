@@ -20,7 +20,7 @@ function IssueEditorPage() {
         onUpdate: ({ editor }) => {
             const json = editor.getJSON();
             if (stompClient.current) {
-                stompClient.current.publish(`/pub/documents`, {}, JSON.stringify({ documentsId: id, memberId: memberId, content: json }));
+                stompClient.current.publish(`/documents`, {}, JSON.stringify({ documentsId: id, memberId: memberId, content: json }));
             }
         },
         editorProps: {
@@ -42,6 +42,8 @@ function IssueEditorPage() {
                   const { content } = JSON.parse(message.body);
                   editor.commands.setContent(content, false); // 변경사항 적용
               });
+            
+              //stompClient.current.publish(`/connection`, {}, JSON.stringify({ documentsId: id, memberId }));
           },
           onDisconnect: () => {
               console.log("Disconnected from STOMP server");
@@ -52,6 +54,7 @@ function IssueEditorPage() {
   
       return () => {
           if (stompClient.current) {
+              //stompClient.current.publish(`/disconnection`, {}, JSON.stringify({ documentsId: id, memberId }));
               stompClient.current.deactivate();
           }
       };
