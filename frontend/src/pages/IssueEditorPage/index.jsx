@@ -4,21 +4,23 @@ import StarterKit from '@tiptap/starter-kit';
 import Placeholder from '@tiptap/extension-placeholder';
 import Link from '@tiptap/extension-link';
 import Image from '@tiptap/extension-image';
-import { Stomp } from '@stomp/stompjs';  // Import Stomp
+import { Client } from '@stomp/stompjs';  // Import Stomp
 import SockJS from 'sockjs-client';
 import { useParams } from 'react-router-dom';
 import styles from './IssueEditorPage.module.scss';
+import { useSelector } from 'react-redux';
 
 function IssueEditorPage() {
     const { id } = useParams();
     const stompClient = useRef(null);
+    const memberId = useSelector(state => state.auth.memberId);
     const editor = useEditor({
         extensions: [StarterKit, Link, Image],
         content: '<p>Hello World!</p>',
         onUpdate: ({ editor }) => {
             const json = editor.getJSON();
             if (stompClient.current) {
-                stompClient.current.send(`/pub/documents`, {}, JSON.stringify({ documentsId: id, content: json }));
+                stompClient.current.publish(`/pub/documents`, {}, JSON.stringify({ documentsId: id, memberId: memberId, content: json }));
             }
         },
         editorProps: {
@@ -27,29 +29,35 @@ function IssueEditorPage() {
             }
         }
     });
+  
 
     useEffect(() => {
-        const sock = new SockJS('https://h-up.site/api/ws');
-        stompClient.current = Stomp.over(sock);
+      const sock = new SockJS(`https://h-up.site/api/ws`);
+      stompClient.current = new Client({
+          webSocketFactory: () => sock,
+          reconnectDelay: 5000,
+          onConnect: () => {
+              console.log("Connected to STOMP server");
+              stompClient.current.subscribe(`/sub/documents/${id}`, (message) => {
+                  const { content } = JSON.parse(message.body);
+                  editor.commands.setContent(content, false); // 변경사항 적용
+              });
+          },
+          onDisconnect: () => {
+              console.log("Disconnected from STOMP server");
+          }
+      });
+  
+      stompClient.current.activate();
+  
+      return () => {
+          if (stompClient.current) {
+              stompClient.current.deactivate();
+          }
+      };
+  }, [editor, id]);
+  
 
-        stompClient.current.connect({}, () => {
-            console.log("Connected to STOMP server");
-            stompClient.current.subscribe(`/sub/documents/${id}`, (message) => {
-                const { content } = JSON.parse(message.body);
-                editor.commands.setContent(content, false); // Apply changes
-            });
-        }, (error) => {
-            console.error('STOMP error:', error);
-        });
-
-        return () => {
-            if (stompClient.current) {
-                stompClient.current.disconnect(() => {
-                    console.log('Disconnected from STOMP server');
-                });
-            }
-        };
-    }, [editor, id]);
 
     return (
         <div className={styles.editor_page}>
