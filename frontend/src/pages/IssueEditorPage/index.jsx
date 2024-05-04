@@ -19,8 +19,8 @@ function IssueEditorPage() {
         content: '<p>Hello World!</p>',
         onUpdate: ({ editor }) => {
             const json = editor.getJSON();
-            if (stompClient.current) {
-                stompClient.current.publish(`/documents`, {}, JSON.stringify({ documentsId: id, memberId: memberId, content: json }));
+            if (stompClient) {
+                stompClient.current.publish(`/app/documents`, {}, JSON.stringify({ documentsId: id, memberId: memberId, content: json }));
             }
         },
         editorProps: {
@@ -38,7 +38,7 @@ function IssueEditorPage() {
           reconnectDelay: 5000,
           onConnect: () => {
               console.log("Connected to STOMP server");
-              stompClient.current.subscribe(`/sub/documents/${id}`, (message) => {
+              stompClient.subscribe(`/sub/documents/${id}`, (message) => {
                   const { content } = JSON.parse(message.body);
                   editor.commands.setContent(content, false); // 변경사항 적용
               });
