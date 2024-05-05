@@ -14,8 +14,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
+@RestController
 @RequiredArgsConstructor
-@RestController("/issue")
+@RequestMapping("/issue")
 public class IssueController {
     private final IssueService issueService;
     private final IssueFacade issueFacade;

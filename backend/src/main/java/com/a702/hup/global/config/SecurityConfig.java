@@ -37,10 +37,11 @@ public class SecurityConfig {
     private static final String LOGIN_URL = "/member/login";
     private static final String MEMBER = "/member/**";
     private static final String RESOURCES = "/resources/**";
-    private static final String SWAGGER = "/swagger-ui/**";
     private static final String WEBSOCKET = "/ws/**";
+    private static final String SWAGGER = "/swagger-ui/**";
     private static final String SWAGGER_V3 = "/v3/api-docs/**";
-    private static final String ERROR = "error/**";
+    private static final String SWAGGER_RESOURCES = "/swagger-resources/**";
+    private static final String ERROR = "/error/**";
 
     /**
      * @author 이경태
@@ -83,8 +84,9 @@ public class SecurityConfig {
                                 MEMBER,
                                 RESOURCES,
                                 SWAGGER,
-                                WEBSOCKET,
                                 SWAGGER_V3,
+                                SWAGGER_RESOURCES,
+                                WEBSOCKET,
                                 ERROR
                         ).permitAll()
                         .anyRequest().authenticated()
