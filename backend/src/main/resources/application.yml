@@ -28,6 +28,8 @@ spring:
       database: ${MONGO_DATABASE}
       username: ${MONGO_USERNAME}
       password: ${MONGO_PASSWORD}
+      authentication-database: ${MONGO_AUTHENTICATION}
+      auto-index-creation: true
 
   jpa:
     hibernate:
