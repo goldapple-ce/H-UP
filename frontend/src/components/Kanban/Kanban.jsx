@@ -1,6 +1,6 @@
 import { useRecoilValue } from 'recoil';
-import KanbanList from '../Kanban/KanbanList';
-import Card from '../Kanban/Card';
+import KanbanList from './KanbanList';
+import Card from './Card';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { issueListState } from '../../recoil/recoil';
