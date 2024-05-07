@@ -14,7 +14,7 @@ body { background: #F1F1F1; padding: 0px;}
 
 .tab {
   float: left;
-  
+
   &__group {
     @include clearfix;
     position: relative;
@@ -31,6 +31,7 @@ body { background: #F1F1F1; padding: 0px;}
     
     // Active tab styles
     background: #fff;
+    font-weight: 800;
   }
   
   &__content {
@@ -40,9 +41,9 @@ body { background: #F1F1F1; padding: 0px;}
     top: $tab-label-height;
     left: 0;
     right: 0;
-    padding: 20px;
     overflow-y: hidden;
     background: #fff;
+    border-top: 1px solid black;
   }
   
   &__radio {

@@ -21,7 +21,6 @@ const MainTab = () => {
                     <label className={styles.tab__label} htmlFor="tab-1">이슈</label>
                     
                     <div className={styles.tab__content}>
-                        {/* 이슈 목록 */}
                         <IssueForm/>
                     </div> 
                 </div>
