@@ -1,6 +1,7 @@
 package com.a702.hup.application.contorller;
 
 import com.a702.hup.application.data.request.IssueSaveRequest;
+import com.a702.hup.application.data.response.IssueDetailsResponse;
 import com.a702.hup.application.data.response.IssueListByStatusResponse;
 import com.a702.hup.application.facade.IssueFacade;
 import com.a702.hup.domain.issue.IssueService;
@@ -33,4 +34,12 @@ public class IssueController {
         issueFacade.save(user.memberId(), request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
+    @GetMapping("/{issueId}")
+    public ResponseEntity<IssueDetailsResponse> findIssueDetails(@PathVariable Integer issueId) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(issueService.findIssueDetailsById(issueId));
+    }
+
 }

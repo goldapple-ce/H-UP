@@ -1,6 +1,7 @@
 package com.a702.hup.domain.issue;
 
 import com.a702.hup.application.data.dto.IssueInfo;
+import com.a702.hup.application.data.response.IssueDetailsResponse;
 import com.a702.hup.application.data.response.IssueListByStatusResponse;
 import com.a702.hup.domain.issue.entity.Issue;
 import com.a702.hup.domain.issue.entity.IssueStatus;
@@ -90,6 +91,15 @@ public class IssueService {
                 .project(project)
                 .member(member)
                 .build());
+    }
+
+    /**
+     * @author 손현조
+     * @date 2024-05-07
+     * @description 상세 조회 (제목, 날짜, 소속 프로젝트, 생성자) (내용은 X)
+     **/
+    public IssueDetailsResponse findIssueDetailsById(Integer issueId) {
+        return IssueDetailsResponse.toResponse(findById(issueId));
     }
 
 }
