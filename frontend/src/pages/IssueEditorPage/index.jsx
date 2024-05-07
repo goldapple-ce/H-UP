@@ -19,8 +19,8 @@ function IssueEditorPage() {
         content: '<p>Hello World!</p>',
         onUpdate: ({ editor }) => {
             const json = editor.getJSON();
-            if (stompClient) {
-                stompClient.current.publish(`/pub/documents`, {}, JSON.stringify({ documentsId: id, memberId: memberId, content: json }));
+            if (stompClient.current && stompClient.current.connected) {
+                stompClient.current.send(`/pub/documents`, {}, JSON.stringify({ documentsId: id, memberId: memberId, content: json }));
             }
         },
         editorProps: {
