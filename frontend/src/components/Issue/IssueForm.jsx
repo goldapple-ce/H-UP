@@ -26,7 +26,6 @@ const IssueForm = () => {
         {/* 이슈 목록 */}
             <div className={styles.column1}>
                 <div className={styles.issue_section}>
-                <h4>이슈 목록</h4>
                     <ul>
                         {issueList.map((issue) => (
                             <li key={issue.id}>
@@ -39,7 +38,7 @@ const IssueForm = () => {
             {/* 마감 임박 이슈 목록 */}
             <div className={styles.column2}>
                 <div className={styles.imminent_issue_section}>
-                    <h4>마감이 임박한 이슈</h4>
+                    <h5>마감이 임박한 이슈</h5>
                     <ul>
                         {issueList
                             .filter((issue) => new Date() >= imminentDate(issue) && issue.progress !== '완료')

@@ -115,9 +115,8 @@ function Card({ item }) {
     >
       <div className={styles.cardHeaderWrap}>
         <h5>{item.title}</h5>
-        <p>{item.content}</p>
       </div>
-      <div>
+      <div className={styles.imageList}>
         {item.imageList && item.imageList.map((image) => (
         <img key={image.id}
             src={image.src}
