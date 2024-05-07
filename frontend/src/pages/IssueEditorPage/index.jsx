@@ -20,7 +20,7 @@ function IssueEditorPage() {
         onUpdate: ({ editor }) => {
             const json = editor.getJSON();
             if (stompClient.current && stompClient.current.connected) {
-                stompClient.current.send(`/documents`, {}, JSON.stringify({ documentsId: id, memberId: memberId, content: json }));
+                stompClient.current.send(`/app/documents`, {}, JSON.stringify({ documentsId: id, memberId: memberId, content: json }));
             }
         },
         editorProps: {
@@ -34,28 +34,28 @@ function IssueEditorPage() {
     useEffect(() => {
         const sock = new SockJS('https://h-up.site/api/ws');
         stompClient.current = Stomp.over(sock);
-
-        stompClient.current.connect({}, () => {
-            console.log("Connected to STOMP server");
+    
+        stompClient.current.connect({}, frame => {
+            console.log("Connected to STOMP server", frame);
             stompClient.current.subscribe(`/sub/documents/${id}`, (message) => {
                 const { content } = JSON.parse(message.body);
                 if (editor) {
-                    editor.commands.setContent(content, false); // Update content
+                    editor.commands.setContent(content, false);
                 }
             });
-
-            // Example of publishing on connection
-            // stompClient.current.send(`/app/connection`, {}, JSON.stringify({ documentsId: id, memberId }));
-
-        }, (error) => {
-            console.log("Could not connect to STOMP server", error);
+    
+            // Optionally: Send an initial connection message
+            stompClient.current.send(`/app/connection`, {}, JSON.stringify({ documentsId: id, memberId }));
+    
+        }, error => {
+            console.error("Could not connect to STOMP server", error);
         });
-
+    
         return () => {
-            if (stompClient.current) {
-                stompClient.current.disconnect(() => {
-                    console.log("Disconnected from STOMP server");
-                });
+            if (stompClient.current && stompClient.current.connected) {
+                console.log("Disconnected from STOMP Server");
+                stompClient.current.send(`/app/disconnection`, {}, JSON.stringify({ documentsId: id, memberId }));
+                stompClient.current.disconnect();
             }
         };
     }, [editor, id, memberId]);
