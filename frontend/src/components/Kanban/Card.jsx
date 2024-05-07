@@ -110,6 +110,7 @@ function Card({ item }) {
       ref={dragRef}
       style={{
         opacity: isDragging ? '0.3' : '1',
+        boxShadow: `1px 1px 5px 0.1px ${cardColor}`,
        }}
       onClick={handleClick}
     >
