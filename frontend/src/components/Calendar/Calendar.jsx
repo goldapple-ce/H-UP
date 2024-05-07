@@ -11,6 +11,7 @@ import events from './Events'
 import styles from "./Calendar.module.scss"
 import { loginDummyData } from '../../test/userData';
 import { onLoadData, updateSchedule } from '../../api/service/calendar';
+import { useDrag } from 'react-dnd';
 
 const Container = styled.div`
 .rbc-addons-dnd {
@@ -283,6 +284,21 @@ const MyCalendar = () => {
         </div>
       )
     }
+
+    //팝업된 일정 이동 기능
+    const handleDragStart = useCallback(
+      (event) => {
+        setMyEvents((prev) => {
+          const existing = prev.find((ev) => ev.id === event.id) ?? {};
+          const filtered = prev.filter((ev) => ev.id !== event.id);
+
+          const start = event.start;
+          const end = event.end;
+          return [...filtered, { ...existing, start, end}];
+        });
+      },
+      [setMyEvents]
+    );
     
     return (
       <Container>
@@ -312,6 +328,7 @@ const MyCalendar = () => {
           popup
           resizable
           selectable
+          handleDragStart={handleClick}
           titleAccessor={loadProfileImage}
         />
       </Container>
