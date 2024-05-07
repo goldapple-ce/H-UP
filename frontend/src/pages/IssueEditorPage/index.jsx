@@ -4,7 +4,7 @@ import StarterKit from '@tiptap/starter-kit';
 import Placeholder from '@tiptap/extension-placeholder';
 import Link from '@tiptap/extension-link';
 import Image from '@tiptap/extension-image';
-import { Client } from '@stomp/stompjs';  // Import Stomp
+import { Stomp } from '@stomp/stompjs';  // Import Stomp
 import SockJS from 'sockjs-client';
 import { useParams } from 'react-router-dom';
 import styles from './IssueEditorPage.module.scss';
@@ -32,33 +32,33 @@ function IssueEditorPage() {
   
 
     useEffect(() => {
-      const sock = new SockJS(`https://h-up.site/api/ws`);
-      stompClient.current = new Client({
-          webSocketFactory: () => sock,
-          reconnectDelay: 5000,
-          onConnect: () => {
-              console.log("Connected to STOMP server");
-              stompClient.subscribe(`/sub/documents/${id}`, (message) => {
-                  const { content } = JSON.parse(message.body);
-                  editor.commands.setContent(content, false); // 변경사항 적용
-              });
-            
-              //stompClient.current.publish(`/connection`, {}, JSON.stringify({ documentsId: id, memberId }));
-          },
-          onDisconnect: () => {
-              console.log("Disconnected from STOMP server");
-          }
-      });
-  
-      stompClient.current.activate();
-  
-      return () => {
-          if (stompClient.current) {
-              //stompClient.current.publish(`/disconnection`, {}, JSON.stringify({ documentsId: id, memberId }));
-              stompClient.current.deactivate();
-          }
-      };
-  }, [editor, id]);
+        const sock = new SockJS('https://h-up.site/api/ws');
+        stompClient.current = Stomp.over(sock);
+
+        stompClient.current.connect({}, () => {
+            console.log("Connected to STOMP server");
+            stompClient.current.subscribe(`/sub/documents/${id}`, (message) => {
+                const { content } = JSON.parse(message.body);
+                if (editor) {
+                    editor.commands.setContent(content, false); // Update content
+                }
+            });
+
+            // Example of publishing on connection
+            // stompClient.current.send(`/app/connection`, {}, JSON.stringify({ documentsId: id, memberId }));
+
+        }, (error) => {
+            console.log("Could not connect to STOMP server", error);
+        });
+
+        return () => {
+            if (stompClient.current) {
+                stompClient.current.disconnect(() => {
+                    console.log("Disconnected from STOMP server");
+                });
+            }
+        };
+    }, [editor, id, memberId]);
   
 
 
