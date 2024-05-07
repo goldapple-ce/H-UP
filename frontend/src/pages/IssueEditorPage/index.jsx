@@ -18,8 +18,9 @@ function IssueEditorPage() {
         content: '<p>Hello World!</p>',
         onUpdate: ({ editor }) => {
             const json = editor.getJSON();
+            const jsonString = JSON.stringify(json);  // JSON 객체를 문자열로 변환
             if (stompClient.current && stompClient.current.connected) {
-                stompClient.current.send(`/pub/documents`, {}, JSON.stringify({ documentsId: id, memberId: memberId, content: json }));
+                stompClient.current.send(`/pub/documents`, {}, JSON.stringify({ documentsId: id, memberId: memberId, content: jsonString }));
             }
         },
         editorProps: {
@@ -36,8 +37,8 @@ function IssueEditorPage() {
             stompClient.current.connect({}, () => {
                 console.log("Connected to STOMP server");
                 stompClient.current.subscribe(`/sub/documents/${id}`, (message) => {
-                    console.log(message);
-                    const { content } = JSON.parse(message.body);
+                    const data = JSON.parse(message.body);
+                    const content = JSON.parse(data.content);
                     if (editor) {
                         editor.commands.setContent(content, false);
                     }
