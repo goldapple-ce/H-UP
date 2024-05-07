@@ -20,7 +20,7 @@ function IssueEditorPage() {
         onUpdate: ({ editor }) => {
             const json = editor.getJSON();
             if (stompClient.current && stompClient.current.connected) {
-                stompClient.current.send(`/pub/documents`, {}, JSON.stringify({ documentsId: id, memberId: memberId, content: json }));
+                stompClient.current.send(`/app/documents`, {}, JSON.stringify({ documentsId: id, memberId: memberId, content: json }));
             }
         },
         editorProps: {
@@ -37,7 +37,7 @@ function IssueEditorPage() {
 
         stompClient.current.connect({}, () => {
             console.log("Connected to STOMP server");
-            stompClient.current.subscribe(`/sub/documents/${id}`, (message) => {
+            stompClient.current.subscribe(`/app/documents/${id}`, (message) => {
                 const { content } = JSON.parse(message.body);
                 if (editor) {
                     editor.commands.setContent(content, false); // Update content
