@@ -2,6 +2,7 @@ package com.a702.hup.application.contorller;
 
 import com.a702.hup.application.data.request.AgendaAssigneeSaveRequest;
 import com.a702.hup.application.data.request.AgendaCreateRequest;
+import com.a702.hup.application.data.request.AgendaInfoByProjectRequest;
 import com.a702.hup.application.data.request.AgendaUpdateRequest;
 import com.a702.hup.application.data.response.AgendaInfoListByIssueResponse;
 import com.a702.hup.application.data.response.AgendaInfoListByProjectResponse;
@@ -106,9 +107,9 @@ public class AgendaController {
      * @date 2024-05-02
      * @description 프로젝트 별 의사결정 정보 가져오기
      */
-    @GetMapping("/list/project/{projectId}")
-    public ResponseEntity<AgendaInfoListByProjectResponse> getAgendaInfoByProject(@PathVariable(name = "projectId") int projectId){
-        AgendaInfoListByProjectResponse response = agendaFacade.getAgendaInfoListByProject(projectId);
+    @PostMapping("/list/project/{projectId}")
+    public ResponseEntity<AgendaInfoListByProjectResponse> getAgendaInfoByProject(@PathVariable(name = "projectId") int projectId, @RequestBody AgendaInfoByProjectRequest request){
+        AgendaInfoListByProjectResponse response = agendaFacade.getAgendaInfoListByProject(projectId,request);
         return ResponseEntity.ok(response);
     }
 

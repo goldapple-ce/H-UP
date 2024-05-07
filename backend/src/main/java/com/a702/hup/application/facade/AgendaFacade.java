@@ -2,6 +2,7 @@ package com.a702.hup.application.facade;
 
 import com.a702.hup.application.data.request.AgendaAssigneeSaveRequest;
 import com.a702.hup.application.data.request.AgendaCreateRequest;
+import com.a702.hup.application.data.request.AgendaInfoByProjectRequest;
 import com.a702.hup.application.data.request.AgendaUpdateRequest;
 import com.a702.hup.application.data.response.AgendaInfoListByIssueResponse;
 import com.a702.hup.application.data.response.AgendaInfoListByProjectResponse;
@@ -114,16 +115,16 @@ public class AgendaFacade {
         return AgendaInfoListByIssueResponse.from(issue);
     }
 
-    public AgendaInfoListByProjectResponse getAgendaInfoListByProject(int projectId){
+    public AgendaInfoListByProjectResponse getAgendaInfoListByProject(int projectId, AgendaInfoByProjectRequest request ){
         Project project = projectService.findById(projectId);
-        List<Agenda> agendaList = agendaService.findByProject(project);
+        List<Object[]> agendaList = agendaService.findByProjectAndOption(project, request.getMemberIdList(),request.getStatusList(),request.toOption());
         return AgendaInfoListByProjectResponse.from(agendaList);
     }
 
     public AgendaInfoListByProjectResponse getNearAgendaInfoListByProject(int memberId, int projectId) {
         Member member = memberService.findById(memberId);
         Project project = projectService.findById(projectId);
-        List<Agenda> agendaList = agendaService.findNearByProject(member,project);
+        List<Object[]> agendaList = agendaService.findNearByProject(project,member);
         return AgendaInfoListByProjectResponse.from(agendaList);
 
     }

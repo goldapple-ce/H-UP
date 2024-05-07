@@ -21,7 +21,7 @@ import java.util.List;
 public class AgendaInfoResponse {
     private int id;
     private String content;
-    private LocalDate createdAt;
+    private String createdAt;
     private RelatedMember requester;
     private List<RelatedMember> assigneeList;
     private List<Comment> commentList;
@@ -39,7 +39,7 @@ public class AgendaInfoResponse {
         return AgendaInfoResponse.builder()
                 .id(agenda.getId())
                 .content(agenda.getContent())
-                .createdAt(LocalDate.from(agenda.getCreateAt()))
+                .createdAt(String.valueOf(LocalDate.from(agenda.getCreateAt())))
                 .requester(RelatedMember.from(agenda.getRequester()))
                 .assigneeList(assigneeList)
                 .commentList(commentList)

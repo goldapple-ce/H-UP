@@ -1,16 +1,20 @@
 package com.a702.hup.domain.agenda;
 
 import com.a702.hup.application.data.response.AgendaInfoResponse;
+import com.a702.hup.domain.agenda.dto.AgendaOptionOfFind;
 import com.a702.hup.domain.agenda.entity.Agenda;
+import com.a702.hup.domain.agenda.entity.AgendaStatus;
 import com.a702.hup.domain.issue.entity.Issue;
 import com.a702.hup.domain.member.entity.Member;
 import com.a702.hup.domain.project.entity.Project;
 import com.a702.hup.global.error.ErrorCode;
+import com.a702.hup.global.error.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Slf4j
@@ -63,8 +67,14 @@ public class AgendaService {
      * @date 2024-05-02
      * @description Project 별 의사결정 가져오기
      */
-    public List<Agenda> findByProject(Project project){
-        return agendaRepository.findAllByProject(project);
+    public List<Object[]> findByProjectAndOption(Project project, List<Integer> memberList, List<AgendaStatus> agendaStatusList, AgendaOptionOfFind option) {
+        if(option.getType() != null && memberList.isEmpty()){
+            throw new BusinessException(ErrorCode.API_ERROR_INPUT_INVALID_VALUE);
+        }
+
+        if (agendaStatusList.isEmpty()) agendaStatusList = null;
+        if (memberList.isEmpty()) memberList = null;
+        return agendaRepository.findAllByProjectAndOption(project, memberList, agendaStatusList, option);
     }
 
     /**
@@ -72,7 +82,9 @@ public class AgendaService {
      * @date 2024-05-03
      * @description Project 별 의사결정 가져오기
      */
-    public List<Agenda> findNearByProject(Member member, Project project) {
-        return agendaRepository.findAllByProject(member,project);
+    public List<Object[]> findNearByProject(Project project, Member member) {
+        LocalDate now = LocalDate.now();
+        LocalDate endDate = now.plusDays(3);
+        return agendaRepository.findAllByProject(project, member, now, endDate);
     }
 }
