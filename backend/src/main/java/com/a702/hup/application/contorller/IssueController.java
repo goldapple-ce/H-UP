@@ -3,7 +3,6 @@ package com.a702.hup.application.contorller;
 import com.a702.hup.application.data.dto.IssueDTO;
 import com.a702.hup.application.data.request.IssueSaveRequest;
 import com.a702.hup.application.data.response.IssueDetailsResponse;
-import com.a702.hup.application.data.response.IssueListByStatusResponse;
 import com.a702.hup.application.facade.IssueFacade;
 import com.a702.hup.domain.issue.IssueService;
 import com.a702.hup.domain.issue.entity.IssueStatus;
