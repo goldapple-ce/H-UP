@@ -1,6 +1,8 @@
 package com.a702.hup.domain.issue;
 
 import com.a702.hup.application.data.dto.IssueInfo;
+import com.a702.hup.application.data.dto.MemberInfo;
+import com.a702.hup.application.data.response.IssueDetailsResponse;
 import com.a702.hup.application.data.response.IssueListByStatusResponse;
 import com.a702.hup.domain.issue.entity.Issue;
 import com.a702.hup.domain.issue.entity.IssueStatus;
@@ -15,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service

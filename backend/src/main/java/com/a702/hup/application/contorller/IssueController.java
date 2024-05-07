@@ -1,6 +1,7 @@
 package com.a702.hup.application.contorller;
 
 import com.a702.hup.application.data.request.IssueSaveRequest;
+import com.a702.hup.application.data.response.IssueDetailsResponse;
 import com.a702.hup.application.data.response.IssueListByStatusResponse;
 import com.a702.hup.application.facade.IssueFacade;
 import com.a702.hup.domain.issue.IssueService;
@@ -18,8 +19,8 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/issue")
 public class IssueController {
-    private final IssueService issueService;
     private final IssueFacade issueFacade;
+    private final IssueService issueService;
 
     @GetMapping("/list")
     public ResponseEntity<IssueListByStatusResponse> findByProjectId(@PathVariable int projectId) {
@@ -33,4 +34,12 @@ public class IssueController {
         issueFacade.save(user.memberId(), request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
+    @GetMapping("/{issueId}")
+    public ResponseEntity<IssueDetailsResponse> findIssueDetails(@PathVariable Integer issueId) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(issueFacade.findIssueDetailsById(issueId));
+    }
+
 }

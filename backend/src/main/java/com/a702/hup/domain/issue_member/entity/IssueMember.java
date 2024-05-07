@@ -27,7 +27,12 @@ public class IssueMember extends BaseEntity {
 
     @Builder
     public IssueMember(Issue issue, Member member) {
-        this.issue = issue;
+        addRelatedIssue(issue);
         this.member = member;
+    }
+
+    private void addRelatedIssue(Issue issue) {
+        issue.getIssueMemberList().add(this);
+        this.issue = issue;
     }
 }
