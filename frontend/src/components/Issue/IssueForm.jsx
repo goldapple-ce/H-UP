@@ -38,7 +38,7 @@ const IssueForm = () => {
             {/* 마감 임박 이슈 목록 */}
             <div className={styles.column2}>
                 <div className={styles.imminent_issue_section}>
-                    <h5>마감이 임박한 이슈</h5>
+                    <h4>마감이 임박한 이슈</h4>
                     <ul>
                         {issueList
                             .filter((issue) => new Date() >= imminentDate(issue) && issue.progress !== '완료')
