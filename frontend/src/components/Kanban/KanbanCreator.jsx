@@ -18,6 +18,8 @@ function KanbanCreator({ title }) {
           id: getId,
           title: '',
           content: '',
+          start: new Date(),
+          end: new Date(),
           progress: title,
           isChecked: false,
         },

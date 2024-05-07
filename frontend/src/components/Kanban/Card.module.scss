@@ -9,16 +9,17 @@ $navy: #02469d;
   display: flex;
   flex-direction: row;
   position: relative;
-  margin-bottom: 5px;
-  padding: 5px 5px;
+  margin: 5px 10px;
+  padding: 20px;
   border: 1px solid $white;
   border-radius: 7px;
   background-color: $white;
   box-shadow: 1px 1px 5px 0.1px rgba(0, 0, 0, 0.15);
   cursor: pointer;
   height: 75px;
-  width: 250px;
+  width: auto;
   justify-content: space-around;
+  align-items: center;
 
   .cardHeaderWrap {
     display: flex;
@@ -61,5 +62,9 @@ $navy: #02469d;
     font-size: 13px;
     font-weight: 300;
     color: $fontColor;
+  }
+
+  .imageList{
+    margin-left: auto;
   }
 }
