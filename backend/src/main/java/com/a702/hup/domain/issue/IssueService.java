@@ -1,7 +1,6 @@
 package com.a702.hup.domain.issue;
 
-import com.a702.hup.application.data.dto.IssueInfo;
-import com.a702.hup.application.data.response.IssueListByStatusResponse;
+import com.a702.hup.application.data.dto.IssueDTO;
 import com.a702.hup.domain.issue.entity.Issue;
 import com.a702.hup.domain.issue.entity.IssueStatus;
 import com.a702.hup.domain.member.entity.Member;
@@ -9,12 +8,17 @@ import com.a702.hup.domain.project.entity.Project;
 import com.a702.hup.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -35,40 +39,48 @@ public class IssueService {
 
     /**
      * @author 이경태
-     * @date 2024-05-03
-     * @description 칸반 보드 상태 별 이슈 조회
+     * @date 2024-05-07
+     * @description 페이징 이용한 팀에 속한 이슈 전체 조회
      **/
-    public IssueListByStatusResponse findIssueListByTypeByProjectId(int projectId) {
-        List<IssueInfo> issueList = issueRepository.findByProjectId(projectId)
-                .orElseThrow(() -> new IssueException(ErrorCode.API_ERROR_ISSUE_NOT_FOUND)).stream()
-                .map(IssueInfo::from)
-                .toList();
-
-        List<IssueInfo> created = new ArrayList<>();
-        List<IssueInfo> selected = new ArrayList<>();
-        List<IssueInfo> progress = new ArrayList<>();
-        List<IssueInfo> completed = new ArrayList<>();
-        List<IssueInfo> approved = new ArrayList<>();
-        issueList.forEach(issue -> {
-            IssueStatus status = issue.getStatus();
-            switch (status) {
-                case CREATED -> created.add(issue);
-                case PROGRESS -> progress.add(issue);
-                case SELECTED -> selected.add(issue);
-                case COMPLETED -> completed.add(issue);
-                case APPROVED -> approved.add(issue);
-                default -> log.error("Issue status not recognized");
-            }
-        });
-
-        return IssueListByStatusResponse.builder()
-                .createdIssueList(created)
-                .selectedIssueList(selected)
-                .progressIssueList(progress)
-                .completedIssueList(completed)
-                .approvedIssueList(approved).build();
+    public IssueDTO.ResponseList findIssuePageByTeamId(int teamId, int lastId, int pageSize) {
+        // 프로젝트 별 이슈 조회
+        return IssueDTO.ResponseList.builder()
+                .responseList(issueRepository.findPageByTeamId(teamId, lastId, PageRequest.ofSize(pageSize)).stream()
+                        .map(IssueDTO.Response::from)
+                        .toList()
+                )
+                .build();
     }
 
+    /**
+     * @author 이경태
+     * @date 2024-05-07
+     * @description 상태 별 상위 5개 이슈 조회 함수
+     **/
+    public IssueDTO.ResponseListByStatus findTop5IssueEachStatus(int projectId) {
+        Map<IssueStatus, List<Issue>> issuesByStatus = issueRepository.findTop5IssueEachStatus(projectId).stream()
+                .collect(Collectors.groupingBy(Issue::getStatus));
+
+        return IssueDTO.ResponseListByStatus.builder()
+                .createdList(mapToResponse(issuesByStatus.get(IssueStatus.CREATED)))
+                .selectedList(mapToResponse(issuesByStatus.get(IssueStatus.SELECTED)))
+                .progressList(mapToResponse(issuesByStatus.get(IssueStatus.PROGRESS)))
+                .completedList(mapToResponse(issuesByStatus.get(IssueStatus.COMPLETED)))
+                .approvedList(mapToResponse(issuesByStatus.get(IssueStatus.APPROVED)))
+                .build();
+
+    }
+
+    public IssueDTO.ResponseList findPageByStatus(int projectId, IssueStatus status, int lastId, int pageSize) {
+        return IssueDTO.ResponseList.builder()
+                .responseList(
+                        issueRepository.findTop5IssueByStatusAndProjectId(projectId, status, lastId, Pageable.ofSize(pageSize))
+                                .stream()
+                                .map(IssueDTO.Response::from)
+                        .toList()
+                )
+                .build();
+    }
 
     /**
      * @author 강용민
@@ -92,4 +104,20 @@ public class IssueService {
                 .build());
     }
 
+    /**
+     * @author 이경태
+     * @date 2024-05-07
+     * @description 프로젝트 별 이슈 조회
+     **/
+    private List<Issue> findByProjectId(int projectId) {
+        return issueRepository.findByProjectId(projectId)
+                .orElseThrow(() -> new IssueException(ErrorCode.API_ERROR_ISSUE_NOT_FOUND));
+    }
+
+    private List<IssueDTO.Response> mapToResponse(List<Issue> issueList) {
+        if(issueList == null) return new ArrayList<>();
+        return issueList.stream()
+                .map(IssueDTO.Response::from)
+                .toList();
+    }
 }
