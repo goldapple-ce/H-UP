@@ -1,6 +1,7 @@
 package com.a702.hup.domain.issue;
 
 import com.a702.hup.application.data.dto.IssueInfo;
+import com.a702.hup.application.data.dto.MemberInfo;
 import com.a702.hup.application.data.response.IssueDetailsResponse;
 import com.a702.hup.application.data.response.IssueListByStatusResponse;
 import com.a702.hup.domain.issue.entity.Issue;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -99,7 +101,15 @@ public class IssueService {
      * @description 상세 조회 (제목, 날짜, 소속 프로젝트, 생성자) (내용은 X)
      **/
     public IssueDetailsResponse findIssueDetailsById(Integer issueId) {
-        return IssueDetailsResponse.toResponse(findById(issueId));
+        Issue issue = findById(issueId);
+        return IssueDetailsResponse.toResponse(
+                issue, issue.getProject(), issue.getMember(), createMemberInfoList(issue));
+    }
+
+    private List<MemberInfo> createMemberInfoList(Issue issue) {
+        return issue.getIssueMemberList().stream()
+                .map(issueMember -> MemberInfo.from(issueMember.getMember()))
+                .collect(Collectors.toList());
     }
 
 }

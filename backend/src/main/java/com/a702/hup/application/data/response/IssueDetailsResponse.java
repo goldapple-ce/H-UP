@@ -1,9 +1,13 @@
 package com.a702.hup.application.data.response;
 
+import com.a702.hup.application.data.dto.MemberInfo;
 import com.a702.hup.domain.issue.entity.Issue;
+import com.a702.hup.domain.member.entity.Member;
+import com.a702.hup.domain.project.entity.Project;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Builder
@@ -17,17 +21,23 @@ public class IssueDetailsResponse {
     private String projectName;
     private Integer producerId;
     private String producerName;
+    private List<MemberInfo> memberInfoList;
 
 
-    public static IssueDetailsResponse toResponse(Issue issue) {
+    public static IssueDetailsResponse toResponse(
+            Issue issue,
+            Project project,
+            Member member,
+            List<MemberInfo> memberInfoList) {
         return IssueDetailsResponse.builder()
                 .title(issue.getTitle())
                 .startDate(issue.getStartDate())
                 .endDate(issue.getEndDate())
-                .projectId(issue.getProject().getId())
-                .projectName(issue.getProject().getName())
-                .producerId(issue.getMember().getId())
-                .producerName(issue.getMember().getName())
+                .projectId(project.getId())
+                .projectName(project.getName())
+                .producerId(member.getId())
+                .producerName(member.getName())
+                .memberInfoList(memberInfoList)
                 .build();
     }
 }
