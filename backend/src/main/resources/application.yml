@@ -25,10 +25,11 @@ spring:
     mongodb:
       host: ${MONGO_HOST}
       port: ${MONGO_PORT}
-      authentication-database: ${MONGO_ADMIN}
+      database: ${MONGO_DATABASE}
       username: ${MONGO_USERNAME}
       password: ${MONGO_PASSWORD}
-      database: ${MONGO_DATABASE}
+      authentication-database: ${MONGO_AUTHENTICATION}
+      auto-index-creation: true
 
   jpa:
     hibernate:
