@@ -95,21 +95,4 @@ public class IssueService {
                 .build());
     }
 
-    /**
-     * @author 손현조
-     * @date 2024-05-07
-     * @description 상세 조회 (제목, 날짜, 소속 프로젝트, 생성자) (내용은 X)
-     **/
-    public IssueDetailsResponse findIssueDetailsById(Integer issueId) {
-        Issue issue = findById(issueId);
-        return IssueDetailsResponse.toResponse(
-                issue, issue.getProject(), issue.getMember(), createMemberInfoList(issue));
-    }
-
-    private List<MemberInfo> createMemberInfoList(Issue issue) {
-        return issue.getIssueMemberList().stream()
-                .map(issueMember -> MemberInfo.from(issueMember.getMember()))
-                .collect(Collectors.toList());
-    }
-
 }

@@ -15,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class IssueDetailsResponse {
     private String title;
+    private String content;
     private LocalDate startDate;
     private LocalDate endDate;
     private Integer projectId;
@@ -26,11 +27,13 @@ public class IssueDetailsResponse {
 
     public static IssueDetailsResponse toResponse(
             Issue issue,
+            String content,
             Project project,
             Member member,
             List<MemberInfo> memberInfoList) {
         return IssueDetailsResponse.builder()
                 .title(issue.getTitle())
+                .content(content)
                 .startDate(issue.getStartDate())
                 .endDate(issue.getEndDate())
                 .projectId(project.getId())
