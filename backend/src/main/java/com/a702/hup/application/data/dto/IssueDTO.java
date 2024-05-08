@@ -1,12 +1,10 @@
 package com.a702.hup.application.data.dto;
 
-import com.a702.hup.domain.agenda.entity.Agenda;
-import com.a702.hup.domain.comment.entity.Comment;
 import com.a702.hup.domain.issue.entity.Issue;
 import com.a702.hup.domain.issue.entity.IssueStatus;
 import com.a702.hup.domain.member.entity.Member;
 import com.a702.hup.domain.project.entity.Project;
-import com.a702.hup.domain.todo.entity.Todo;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -17,6 +15,7 @@ public class IssueDTO {
 
     @Getter
     public static class Save {
+        @NotNull
         private int projectId;
     }
 
@@ -56,17 +55,41 @@ public class IssueDTO {
 
     @Getter
     @Builder
-    public static class ResponseList {
-        private List<Response> responseList;
+    public static class DetailResponse {
+        private String title;
+        private String content;
+        private LocalDate startDate;
+        private LocalDate endDate;
+        private Integer projectId;
+        private String projectName;
+        private Integer producerId;
+        private String producerName;
+        private List<MemberInfo> memberInfoList;
+
+        public static DetailResponse toResponse(
+                Issue issue,
+                String content,
+                Project project,
+                Member member,
+                List<MemberInfo> memberInfoList
+        ) {
+            return DetailResponse.builder()
+                    .title(issue.getTitle())
+                    .content(content)
+                    .startDate(issue.getStartDate())
+                    .endDate(issue.getEndDate())
+                    .projectId(project.getId())
+                    .projectName(project.getName())
+                    .producerId(member.getId())
+                    .producerName(member.getName())
+                    .memberInfoList(memberInfoList)
+                    .build();
+        }
     }
 
     @Getter
     @Builder
-    public static class ResponseListByStatus {
-        private List<Response> createdList;
-        private List<Response> selectedList;
-        private List<Response> progressList;
-        private List<Response> completedList;
-        private List<Response> approvedList;
+    public static class ResponseList {
+        private List<Response> responseList;
     }
 }

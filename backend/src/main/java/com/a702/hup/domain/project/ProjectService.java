@@ -4,6 +4,7 @@ import com.a702.hup.domain.member.entity.Member;
 import com.a702.hup.domain.project.entity.Project;
 import com.a702.hup.domain.project_member.ProjectMemberService;
 import com.a702.hup.domain.team.entity.Team;
+import com.a702.hup.domain.project.entity.Project;
 import com.a702.hup.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

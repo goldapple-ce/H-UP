@@ -1,11 +1,7 @@
 package com.a702.hup.application.contorller;
 
 import com.a702.hup.application.data.dto.IssueDTO;
-import com.a702.hup.application.data.request.IssueSaveRequest;
-import com.a702.hup.application.data.response.IssueDetailsResponse;
 import com.a702.hup.application.facade.IssueFacade;
-import com.a702.hup.domain.issue.IssueService;
-import com.a702.hup.domain.issue.entity.IssueStatus;
 import com.a702.hup.global.config.security.SecurityUserDetailsDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,11 +16,13 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/issue")
 public class IssueController {
-    private final IssueService issueService;
     private final IssueFacade issueFacade;
 
     @PostMapping
-    public ResponseEntity<Void> save(@AuthenticationPrincipal(errorOnInvalidType = true) SecurityUserDetailsDto user, @RequestBody @Valid IssueSaveRequest request){
+    public ResponseEntity<Void> save(
+            @AuthenticationPrincipal(errorOnInvalidType = true) SecurityUserDetailsDto user,
+            @RequestBody @Valid IssueDTO.Save request
+    ){
         issueFacade.save(user.memberId(), request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -32,53 +30,20 @@ public class IssueController {
     /**
      * @author 이경태
      * @date 2024-05-07
-     * @description 팀 별 이슈 페이지네이션
+     * @description 프로젝트 별 이슈 조회
      **/
-    @GetMapping("/list/t/{teamId}")
-    public ResponseEntity<IssueDTO.ResponseList> findIssuePageByTeamId(
-            @PathVariable int teamId,
-            @RequestParam int lastId,
-            @RequestParam int pageSize
-    ) {
-        log.info("[+] IssueController :: findIssuePageByTeamId :: lastId : {}, size : {}", lastId, pageSize);
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(issueService.findIssuePageByTeamId(teamId, lastId, pageSize));
-    }
-
-    /**
-     * @author 이경태
-     * @date 2024-05-07
-     * @description 칸반 보드 초기 값 세팅(모든 상태 별 5개씩 로딩)
-     **/
-    @GetMapping("/kb/a/{projectId}")
-    public ResponseEntity<IssueDTO.ResponseListByStatus> kanbanIssueInit(
+    @GetMapping("/list/{projectId}")
+    public ResponseEntity<IssueDTO.ResponseList> findIssueByProjectId(
+            @AuthenticationPrincipal(errorOnInvalidType = true) SecurityUserDetailsDto user,
             @PathVariable int projectId
     ) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(issueService.findTop5IssueEachStatus(projectId));
-    }
-
-    /**
-     * @author 이경태
-     * @date 2024-05-07
-     * @description 칸반 보드 상태 별 페이징 처리
-     **/
-    @GetMapping("/kb/s/{projectId}")
-    public ResponseEntity<IssueDTO.ResponseList> kanbanIssueByStatus(
-            @PathVariable int projectId,
-            @RequestParam IssueStatus status,
-            @RequestParam int lastId,
-            @RequestParam int pageSize
-    ) {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(issueService.findPageByStatus(projectId, status, lastId, pageSize));
+                .body(issueFacade.findByProject(user.memberId(), projectId));
     }
 
     @GetMapping("/{issueId}")
-    public ResponseEntity<IssueDetailsResponse> findIssueDetails(@PathVariable Integer issueId) {
+    public ResponseEntity<IssueDTO.DetailResponse> findIssueDetails(@PathVariable Integer issueId) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(issueFacade.findIssueDetailsById(issueId));
