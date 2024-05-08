@@ -9,18 +9,18 @@ import { useSelector } from "react-redux";
 
 const MainTab = () => {
 
-    /////////////////////////////////////////////////////////////////////
-    // member id 테스트
-    const memberId = useSelector((state) => state.auth.memberId); 
+    // /////////////////////////////////////////////////////////////////////
+    // // member id 테스트
+    // const memberId = useSelector((state) => state.auth.memberId); 
 
-    useEffect(() => {
-        let option = document.getElementById("tab-1");
-        option.checked = true;
+    // useEffect(() => {
+    //     let option = document.getElementById("tab-1");
+    //     option.checked = true;
 
-        const data = onLoadData(memberId)
-        console.log(data);
-      }, []);
-      ///////////////////////////////////////////////////////////////////
+    //     const data = onLoadData(memberId)
+    //     console.log(data);
+    //   }, []);
+    //   ///////////////////////////////////////////////////////////////////
 
     return (
         <div className={styles.maintab_container}>
