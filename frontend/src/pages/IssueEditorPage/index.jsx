@@ -3,9 +3,12 @@ import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Link from '@tiptap/extension-link';
 import Image from '@tiptap/extension-image';
+import ListItem from '@tiptap/extension-list-item';
+import BulletList from '@tiptap/extension-bullet-list';
+import OrderedList from '@tiptap/extension-ordered-list';
 import Collaboration from '@tiptap/extension-collaboration';
+import { ySyncPlugin } from 'y-prosemirror';
 import * as Y from 'yjs';
-import { ySyncPlugin, yCursorPlugin } from 'y-prosemirror';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import styles from './IssueEditorPage.module.scss';
@@ -24,6 +27,9 @@ function IssueEditorPage() {
             StarterKit,
             Link,
             Image,
+            ListItem,
+            BulletList,
+            OrderedList,
             Collaboration.configure({
                 document: ydoc,
                 field: 'prosemirror',
