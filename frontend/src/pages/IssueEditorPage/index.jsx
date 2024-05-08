@@ -75,7 +75,8 @@ function IssueEditorPage() {
 
         return () => {
             editor?.destroy();
-            if (stompClient.current) {
+            if (stompClient.current && stompClient.current.connected) {
+                stompClient.current.send(`/pub/disconnection`, {}, JSON.stringify({ documentsId: id, memberId }));
                 stompClient.current.disconnect();
             }
         };
