@@ -14,12 +14,14 @@ import { useSelector } from 'react-redux';
 import styles from './IssueEditorPage.module.scss';
 import { Stomp } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
+import axios from 'axios';
 
-function IssueEditorPage() {
+async function IssueEditorPage() {
     const { id } = useParams();
     const memberId = useSelector(state => state.auth.memberId);
     const stompClient = useRef(null);
     const ydoc = useRef(new Y.Doc()).current;
+    const response = await axios.get(`/api/issue/${id}`);
 
     // Initialize the editor
     const editor = useEditor({
@@ -36,6 +38,7 @@ function IssueEditorPage() {
             }),
             ySyncPlugin(ydoc.getXmlFragment('prosemirror'))
         ],
+        content: response.data.body.content,
         editorProps: {
             attributes: {
                 class: 'my-editor'
@@ -55,17 +58,19 @@ function IssueEditorPage() {
                     updates = JSON.parse(updates);
                 }
                 if (updates && Array.isArray(updates)) {
-                    Y.applyUpdate(ydoc, new Uint8Array(updates));
+                    Y.applyUpdate(ydoc, new Uint8Array(updates), 'remote');
                 }
             });
 
-            ydoc.on('update', (update) => {
-                const updateArray = Array.from(update);
-                stompClient.current.send(`/pub/documents`, {}, JSON.stringify({
-                    documentsId: id,
-                    memberId,
-                    content: JSON.stringify(updateArray)
-                }));
+            ydoc.on('update', (update, origin) => {
+                if (origin !== 'remote') {
+                    const updateArray = Array.from(update);
+                    stompClient.current.send(`/pub/documents`, {}, JSON.stringify({
+                        documentsId: id,
+                        memberId,
+                        content: JSON.stringify(updateArray)
+                    }));
+                }
             });
 
             stompClient.current.send(`/pub/connection`, {}, JSON.stringify({ documentsId: id, memberId }));
