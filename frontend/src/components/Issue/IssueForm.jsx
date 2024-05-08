@@ -12,7 +12,7 @@ const IssueForm = () => {
     // const { openDialog } = MyLayout.useDialog();
 
     const imminentDate = (issue) => {
-        const date = issue.end
+        const date = issue.endDate
 
         const year = date.getFullYear();
         const month = date.getMonth();
@@ -28,7 +28,7 @@ const IssueForm = () => {
                 <div className={styles.issue_section}>
                     <ul>
                         {issueList.map((issue) => (
-                            <li key={issue.id}>
+                            <li key={issue.issueId}>
                                 <IssueItemContainer issue={issue} />
                             </li>
                         ))}
@@ -41,9 +41,9 @@ const IssueForm = () => {
                     <h4>마감이 임박한 이슈</h4>
                     <ul>
                         {issueList
-                            .filter((issue) => new Date() >= imminentDate(issue) && issue.progress !== '완료')
+                            .filter((issue) => new Date() >= imminentDate(issue) && issue.status !== 'COMPLETED')
                             .map((issue) => (
-                                <li key={issue.id}>
+                                <li key={issue.issueId}>
                                     <IssueItemContainer issue={issue} />
                                 </li>
                         ))}

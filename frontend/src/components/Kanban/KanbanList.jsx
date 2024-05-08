@@ -6,7 +6,7 @@ import { TITLE_NAME } from './Kanban';
 
 function KanbanList({ title, children }) {
   const [spanColor, setSpanColor] = useState('');
-  const {TO_DO, IN_PROGRESS, DONE, NOTE} = TITLE_NAME;
+  const {CREATED, SELECTED, PROGRESS, COMPLETED} = TITLE_NAME;
   const [{ canDrop, isOver }, drop] = useDrop({
     accept: 'card',
     drop: () => ({ name: title }),
@@ -18,16 +18,16 @@ function KanbanList({ title, children }) {
 
   useEffect(() => {
     switch (title) {
-      case TO_DO:
+      case CREATED:
         setSpanColor('#ef5777');
         break;
-      case IN_PROGRESS:
+      case SELECTED:
         setSpanColor('#B33771');
         break;
-      case DONE:
+      case PROGRESS:
         setSpanColor('#341f97');
         break;
-      case NOTE:
+      case COMPLETED:
         setSpanColor('#130f40');
         break;
     }

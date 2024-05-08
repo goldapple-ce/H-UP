@@ -1,8 +1,8 @@
 import { api } from "../instance/api";
 
-export const onLoadData = async () => {
+export const onLoadData = async (memberId) => {
     return await api({
-        url: "/api/issue",
+        url: `/api/`,
         method: "GET",
         data: { param: {} },
     });
@@ -10,7 +10,7 @@ export const onLoadData = async () => {
 
 export const updateIssue = async (data) => {
     return await api({
-        url: "/api/issue",
+        url: "/api/issue/status",
         method: "POST",
         data: { param: data },
     });

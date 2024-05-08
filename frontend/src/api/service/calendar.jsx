@@ -1,8 +1,8 @@
 import { api } from "../instance/api";
 
-export const onLoadData = async () => {
+export const onLoadMemberData = async (memberId) => {
     return await api({
-        url: "/api/calendar",
+        url: `${process.env.REACT_APP_API_BASE_URL}/api/issue/list/${memberId}`,
         method: "GET",
         data: { param: {} },
     });

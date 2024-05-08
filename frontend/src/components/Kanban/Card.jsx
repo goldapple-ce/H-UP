@@ -5,13 +5,14 @@ import { TITLE_NAME } from './Kanban';
 import { issueListState } from '../../recoil/recoil';
 import { useNavigate } from 'react-router-dom';
 import styles from "./Card.module.scss"
+import { updateIssue } from '../../api/service/issue';
 
 function Card({ item }) {
   const [list, setList] = useRecoilState(issueListState);
   const [cardColor, setCardColor] = useState('');
   const index = list.findIndex((data) => data === item);
   const ref = useRef(null);
-  const { TO_DO, IN_PROGRESS, DONE, NOTE } = TITLE_NAME;
+  const { CREATED, SELECTED, PROGRESS, COMPLETED } = TITLE_NAME;
   const navigate = useNavigate();
 
   const replaceIndex = (list, index, data) => {
@@ -45,12 +46,18 @@ function Card({ item }) {
     setList([...list.slice(0, index), ...list.slice(index + 1)]);
   };
 
-  const changeItemProgress = (selectedItem, newProgress) => {
+  const changeItemStatus = (selectedItem, newStatus) => {
     setList((prevList) =>
     prevList.map((item) =>
-      item.id === selectedItem.id ? { ...item, progress: newProgress } : item
+      item.id === selectedItem.id ? { ...item, status: newStatus } : item
     )
   );
+  /////////////////////////////////////////
+  // 칸반 이슈 업데이트 테스트
+
+  updateIssue({ ...item, status: newStatus })
+
+  ////////////////////////////////////////
 };
 
   const [{ isDragging }, dragRef] = useDrag(() => ({
@@ -63,17 +70,17 @@ function Card({ item }) {
       const dropResult = monitor.getDropResult();
       if (dropResult) {
         switch (dropResult.name) {
-          case TO_DO:
-            changeItemProgress(item, TO_DO);
+          case CREATED:
+            changeItemStatus(item, CREATED);
             break;
-          case IN_PROGRESS:
-            changeItemProgress(item, IN_PROGRESS);
+          case SELECTED:
+            changeItemStatus(item, SELECTED);
             break;
-          case DONE:
-            changeItemProgress(item, DONE);
+          case PROGRESS:
+            changeItemStatus(item, PROGRESS);
             break;
-          case NOTE:
-            changeItemProgress(item, NOTE);
+          case COMPLETED:
+            changeItemStatus(item, COMPLETED);
             break;
         }
       }
@@ -82,21 +89,21 @@ function Card({ item }) {
 
   const handleClick = (e) => {
     e.preventDefault();
-    navigate(`/issue/${item.id}`);
+    navigate(`/issue/${item.issueId}`);
   };
 
   useEffect(() => {
-    switch (item.progress) {
-      case TO_DO:
+    switch (item.status) {
+      case CREATED:
         setCardColor('#ef5777');
         break;
-      case IN_PROGRESS:
+      case SELECTED:
         setCardColor('#B33771');
         break;
-      case DONE:
+      case PROGRESS:
         setCardColor('#341f97');
         break;
-      case NOTE:
+      case COMPLETED:
         setCardColor('#130f40');
         break;
     }
@@ -117,11 +124,11 @@ function Card({ item }) {
       <div className={styles.cardHeaderWrap}>
         <h5>{item.title}</h5>
       </div>
-      <div className={styles.imageList}>
-        {item.imageList && item.imageList.map((image) => (
+      <div className={styles.memberInfo}>
+        {item.memberInfo && item.memberInfo.map((image) => (
         <img key={image.id}
-            src={image.src}
-            alt={image.alt}>
+            src={image.img}
+            alt={image.name}>
         </img>
         ))}
       </div>

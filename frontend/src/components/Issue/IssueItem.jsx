@@ -8,8 +8,8 @@ import { TITLE_NAME } from "../Kanban/Kanban";
 
 
 const IssueItem = ({ issue, onClick }) => {
-    const {id, title, content, progress, start, end, imageList }= issue;
-    const {TO_DO, IN_PROGRESS, NOTE, DONE} = TITLE_NAME;
+    const {issueId, title, status, startDate, endDate, memberInfo }= issue;
+    const { CREATED, SELECTED, PROGRESS, COMPLETED } = TITLE_NAME;
     const [ iconImage, setIconImage ] = useState('');
 
     const formatToDate = (jsDateStr) => {
@@ -25,32 +25,32 @@ const IssueItem = ({ issue, onClick }) => {
       };
 
       useEffect(() => {
-        switch (progress) {
-          case TO_DO:
+        switch (status) {
+          case CREATED:
             setIconImage(upArrowIcon);
             break;
-          case IN_PROGRESS:
+          case PROGRESS:
             setIconImage(playIcon);
             break;
-          case DONE:
+          case COMPLETED:
             setIconImage(checkIcon);
             break;
-          case NOTE:
+          case SELECTED:
             setIconImage(pauseIcon);
             break;
         }
-      }, [progress]);
+      }, [status]);
 
     return (
         <div className={styles.issue_item_container} onClick={onClick}>
-            <img className={styles.iconImage} src={iconImage} alt={progress}/>
+            <img className={styles.iconImage} src={iconImage} alt={status}/>
             <h5 className="task-name">{title}</h5>
             <ul>
-                <p className={styles.date}>{formatToDate(start)} ~ {formatToDate(end)}</p>
-                {imageList && imageList.map((image) => (
+                <p className={styles.date}>{formatToDate(startDate)} ~ {formatToDate(endDate)}</p>
+                {memberInfo && memberInfo.map((image) => (
                 <img key={image.id}
-                    src={image.src}
-                    alt={image.alt}>
+                    src={image.img}
+                    alt={image.name}>
                 </img>
                 ))}
             </ul>
