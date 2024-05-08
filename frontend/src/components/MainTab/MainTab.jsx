@@ -6,6 +6,7 @@ import Kanban from "../Kanban/Kanban";
 import { RecoilRoot } from "recoil";
 import { onLoadData } from "../../api/service/issue";
 import { useSelector } from "react-redux";
+import AgendaForm from "../Agenda/AgendaForm";
 
 const MainTab = () => {
 
@@ -59,6 +60,7 @@ const MainTab = () => {
                     
                     <div className={styles.tab__content}>
                         의사결정이 들어갈 공간입니다.
+                        <AgendaForm/>
                     </div>
                 </div>
 
