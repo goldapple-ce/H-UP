@@ -1,6 +1,8 @@
 import { api } from "../instance/api";
 
 export const onLoadData = async (memberId) => {
+    memberId = 1; // 테스트 코드
+
     return await api({
         url: `/api/issue/list/${memberId}`,
         method: "GET",
