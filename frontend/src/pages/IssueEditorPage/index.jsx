@@ -16,7 +16,7 @@ import { Stomp } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import axios from 'axios';
 
-async function IssueEditorPage() {
+function IssueEditorPage() {
     const { id } = useParams();
     const memberId = useSelector(state => state.auth.memberId);
     const stompClient = useRef(null);
