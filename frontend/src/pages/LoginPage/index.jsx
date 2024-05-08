@@ -20,26 +20,26 @@ const LoginPage = (props) => {
     setUserIdError('')
     setPasswordError('')
     const login = async (userId, password) => {
-        
       try {
-          dispatch(loginUser({userId:userId, password:password}));
-          return 'success';
 
-          // if (response.status === 200) {
-          //     const user = response.data.memberId;
-          //     console.log('Login successful:', user);
-          //     return user;
-          // } else {
-          //     const error = response.data;
-          //     console.error('Login failed:', error.message);
-          //     return error;
-          // }
+        dispatch(loginUser({userId:userId, password:password}));
+        return 'success';
 
-          } catch (error) {
-          console.error('Login error:', error);
-          return error;
+        // if (response.status === 200) {
+        //     const user = response.data.memberId;
+        //     console.log('Login successful:', user);
+        //     return user;
+        // } else {
+        //     const error = response.data;
+        //     console.error('Login failed:', error.message);
+        //     return error;
+        // }
+
+      } catch (error) {
+        console.error('Login error:', error);
+        return error;
       }
-  }
+    }
     if ('' === userId) {
       setUserIdError('Please enter your userId')
       return
@@ -49,11 +49,11 @@ const LoginPage = (props) => {
       setPasswordError('Please enter a password')
       return
     }
-        const response = await login(userId, password);
-
-        if (response === 'success') {
-          navigate('/');
-        }
+    const response = await login(userId, password);
+    console.log(response.data);
+    if (response === 'success') {
+      navigate('/');
+    }
   }
 
   const onButtonSignup = () => {
