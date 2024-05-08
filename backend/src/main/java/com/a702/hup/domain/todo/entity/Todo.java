@@ -53,4 +53,8 @@ public class Todo extends BaseEntity {
         this.requester = member;
     }
 
+    public void update(String content, TodoStatus status) {
+        this.content = content;
+        this.status = status;
+    }
 }

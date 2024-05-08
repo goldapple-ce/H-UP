@@ -2,6 +2,7 @@ package com.a702.hup.application.facade;
 
 import com.a702.hup.application.data.request.TodoAssigneeSaveRequest;
 import com.a702.hup.application.data.request.TodoSaveRequest;
+import com.a702.hup.application.data.request.TodoUpdateRequest;
 import com.a702.hup.domain.issue.IssueService;
 import com.a702.hup.domain.issue.entity.Issue;
 import com.a702.hup.domain.issue_member.IssueMemberService;
@@ -9,6 +10,7 @@ import com.a702.hup.domain.member.MemberService;
 import com.a702.hup.domain.member.entity.Member;
 import com.a702.hup.domain.todo.TodoService;
 import com.a702.hup.domain.todo.entity.Todo;
+import com.a702.hup.domain.todo.entity.TodoStatus;
 import com.a702.hup.domain.todo_member.TodoMemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -51,6 +53,18 @@ public class TodoFacade {
 
         Member assignee = memberService.findById(request.getMemberId());
         todoMemberService.save(todo, assignee);
+    }
+
+    /**
+     * @author 손현조
+     * @date 2024-05-08
+     * @description 할 일 변경
+     **/
+    @Transactional
+    public void update(int memberId, TodoUpdateRequest request) {
+        Todo todo = todoService.findById(request.getTodoId());
+        validation(todo, memberId);
+        todo.update(request.getContent(), TodoStatus.valueOf(request.getTodoStatus()));
     }
 
     /**
