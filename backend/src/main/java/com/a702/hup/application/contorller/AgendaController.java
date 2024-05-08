@@ -1,8 +1,8 @@
 package com.a702.hup.application.contorller;
 
-import com.a702.hup.application.data.request.AgendaAssigneeSaveRequest;
-import com.a702.hup.application.data.request.AgendaCreateRequest;
-import com.a702.hup.application.data.request.AgendaUpdateRequest;
+import com.a702.hup.application.data.request.*;
+import com.a702.hup.application.data.response.AgendaInfoListByIssueResponse;
+import com.a702.hup.application.data.response.AgendaInfoListByProjectResponse;
 import com.a702.hup.application.data.response.AgendaInfoResponse;
 import com.a702.hup.application.facade.AgendaFacade;
 import com.a702.hup.domain.agenda.AgendaService;
@@ -85,5 +85,50 @@ public class AgendaController {
     public ResponseEntity<AgendaInfoResponse> getAgendaInfo(@PathVariable(name = "agendaId") int agendaId){
         AgendaInfoResponse response = agendaService.getAgendaInfo(agendaId);
         return ResponseEntity.ok(response);
+    }
+
+    /**
+     * @author 강용민
+     * @date 2024-05-02
+     * @description 이슈 별 의사결정 정보 가져오기
+     */
+    @GetMapping("/list/issue/{issueId}")
+    public ResponseEntity<AgendaInfoListByIssueResponse> getAgendaInfoByIssue(@PathVariable(name = "issueId") int issueId){
+        AgendaInfoListByIssueResponse response = agendaFacade.getAgendaInfoListByIssue(issueId);
+        return ResponseEntity.ok(response);
+    }
+
+
+    /**
+     * @author 강용민
+     * @date 2024-05-02
+     * @description 프로젝트 별 의사결정 정보 가져오기
+     */
+    @PostMapping("/list/project/{projectId}")
+    public ResponseEntity<AgendaInfoListByProjectResponse> getAgendaInfoByProject(@PathVariable(name = "projectId") int projectId, @RequestBody AgendaInfoByProjectRequest request){
+        AgendaInfoListByProjectResponse response = agendaFacade.getAgendaInfoListByProject(projectId,request);
+        return ResponseEntity.ok(response);
+    }
+
+    /**
+     * @author 강용민
+     * @date 2024-05-02
+     * @description 마감 임박한 의사결정 정보 가져오기
+     */
+    @GetMapping("/list/project/{projectId}/me")
+    public ResponseEntity<AgendaInfoListByProjectResponse> getNearAgendaInfoListByProject(@AuthenticationPrincipal(errorOnInvalidType = true) SecurityUserDetailsDto user,@PathVariable(name = "projectId") int projectId){
+        AgendaInfoListByProjectResponse response = agendaFacade.getNearAgendaInfoListByProject(user.memberId(),projectId);
+        return ResponseEntity.ok(response);
+    }
+
+    /**
+     * @author 강용민
+     * @date 2024-05-08
+     * @description 의사결정 댓글 저장
+     */
+    @PostMapping("/comment")
+    public ResponseEntity<Void> saveAgendaComment(@AuthenticationPrincipal(errorOnInvalidType = true) SecurityUserDetailsDto user, @Valid @RequestBody AgendaCommentSaveRequest request){
+        agendaFacade.saveAgendaComment(user.memberId(),request);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }
