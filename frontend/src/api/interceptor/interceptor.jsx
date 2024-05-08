@@ -1,17 +1,15 @@
 import { api } from "../instance/api";
-import { useSelector } from "react-redux"
 
 
-export default function interceptor(api) {
-    addTokenOnRequest(api)
+export default function interceptor(api, token) {
+    addTokenOnRequest(api, token)
 }
 
 function addTokenOnRequest(instance, token) {
     instance.interceptors.request.use(
     config => {
-
         if (token) {
-            config.headers.Authorization = `Bearer ${token}`
+            config.headers.Authorization = `Bearer ${token.accessToken}`
         }
 
         return config;
