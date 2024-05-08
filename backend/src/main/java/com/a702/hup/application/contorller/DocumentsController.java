@@ -28,7 +28,7 @@ public class DocumentsController {
         log.info("[+] PUB Message :: Documents :: documentsId = " + request.getDocumentsId() + ", memberId = " + request.getMemberId() + ", content : " + request.getContent());
         simpMessageSendingOperations.convertAndSend(
                 "/sub/documents/" + request.getDocumentsId(),
-                documentsRedisService.saveDocument(request));
+                documentsRedisService.saveDocument(request.getDocumentsId(), request.getMemberId(), request.getContent()));
     }
 
     /**

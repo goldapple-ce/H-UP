@@ -1,10 +1,9 @@
 package com.a702.hup.domain.documents.redis;
 
-import com.a702.hup.application.data.request.DocumentsSaveRequest;
+import com.a702.hup.application.data.dto.DocumentsMemberInfo;
 import com.a702.hup.application.data.response.DocumentsMembersResponse;
 import com.a702.hup.application.data.response.DocumentsResponse;
 import com.a702.hup.domain.documents.DocumentException;
-import com.a702.hup.application.data.dto.DocumentsMemberInfo;
 import com.a702.hup.domain.documents.mongodb.DocumentsMongoService;
 import com.a702.hup.domain.documents.redis.entity.ActiveDocumentsMembersRedis;
 import com.a702.hup.domain.documents.redis.entity.DocumentsRedis;
@@ -31,22 +30,22 @@ public class DocumentsRedisService {
      * @date 2024-04-29
      * @description 1초마다 문서 상태를 Redis 저장
      **/
-    public DocumentsResponse saveDocument(DocumentsSaveRequest request) {
+    public DocumentsResponse saveDocument(Integer documentsId, Integer memberId, String content) {
         long now = System.currentTimeMillis();
         if (isRunning || now - lastStartTime < 1000) {
-            return createResponse(request);
+            return createResponse(content);
         }
 
         isRunning = true;
         lastStartTime = now;
 
         try {
-            processDocument(request);
+            processDocument(documentsId, memberId, content);
         } finally {
             isRunning = false;
         }
 
-        return createResponse(request);
+        return createResponse(content);
     }
 
     /**
@@ -54,10 +53,10 @@ public class DocumentsRedisService {
      * @date 2024-04-29
      * @description 문서 업데이트
      **/
-    private void processDocument(DocumentsSaveRequest request) {
+    private void processDocument(Integer documentsId, Integer memberId, String content) {
         DocumentsRedis documentsRedis = findOrCreateDocumentsRedis(
-                Integer.toString(request.getDocumentsId()), Integer.toString(request.getMemberId()));
-        documentsRedis.updateContent(request.getContent());
+                Integer.toString(documentsId), Integer.toString(memberId));
+        documentsRedis.updateContent(content);
 
         documentsRedisRepository.save(documentsRedis);
     }
@@ -72,8 +71,8 @@ public class DocumentsRedisService {
                 .orElseGet(() -> new DocumentsRedis(documentsId, senderId));
     }
 
-    private DocumentsResponse createResponse(DocumentsSaveRequest request) {
-        return DocumentsResponse.from(request);
+    private DocumentsResponse createResponse(String content) {
+        return DocumentsResponse.from(content);
     }
 
     /**

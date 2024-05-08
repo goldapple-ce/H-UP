@@ -38,10 +38,13 @@ public class IssueFacade {
     public Issue save(int memberId, IssueDTO.Save request){
         Member member = memberService.findById(memberId);
         Project project = projectService.findById(request.getProjectId());
+
         validation(member,project);
+
         Issue issue = issueService.save(project,member);
         issueMemberService.save(issue,member);
         documentsMongoService.save(String.valueOf(issue.getId()),"");
+        documentsRedisService.saveDocument(issue.getId(), memberId, "");
         return issue;
     }
 
