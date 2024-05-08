@@ -2,7 +2,7 @@ import { api } from "../instance/api";
 
 export const onLoadData = async (memberId) => {
     return await api({
-        url: `/api/`,
+        url: `/api/issue/list/${memberId}`,
         method: "GET",
         data: { param: {} },
     });
