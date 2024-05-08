@@ -1,20 +1,19 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { loginSuccess, loginFailure } from './authSlice';
-import axios from 'axios';
+import { requestLogin } from '../../api/service/auth';
+import { loginFailure, loginSuccess } from './authSlice';
 
-export const loginUser = createAsyncThunk(
-  'auth/loginUser',
-  async (credentials, { dispatch }) => {
+export const loginUser = createAsyncThunk('auth/loginUser', async (credentials, { dispatch }) => {
     try {
-      const response = await axios.post('api/member/login', credentials);
+        const response = await requestLogin(credentials);
 
-      if (response.status === 200) {
-        dispatch(loginSuccess({memberId:response.data.memberId, token:response.data.jwtToken}));
-      } else {
-        dispatch(loginFailure('Invalid credentials'));
-      }
+        if (response.status === 200) {
+            dispatch(
+                loginSuccess({ memberId: response.data.memberId, token: response.data.token })
+            );
+        } else {
+            dispatch(loginFailure('Invalid credentials'));
+        }
     } catch (error) {
-      dispatch(loginFailure('Network error'));
+        dispatch(loginFailure('Network error'));
     }
-  }
-);
+});

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import styles from './SignupPage.module.scss'; // SCSS 스타일 시트 임포트
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { requestIdCheck, requestSignup } from "../../api/service/auth";
+import styles from './SignupPage.module.scss'; // SCSS 스타일 시트 임포트
 
 function SignupPage() {
 
@@ -31,7 +31,7 @@ function SignupPage() {
     }
 
     try {
-      const response = await axios.post('api/member/signup', formData);
+      const response = await requestSignup(formData);
       console.log('Server Response:', response.data);
 
       alert('회원가입 성공')
@@ -49,7 +49,8 @@ function SignupPage() {
       return;
     }
     try {
-      const response = await axios.get(`api/member/check?userId=${userId}`);
+      const response = await requestIdCheck(userId);
+      console.log(response.data);
       if (response.data.available) {
         alert('ID is available.');
         setUsernameValid(true);

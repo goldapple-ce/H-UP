@@ -4,17 +4,16 @@ import storage from 'redux-persist/lib/storage'; // defaults to localStorage for
 import { persistReducer, persistStore } from 'redux-persist';
 
 const persistConfig = {
-  key: 'root',
-  storage,
-  whitelist: ['auth'] // you can choose to persist only specific reducers
+    key: 'root',
+    storage,
+    whitelist: ['auth'], // you can choose to persist only specific reducers
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-
 const store = configureStore({
-  reducer: persistedReducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware()
+    reducer: persistedReducer,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });
 
 export const persistor = persistStore(store);
