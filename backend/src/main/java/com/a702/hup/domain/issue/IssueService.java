@@ -53,6 +53,21 @@ public class IssueService {
 
     /**
      * @author 이경태
+     * @date 2024-05-08
+     * @description 페이징 이용한 프로젝트 내 이슈 전체 조회
+     **/
+    public IssueDTO.ResponseList findIssuePageByProjectId(int projectId, int lastId, int pageSize) {
+        return IssueDTO.ResponseList.builder()
+                .responseList(
+                        issueRepository.findPageByProjectId(projectId, lastId, PageRequest.ofSize(pageSize)).stream()
+                                .map(IssueDTO.Response::from)
+                                .toList()
+                )
+                .build();
+    }
+
+    /**
+     * @author 이경태
      * @date 2024-05-07
      * @description 상태 별 상위 5개 이슈 조회 함수
      **/
