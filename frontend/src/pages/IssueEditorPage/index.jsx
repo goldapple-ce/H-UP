@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Link from '@tiptap/extension-link';
@@ -14,16 +14,17 @@ import { useSelector } from 'react-redux';
 import styles from './IssueEditorPage.module.scss';
 import { Stomp } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
-import axios from 'axios';
+import { api, initializeAxios } from '../../api/instance/api';
 
-async function IssueEditorPage() {
+function IssueEditorPage() {
     const { id } = useParams();
     const memberId = useSelector(state => state.auth.memberId);
+    const token = useSelector(state => state.auth.token); // 토큰을 여기서 가져옴
     const stompClient = useRef(null);
     const ydoc = useRef(new Y.Doc()).current;
-    //const response = await axios.get(`/api/issue/${id}`);
+    const [initialContent, setInitialContent] = useState('');  // 초기 컨텐츠 상태
 
-    // Initialize the editor
+    // 에디터 초기화
     const editor = useEditor({
         extensions: [
             StarterKit,
@@ -38,15 +39,27 @@ async function IssueEditorPage() {
             }),
             ySyncPlugin(ydoc.getXmlFragment('prosemirror'))
         ],
-        //content: response.data.body.content,
+        content: initialContent,  // 초기 컨텐츠 사용
         editorProps: {
             attributes: {
                 class: 'my-editor'
             }
         }
     });
+    
+    useEffect(() => {
+        initializeAxios(token);
+    }, [token]);
 
     useEffect(() => {
+            async function fetchContent() {
+            const response = await api(`https://h-up.site/api/issue/${id}`);
+            console.log('response : ', response);
+            const data = response.data;
+            setInitialContent(data.content);  // 상태 업데이트
+        }
+        fetchContent();
+
         const sock = new SockJS('https://h-up.site/api/ws');
         stompClient.current = Stomp.over(sock);
         stompClient.current.connect({}, () => {
@@ -85,7 +98,7 @@ async function IssueEditorPage() {
                 stompClient.current.disconnect();
             }
         };
-    }, [editor, id, memberId]);
+    }, [editor, id, memberId, token]);
 
     return (
         <div className={styles.editor_page}>

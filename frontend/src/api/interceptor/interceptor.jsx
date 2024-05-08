@@ -1,19 +1,18 @@
 import { api } from "../instance/api";
 
 
-export default function interceptor(api) {
-    addTokenOnRequest(api)
+export default function interceptor(api, token) {
+    addTokenOnRequest(api, token)
 }
 
 function addTokenOnRequest(instance, token) {
-    console.log(token);
     instance.interceptors.request.use(
     config => {
         if (token) {
-            config.headers.Authorization = `Bearer ${token}`
+            config.headers.Authorization = `Bearer ${token.accessToken}`
         }
 
-        return config
+        return config;
     },
     error => Promise.reject(error.response),
     )
