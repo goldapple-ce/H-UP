@@ -49,7 +49,7 @@ function Card({ item }) {
   const changeItemStatus = (selectedItem, newStatus) => {
     setList((prevList) =>
     prevList.map((item) =>
-      item.id === selectedItem.id ? { ...item, status: newStatus } : item
+      item.issueId === selectedItem.issueId ? { ...item, status: newStatus } : item
     )
   );
   /////////////////////////////////////////
