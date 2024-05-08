@@ -55,8 +55,8 @@ function Card({ item }) {
   /////////////////////////////////////////
   // 칸반 이슈 업데이트 테스트
 
-  updateIssue({ ...item, status: newStatus })
-
+  const data = updateIssue({ ...item, status: newStatus })
+  console.log(data)
   ////////////////////////////////////////
 };
 
