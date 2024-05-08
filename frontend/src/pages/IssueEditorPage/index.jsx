@@ -21,7 +21,7 @@ async function IssueEditorPage() {
     const memberId = useSelector(state => state.auth.memberId);
     const stompClient = useRef(null);
     const ydoc = useRef(new Y.Doc()).current;
-    const response = await axios.get(`/api/issue/${id}`);
+    //const response = await axios.get(`/api/issue/${id}`);
 
     // Initialize the editor
     const editor = useEditor({
@@ -38,7 +38,7 @@ async function IssueEditorPage() {
             }),
             ySyncPlugin(ydoc.getXmlFragment('prosemirror'))
         ],
-        content: response.data.body.content,
+        //content: response.data.body.content,
         editorProps: {
             attributes: {
                 class: 'my-editor'
