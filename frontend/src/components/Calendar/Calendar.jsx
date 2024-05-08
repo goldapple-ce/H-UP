@@ -55,8 +55,8 @@ const Container = styled.div`
       margin: -4px 0 0 -2px;
 
       img {
-        height: 25px;
-        width: 25px;
+        height: 24px;
+        width: 24px;
       }
     }
   }
