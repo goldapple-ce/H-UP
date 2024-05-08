@@ -9,7 +9,7 @@ export const issueListState = atom({
       id: 1,
       title: "title1",
       content: 'content',
-      progress: '발의됨',
+      status: 'CREATED',
       start: new Date(2024, 3, 12, 10, 30, 0, 0),
       end: new Date(2024, 4, 12, 12, 30, 0, 0),
       imageList: [{
@@ -34,7 +34,7 @@ export const issueListState = atom({
       id: 2,
       title: "title2",
       content: 'content',
-      progress: '진행중',
+      status: 'PROGRESS',
       start: new Date(2024, 3, 23, 11, 30, 0, 0),
       end: new Date(2024, 4, 5, 15, 30, 0, 0),
       imageList: [{
@@ -51,7 +51,7 @@ export const issueListState = atom({
       id: 3,
       title: "title3",
       content: 'content',
-      progress: '완료',
+      status: 'COMPLETED',
       start: new Date(2024, 3, 4, 15, 30, 0, 0),
       end: new Date(2024, 4, 2, 10, 30, 0, 0),
       imageList: [{
@@ -72,8 +72,8 @@ export const fetchListState = selector({
   key: "fetchListState",
   // get: async () => {
   //   const response = await axios.get(
-  //      `${process.env.REACT_APP_API_BASE_URL}/list`
-  //     ``
+  //     //  `${process.env.REACT_APP_API_BASE_URL}/api/issue/kb/a/1`
+  //     `https://h-up.site/api/issue/kb/a/1`
   //   );
   //   const data = response.data;
 
@@ -81,9 +81,14 @@ export const fetchListState = selector({
   // },
   get: ({get}) => {
     const list = get(issueListState);
-
+    console.log(list)
   return list
-}});
+  },
+  set: ({set}) => {
+    const res = set(issueListState)
+    console.log(res)
+  }
+});
 
 export const MenuSidebarState = atom({
   key: 'MenuSideState',

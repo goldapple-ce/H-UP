@@ -11,7 +11,7 @@ function Card({ item }) {
   const [cardColor, setCardColor] = useState('');
   const index = list.findIndex((data) => data === item);
   const ref = useRef(null);
-  const { TO_DO, IN_PROGRESS, DONE, NOTE } = TITLE_NAME;
+  const { CREATED, SELECTED, PROGRESS, COMPLETED } = TITLE_NAME;
   const navigate = useNavigate();
 
   const replaceIndex = (list, index, data) => {
@@ -45,10 +45,10 @@ function Card({ item }) {
     setList([...list.slice(0, index), ...list.slice(index + 1)]);
   };
 
-  const changeItemProgress = (selectedItem, newProgress) => {
+  const changeItemStatus = (selectedItem, newStatus) => {
     setList((prevList) =>
     prevList.map((item) =>
-      item.id === selectedItem.id ? { ...item, progress: newProgress } : item
+      item.id === selectedItem.id ? { ...item, status: newStatus } : item
     )
   );
 };
@@ -63,17 +63,17 @@ function Card({ item }) {
       const dropResult = monitor.getDropResult();
       if (dropResult) {
         switch (dropResult.name) {
-          case TO_DO:
-            changeItemProgress(item, TO_DO);
+          case CREATED:
+            changeItemStatus(item, CREATED);
             break;
-          case IN_PROGRESS:
-            changeItemProgress(item, IN_PROGRESS);
+          case SELECTED:
+            changeItemStatus(item, SELECTED);
             break;
-          case DONE:
-            changeItemProgress(item, DONE);
+          case PROGRESS:
+            changeItemStatus(item, PROGRESS);
             break;
-          case NOTE:
-            changeItemProgress(item, NOTE);
+          case COMPLETED:
+            changeItemStatus(item, COMPLETED);
             break;
         }
       }
@@ -86,17 +86,17 @@ function Card({ item }) {
   };
 
   useEffect(() => {
-    switch (item.progress) {
-      case TO_DO:
+    switch (item.status) {
+      case CREATED:
         setCardColor('#ef5777');
         break;
-      case IN_PROGRESS:
+      case SELECTED:
         setCardColor('#B33771');
         break;
-      case DONE:
+      case PROGRESS:
         setCardColor('#341f97');
         break;
-      case NOTE:
+      case COMPLETED:
         setCardColor('#130f40');
         break;
     }

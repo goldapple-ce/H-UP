@@ -3,20 +3,20 @@ import KanbanList from './KanbanList';
 import Card from './Card';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { issueListState } from '../../recoil/recoil';
+import { fetchListState } from '../../recoil/recoil';
 import styles from './Kanban.module.scss'
 import { useEffect, useState } from 'react';
 
 function Kanban() {
-  const kanbanList = useRecoilValue(issueListState);
-  const { TO_DO, IN_PROGRESS, DONE, NOTE } = TITLE_NAME;
+  const kanbanList = useRecoilValue(fetchListState);
+  const { CREATED, SELECTED, PROGRESS, COMPLETED } = TITLE_NAME;
   const [selectedCategory, setSelectedCategory] = useState('TO_DO'); // Initial selected category
   const [searchInput, setSearchInput] = useState('');
   const [items, setItems] = useState([])
 
   const cardDataHandler = (cardTitle) => {
     return kanbanList
-      .filter((data) => data.progress === cardTitle && data.title.toLowerCase().includes(searchInput))
+      .filter((data) => data.status === cardTitle && data.title.toLowerCase().includes(searchInput))
       .map((item, index) => <Card key={item.id} item={item} />);
   };
 
@@ -59,12 +59,10 @@ function Kanban() {
       </div>
       <section className={styles.kanbanListContainer}>
         <DndProvider backend={HTML5Backend}>
-          <KanbanList title={TO_DO}>{cardDataHandler(TO_DO)}</KanbanList>
-          <KanbanList title={IN_PROGRESS}>
-            {cardDataHandler(IN_PROGRESS)}
-          </KanbanList>
-          <KanbanList title={NOTE}>{cardDataHandler(NOTE)}</KanbanList>
-          <KanbanList title={DONE}>{cardDataHandler(DONE)}</KanbanList>
+          <KanbanList title={CREATED}>{cardDataHandler(CREATED)}</KanbanList>
+          <KanbanList title={SELECTED}>{cardDataHandler(SELECTED)}</KanbanList>
+          <KanbanList title={PROGRESS}>{cardDataHandler(PROGRESS)}</KanbanList>
+          <KanbanList title={COMPLETED}>{cardDataHandler(COMPLETED)}</KanbanList>
         </DndProvider>
       </section>
     </div>
@@ -74,8 +72,8 @@ function Kanban() {
 export default Kanban;
 
 export const TITLE_NAME = {
-  TO_DO: '발의됨',
-  IN_PROGRESS: '진행중',
-  DONE: '완료',
-  NOTE: '선택됨',
+  CREATED: 'CREATED',
+  SELECTED: 'SELECTED',
+  PROGRESS: 'PROGRESS',
+  COMPLETED: 'COMPLETED',
 };

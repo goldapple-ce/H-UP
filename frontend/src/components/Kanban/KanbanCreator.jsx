@@ -20,7 +20,7 @@ function KanbanCreator({ title }) {
           content: '',
           start: new Date(),
           end: new Date(),
-          progress: title,
+          status: title,
           isChecked: false,
         },
       ]);
