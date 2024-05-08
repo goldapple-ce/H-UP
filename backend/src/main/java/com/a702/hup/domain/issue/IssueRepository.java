@@ -17,10 +17,17 @@ interface IssueRepository extends JpaRepository<Issue, Integer> {
     Optional<List<Issue>> findByMemberId(int memberId);
 
     @Query("SELECT i FROM Issue i " +
-            "JOIN i.project p " +
+            "JOIN FETCH i.project p " +
             "WHERE p.team.id = :teamId AND i.id < :lastId " +
             "ORDER BY i.id DESC")
     Slice<Issue> findPageByTeamId(int teamId, int lastId, PageRequest pageable);
+
+    @Query("SELECT i FROM Issue i " +
+            "JOIN FETCH i.project p " +
+            "WHERE p.id = :projectId " +
+            "AND i.id < :lastId " +
+            "ORDER BY i.id DESC")
+    Slice<Issue> findPageByProjectId(int projectId, int lastId, Pageable pageable);
 
     @Query(value = "SELECT * " +
             "FROM ( " +

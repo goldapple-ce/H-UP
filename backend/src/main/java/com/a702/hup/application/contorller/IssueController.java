@@ -46,6 +46,17 @@ public class IssueController {
                 .body(issueService.findIssuePageByTeamId(teamId, lastId, pageSize));
     }
 
+    @GetMapping("/list/p/{projectId}")
+    public ResponseEntity<IssueDTO.ResponseList> findIssueByProjectId(
+            @PathVariable int projectId,
+            @RequestParam int lastId,
+            @RequestParam int pageSize
+    ) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(issueService.findIssuePageByProjectId(projectId, lastId, pageSize));
+    }
+
     /**
      * @author 이경태
      * @date 2024-05-07
