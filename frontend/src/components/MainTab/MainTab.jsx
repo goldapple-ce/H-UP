@@ -4,13 +4,23 @@ import IssueForm from "../Issue/IssueForm";
 import MyCalendar from "../Calendar/Calendar";
 import Kanban from "../Kanban/Kanban";
 import { RecoilRoot } from "recoil";
+import { onLoadData } from "../../api/service/issue";
+import { useSelector } from "react-redux";
 
 const MainTab = () => {
+
+    /////////////////////////////////////////////////////////////////////
+    // member id 테스트
+    const memberId = useSelector((state) => state.auth.memberId); 
 
     useEffect(() => {
         let option = document.getElementById("tab-1");
         option.checked = true;
+
+        const data = onLoadData(memberId)
+        console.log(data);
       }, []);
+      ///////////////////////////////////////////////////////////////////
 
     return (
         <div className={styles.maintab_container}>
