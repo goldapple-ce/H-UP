@@ -52,12 +52,12 @@ function Card({ item }) {
       item.issueId === selectedItem.issueId ? { ...item, status: newStatus } : item
     )
   );
-  /////////////////////////////////////////
-  // 칸반 이슈 업데이트 테스트
+  // /////////////////////////////////////////
+  // // 칸반 이슈 업데이트 테스트
 
-  const data = updateIssue({ ...item, status: newStatus })
-  console.log(data)
-  ////////////////////////////////////////
+  // const data = updateIssue({ ...item, status: newStatus })
+  // console.log(data)
+  // ////////////////////////////////////////
 };
 
   const [{ isDragging }, dragRef] = useDrag(() => ({
