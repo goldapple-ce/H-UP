@@ -9,6 +9,7 @@ import com.a702.hup.domain.issue.entity.Issue;
 import com.a702.hup.domain.notification.entity.Notification;
 import com.a702.hup.domain.project_member.entity.ProjectMember;
 import com.a702.hup.domain.team_member.entity.TeamMember;
+import com.a702.hup.domain.todo.entity.Todo;
 import com.a702.hup.domain.todo_member.entity.TodoMember;
 import com.a702.hup.global.entity.BaseEntity;
 import jakarta.persistence.*;
@@ -48,6 +49,9 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy = "member")
     private List<TodoMember> todoMemberList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "requester")
+    private List<Todo> todoList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
     private List<AgendaMember> agendaMemberList = new ArrayList<>();
