@@ -6,6 +6,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { fetchListState } from '../../recoil/recoil';
 import styles from './Kanban.module.scss'
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 function Kanban() {
   const kanbanList = useRecoilValue(fetchListState);
@@ -17,7 +18,7 @@ function Kanban() {
   const cardDataHandler = (cardTitle) => {
     return kanbanList
       .filter((data) => data.status === cardTitle && data.title.toLowerCase().includes(searchInput))
-      .map((item, index) => <Card key={item.id} item={item} />);
+      .map((item, index) => <Card key={item.issueId} item={item} />);
   };
 
   const handleCategoryChange = (event) => {
@@ -27,8 +28,6 @@ function Kanban() {
   const searchItems = (searchValue) => {
     setSearchInput(searchValue)
   }
-
-
 
   return (
     <div>
@@ -46,13 +45,13 @@ function Kanban() {
         <div className={styles.header__imageSet}>
           {
             kanbanList.reduce((uniqueImages, data) => {
-              data.imageList.map((image) => {
-                if (!uniqueImages.some((prevImage) => prevImage.src === image.src))
+              data.memberInfo.map((image) => {
+                if (!uniqueImages.some((prevImage) => prevImage.img === image.img))
                   uniqueImages.push(image);
               })
               return uniqueImages;
             }, []).map((image) => (
-              <img id={image.id} src={image.src} alt={image.alt}/>
+              <img id={image.id} src={image.img} alt={image.name}/>
             ))
           }
         </div>

@@ -15,13 +15,11 @@ function KanbanCreator({ title }) {
       setKanbanList((prev) => [
         ...prev,
         {
-          id: getId,
+          issueId: getId,
           title: '',
-          content: '',
-          start: new Date(),
-          end: new Date(),
+          startDate: new Date(),
+          endDate: new Date(),
           status: title,
-          isChecked: false,
         },
       ]);
     },

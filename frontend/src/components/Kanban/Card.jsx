@@ -5,6 +5,7 @@ import { TITLE_NAME } from './Kanban';
 import { issueListState } from '../../recoil/recoil';
 import { useNavigate } from 'react-router-dom';
 import styles from "./Card.module.scss"
+import { updateIssue } from '../../api/service/issue';
 
 function Card({ item }) {
   const [list, setList] = useRecoilState(issueListState);
@@ -51,6 +52,7 @@ function Card({ item }) {
       item.id === selectedItem.id ? { ...item, status: newStatus } : item
     )
   );
+  updateIssue({ ...item, status: newStatus })
 };
 
   const [{ isDragging }, dragRef] = useDrag(() => ({
@@ -82,7 +84,7 @@ function Card({ item }) {
 
   const handleClick = (e) => {
     e.preventDefault();
-    navigate(`/issue/${item.id}`);
+    navigate(`/issue/${item.issueId}`);
   };
 
   useEffect(() => {
@@ -117,11 +119,11 @@ function Card({ item }) {
       <div className={styles.cardHeaderWrap}>
         <h5>{item.title}</h5>
       </div>
-      <div className={styles.imageList}>
-        {item.imageList && item.imageList.map((image) => (
+      <div className={styles.memberInfo}>
+        {item.memberInfo && item.memberInfo.map((image) => (
         <img key={image.id}
-            src={image.src}
-            alt={image.alt}>
+            src={image.img}
+            alt={image.name}>
         </img>
         ))}
       </div>

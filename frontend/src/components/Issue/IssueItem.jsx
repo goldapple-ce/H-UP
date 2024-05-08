@@ -8,7 +8,7 @@ import { TITLE_NAME } from "../Kanban/Kanban";
 
 
 const IssueItem = ({ issue, onClick }) => {
-    const {id, title, content, status, start, end, imageList }= issue;
+    const {issueId, title, status, startDate, endDate, memberInfo }= issue;
     const { CREATED, SELECTED, PROGRESS, COMPLETED } = TITLE_NAME;
     const [ iconImage, setIconImage ] = useState('');
 
@@ -46,11 +46,11 @@ const IssueItem = ({ issue, onClick }) => {
             <img className={styles.iconImage} src={iconImage} alt={status}/>
             <h5 className="task-name">{title}</h5>
             <ul>
-                <p className={styles.date}>{formatToDate(start)} ~ {formatToDate(end)}</p>
-                {imageList && imageList.map((image) => (
+                <p className={styles.date}>{formatToDate(startDate)} ~ {formatToDate(endDate)}</p>
+                {memberInfo && memberInfo.map((image) => (
                 <img key={image.id}
-                    src={image.src}
-                    alt={image.alt}>
+                    src={image.img}
+                    alt={image.name}>
                 </img>
                 ))}
             </ul>
