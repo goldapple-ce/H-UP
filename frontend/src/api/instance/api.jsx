@@ -1,5 +1,6 @@
 import axios from "axios"
 import interceptor from "../interceptor/interceptor";
+import { useSelector } from "react-redux";
 
 export const api = axios.create({
     // baseURL: process.env.NEXT_PUBLIC_SERVER_URL,
@@ -7,4 +8,6 @@ export const api = axios.create({
      },
 });
 
-interceptor(api)
+export function initializeAxios(token) {
+    interceptor(api, token);
+}

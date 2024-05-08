@@ -14,8 +14,7 @@ import { useSelector } from 'react-redux';
 import styles from './IssueEditorPage.module.scss';
 import { Stomp } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
-import { api } from '../../api/instance/api';
-import interceptor from '../../api/interceptor/interceptor';
+import { api, initializeAxios } from '../../api/instance/api';
 
 function IssueEditorPage() {
     const { id } = useParams();
@@ -23,7 +22,7 @@ function IssueEditorPage() {
     const token = useSelector(state => state.auth.token); // 토큰을 여기서 가져옴
     const stompClient = useRef(null);
     const ydoc = useRef(new Y.Doc()).current;
-    const [initialContent, setInitialContent] = useState('<p>Hello World!</p>');  // 초기 컨텐츠 상태
+    const [initialContent, setInitialContent] = useState('');  // 초기 컨텐츠 상태
 
     // 에디터 초기화
     const editor = useEditor({
@@ -49,14 +48,16 @@ function IssueEditorPage() {
     });
     
     useEffect(() => {
+        initializeAxios(token);
+    }, [token]);
+
+    useEffect(() => {
             async function fetchContent() {
             const response = await api(`https://h-up.site/api/issue/${id}`);
             console.log('response : ', response);
             const data = response.data;
-            setInitialContent(data.body.content);  // 상태 업데이트
+            setInitialContent(data.content);  // 상태 업데이트
         }
-        console.log('token: ', token);
-        interceptor(api, token); // 토큰을 인터셉터에 전달
         fetchContent();
 
         const sock = new SockJS('https://h-up.site/api/ws');
