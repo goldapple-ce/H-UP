@@ -1,9 +1,6 @@
 package com.a702.hup.application.contorller;
 
-import com.a702.hup.application.data.request.AgendaAssigneeSaveRequest;
-import com.a702.hup.application.data.request.AgendaCreateRequest;
-import com.a702.hup.application.data.request.AgendaInfoByProjectRequest;
-import com.a702.hup.application.data.request.AgendaUpdateRequest;
+import com.a702.hup.application.data.request.*;
 import com.a702.hup.application.data.response.AgendaInfoListByIssueResponse;
 import com.a702.hup.application.data.response.AgendaInfoListByProjectResponse;
 import com.a702.hup.application.data.response.AgendaInfoResponse;
@@ -122,5 +119,16 @@ public class AgendaController {
     public ResponseEntity<AgendaInfoListByProjectResponse> getNearAgendaInfoListByProject(@AuthenticationPrincipal(errorOnInvalidType = true) SecurityUserDetailsDto user,@PathVariable(name = "projectId") int projectId){
         AgendaInfoListByProjectResponse response = agendaFacade.getNearAgendaInfoListByProject(user.memberId(),projectId);
         return ResponseEntity.ok(response);
+    }
+
+    /**
+     * @author 강용민
+     * @date 2024-05-08
+     * @description 의사결정 댓글 저장
+     */
+    @PostMapping("/comment")
+    public ResponseEntity<Void> saveAgendaComment(@AuthenticationPrincipal(errorOnInvalidType = true) SecurityUserDetailsDto user, @Valid @RequestBody AgendaCommentSaveRequest request){
+        agendaFacade.saveAgendaComment(user.memberId(),request);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

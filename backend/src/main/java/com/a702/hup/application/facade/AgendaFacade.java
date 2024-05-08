@@ -1,14 +1,12 @@
 package com.a702.hup.application.facade;
 
-import com.a702.hup.application.data.request.AgendaAssigneeSaveRequest;
-import com.a702.hup.application.data.request.AgendaCreateRequest;
-import com.a702.hup.application.data.request.AgendaInfoByProjectRequest;
-import com.a702.hup.application.data.request.AgendaUpdateRequest;
+import com.a702.hup.application.data.request.*;
 import com.a702.hup.application.data.response.AgendaInfoListByIssueResponse;
 import com.a702.hup.application.data.response.AgendaInfoListByProjectResponse;
 import com.a702.hup.domain.agenda.AgendaService;
 import com.a702.hup.domain.agenda.entity.Agenda;
 import com.a702.hup.domain.agenda.entity.AgendaStatus;
+import com.a702.hup.domain.agenda_comment.AgendaCommentService;
 import com.a702.hup.domain.agenda_member.AgendaMemberService;
 import com.a702.hup.domain.agenda_member.entity.AgendaMember;
 import com.a702.hup.domain.issue.IssueService;
@@ -37,6 +35,7 @@ public class AgendaFacade {
     private final IssueMemberService issueMemberService;
     private final AgendaMemberService agendaMemberService;
     private final ProjectService projectService;
+    private final AgendaCommentService agendaCommentService;
 
     /**
      * @author 강용민
@@ -101,6 +100,11 @@ public class AgendaFacade {
         agenda.deleteSoftly();
     }
 
+    /**
+     * @author 강용민
+     * @date 2024-05-08
+     * @description 의사결정 삭제
+     */
     @Transactional
     public void deleteAssignee(int memberId, int assigneeId) {
         Member member = memberService.findById(memberId);
@@ -110,22 +114,49 @@ public class AgendaFacade {
         assignee.deleteSoftly();
     }
 
+    /**
+     * @author 강용민
+     * @date 2024-05-08
+     * @description 이슈 별 의사결정 가져오기
+     */
     public AgendaInfoListByIssueResponse getAgendaInfoListByIssue(int issueId){
         Issue issue = issueService.findById(issueId);
         return AgendaInfoListByIssueResponse.from(issue);
     }
 
+    /**
+     * @author 강용민
+     * @date 2024-05-08
+     * @description 프록젝트 별 의사결정 가져오기
+     */
     public AgendaInfoListByProjectResponse getAgendaInfoListByProject(int projectId, AgendaInfoByProjectRequest request ){
         Project project = projectService.findById(projectId);
         List<Object[]> agendaList = agendaService.findByProjectAndOption(project, request.getMemberIdList(),request.getStatusList(),request.toOption());
         return AgendaInfoListByProjectResponse.from(agendaList);
     }
 
+    /**
+     * @author 강용민
+     * @date 2024-05-08
+     * @description 마감 임박한 의사결정 가져오기
+     */
     public AgendaInfoListByProjectResponse getNearAgendaInfoListByProject(int memberId, int projectId) {
         Member member = memberService.findById(memberId);
         Project project = projectService.findById(projectId);
         List<Object[]> agendaList = agendaService.findNearByProject(project,member);
         return AgendaInfoListByProjectResponse.from(agendaList);
-
     }
+
+    /**
+     * @author 강용민
+     * @date 2024-05-08
+     * @description 의사결정 댓글달기
+     */
+    public void saveAgendaComment(int memberId, AgendaCommentSaveRequest request){
+        Member member = memberService.findById(memberId);
+        Agenda agenda = agendaService.findById(request.getAgendaId());
+        issueMemberService.validationRole(agenda.getIssue(),member);
+        agendaCommentService.save(agenda,member,request.getContent());
+    }
+
 }

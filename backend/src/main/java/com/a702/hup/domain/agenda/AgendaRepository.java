@@ -26,9 +26,7 @@ interface AgendaRepository extends JpaRepository<Agenda, Integer> {
             "   and I.deletedAt is null " +
             "   and now() <= I.endDate " +
             "   and I.status != 'COMPLETED'" +
-            "join Project as P " +
-            "   on I.project = :project and P.deletedAt is null " +
-            "where P = :project " +
+            "where I.project = :project " +
             "and ((:statusList) is null or A.status in (:statusList)) " +
             "and ((:#{#option.type} is null and (:memberList is null or A.requester.id in  (:memberList) or AM.member.id in  (:memberList))) " +
             "   or (:#{#option.type}='requester' and A.requester.id in (:memberList)) " +
@@ -40,8 +38,7 @@ interface AgendaRepository extends JpaRepository<Agenda, Integer> {
     @Query("select distinct A,I.endDate from Agenda as A " +
             "left join AgendaMember as AM on A.id = AM.agenda.id " +
             "join Issue as I on A.issue.id = I.id and I.deletedAt is null  " +
-            "join Project as P on I.project.id = P.id and P.deletedAt is null " +
-            "where P = :project " +
+            "where I.project= :project " +
             "and A.status != 'COMPLETED' and I.status != 'COMPLETED' " +
             "and (A.requester = :member or AM.member = :member) " +
             "and I.endDate between :now and :endDate " +
