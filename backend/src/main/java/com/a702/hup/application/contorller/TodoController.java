@@ -1,9 +1,12 @@
 package com.a702.hup.application.contorller;
 
+import com.a702.hup.application.data.dto.TodoInfo;
 import com.a702.hup.application.data.request.TodoAssigneeSaveRequest;
 import com.a702.hup.application.data.request.TodoSaveRequest;
 import com.a702.hup.application.data.request.TodoUpdateRequest;
+import com.a702.hup.application.data.response.TodoInfoListResponse;
 import com.a702.hup.application.facade.TodoFacade;
+import com.a702.hup.domain.todo.TodoService;
 import com.a702.hup.global.config.security.SecurityUserDetailsDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/todo")
 public class TodoController {
+    private final TodoService todoService;
     private final TodoFacade todoFacade;
 
     @PostMapping
@@ -64,4 +68,13 @@ public class TodoController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/{todoId}")
+    public ResponseEntity<TodoInfo> find(@PathVariable Integer todoId) {
+        return ResponseEntity.ok().body(TodoInfo.of(todoService.findById(todoId)));
+    }
+
+    @GetMapping("/list/{projectId}")
+    public ResponseEntity<TodoInfoListResponse> findTodoList(@PathVariable Integer projectId) {
+        return ResponseEntity.ok().body(todoFacade.findTodoList(projectId));
+    }
 }
