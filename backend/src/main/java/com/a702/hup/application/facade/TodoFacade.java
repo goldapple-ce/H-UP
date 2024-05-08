@@ -48,9 +48,9 @@ public class TodoFacade {
      * @description 할 일 담당자 추가
      **/
     @Transactional
-    public void saveAssignee(Integer memberId, TodoAssigneeSaveRequest request) {
+    public void saveAssignee(Integer requesterId, TodoAssigneeSaveRequest request) {
         Todo todo = todoService.findById(request.getTodoId());
-        validation(todo, memberId);
+        validation(todo, requesterId);
 
         Member assignee = memberService.findById(request.getMemberId());
         todoMemberService.save(todo, assignee);
@@ -75,7 +75,7 @@ public class TodoFacade {
     /**
      * @author 손현조
      * @date 2024-05-08
-     * @description 할 일 변경
+     * @description 할 일 변경 (요청자, 담당자 둘 다 수정 가능)
      **/
     @Transactional
     public void update(Integer memberId, TodoUpdateRequest request) {
@@ -90,9 +90,9 @@ public class TodoFacade {
      * @description 할 일 삭제
      **/
     @Transactional
-    public void delete(Integer memberId, Integer todoId) {
+    public void delete(Integer requesterId, Integer todoId) {
         Todo todo = todoService.findById(todoId);
-        Member member = memberService.findById(memberId);
+        Member member = memberService.findById(requesterId);
 
         issueMemberService.validationRole(todo.getIssue(), member);
 
