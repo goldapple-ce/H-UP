@@ -67,6 +67,16 @@ public class TodoFacade {
         todo.update(request.getContent(), TodoStatus.valueOf(request.getTodoStatus()));
     }
 
+    @Transactional
+    public void delete(int memberId, int todoId) {
+        Todo todo = todoService.findById(todoId);
+        Member member = memberService.findById(memberId);
+
+        issueMemberService.validationRole(todo.getIssue(), member);
+
+        todo.deleteSoftly();
+    }
+
     /**
      * @author 손현조
      * @date 2024-05-07

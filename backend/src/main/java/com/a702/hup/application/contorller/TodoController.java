@@ -44,9 +44,15 @@ public class TodoController {
             @AuthenticationPrincipal(errorOnInvalidType = true) SecurityUserDetailsDto user,
             @RequestBody TodoUpdateRequest request) {
         todoFacade.update(user.memberId(), request);
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .build();
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("{todoId}")
+    public ResponseEntity<Void> delete(
+            @AuthenticationPrincipal(errorOnInvalidType = true) SecurityUserDetailsDto user,
+            @PathVariable Integer todoId) {
+        todoFacade.delete(user.memberId(), todoId);
+        return ResponseEntity.ok().build();
     }
 
 }
