@@ -1,7 +1,7 @@
 package com.a702.hup.domain.todo.entity;
 
 import com.a702.hup.domain.issue.entity.Issue;
-import com.a702.hup.domain.issue.entity.IssueStatus;
+import com.a702.hup.domain.member.entity.Member;
 import com.a702.hup.domain.todo_member.entity.TodoMember;
 import com.a702.hup.global.entity.BaseEntity;
 import jakarta.persistence.*;
@@ -26,15 +26,19 @@ public class Todo extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Issue issue;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Member requester;
+
+    @Enumerated(EnumType.STRING)
+    private TodoStatus status;
+
     @OneToMany(mappedBy = "todo")
     private List<TodoMember> todoMemberList = new ArrayList<>();
 
-    @Enumerated(EnumType.STRING)
-    private IssueStatus status;
-
     @Builder
-    public Todo( Issue issue, String content, IssueStatus status) {
+    public Todo(Issue issue, Member requester, String content, TodoStatus status) {
         addRelatedIssue(issue);
+        addRelatedMember(requester);
         this.content = content;
         this.status = status;
     }
@@ -43,4 +47,10 @@ public class Todo extends BaseEntity {
         issue.getTodoList().add(this);
         this.issue = issue;
     }
+
+    private void addRelatedMember(Member member) {
+        member.getTodoList().add(this);
+        this.requester = member;
+    }
+
 }
