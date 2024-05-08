@@ -6,11 +6,13 @@ export const authSlice = createSlice({
     memberId: null,
     isAuthenticated: false,
     error: null,
+    token: null,
   },
   reducers: {
     loginSuccess: (state, action) => {
       state.isAuthenticated = true;
-      state.memberId = action.payload;
+      state.memberId = action.payload.memberId;
+      state.token = action.payload.token;
     },
     loginFailure: (state, action) => {
       state.isAuthenticated = false;
@@ -19,6 +21,7 @@ export const authSlice = createSlice({
     logout: (state) => {
       state.isAuthenticated = false;
       state.memberId = null;
+      state.token = null;
     },
   },
 });
