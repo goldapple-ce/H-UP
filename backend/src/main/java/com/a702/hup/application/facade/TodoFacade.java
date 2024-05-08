@@ -62,11 +62,11 @@ public class TodoFacade {
      * @description 할 일 담당자 삭제
      **/
     @Transactional
-    public void deleteAssignee(Integer producerId, Integer todoId, Integer assigneeId) {
+    public void deleteAssignee(Integer requesterId, Integer todoId, Integer assigneeId) {
         Todo todo = todoService.findById(todoId);
         Member assignee = memberService.findById(assigneeId);
 
-        validation(todo, producerId);
+        validation(todo, requesterId);
 
         TodoMember todoMember = todoMemberService.findByTodoAndMember(todo, assignee);
         todoMember.deleteSoftly();

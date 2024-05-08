@@ -36,11 +36,11 @@ public class Todo extends BaseEntity {
     private List<TodoMember> todoMemberList = new ArrayList<>();
 
     @Builder
-    public Todo(Issue issue, Member requester, String content, TodoStatus status) {
+    public Todo(Issue issue, Member requester, String content) {
         addRelatedIssue(issue);
         addRelatedMember(requester);
         this.content = content;
-        this.status = status;
+        this.status = TodoStatus.ASSIGNED;
     }
 
     private void addRelatedIssue(Issue issue) {
