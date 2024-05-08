@@ -39,6 +39,15 @@ public class TodoController {
                 .build();
     }
 
+    @DeleteMapping("/{todoId}/assignee/{memberId}")
+    public ResponseEntity<Void> deleteAssignee(
+            @AuthenticationPrincipal(errorOnInvalidType = true) SecurityUserDetailsDto user,
+            @PathVariable Integer todoId, @PathVariable Integer memberId) {
+
+        todoFacade.deleteAssignee(user.memberId(), todoId, memberId);
+        return ResponseEntity.ok().build();
+    }
+
     @PutMapping
     public ResponseEntity<Void> update(
             @AuthenticationPrincipal(errorOnInvalidType = true) SecurityUserDetailsDto user,
