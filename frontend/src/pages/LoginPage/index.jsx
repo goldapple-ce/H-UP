@@ -41,12 +41,12 @@ const LoginPage = (props) => {
       }
     }
     if ('' === userId) {
-      setUserIdError('Please enter your userId')
+      setUserIdError('아이디를 입력해주세요.')
       return
     }
 
     if ('' === password) {
-      setPasswordError('Please enter a password')
+      setPasswordError('비밀번호를 입력해주세요.')
       return
     }
     const response = await login(userId, password);
@@ -61,20 +61,17 @@ const LoginPage = (props) => {
   }
 
   return (
-    <div>
+    <div className={styles.whole_container}>
       <div className={styles.login_container}>
         <form>
-          <h2>로그인</h2>
-            <p>아이디 : </p>
             <input
               type="userId"
               value={userId}
-              placeholder="아이디를 입력하세요."
+              placeholder="ID를 입력하세요."
               onChange={(ev) => setUserId(ev.target.value)}
               className={'inputBox'}
             />
             <label className="errorLabel">{userIdError}</label>
-            <p>비밀번호 : </p>
             <input
               type="password"
               value={password}
@@ -83,15 +80,18 @@ const LoginPage = (props) => {
               className={'inputBox'}
             />
             <label className="errorLabel">{passwordError}</label>
-            <input className={'inputButton'} type="button" onClick={onButtonClick} value={'Log in'} />
-            
-            <p>아이디 찾기 / 비밀번호 재설정</p>
-            {auth.error && <p>{auth.error}</p>}
+            <input className={'inputButton'} type="button" onClick={onButtonClick} value={'로그인'} />
+            <div className={styles.search_info}>
+              <p id='search'>아이디 찾기</p>
+              <p>&frasl;</p>
+              <p>비밀번호 재설정</p>
+            {/* {auth.error && <p>{auth.error}</p>} */}
+        </div>
         </form>
-        <p>
-          아직 회원이 아니신가요?
-        </p> 
-        <h5 onClick={onButtonSignup}>회원가입</h5>
+      </div>
+      <div className={styles.notMember_container}>
+        <p>아직 회원이 아니신가요?</p>
+        <h5 onClick={onButtonSignup}><strong>회원가입하러 가기</strong></h5>
       </div>
     </div>
   )
