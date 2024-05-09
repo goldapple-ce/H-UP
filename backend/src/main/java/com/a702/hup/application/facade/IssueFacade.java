@@ -4,7 +4,6 @@ import com.a702.hup.application.data.dto.IssueDTO;
 import com.a702.hup.application.data.dto.MemberInfo;
 import com.a702.hup.domain.documents.mongodb.DocumentsMongoService;
 import com.a702.hup.domain.documents.redis.DocumentsRedisService;
-import com.a702.hup.domain.issue.IssueException;
 import com.a702.hup.domain.issue.IssueService;
 import com.a702.hup.domain.issue.entity.Issue;
 import com.a702.hup.domain.issue_member.IssueMemberService;
@@ -13,7 +12,6 @@ import com.a702.hup.domain.member.entity.Member;
 import com.a702.hup.domain.project.ProjectService;
 import com.a702.hup.domain.project.entity.Project;
 import com.a702.hup.domain.project_member.ProjectMemberService;
-import com.a702.hup.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -39,7 +37,7 @@ public class IssueFacade {
         Member member = memberService.findById(memberId);
         Project project = projectService.findById(request.getProjectId());
 
-        validation(member,project);
+        projectMemberService.validation(member,project);
 
         Issue issue = issueService.save(project,member);
         issueMemberService.save(issue,member);
@@ -59,7 +57,7 @@ public class IssueFacade {
         // member 확인
         Member member = memberService.findById(memberId);
         Project project = projectService.findById(projectId);
-        validation(member, project);
+        projectMemberService.validation(member, project);
         log.info("[+] IssueFacade :: findByProject :: Member Check Success");
 
         // issue List By Project
@@ -90,16 +88,6 @@ public class IssueFacade {
                 createMemberInfoList(issue));
     }
 
-    /**
-     * @author 이경태
-     * @date 2024-05-08
-     * @description 프로젝트에 속한 멤버인지 체크
-     **/
-    private void validation(Member member, Project project){
-        if(!projectMemberService.isMember(project,member)){
-            throw new IssueException(ErrorCode.API_ERROR_ISSUE_NOT_ROLE);
-        }
-    }
 
     /**
      * @author 이경태

@@ -4,7 +4,6 @@ import com.a702.hup.application.data.request.AddTeamMembersRequest;
 import com.a702.hup.application.data.request.TeamSaveRequest;
 import com.a702.hup.application.data.response.MemberInfoListResponse;
 import com.a702.hup.application.facade.TeamFacade;
-import com.a702.hup.domain.team.TeamService;
 import com.a702.hup.global.config.security.SecurityUserDetailsDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/team")
 public class TeamController {
-    private final TeamService teamService;
     private final TeamFacade teamFacade;
 
     /**
