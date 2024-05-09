@@ -12,7 +12,7 @@ const LoginPage = props => {
   const { login } = useLogin({ userId, password });
 
   const onButtonSignup = () => {
-    navigate('/SignupPage');
+    navigate('/signUp');
   };
 
   return (

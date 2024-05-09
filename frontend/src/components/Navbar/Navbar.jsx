@@ -49,8 +49,14 @@ const NavBar = () => {
             <div
               className='btn'
               onClick={() => {
-                setUserInfo('');
-                navigate('/LoginPage');
+                setUserInfo({
+                  memberId: '',
+                  jwtToken: {
+                    accessToken: '',
+                    refreshToken: '',
+                  },
+                });
+                navigate('/login');
               }}
             >
               로그아웃
