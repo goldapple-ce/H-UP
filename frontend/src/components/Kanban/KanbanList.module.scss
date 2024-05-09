@@ -1,21 +1,21 @@
 .container {
-    display: flex;
-    flex-direction: row;
-    grid-row: auto;
+  display: flex;
+  flex-direction: row;
+  grid-row: auto;
 }
 
 .column {
-    height: 400px;
-    width: 400px;
-    margin: 20px;
-    border-radius: 10px;
-    box-shadow: 1px 1px 6px rgba(0,0,0,0.5);
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    overflow-y: auto;
-    justify-content: center;
-    text-align: center;
+  height: 400px;
+  width: 400px;
+  margin: 20px;
+  border-radius: 10px;
+  box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  overflow-y: auto;
+  justify-content: center;
+  text-align: center;
 }
 
 // .movable_item {
@@ -31,16 +31,15 @@
 // }
 
 .kanbanListWrap {
-    width: 250px;
-    top: 0; /* 띠 요소의 상단 위치 */
-    left: 0; /* 띠 요소의 왼쪽 위치 */
-    width: 100%; /* 띠 요소의 너비 */
-    height: 7px; /* 띠 요소의 높이 */
-    background-color: rgb(195, 244, 255); /* 띠 요소의 색상 */
-    border-radius: 7px 7px 0 0;
+  width: 250px;
+  top: 0; /* 띠 요소의 상단 위치 */
+  left: 0; /* 띠 요소의 왼쪽 위치 */
+  width: 100%; /* 띠 요소의 너비 */
+  height: 7px; /* 띠 요소의 높이 */
+  background-color: rgb(195, 244, 255); /* 띠 요소의 색상 */
+  border-radius: 7px 7px 0 0;
 }
 
-
 h5 {
-    text-align: center;
+  text-align: center;
 }

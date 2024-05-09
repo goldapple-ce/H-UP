@@ -1,38 +1,61 @@
-import React, {useState} from 'react';
+import { authState } from '@recoil/auth';
+import { MenuSidebarState, MessengerSidebarState } from '@recoil/recoil';
 import { Link, useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { logout } from '../../features/auth/authSlice'
-import './Navbar.module.scss'
-import { useRecoilState } from "recoil";
-import { MenuSidebarState, MessengerSidebarState } from '../../recoil/recoil';
-
+import { useRecoilState } from 'recoil';
+import './Navbar.module.scss';
 
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useRecoilState(MenuSidebarState);
 
   const ShowMenuSidebar = () => {
-      isMenuOpen === true ? setIsMenuOpen(false) : setIsMenuOpen(true);
-  }
+    isMenuOpen === true ? setIsMenuOpen(false) : setIsMenuOpen(true);
+  };
 
-  const [isMessengerOpen, setIsMessengerOpen] = useRecoilState(MessengerSidebarState);
+  const [isMessengerOpen, setIsMessengerOpen] = useRecoilState(
+    MessengerSidebarState,
+  );
 
   const ShowMessengerSidebar = () => {
-      isMessengerOpen === true ? setIsMessengerOpen(false) : setIsMessengerOpen(true);
-  }
-
-  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
-  const dispatch = useDispatch();
+    isMessengerOpen === true
+      ? setIsMessengerOpen(false)
+      : setIsMessengerOpen(true);
+  };
+  const [userInfo, setUserInfo] = useRecoilState(authState);
   const navigate = useNavigate();
 
-  if (isAuthenticated) {
+  if (userInfo.jwtToken.accessToken) {
     return (
       <nav>
         <ul>
-          <li><Link to="/" className="navbar-brand mr-0 logo">H•UP</Link></li>
-          <li><Link to="/" className="navbar-brand text-secondary mr-0">Project</Link></li>
-          <li><div className="btn" onClick={ShowMenuSidebar}>메뉴</div></li>
-          <li><div className="btn" onClick={ShowMessengerSidebar}>메신저</div></li>
-          <li><div className="btn" onClick={()=> {dispatch(logout()); navigate('/LoginPage')}}>로그아웃</div></li>
+          <li>
+            <Link to='/' className='logo'>
+              H•UP
+            </Link>
+          </li>
+          <li>
+            <Link to='/'>Project</Link>
+          </li>
+          <li>
+            <div className='btn' onClick={ShowMenuSidebar}>
+              메뉴
+            </div>
+          </li>
+          <li>
+            <div className='btn' onClick={ShowMessengerSidebar}>
+              메신저
+            </div>
+          </li>
+          <li>
+            <div
+              className='btn'
+              onClick={() => {
+                setUserInfo('');
+                navigate('/LoginPage');
+              }}
+            >
+              로그아웃
+            </div>
+          </li>
         </ul>
       </nav>
     );
@@ -40,12 +63,15 @@ const NavBar = () => {
     return (
       <nav>
         <ul>
-          <li><Link to="/LoginPage"  className="logo">H•UP</Link></li>
+          <li>
+            <Link to='/login' className='logo'>
+              H•UP
+            </Link>
+          </li>
         </ul>
       </nav>
     );
   }
-  
 };
 
 export default NavBar;

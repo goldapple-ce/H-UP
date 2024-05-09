@@ -1,16 +1,21 @@
 @mixin clearfix {
   &:after {
-    content:"";
-    display:block;
-    clear:both;
+    content: '';
+    display: block;
+    clear: both;
   }
 }
 
 $tab-label-height: 40px;
 $tab-content-height: 550px;
 
-* { box-sizing: border-box; }
-body { background: #F1F1F1; padding: 0px;}
+* {
+  box-sizing: border-box;
+}
+body {
+  background: #f1f1f1;
+  padding: 0px;
+}
 
 .tab {
   float: left;
@@ -20,20 +25,20 @@ body { background: #F1F1F1; padding: 0px;}
     position: relative;
     height: $tab-label-height + $tab-content-height;
   }
-  
+
   &__label {
     display: inline-block;
     padding: 0 20px;
-    
+
     font-size: 16px;
     line-height: $tab-label-height;
     cursor: pointer;
-    
+
     // Active tab styles
     background: #fff;
     font-weight: 800;
   }
-  
+
   &__content {
     position: absolute;
     width: 100%;
@@ -45,7 +50,7 @@ body { background: #F1F1F1; padding: 0px;}
     background: #fff;
     border-top: 1px solid black;
   }
-  
+
   &__radio {
     display: none;
 

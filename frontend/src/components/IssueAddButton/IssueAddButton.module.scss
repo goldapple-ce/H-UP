@@ -1,14 +1,14 @@
 // components/Button/RoundButton.module.scss
 .roundButton {
-    padding: 10px 20px;
-    background-color: blue;
-    color: white;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 16px;
+  padding: 10px 20px;
+  background-color: blue;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 16px;
 
-    &:hover {
-        background-color: darken(blue, 10%);
-    }
+  &:hover {
+    background-color: darken(blue, 10%);
+  }
 }

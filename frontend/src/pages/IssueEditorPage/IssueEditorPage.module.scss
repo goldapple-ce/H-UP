@@ -1,78 +1,79 @@
 // EditorPage.scss
 .editor_page {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: start;
-    min-height: 100vh;
-    padding: 20px;
-    background-color: #f4f4f4;
-  
-    .editor_header {
-      width: 100%;
-      text-align: center;
-      padding: 10px 0;
-      background-color: #fff;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  
-      h1 {
-        margin: 0;
-        font-size: 24px;
-        color: #333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  min-height: 100vh;
+  padding: 20px;
+  background-color: #f4f4f4;
+
+  .editor_header {
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    h1 {
+      margin: 0;
+      font-size: 24px;
+      color: #333;
+    }
+  }
+
+  .editor_container {
+    width: 80%;
+    max-width: 960px;
+    margin-top: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+    ul,
+    ol {
+      padding-left: 20px; // 리스트 패딩 설정
+      li {
+        position: relative; // 포지셔닝을 위해 relative 설정
+
+        &::before {
+          // 마커 스타일
+          content: ''; // 컨텐츠 초기화
+          position: absolute;
+          left: -15px; // 왼쪽에 위치
+        }
       }
     }
-  
-    .editor_container {
-      width: 80%;
-      max-width: 960px;
-      margin-top: 20px;
-      background-color: #fff;
-      border: 1px solid #ddd;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 
-      ul, ol {
-        padding-left: 20px; // 리스트 패딩 설정
-        li {
-          position: relative; // 포지셔닝을 위해 relative 설정
-    
-          &::before { // 마커 스타일
-            content: ''; // 컨텐츠 초기화
-            position: absolute;
-            left: -15px; // 왼쪽에 위치
-          }
+    ul li::before {
+      // 불릿 리스트의 마커
+      content: '•'; // 불릿 마크 설정
+      color: #333; // 마커 색상
+    }
+
+    ol {
+      // 순서가 있는 리스트
+      counter-reset: item; // 리스트 아이템의 카운터 리셋
+      li {
+        counter-increment: item; // 아이템 카운트
+        &::before {
+          content: counters(item, '.') ' '; // 아이템 번호 표시
+          color: #333; // 텍스트 색상
         }
       }
-    
-      ul li::before { // 불릿 리스트의 마커
-        content: '•'; // 불릿 마크 설정
-        color: #333; // 마커 색상
-      }
-    
-      ol { // 순서가 있는 리스트
-        counter-reset: item; // 리스트 아이템의 카운터 리셋
-        li {
-          counter-increment: item; // 아이템 카운트
-          &::before {
-            content: counters(item, ".") " "; // 아이템 번호 표시
-            color: #333; // 텍스트 색상
-          }
-        }
-      }
-  
-      .tiptap_editor {
-        padding: 20px;
-        min-height: 300px;
-        line-height: 1.2;
-        font-size: 16px;
-        color: #333;
-  
-        &:focus {
-          outline: none;
-          border: none;
-        }
+    }
+
+    .tiptap_editor {
+      padding: 20px;
+      min-height: 300px;
+      line-height: 1.2;
+      font-size: 16px;
+      color: #333;
+
+      &:focus {
+        outline: none;
+        border: none;
       }
     }
   }
-  
-
-    
+}

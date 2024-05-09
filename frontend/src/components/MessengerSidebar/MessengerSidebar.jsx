@@ -1,59 +1,70 @@
-import React, {useState} from "react";
-import styles from "./MessengerSidebar.module.scss";
+import { useState } from 'react';
+import { List } from 'react-bootstrap-icons';
 import { Link } from 'react-router-dom';
-import {List, ChatDots} from 'react-bootstrap-icons';
-import { useRecoilState } from "recoil";
-import { MessengerSidebarState } from "../../recoil/recoil";
-import { MessengerData } from "./MessengerData";
+import { useRecoilState } from 'recoil';
+import { MessengerSidebarState } from '@recoil/recoil';
+import { MessengerData } from './MessengerData';
+import styles from './MessengerSidebar.module.scss';
 
-const MessengerSidebar = ({
-//   users,
-//   activeUserId,
-//   onUserClick,
-}) => {
+const MessengerSidebar = (
+  {
+    //   users,
+    //   activeUserId,
+    //   onUserClick,
+  },
+) => {
+  const [isOpen, setIsopen] = useRecoilState(MessengerSidebarState);
 
-    const [isOpen, setIsopen] = useRecoilState(MessengerSidebarState);
+  const ShowSidebar = () => {
+    isOpen === true ? setIsopen(false) : setIsopen(true);
+  };
 
-    const ShowSidebar = () => {
-        isOpen === true ? setIsopen(false) : setIsopen(true);
-    }
+  const activeUserId = 1;
 
-    const activeUserId = 1;
+  const [htmlContent, setHtmlContent] = useState(''); // State variable for HTML content
 
+  const handleButtonClick = () => {
+    const newHtml = '<div><h2>Dynamically Added HTML</h2></div>'; // Dynamic HTML content
+    setHtmlContent(newHtml); // Update state with new HTML
+  };
 
-    const [htmlContent, setHtmlContent] = useState(''); // State variable for HTML content
-
-    const handleButtonClick = () => {
-      const newHtml = '<div><h2>Dynamically Added HTML</h2></div>'; // Dynamic HTML content
-      setHtmlContent(newHtml); // Update state with new HTML
-    };
-
-    
   return (
-
-    <div className="bar-container">
-        <div className={`${styles.sidebar} ${isOpen == true ? styles.active : ''}`}>
-            <div className={styles.sd_header}>
-                <div className="btn" onClick={ShowSidebar}><List/></div>
-                <h4 className="mb-0">Chat Room</h4>
-            </div>
-            <div className={styles.sd_body}>
-                <ul>{MessengerData.map((user) => (
-                    <li key={user.id} className={activeUserId === user.id ? 'active' : ''}>
-                        <Link to={`/chat/${user.id}`}>  {/* Replace with your chat routing */}
-                        <div className={styles.userInfo}>
-                            <img src={user.avatar} alt={user.name} />
-                            <span>{user.name}</span>
-                            {/* <ChatDots className={styles.chatdots}/> */}
-                        </div>
-                        </Link>
-                        {/* <button onClick={() => onUserClick(user.id)}>Message</button> */}
-                    </li>
-                    ))}
-                </ul>
-            </div>
+    <div className='bar-container'>
+      <div
+        className={`${styles.sidebar} ${isOpen == true ? styles.active : ''}`}
+      >
+        <div className={styles.sd_header}>
+          <div className='btn' onClick={ShowSidebar}>
+            <List />
+          </div>
+          <h4 className='mb-0'>Chat Room</h4>
         </div>
-        <div className={`sidebar-overlay ${isOpen == true ? 'active' : ''}`} onClick={ShowSidebar}></div>
+        <div className={styles.sd_body}>
+          <ul>
+            {MessengerData.map(user => (
+              <li
+                key={user.id}
+                className={activeUserId === user.id ? 'active' : ''}
+              >
+                <Link to={`/chat/${user.id}`}>
+                  {' '}
+                  {/* Replace with your chat routing */}
+                  <div className={styles.userInfo}>
+                    <img src={user.avatar} alt={user.name} />
+                    <span>{user.name}</span>
+                    {/* <ChatDots className={styles.chatdots}/> */}
+                  </div>
+                </Link>
+                {/* <button onClick={() => onUserClick(user.id)}>Message</button> */}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      <div
+        className={`sidebar-overlay ${isOpen == true ? 'active' : ''}`}
+        onClick={ShowSidebar}
+      ></div>
     </div>
   );
 };

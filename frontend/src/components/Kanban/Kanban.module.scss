@@ -1,12 +1,11 @@
-
 .kanbanListContainer {
-    justify-content: space-evenly;
-    margin: 30px 0 15px 0;
-    height: 100%;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(20%, 1fr));
-    gap: 20px; /* Adjust spacing between columns as needed */
-  }
+  justify-content: space-evenly;
+  margin: 30px 0 15px 0;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20%, 1fr));
+  gap: 20px; /* Adjust spacing between columns as needed */
+}
 
 .header {
   display: flex;
@@ -19,17 +18,17 @@
     -webkit-appearance: none;
     appearance: none; // 기본 CSS 제거
 
-    font-family: "Noto Sansf KR", sans-serif;
+    font-family: 'Noto Sansf KR', sans-serif;
     font-size: 1rem;
     font-weight: 400;
     line-height: 1;
-  
+
     color: #444;
     background-color: #fff;
-  
+
     padding: 0.6em 1.4em 0.5em 0.8em;
     margin-right: 20px;
-  
+
     border: 1px solid #ffffff;
     border-radius: 0.5em;
     box-shadow: 0 1px 0 1px rgba(0, 0, 0, 0.04);
@@ -39,7 +38,7 @@
       box-shadow: 0 0 1px 3px skyblue;
       box-shadow: 0 0 0 3px -moz-mac-focusring;
     }
-    
+
     &:focus {
       border-color: #aaa;
       box-shadow: 0 0 1px 3px lightblue;
@@ -47,7 +46,7 @@
       color: #222;
       outline: none;
     }
-    
+
     &:disabled {
       opacity: 0.5;
     }
@@ -63,12 +62,11 @@
   }
 
   &__arrow {
-    z-index: 1; 
-    width: 35px; 
+    z-index: 1;
+    width: 35px;
     height: inherit;
     display: flex;
     justify-content: center;
     align-items: center;
   }
 }
-
