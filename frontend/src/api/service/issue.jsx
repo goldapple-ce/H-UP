@@ -1,6 +1,6 @@
 import { api } from "../instance/api";
 
-export const onLoadData = async (memberId) => {
+export const LoadIssueList = async (memberId) => {
     memberId = 1; // 테스트 코드
 
     return await api({

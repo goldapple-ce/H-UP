@@ -1,15 +1,43 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import styles from './IssueForm.module.scss'
 import IssueItemContainer from "./IssueItemContainer";
 import { issueDummyList } from '../../test/issueData';
 import { useRecoilState } from 'recoil';
 import { issueListState } from '../../recoil/recoil';
+import { initializeAxios } from '../../api/instance/api';
+import { useSelector } from 'react-redux';
+import { LoadIssueList } from '../../api/service/issue';
+import { useEffect } from 'react';
 
 const IssueForm = () => {
 
     const [issueList, setIssueList] = useRecoilState(issueListState)
     // const { startLoading, finishLoading } = MyLayout.useLoading();
     // const { openDialog } = MyLayout.useDialog();
+
+    const token = useSelector(state => state.auth.token);
+    initializeAxios(token);
+
+    //////////////////////////////////////////////////////////////////////////////////
+    // 이슈 받아오는 테스트 코드 추가 
+    const TestFunction = async () => {
+      try {
+        const response = await LoadIssueList(1);
+        console.log(response.data.responseList);
+      } catch (error) {
+        console.error("Error fetching initial content:", error);
+      }
+    };
+    
+    const hasExecuted = useRef(false);
+
+    useEffect(() => {
+      if (!hasExecuted.current) {
+        TestFunction();
+        hasExecuted.current = true;
+      }
+    }, []);
+    //////////////////////////////////////////////////////////////////////////////////
 
     const imminentDate = (issue) => {
         const date = issue.endDate

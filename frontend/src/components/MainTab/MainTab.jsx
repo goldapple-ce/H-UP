@@ -4,7 +4,6 @@ import IssueForm from "../Issue/IssueForm";
 import MyCalendar from "../Calendar/Calendar";
 import Kanban from "../Kanban/Kanban";
 import { RecoilRoot } from "recoil";
-import { onLoadData } from "../../api/service/issue";
 import { useSelector } from "react-redux";
 import Agenda from "../Agenda/Agenda";
 
