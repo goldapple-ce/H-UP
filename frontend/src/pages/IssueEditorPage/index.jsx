@@ -19,12 +19,10 @@ import { api, initializeAxios } from '../../api/instance/api';
 function IssueEditorPage() {
     const { id } = useParams();
     const memberId = useSelector(state => state.auth.memberId);
-    const token = useSelector(state => state.auth.token); // 토큰을 여기서 가져옴
+    const token = useSelector(state => state.auth.token);
     const stompClient = useRef(null);
     const ydoc = useRef(new Y.Doc()).current;
-    const [initialContent, setInitialContent] = useState('');  // 초기 컨텐츠 상태
 
-    // 에디터 초기화
     const editor = useEditor({
         extensions: [
             StarterKit,
@@ -39,49 +37,47 @@ function IssueEditorPage() {
             }),
             ySyncPlugin(ydoc.getXmlFragment('prosemirror'))
         ],
-        content: initialContent,  // 초기 컨텐츠 사용
         editorProps: {
             attributes: {
                 class: 'my-editor'
             }
         }
     });
-    
+
     useEffect(() => {
         initializeAxios(token);
     }, [token]);
 
+    // Fetch initial content and set up document
     useEffect(() => {
-            async function fetchContent() {
+        async function fetchContent() {
             const response = await api(`https://h-up.site/api/issue/${id}`);
-            console.log('response : ', response);
-            const data = response.data;
-            setInitialContent(data.content);  // 상태 업데이트
+            const contentData = JSON.parse(response.data.content);
+            Y.applyUpdate(ydoc, new Uint8Array(contentData));
         }
         fetchContent();
+    }, [id, editor]);
 
+    // Setup WebSocket connection and handlers
+    useEffect(() => {
         const sock = new SockJS('https://h-up.site/api/ws');
         stompClient.current = Stomp.over(sock);
         stompClient.current.connect({}, () => {
-            console.log("Connected to STOMP server");
-
             stompClient.current.subscribe(`/sub/documents/${id}`, (message) => {
-                let updates = JSON.parse(message.body).content;
-                if (typeof updates === 'string') {
-                    updates = JSON.parse(updates);
-                }
-                if (updates && Array.isArray(updates)) {
-                    Y.applyUpdate(ydoc, new Uint8Array(updates), 'remote');
+                const updates = JSON.parse(message.body).content;
+                if (updates) {
+                    const updateArray = new Uint8Array(JSON.parse(updates));
+                    Y.applyUpdate(ydoc, updateArray, 'remote');
                 }
             });
 
             ydoc.on('update', (update, origin) => {
                 if (origin !== 'remote') {
-                    const updateArray = Array.from(update);
+                    const updateArray = Y.encodeStateAsUpdate(ydoc);
                     stompClient.current.send(`/pub/documents`, {}, JSON.stringify({
                         documentsId: id,
                         memberId,
-                        content: JSON.stringify(updateArray)
+                        content: JSON.stringify(Array.from(updateArray))
                     }));
                 }
             });
@@ -92,13 +88,14 @@ function IssueEditorPage() {
         });
 
         return () => {
-            editor?.destroy();
+            if (editor) {
+                editor.destroy();
+            }
             if (stompClient.current && stompClient.current.connected) {
-                stompClient.current.send(`/pub/disconnection`, {}, JSON.stringify({ documentsId: id, memberId }));
                 stompClient.current.disconnect();
             }
         };
-    }, [editor, id, memberId, token]);
+    }, [id, memberId, ydoc]);
 
     return (
         <div className={styles.editor_page}>
