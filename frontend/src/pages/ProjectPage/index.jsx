@@ -1,6 +1,7 @@
 import React from 'react'
 import MainTab from '../../components/MainTab/MainTab';
 import styles from './ProjectPage.module.scss'; // SCSS 스타일 시트 임포트
+import IssueAddButton from '../../components/IssueAddButton/IssueAddButton';
 
 
 const ProjectPage = (props) => {

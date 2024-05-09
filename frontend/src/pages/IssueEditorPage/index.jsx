@@ -1,20 +1,15 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { useEditor, EditorContent } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
-import Link from '@tiptap/extension-link';
-import Image from '@tiptap/extension-image';
-import ListItem from '@tiptap/extension-list-item';
-import BulletList from '@tiptap/extension-bullet-list';
-import OrderedList from '@tiptap/extension-ordered-list';
-import Collaboration from '@tiptap/extension-collaboration';
-import { ySyncPlugin } from 'y-prosemirror';
-import * as Y from 'yjs';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import styles from './IssueEditorPage.module.scss';
 import { Stomp } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
+import * as Y from 'yjs';
 import { api, initializeAxios } from '../../api/instance/api';
+import "@blocknote/core/fonts/inter.css";
+import { useCreateBlockNote } from "@blocknote/react";
+import { BlockNoteView } from "@blocknote/mantine";
+import "@blocknote/mantine/style.css";
+import styles from './IssueEditorPage.module.scss';
 
 function IssueEditorPage() {
     const { id } = useParams();
@@ -22,25 +17,11 @@ function IssueEditorPage() {
     const token = useSelector(state => state.auth.token);
     const stompClient = useRef(null);
     const ydoc = useRef(new Y.Doc()).current;
+    const [initialContent, setInitialContent] = useState('');
 
-    const editor = useEditor({
-        extensions: [
-            StarterKit,
-            Link,
-            Image,
-            ListItem,
-            BulletList,
-            OrderedList,
-            Collaboration.configure({
-                document: ydoc,
-                field: 'prosemirror',
-            }),
-            ySyncPlugin(ydoc.getXmlFragment('prosemirror'))
-        ],
-        editorProps: {
-            attributes: {
-                class: 'my-editor'
-            }
+    const editor = useCreateBlockNote({
+        collaboration: {
+            fragment: ydoc.getXmlFragment("co-work"),
         }
     });
 
@@ -51,12 +32,22 @@ function IssueEditorPage() {
     // Fetch initial content and set up document
     useEffect(() => {
         async function fetchContent() {
-            const response = await api(`https://h-up.site/api/issue/${id}`);
-            const contentData = JSON.parse(response.data.content);
-            Y.applyUpdate(ydoc, new Uint8Array(contentData));
+            try {
+                const response = await api(`https://h-up.site/api/issue/${id}`);
+                const contentData = JSON.parse(response.data.content);
+                if (Array.isArray(contentData)) {
+                    Y.applyUpdate(ydoc, new Uint8Array(contentData));
+                    const xmlText = ydoc.getText('prosemirror');
+                    setInitialContent(xmlText.toString());
+                } else {
+                    console.error("Invalid initial content format");
+                }
+            } catch (error) {
+                console.error("Error fetching initial content:", error);
+            }
         }
         fetchContent();
-    }, [id, editor]);
+    }, [id]);
 
     // Setup WebSocket connection and handlers
     useEffect(() => {
@@ -64,21 +55,31 @@ function IssueEditorPage() {
         stompClient.current = Stomp.over(sock);
         stompClient.current.connect({}, () => {
             stompClient.current.subscribe(`/sub/documents/${id}`, (message) => {
-                const updates = JSON.parse(message.body).content;
-                if (updates) {
-                    const updateArray = new Uint8Array(JSON.parse(updates));
-                    Y.applyUpdate(ydoc, updateArray, 'remote');
+                try {
+                    const updates = JSON.parse(JSON.parse(message.body).content);
+                    if (updates && Array.isArray(updates)) {
+                        const updateArray = new Uint8Array(updates);
+                        Y.applyUpdate(ydoc, updateArray, 'remote');
+                    } else {
+                        console.error("Invalid update format");
+                    }
+                } catch (error) {
+                    console.error("Error applying updates:", error);
                 }
             });
 
             ydoc.on('update', (update, origin) => {
                 if (origin !== 'remote') {
-                    const updateArray = Y.encodeStateAsUpdate(ydoc);
-                    stompClient.current.send(`/pub/documents`, {}, JSON.stringify({
-                        documentsId: id,
-                        memberId,
-                        content: JSON.stringify(Array.from(updateArray))
-                    }));
+                    try {
+                        const updateArray = Y.encodeStateAsUpdate(ydoc);
+                        stompClient.current.send(`/pub/documents`, {}, JSON.stringify({
+                            documentsId: id,
+                            memberId,
+                            content: JSON.stringify(Array.from(updateArray))
+                        }));
+                    } catch (error) {
+                        console.error("Error encoding state update:", error);
+                    }
                 }
             });
 
@@ -88,14 +89,29 @@ function IssueEditorPage() {
         });
 
         return () => {
-            if (editor) {
-                editor.destroy();
-            }
             if (stompClient.current && stompClient.current.connected) {
                 stompClient.current.disconnect();
             }
         };
     }, [id, memberId, ydoc]);
+
+    const handleEditorChange = useCallback((change) => {
+        try {
+            // Encode Yjs document state to Uint8Array
+            const updateArray = Y.encodeStateAsUpdate(ydoc);
+
+            // Optionally send the encoded state to server
+            if (stompClient.current && stompClient.current.connected) {
+                stompClient.current.send(`/pub/documents`, {}, JSON.stringify({
+                    documentsId: id,
+                    memberId,
+                    content: JSON.stringify(Array.from(updateArray))
+                }));
+            }
+        } catch (error) {
+            console.error("Error handling editor change:", error);
+        }
+    }, [ydoc, id, memberId]);
 
     return (
         <div className={styles.editor_page}>
@@ -103,7 +119,7 @@ function IssueEditorPage() {
                 <h1>Real-Time Collaborative Editor</h1>
             </div>
             <div className={styles.editor_container}>
-                {editor ? <EditorContent editor={editor} className={styles.tiptap_editor} /> : <p>Loading...</p>}
+                <BlockNoteView editor={editor} onChange={handleEditorChange} />
             </div>
         </div>
     );
