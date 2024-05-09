@@ -51,7 +51,7 @@ function IssueEditorPage() {
     // Fetch initial content and set up document
     useEffect(() => {
         async function fetchContent() {
-            const response = await api(process.env.REACT_APP_API_URL + `/api/issue/${id}`);
+            const response = await api(`https://h-up.site/api/issue/${id}`);
             const contentData = JSON.parse(response.data.content);
             Y.applyUpdate(ydoc, new Uint8Array(contentData));
         }
@@ -60,7 +60,7 @@ function IssueEditorPage() {
 
     // Setup WebSocket connection and handlers
     useEffect(() => {
-        const sock = new SockJS(process.env.REACT_APP_API_URL + '/api/ws');
+        const sock = new SockJS('https://h-up.site/api/ws');
         stompClient.current = Stomp.over(sock);
         stompClient.current.connect({}, () => {
             stompClient.current.subscribe(`/sub/documents/${id}`, (message) => {
