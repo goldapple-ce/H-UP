@@ -10,6 +10,7 @@ import { useCreateBlockNote } from "@blocknote/react";
 import { BlockNoteView } from "@blocknote/mantine";
 import "@blocknote/mantine/style.css";
 import styles from './IssueEditorPage.module.scss';
+import { LoadIssueData } from '../../api/service/issue';
 
 function IssueEditorPage() {
     const { id } = useParams();
@@ -17,7 +18,6 @@ function IssueEditorPage() {
     const token = useSelector(state => state.auth.token);
     const stompClient = useRef(null);
     const ydoc = useRef(new Y.Doc()).current;
-    const [initialContent, setInitialContent] = useState('');
 
     const editor = useCreateBlockNote({
         collaboration: {
@@ -33,12 +33,11 @@ function IssueEditorPage() {
     useEffect(() => {
         async function fetchContent() {
             try {
-                const response = await api(`https://h-up.site/api/issue/${id}`);
+                const response = await LoadIssueData(id);
                 const contentData = JSON.parse(response.data.content);
                 if (Array.isArray(contentData)) {
                     Y.applyUpdate(ydoc, new Uint8Array(contentData));
                     const xmlText = ydoc.getText('prosemirror');
-                    setInitialContent(xmlText.toString());
                 } else {
                     console.error("Invalid initial content format");
                 }
