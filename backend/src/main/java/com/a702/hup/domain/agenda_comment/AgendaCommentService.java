@@ -20,6 +20,7 @@ public class AgendaCommentService {
      * @date 2024-05-08
      * @description 저장
      */
+    @Transactional
     public AgendaComment save(Agenda agenda, Member member, String content) {
         return agendaCommentRepository.save(AgendaComment.builder()
                 .agenda(agenda)
