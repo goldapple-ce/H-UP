@@ -1,7 +1,7 @@
 .title {
   display: flex;
   flex-direction: row; /* Align items vertically */
-  align-items: center;   /* Center items horizontally within the column */
+  align-items: center; /* Center items horizontally within the column */
 
   p {
     margin: 5px 20px; /* Remove default margin, potentially needed depending on styles */
@@ -13,5 +13,5 @@
 }
 
 .day_working {
-  color: darkslategrey
+  color: darkslategrey;
 }

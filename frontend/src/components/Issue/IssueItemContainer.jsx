@@ -1,5 +1,5 @@
-import { useNavigate } from "react-router-dom";
-import IssueItem from "./IssueItem";
+import { useNavigate } from 'react-router-dom';
+import IssueItem from './IssueItem';
 
 const IssueItemContainer = ({ issue }) => {
   const navigate = useNavigate();

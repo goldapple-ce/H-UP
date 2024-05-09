@@ -8,26 +8,29 @@ nav {
   z-index: 1;
 }
 
-  nav ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  nav ul li {
-    display: inline;
-    margin-right: 10px;
-  }
-  
-  nav ul li a {
-    margin-left: 20px;
-    margin-top: 20px;
-    font-weight: 800;
-    font-size: 30px;
-    color: #00B4D8;
-  }
-  
-  nav ul li a:hover {
-    // color: #3baef1;
-    text-decoration: none;
-    color: #0077B6;
-  }
+nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+nav ul li {
+  display: inline;
+  margin-right: 10px;
+}
+
+nav ul li a {
+  margin-left: 20px;
+  margin-top: 20px;
+  font-weight: 800;
+  font-size: 30px;
+}
+
+nav ul li a:hover {
+  // color: #3baef1;
+  text-decoration: none;
+  color: #0077b6;
+}
+
+.logo {
+  color: #00b4d8;
+}

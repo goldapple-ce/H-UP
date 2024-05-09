@@ -1,16 +1,15 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDrag } from 'react-dnd';
-import { useRecoilState } from 'recoil';
-import { TITLE_NAME } from './Kanban';
-import { issueListState } from '../../recoil/recoil';
 import { useNavigate } from 'react-router-dom';
-import styles from "./Card.module.scss"
-import { updateIssue } from '../../api/service/issue';
+import { useRecoilState } from 'recoil';
+import { issueListState } from '@recoil/recoil';
+import styles from './Card.module.scss';
+import { TITLE_NAME } from './Kanban';
 
 function Card({ item }) {
   const [list, setList] = useRecoilState(issueListState);
   const [cardColor, setCardColor] = useState('');
-  const index = list.findIndex((data) => data === item);
+  const index = list.findIndex(data => data === item);
   const ref = useRef(null);
   const { CREATED, SELECTED, PROGRESS, COMPLETED } = TITLE_NAME;
   const navigate = useNavigate();
@@ -19,14 +18,14 @@ function Card({ item }) {
     return [...list.slice(0, index), data, ...list.slice(index + 1)];
   };
 
-  const editTitle = (e) => {
+  const editTitle = e => {
     const newList = replaceIndex(list, index, {
       ...item,
       title: e.target.value,
     });
     setList(newList);
   };
-  const editText = (e) => {
+  const editText = e => {
     const newList = replaceIndex(list, index, {
       ...item,
       content: e.target.value,
@@ -47,23 +46,25 @@ function Card({ item }) {
   };
 
   const changeItemStatus = (selectedItem, newStatus) => {
-    setList((prevList) =>
-    prevList.map((item) =>
-      item.issueId === selectedItem.issueId ? { ...item, status: newStatus } : item
-    )
-  );
-  // /////////////////////////////////////////
-  // // 칸반 이슈 업데이트 테스트
+    setList(prevList =>
+      prevList.map(item =>
+        item.issueId === selectedItem.issueId
+          ? { ...item, status: newStatus }
+          : item,
+      ),
+    );
+    // /////////////////////////////////////////
+    // // 칸반 이슈 업데이트 테스트
 
-  // const data = updateIssue({ ...item, status: newStatus })
-  // console.log(data)
-  // ////////////////////////////////////////
-};
+    // const data = updateIssue({ ...item, status: newStatus })
+    // console.log(data)
+    // ////////////////////////////////////////
+  };
 
   const [{ isDragging }, dragRef] = useDrag(() => ({
     type: 'card',
     item: item,
-    collect: (monitor) => ({
+    collect: monitor => ({
       isDragging: monitor.isDragging(),
     }),
     end: (item, monitor) => {
@@ -87,7 +88,7 @@ function Card({ item }) {
     },
   }));
 
-  const handleClick = (e) => {
+  const handleClick = e => {
     e.preventDefault();
     navigate(`/issue/${item.issueId}`);
   };
@@ -109,8 +110,6 @@ function Card({ item }) {
     }
   }, [item]);
 
-  
-
   return (
     <div
       className={styles.cardWrap}
@@ -118,19 +117,17 @@ function Card({ item }) {
       style={{
         opacity: isDragging ? '0.3' : '1',
         boxShadow: `1px 1px 5px 0.1px ${cardColor}`,
-       }}
+      }}
       onClick={handleClick}
     >
       <div className={styles.cardHeaderWrap}>
         <h5>{item.title}</h5>
       </div>
       <div className={styles.memberInfo}>
-        {item.memberInfo && item.memberInfo.map((image) => (
-        <img key={image.id}
-            src={image.img}
-            alt={image.name}>
-        </img>
-        ))}
+        {item.memberInfo &&
+          item.memberInfo.map(image => (
+            <img key={image.id} src={image.img} alt={image.name}></img>
+          ))}
       </div>
     </div>
   );

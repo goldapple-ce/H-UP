@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "baseUrl": "src",
+    "checkJs": true,
+    "jsx": "react-jsx",
+    "paths": {
+      "@api/*": ["@core/api/*"],
+      "@hook/*": ["@core/hooks/*"],
+      "@util/*": ["@core/utils/*"],
+      "@asset/*": ["assets/*"],
+      "@component/*": ["components/*"],
+      "@constant/*": ["constants/*"],
+      "@data/*": ["data/*"],
+      "@page/*": ["pages/*"],
+      "@recoil/*": ["recoil/*"]
+    }
+  },
+  "include": ["src"]
+}

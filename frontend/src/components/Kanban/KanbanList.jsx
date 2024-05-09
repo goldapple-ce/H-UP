@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import KanbanCreator from './KanbanCreator';
+import React, { useEffect, useState } from 'react';
 import { useDrop } from 'react-dnd';
-import styles from './KanbanList.module.scss';
 import { TITLE_NAME } from './Kanban';
+import styles from './KanbanList.module.scss';
 
 function KanbanList({ title, children }) {
   const [spanColor, setSpanColor] = useState('');
-  const {CREATED, SELECTED, PROGRESS, COMPLETED} = TITLE_NAME;
+  const { CREATED, SELECTED, PROGRESS, COMPLETED } = TITLE_NAME;
   const [{ canDrop, isOver }, drop] = useDrop({
     accept: 'card',
     drop: () => ({ name: title }),
-    collect: (monitor) => ({
+    collect: monitor => ({
       isOver: monitor.isOver(),
       canDrop: monitor.canDrop(),
     }),
@@ -38,7 +37,10 @@ function KanbanList({ title, children }) {
       <h5>{title}</h5>
       <div className={styles.container}>
         <div className={styles.column} ref={drop}>
-          <div style={{ backgroundColor: spanColor }} className={styles.kanbanListWrap} >
+          <div
+            style={{ backgroundColor: spanColor }}
+            className={styles.kanbanListWrap}
+          >
             <span></span>
             {children}
             {/* <KanbanCreator title={title} /> */}
@@ -50,5 +52,3 @@ function KanbanList({ title, children }) {
 }
 
 export default React.memo(KanbanList);
-
-

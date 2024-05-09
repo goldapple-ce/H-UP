@@ -1,26 +1,26 @@
 .issue_container {
-    width: 95%;
-    padding: 10px;
-    border-radius: 8px;
-    margin: 40px;
+  width: 95%;
+  padding: 10px;
+  border-radius: 8px;
+  margin: 40px;
 
-    h4 {
-        padding-left: 20px;
-    }
+  h4 {
+    padding-left: 20px;
+  }
 }
 
 .issue_page {
-    display: flex;
-    gap: 20px;
+  display: flex;
+  gap: 20px;
 }
 
 .issue_section {
-    flex: 7;
-    width: 70%;
+  flex: 7;
+  width: 70%;
 }
 
 .Imminent_issue_section {
-    flex: 3;
-    width: 30%;
-    min-width: 300px;
+  flex: 3;
+  width: 30%;
+  min-width: 300px;
 }

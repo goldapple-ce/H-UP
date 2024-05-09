@@ -1,5 +1,4 @@
-import React from 'react';
-import { Folder2, Folder2Open, FolderCheck, People, file} from 'react-bootstrap-icons';
+import { People } from 'react-bootstrap-icons';
 
 export const MenuData = [
   {
@@ -14,21 +13,21 @@ export const MenuData = [
         id: 1,
         title: '이슈 1',
         // icon: 'IoIcons.IoIosPaper',
-        cName: 'sub-nav'
+        cName: 'sub-nav',
       },
       {
         id: 2,
         title: '이슈 2',
         // icon: 'IoIcons.IoIosPaper',
-        cName: 'sub-nav'
+        cName: 'sub-nav',
       },
       {
         id: 3,
         title: '이슈 3',
         path: '/issueId=3',
         // icon: 'IoIcons.IoIosPaper'
-      }
-    ]
+      },
+    ],
   },
   {
     title: '프로젝트 2',
@@ -42,24 +41,24 @@ export const MenuData = [
         id: 1,
         title: '이슈 1',
         // icon: 'IoIcons.IoIosPaper',
-        cName: 'sub-nav'
+        cName: 'sub-nav',
       },
       {
         id: 2,
         title: '이슈 2',
         // icon: 'IoIcons.IoIosPaper',
-        cName: 'sub-nav'
+        cName: 'sub-nav',
       },
       {
         id: 3,
         title: '이슈 3',
         // icon: 'IoIcons.IoIosPaper'
-      }
-    ]
+      },
+    ],
   },
   {
     title: 'Team',
     path: '/team',
-    icon: <People/>
+    icon: <People />,
   },
 ];

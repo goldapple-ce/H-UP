@@ -1,5 +1,5 @@
-import { useNavigate } from "react-router-dom";
-import AgendaItem from "./AgendaItem";
+import { useNavigate } from 'react-router-dom';
+import AgendaItem from './AgendaItem';
 
 const AgendaItemContainer = ({ agenda }) => {
   const navigate = useNavigate();
