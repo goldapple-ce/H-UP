@@ -2,7 +2,7 @@ import { api } from "../instance/api";
 
 export const onLoadMemberData = async () => {
     return await api({
-        url: `/api/calendar`,
+        url: `/calendar`,
         method: "GET",
         data: { param: {} },
     });
@@ -10,7 +10,7 @@ export const onLoadMemberData = async () => {
 
 export const updateSchedule = async (data) => {
     return await api({
-        url: "/api/calendar",
+        url: "/calendar",
         method: "POST",
         data: { param: data },
     });
