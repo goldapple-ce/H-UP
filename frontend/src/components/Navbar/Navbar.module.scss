@@ -1,11 +1,10 @@
 nav {
   background-color: white;
+  border-style: solid;
+  border-color: white white rgb(232, 232, 232) white;
   height: 50px;
-  border-radius: 5px;
-  position: fixed; /* Make the navigation bar fixed to the viewport */
-  top: 0; /* Position it at the top of the viewport */
-  width: 100%; /* Make it span the full width */
-  /* Other styles for your navigation bar */
+  position: fixed;
+  width: 100%;
   z-index: 1;
 }
 
@@ -20,11 +19,15 @@ nav {
   }
   
   nav ul li a {
-    text-decoration: none;
-    color: #000000;
+    margin-left: 20px;
+    margin-top: 20px;
+    font-weight: 800;
+    font-size: 30px;
+    color: #00B4D8;
   }
   
   nav ul li a:hover {
-    text-decoration: underline;
-    color: #3baef1;
+    // color: #3baef1;
+    text-decoration: none;
+    color: #0077B6;
   }
