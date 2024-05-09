@@ -52,6 +52,7 @@ function IssueEditorPage() {
     useEffect(() => {
         const sock = new SockJS('https://h-up.site/api/ws');
         stompClient.current = Stomp.over(sock);
+        stompClient.current.debug = () => {};
         stompClient.current.connect({}, () => {
             stompClient.current.subscribe(`/sub/documents/${id}`, (message) => {
                 try {
