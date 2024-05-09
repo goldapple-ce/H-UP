@@ -10,6 +10,15 @@ export const onLoadData = async (memberId) => {
     });
 };
 
+export const LoadIssueData = async (id) => {
+
+    return await api({
+        url: `/api/issue/${id}`,
+        method: "GET",
+        data: { param: {} },
+    });
+};
+
 export const updateIssue = async (data) => {
     return await api({
         url: "/api/issue/status",
