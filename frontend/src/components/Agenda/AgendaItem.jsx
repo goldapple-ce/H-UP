@@ -5,7 +5,7 @@ import playIcon from "../../assets/img/play_icon.png";
 
 const AgendaItem = ({agenda, onClick}) => {
 
-    const {id, title, createdAt, requester, responser} = agenda;
+    const {id, content, createdAt, requester, assigneeList} = agenda;
     const [ iconImage, setIconImage ] = useState('')
 
 
@@ -24,7 +24,7 @@ const AgendaItem = ({agenda, onClick}) => {
     return (
         <div className={styles.agenda} onClick={onClick}>
             <img src={playIcon} alt=""/>
-            <h5>{title}</h5>
+            <h5>{content}</h5>
             <ul>
                 <p>{formatToDate(createdAt)}</p>
             </ul>
@@ -34,11 +34,20 @@ const AgendaItem = ({agenda, onClick}) => {
                 alt={requester.name}     
             />
             <CaretRightFill/>
-            <img className={styles.agenda__responser}
-                key={responser.id}
-                src={responser.img}
-                alt={responser.name}     
-            />
+            {
+                assigneeList.map((assignee) => (
+                    <img className={styles.agenda__assignee}
+                        key={assignee.id}
+                        src={assignee.img}
+                        alt={assignee.name}     
+                    />
+                    )
+                )
+            }
+
+
+
+
         </div>
 
     )    
