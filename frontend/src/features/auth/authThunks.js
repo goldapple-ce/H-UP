@@ -8,7 +8,7 @@ export const loginUser = createAsyncThunk('auth/loginUser', async (credentials, 
 
         if (response.status === 200) {
             dispatch(
-                loginSuccess({ memberId: response.data.memberId, token: response.data.token })
+                loginSuccess({ memberId: response.data.memberId, token: response.data.jwtToken })
             );
         } else {
             dispatch(loginFailure('Invalid credentials'));
