@@ -73,7 +73,6 @@ export const fetchListState = selector({
   //     `https://h-up.site/api/issue/kb/a/1`
   //   );
   //   const data = response.data;
-
   //   return data;
   // },
   get: ({get}) => {
@@ -121,3 +120,24 @@ export const calendarData = atom({
   key: 'calnderData',
   default: [],
 });
+
+
+// 의사결정 List에 대한 Atom
+export const agendaListState = atom({
+  key: "agendaListState",
+  default: [{
+      "id" : "integer",
+      "title" : "string",
+      "createdAt" : new Date(2024, 4, 5, 11, 30, 0, 0),
+      "requester" : {
+        "id" : 4,
+        "name" : "name4",
+        "img" : "https://images.unsplash.com/photo-1476657680631-c07285ff2581?ixlib=rb-1.2.1&auto=format&fit=crop&w=2210&q=80",
+      },
+      "responser" : {
+        "id" : 1,
+        "name" : "name1",
+        "img" : "https://images.unsplash.com/photo-1491349174775-aaafddd81942?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80",
+      },
+  }]
+})

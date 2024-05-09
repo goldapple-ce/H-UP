@@ -1,0 +1,87 @@
+.agenda {
+    width: 95%;
+    padding: 10px;
+    border-radius: 8px;
+    margin: 10px;
+    display: flex;
+
+    &__column1 {
+        width: 70%;
+        overflow-y: auto;
+        padding-right: 20px;
+    }
+
+    &__column2 {
+        width: 30%;
+        overflow-y: auto;
+        padding: 40px 40px 0 0;
+        border-left: 1px solid lightgrey;
+    }
+
+    &__list {
+        height: 600px;
+        padding: 0 15px;
+    }
+
+    &__imminent_list {
+        height: 600px;
+        min-width: 300px;
+        padding: 0 15px;
+      
+        h4 {
+          text-align: center;
+        }
+    }
+}
+
+
+$tab-label-height: 30px;
+$tab-content-height: 550px;
+
+.tab {
+    float: left;
+  
+    &__group {
+      height: $tab-label-height + $tab-content-height;
+    }
+    
+    &__label {
+      display: inline-block;
+      padding: 0 20px;
+      
+      font-size: 16px;
+      line-height: $tab-label-height;
+      cursor: pointer;
+      
+      // Active tab styles
+      background: #fff;
+      font-weight: 600;
+    }
+    
+    &__content {
+      position: absolute;
+      width: 100%;
+      height: $tab-content-height;
+      top: $tab-label-height * 2;
+      left: 0;
+      right: 0;
+      overflow-y: hidden;
+      background: #fff;
+      border-top: 1px solid black;
+    }
+    
+    &__radio {
+      display: none;
+  
+      &:not(:checked) {
+        // Inactive tab styles
+        & ~ .tab__label {
+          background: transparent;
+        }
+  
+        & ~ .tab__content {
+          display: none;
+        }
+      }
+    }
+}
