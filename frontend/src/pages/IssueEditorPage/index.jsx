@@ -91,7 +91,7 @@ function IssueEditorPage() {
         stompClient.current.send(
           `/pub/connection`,
           {},
-          JSON.stringify({ documentsId: id, memberId }),
+          JSON.stringify({ documentsId: id, memberId: userInfo.memberId }),
         );
       },
       error => {
@@ -104,7 +104,7 @@ function IssueEditorPage() {
         stompClient.current.disconnect();
       }
     };
-  }, [id, ydoc]);
+  }, [id, ydoc, userInfo.memberId]);
 
   const handleEditorChange = useCallback(
     change => {

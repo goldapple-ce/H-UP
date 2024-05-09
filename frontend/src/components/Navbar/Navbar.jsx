@@ -2,7 +2,7 @@ import { authState } from '@recoil/auth';
 import { MenuSidebarState, MessengerSidebarState } from '@recoil/recoil';
 import { Link, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import './Navbar.module.scss';
+import styles from './Navbar.module.scss';
 
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useRecoilState(MenuSidebarState);
@@ -28,7 +28,7 @@ const NavBar = () => {
       <nav>
         <ul>
           <li>
-            <Link to='/' className='logo'>
+            <Link to='/' className={styles.logo}>
               H•UP
             </Link>
           </li>
@@ -70,7 +70,7 @@ const NavBar = () => {
       <nav>
         <ul>
           <li>
-            <Link to='/login' className='logo'>
+            <Link to='/login' className={styles.logo}>
               H•UP
             </Link>
           </li>

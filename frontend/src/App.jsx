@@ -14,7 +14,6 @@ import { authState } from '@recoil/auth';
 
 function App() {
   const [userInfo] = useRecoilState(authState);
-  const isLogin = userInfo.jwtToken.accessToken;
 
   return (
     <>
@@ -22,18 +21,20 @@ function App() {
         <NavBar />
         <MenuSidebar />
         <MessengerSidebar />
-        <Routes>
-          {!isLogin ? (
-            <Route path='/'>
-              <Route path='login' element={<LoginPage />} />
-              <Route path='signUp' element={<SignupPage />} />
+        <main>
+          <Routes>
+            {!userInfo.isLogin ? (
+              <Route path='/'>
+                <Route path='login' element={<LoginPage />} />
+                <Route path='signUp' element={<SignupPage />} />
+              </Route>
+            ) : null}
+            <Route path='/' element={<Layout />}>
+              <Route index element={<ProjectPage />} />
+              <Route path='issue/:id' element={<IssueEditorPage />} />
             </Route>
-          ) : null}
-          <Route path='/' element={<Layout />}>
-            <Route index element={<ProjectPage />} />
-            <Route path='issue/:id' element={<IssueEditorPage />} />
-          </Route>
-        </Routes>
+          </Routes>
+        </main>
         <Footer />
       </Router>
     </>
