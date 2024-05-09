@@ -1,4 +1,4 @@
-import { LoadIssueList } from '@api/service/issue';
+import { LoadIssueList } from '@api/services/issue';
 import { authState } from '@recoil/auth';
 import { issueListState } from '@recoil/recoil';
 import { useEffect, useRef } from 'react';
@@ -7,8 +7,8 @@ import styles from './IssueForm.module.scss';
 import IssueItemContainer from './IssueItemContainer';
 
 const IssueForm = () => {
-  const [issueList, setIssueList] = useRecoilState(issueListState);
-  const { userInfo } = useRecoilState(authState);
+  const [issueList] = useRecoilState(issueListState);
+  const [userInfo] = useRecoilState(authState);
   // const { startLoading, finishLoading } = MyLayout.useLoading();
   // const { openDialog } = MyLayout.useDialog();
 

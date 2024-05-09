@@ -1,4 +1,4 @@
-import { LoadIssueData } from '@api/service/issue';
+import { LoadIssueData } from '@api/services/issue';
 import '@blocknote/core/fonts/inter.css';
 import { BlockNoteView } from '@blocknote/mantine';
 import '@blocknote/mantine/style.css';
@@ -14,7 +14,7 @@ import styles from './IssueEditorPage.module.scss';
 
 function IssueEditorPage() {
   const { id } = useParams();
-  const { userInfo } = useRecoilState(authState);
+  const [userInfo] = useRecoilState(authState);
   const stompClient = useRef(null);
   const ydoc = useRef(new Y.Doc()).current;
 
@@ -104,7 +104,7 @@ function IssueEditorPage() {
         stompClient.current.disconnect();
       }
     };
-  }, [id, memberId, ydoc]);
+  }, [id, ydoc]);
 
   const handleEditorChange = useCallback(
     change => {
@@ -119,7 +119,7 @@ function IssueEditorPage() {
             {},
             JSON.stringify({
               documentsId: id,
-              memberId,
+              memberId: userInfo.memberId,
               content: JSON.stringify(Array.from(updateArray)),
             }),
           );
@@ -128,7 +128,7 @@ function IssueEditorPage() {
         console.error('Error handling editor change:', error);
       }
     },
-    [ydoc, id, memberId],
+    [ydoc, userInfo.memberId, id],
   );
 
   return (

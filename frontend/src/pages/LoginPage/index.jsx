@@ -21,7 +21,7 @@ const LoginPage = props => {
         <form>
           <input
             className={'inputBox'}
-            type='text'
+            type='userId'
             placeholder='ID를 입력하세요.'
             onChange={onUserIdChange}
           />

@@ -1,4 +1,3 @@
-// App.js
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import './App.css';
 import Footer from '@component/Footer/Footer';
@@ -14,29 +13,30 @@ import { useRecoilState } from 'recoil';
 import { authState } from '@recoil/auth';
 
 function App() {
-  const { jwtToken } = useRecoilState(authState);
+  const [userInfo] = useRecoilState(authState);
+  const isLogin = userInfo.jwtToken.accessToken;
+
   return (
-    <Router>
-      <NavBar />
-      <MenuSidebar />
-      <MessengerSidebar />
-      <main>
+    <>
+      <Router>
+        <NavBar />
+        <MenuSidebar />
+        <MessengerSidebar />
         <Routes>
-          {jwtToken.accessToken ? (
+          {!isLogin ? (
             <Route path='/'>
               <Route path='login' element={<LoginPage />} />
               <Route path='signUp' element={<SignupPage />} />
             </Route>
-          ) : (
-            <Route path='/' element={<Layout />}>
-              <Route index element={<ProjectPage />} />
-              <Route path='issue/:id' element={<IssueEditorPage />} />
-            </Route>
-          )}
+          ) : null}
+          <Route path='/' element={<Layout />}>
+            <Route index element={<ProjectPage />} />
+            <Route path='issue/:id' element={<IssueEditorPage />} />
+          </Route>
         </Routes>
-      </main>
-      <Footer />
-    </Router>
+        <Footer />
+      </Router>
+    </>
   );
 }
 

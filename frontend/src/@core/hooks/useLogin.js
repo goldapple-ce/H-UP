@@ -1,7 +1,7 @@
 import { requestLogin } from '@api/services/auth';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
-import { authState } from '@recoil/authAtom';
+import { authState } from '@recoil/auth';
 
 export default function useLogin({ userId, password }) {
   const navigate = useNavigate();
@@ -10,21 +10,16 @@ export default function useLogin({ userId, password }) {
   const login = async () => {
     console.log(userId, password);
     const response = await requestLogin({ userId, password });
-    console.log(response);
+    console.log(response.data);
 
-    const memberId = response.data.memberId;
-    const jwt = response.data.jwtToken;
-    const accessToken = jwt.accessToken.split(' ')[1];
-    const refreshToken = jwt.refreshToken.split(' ')[1];
-
-    sessionStorage.setItem('accessToken', accessToken);
-    sessionStorage.setItem('refreshToken', refreshToken);
+    sessionStorage.setItem('accessToken', response.data.jwtToken.accessToken);
+    sessionStorage.setItem('refreshToken', response.data.jwtToken.refreshToken);
 
     setUserInfo({
-      memberId: memberId,
+      memberId: response.data.memberId,
       jwtToken: {
-        accessToken: accessToken,
-        refreshToken: refreshToken,
+        accessToken: response.data.jwtToken.accessToken,
+        refreshToken: response.data.jwtToken.refreshToken,
       },
     });
 

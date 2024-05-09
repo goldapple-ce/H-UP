@@ -1,9 +1,9 @@
-import styles from './Footer.module.scss'; // CSS 파일 임포트
+import './Footer.module.scss';
 
 const Footer = () => {
   return (
-    <footer className={styles.footer}>
-      <div className={styles.content}>
+    <footer className='footer'>
+      <div className='content'>
         <p>Copyright © 2024 H-up. All Rights Reserved.</p>
       </div>
     </footer>

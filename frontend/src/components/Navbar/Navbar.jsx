@@ -20,10 +20,10 @@ const NavBar = () => {
       ? setIsMessengerOpen(false)
       : setIsMessengerOpen(true);
   };
-  const { userInfo, setUserInfo } = useRecoilState(authState);
+  const [userInfo, setUserInfo] = useRecoilState(authState);
   const navigate = useNavigate();
 
-  if (userInfo.accessToken) {
+  if (userInfo.jwtToken.accessToken) {
     return (
       <nav>
         <ul>
@@ -64,7 +64,7 @@ const NavBar = () => {
       <nav>
         <ul>
           <li>
-            <Link to='/LoginPage' className='logo'>
+            <Link to='/login' className='logo'>
               H•UP
             </Link>
           </li>
