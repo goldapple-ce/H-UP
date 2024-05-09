@@ -28,11 +28,11 @@ public class DocumentsRedisService {
     /**
      * @author 손현조
      * @date 2024-04-29
-     * @description 1초마다 문서 상태를 Redis 저장
+     * @description 0.1초마다 문서 상태를 Redis 저장
      **/
     public DocumentsResponse saveDocument(Integer documentsId, Integer memberId, String content) {
         long now = System.currentTimeMillis();
-        if (isRunning || now - lastStartTime < 1000) {
+        if (isRunning || now - lastStartTime < 100) {
             return createResponse(content);
         }
 
