@@ -4,6 +4,7 @@ import com.a702.hup.application.data.dto.MemberInfo;
 import com.a702.hup.application.data.request.AddTeamMembersRequest;
 import com.a702.hup.application.data.request.TeamSaveRequest;
 import com.a702.hup.application.data.response.MemberInfoListResponse;
+import com.a702.hup.application.data.response.TeamInfoListResponse;
 import com.a702.hup.domain.member.MemberException;
 import com.a702.hup.domain.member.MemberService;
 import com.a702.hup.domain.member.entity.Member;
@@ -126,5 +127,16 @@ public class TeamFacade {
                         .map(teamMember -> MemberInfo.from(teamMember.getMember()))
                         .toList())
                 .build();
+    }
+
+    /**
+     * @author 강용민
+     * @date 2024-05-10
+     * @description
+     */
+    public TeamInfoListResponse findByMember(int memberId){
+        Member member = memberService.findById(memberId);
+        List<Team> teamList = teamService.findByMember(member);
+        return TeamInfoListResponse.of(teamList);
     }
 }

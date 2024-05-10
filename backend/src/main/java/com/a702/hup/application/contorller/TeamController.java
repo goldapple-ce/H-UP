@@ -3,6 +3,7 @@ package com.a702.hup.application.contorller;
 import com.a702.hup.application.data.request.AddTeamMembersRequest;
 import com.a702.hup.application.data.request.TeamSaveRequest;
 import com.a702.hup.application.data.response.MemberInfoListResponse;
+import com.a702.hup.application.data.response.TeamInfoListResponse;
 import com.a702.hup.application.facade.TeamFacade;
 import com.a702.hup.global.config.security.SecurityUserDetailsDto;
 import lombok.RequiredArgsConstructor;
@@ -55,5 +56,15 @@ public class TeamController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(teamFacade.findTeamMembers(user.memberId(), teamId));
+    }
+
+    /**
+     * @author 강용민
+     * @date 2024-05-10
+     * @description 사용자 팀 조회
+     */
+    @GetMapping("/me")
+    public ResponseEntity<TeamInfoListResponse> findByMe(@AuthenticationPrincipal SecurityUserDetailsDto user){
+        return ResponseEntity.ok(teamFacade.findByMember(user.memberId()));
     }
 }
