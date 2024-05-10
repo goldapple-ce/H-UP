@@ -3,6 +3,7 @@ package com.a702.hup.application.facade;
 import com.a702.hup.application.data.dto.MemberInfo;
 import com.a702.hup.application.data.request.ProjectMemberSaveRequest;
 import com.a702.hup.application.data.request.ProjectSaveRequest;
+import com.a702.hup.application.data.response.ProjectInfoListResponse;
 import com.a702.hup.application.data.response.ProjectMembersResponse;
 import com.a702.hup.domain.member.MemberService;
 import com.a702.hup.domain.member.entity.Member;
@@ -83,5 +84,16 @@ public class ProjectFacade {
         if(!teamMemberService.isMember(member,team)){
             throw new ProjectException(ErrorCode.API_ERROR_PROJECT_NOT_ROLE);
         }
+    }
+
+    /**
+     * @author 강용민
+     * @date 2024-05-10
+     * @description
+     */
+    public ProjectInfoListResponse findByTeam(Integer teamId) {
+        Team team = teamService.findById(teamId);
+        List<Project> projectList = projectService.findAllByTeam(team);
+        return ProjectInfoListResponse.from(projectList);
     }
 }

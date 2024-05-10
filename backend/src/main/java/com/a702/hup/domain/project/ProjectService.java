@@ -4,12 +4,13 @@ import com.a702.hup.domain.member.entity.Member;
 import com.a702.hup.domain.project.entity.Project;
 import com.a702.hup.domain.project_member.ProjectMemberService;
 import com.a702.hup.domain.team.entity.Team;
-import com.a702.hup.domain.project.entity.Project;
 import com.a702.hup.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Slf4j
 @Service
@@ -42,5 +43,14 @@ public class ProjectService {
     public Project findById(int projectId) {
         return projectRepository.findById(projectId)
                 .orElseThrow(() -> new ProjectException(ErrorCode.API_ERROR_PROJECT_NOT_FOUND));
+    }
+
+    /**
+     * @author 강용민
+     * @date 2024-05-10
+     * @description
+     */
+    public List<Project> findAllByTeam(Team team) {
+        return projectRepository.findAllByTeamAndDeletedAtIsNull(team);
     }
 }

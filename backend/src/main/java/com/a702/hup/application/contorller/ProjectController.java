@@ -2,6 +2,7 @@ package com.a702.hup.application.contorller;
 
 import com.a702.hup.application.data.request.ProjectMemberSaveRequest;
 import com.a702.hup.application.data.request.ProjectSaveRequest;
+import com.a702.hup.application.data.response.ProjectInfoListResponse;
 import com.a702.hup.application.data.response.ProjectMembersResponse;
 import com.a702.hup.application.facade.ProjectFacade;
 import com.a702.hup.global.config.security.SecurityUserDetailsDto;
@@ -35,5 +36,15 @@ public class ProjectController {
     @GetMapping("/members/{projectId}")
     public ResponseEntity<ProjectMembersResponse> findMembers(@AuthenticationPrincipal(errorOnInvalidType = true) SecurityUserDetailsDto user, @PathVariable Integer projectId) {
         return ResponseEntity.ok().body(projectFacade.findMembers(user.memberId(), projectId));
+    }
+
+    /**
+     * @author 강용민
+     * @date 2024-05-10
+     * @description
+     */
+    @GetMapping("/list/team/{teamId}")
+    public ResponseEntity<ProjectInfoListResponse> findMembers(@PathVariable Integer teamId) {
+        return ResponseEntity.ok(projectFacade.findByTeam(teamId));
     }
 }
