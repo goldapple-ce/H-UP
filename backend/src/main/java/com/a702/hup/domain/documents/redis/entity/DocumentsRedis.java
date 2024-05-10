@@ -12,11 +12,23 @@ import org.springframework.data.redis.core.RedisHash;
 @RequiredArgsConstructor
 @RedisHash(value = "documents")
 public class DocumentsRedis {
+
     @Id
     @NonNull
     private String documentsId;
+
     @NonNull
     private String memberId;
+
+    @NonNull
+    private String chunkNum;
+
+    @NonNull
+    private String totalChunk;
+
+    @NonNull
+    private String messageId;
+
     private String content = "";
 
     public void updateContent(String content) {
