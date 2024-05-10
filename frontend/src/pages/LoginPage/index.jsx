@@ -38,8 +38,6 @@ const LoginPage = props => {
             onClick={login}
           />
           <div className={styles.search_info}>
-            <p id='search'>아이디 찾기</p>
-            <p>&frasl;</p>
             <p>비밀번호 재설정</p>
           </div>
         </form>
