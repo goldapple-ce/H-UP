@@ -3,12 +3,15 @@ export default function interceptor(api) {
 }
 
 function addTokenOnRequest(instance) {
-  console.log(123);
   instance.interceptors.request.use(
     config => {
       const token = sessionStorage.getItem('accessToken');
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
+      } else {
+        alert('로그인 후 이용해주세요');
+        window.location.href = '/login';
+        return;
       }
 
       return config;
