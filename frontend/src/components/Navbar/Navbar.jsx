@@ -49,16 +49,7 @@ const NavBar = () => {
               </IconButton>
             </div>
             <div className='btn'>
-              <IconButton toDo={() => {
-                setUserInfo({
-                  memberId: '',
-                  jwtToken: {
-                    accessToken: '',
-                    refreshToken: '',
-                  },
-                });
-                navigate('/login');
-              }}>
+              <IconButton toDo={logout}>
               <LogOut />
               </IconButton>
             </div>
