@@ -1,23 +1,22 @@
 import { LoadIssueList } from '@api/services/issue';
 import { authState } from '@recoil/auth';
-import { issueListState } from '@recoil/recoil';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import styles from './IssueForm.module.scss';
 import IssueItemContainer from './IssueItemContainer';
 
 const IssueForm = () => {
-  const [issueList] = useRecoilState(issueListState);
+  const [issueList, setIssueList] = useState([]);
   const [userInfo] = useRecoilState(authState);
   // const { startLoading, finishLoading } = MyLayout.useLoading();
   // const { openDialog } = MyLayout.useDialog();
 
-  const token = userInfo.jwtToken.accessToken;
   //////////////////////////////////////////////////////////////////////////////////
   // 이슈 받아오는 테스트 코드 추가
   const TestFunction = async () => {
     try {
-      const response = await LoadIssueList(1);
+      const response = await LoadIssueList(userInfo.memberId);
+      setIssueList(response.data.responseList);
       console.log(response.data.responseList);
     } catch (error) {
       console.error('Error fetching initial content:', error);
@@ -36,6 +35,9 @@ const IssueForm = () => {
 
   const imminentDate = issue => {
     const date = issue.endDate;
+    if (!date) {
+      return new Date(2024, 4, 23, 0, 0, 0);
+    }
 
     const year = date.getFullYear();
     const month = date.getMonth();

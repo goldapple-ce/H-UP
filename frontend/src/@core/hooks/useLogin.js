@@ -16,6 +16,7 @@ export default function useLogin({ userId, password }) {
     sessionStorage.setItem('refreshToken', response.data.jwtToken.refreshToken);
 
     setUserInfo({
+      isLogin: true,
       memberId: response.data.memberId,
       jwtToken: {
         accessToken: response.data.jwtToken.accessToken,
