@@ -67,7 +67,7 @@ function Kanban() {
               return uniqueImages;
             }, [])
             .map(image => (
-              <img id={image.id} src={image.img} alt={image.name} />
+              <img key={image.id} src={image.img} alt={image.name} />
             ))}
         </div>
       </div>
