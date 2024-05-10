@@ -5,6 +5,11 @@ import { Link } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import styles from './Navbar.module.scss';
 
+import IconButton from '../IconButton/IconButton'
+import { LogOut } from '@styled-icons/boxicons-regular/LogOut'
+import { CommentDetail } from '@styled-icons/boxicons-solid/CommentDetail'
+import { Menu } from '@styled-icons/boxicons-regular/Menu'
+ 
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useRecoilState(MenuSidebarState);
 
@@ -28,43 +33,47 @@ const NavBar = () => {
   if (userInfo.isLogin) {
     return (
       <nav>
-        <ul>
-          <li>
-            <Link to='/' className={styles.logo}>
-              H•UP
-            </Link>
-          </li>
-          <li>
-            <Link to='/'>Project</Link>
-          </li>
-          <li>
-            <div className='btn' onClick={ShowMenuSidebar}>
-              메뉴
+        <div className={styles.nav_container}>
+          <Link to='/' className={styles.logo}>
+            H•UP
+          </Link>
+          <div classNAme={styles.btn_container}>
+            <div className='btn'>
+              <IconButton toDo={ShowMenuSidebar}>
+                <Menu />
+              </IconButton>
             </div>
-          </li>
-          <li>
-            <div className='btn' onClick={ShowMessengerSidebar}>
-              메신저
+            <div className='btn'>
+              <IconButton toDo={ShowMessengerSidebar}>
+                <CommentDetail />
+              </IconButton>
             </div>
-          </li>
-          <li>
-            <div className='btn' onClick={logout}>
-              로그아웃
+            <div className='btn'>
+              <IconButton toDo={() => {
+                setUserInfo({
+                  memberId: '',
+                  jwtToken: {
+                    accessToken: '',
+                    refreshToken: '',
+                  },
+                });
+                navigate('/login');
+              }}>
+              <LogOut />
+              </IconButton>
             </div>
-          </li>
-        </ul>
+          </div>
+        </div>
       </nav>
     );
   } else {
     return (
       <nav>
-        <ul>
-          <li>
-            <Link to='/login' className={styles.logo}>
-              H•UP
-            </Link>
-          </li>
-        </ul>
+        <div className={styles.nav_container}>
+          <Link to='/login' className={styles.logo}>
+            H•UP
+          </Link>
+        </div>
       </nav>
     );
   }
