@@ -1,6 +1,7 @@
+import useLogout from '@hook/useLogout';
 import { authState } from '@recoil/auth';
 import { MenuSidebarState, MessengerSidebarState } from '@recoil/recoil';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import styles from './Navbar.module.scss';
 
@@ -20,10 +21,11 @@ const NavBar = () => {
       ? setIsMessengerOpen(false)
       : setIsMessengerOpen(true);
   };
-  const [userInfo, setUserInfo] = useRecoilState(authState);
-  const navigate = useNavigate();
+  const [userInfo] = useRecoilState(authState);
 
-  if (userInfo.jwtToken.accessToken) {
+  const { logout } = useLogout();
+
+  if (userInfo.isLogin) {
     return (
       <nav>
         <ul>
@@ -46,19 +48,7 @@ const NavBar = () => {
             </div>
           </li>
           <li>
-            <div
-              className='btn'
-              onClick={() => {
-                setUserInfo({
-                  memberId: '',
-                  jwtToken: {
-                    accessToken: '',
-                    refreshToken: '',
-                  },
-                });
-                navigate('/login');
-              }}
-            >
+            <div className='btn' onClick={logout}>
               로그아웃
             </div>
           </li>

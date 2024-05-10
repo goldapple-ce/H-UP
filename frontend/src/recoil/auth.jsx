@@ -5,10 +5,6 @@ const authState = atom({
   default: {
     isLogin: false,
     memberId: '',
-    jwtToken: {
-      accessToken: '',
-      refreshToken: '',
-    },
   },
 });
 

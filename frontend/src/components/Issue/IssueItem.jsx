@@ -48,10 +48,13 @@ const IssueItem = ({ issue, onClick }) => {
         <p className={styles.date}>
           {formatToDate(startDate)} ~ {formatToDate(endDate)}
         </p>
-        {memberInfo &&
-          memberInfo.map(image => (
-            <img key={image.id} src={image.img} alt={image.name}></img>
-          ))}
+        {memberInfo && (
+          <img
+            key={memberInfo.id}
+            src={memberInfo.img}
+            alt={memberInfo.name}
+          ></img>
+        )}
       </ul>
     </div>
   );
