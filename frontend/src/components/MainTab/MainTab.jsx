@@ -27,6 +27,7 @@ const MainTab = () => {
             type='radio'
             id='tab-1'
             name='tab-group-1'
+            defaultChecked={true}
           />
           <label className={styles.tab__label} htmlFor='tab-1'>
             이슈
