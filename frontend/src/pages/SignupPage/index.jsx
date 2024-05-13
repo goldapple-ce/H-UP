@@ -70,62 +70,51 @@ function SignupPage() {
 
   return (
     <div className={styles.signup_container}>
-      <h2>회원 가입</h2>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor='userId'>ID:</label>
+        <div className={styles.id_container}>
           <input
             type='text'
             id='userId'
             value={userId}
+            placeholder='ID를 입력하세요.'
             onChange={e => setuserId(e.target.value)}
             required
           />
-          <button type='button' onClick={handleCheckUsername}>
+          <button id='duple-check' type='button' onClick={handleCheckUsername}>
             중복 확인
           </button>
         </div>
         <div>
-          <label htmlFor='password'>비밀번호</label>
           <input
             type='password'
             id='password'
             value={password}
+            placeholder='비밀번호를 입력하세요.'
             onChange={e => setPassword(e.target.value)}
             required
           />
         </div>
         <div>
-          <label htmlFor='passwordConfirm'>비밀번호 확인</label>
           <input
             type='password'
             id='passwordConfirm'
             value={passwordConfirm}
+            placeholder='비밀번호를 확인.'
             onChange={e => setPasswordConfirm(e.target.value)}
             required
           />
         </div>
         <div>
-          <label htmlFor='name'>이름</label>
           <input
             type='text'
             id='name'
             value={name}
+            placeholder='이름을 입력하세요.'
             onChange={e => setName(e.target.value)}
             required
           />
         </div>
-        {/* <div>
-          <label htmlFor="email">이메일</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div> */}
-        <button type='submit'>가입하기</button>
+        <button id='signup' type='submit'>가입하기</button>
       </form>
     </div>
   );
