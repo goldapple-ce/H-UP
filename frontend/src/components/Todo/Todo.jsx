@@ -1,7 +1,7 @@
 import { useRecoilState } from 'recoil';
 import styles from './Todo.module.scss';
 import TodoForm from './TodoForm';
-import { TodoListState } from '@recoil/todo';
+import { TodoListState } from '@recoil/todolist';
 
 const Todo = () => {
   const [TodoList, setTodoList] = useRecoilState(TodoListState);
