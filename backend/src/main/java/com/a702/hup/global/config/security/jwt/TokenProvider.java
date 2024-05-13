@@ -76,6 +76,8 @@ public class TokenProvider {
         if(!claims.getIssuer().equals(ISSUER)
         || !claims.get(TOKEN_TYPE).equals(TYPE_ACCESS))
             throw new BusinessException(ErrorCode.API_ERROR_IS_MALFORMED_TOKEN);
+        else if(isTokenExpired(token))
+            throw new BusinessException(ErrorCode.API_ERROR_ACCESS_TOKEN_EXPIRED);
 
         return true;
     }
@@ -128,9 +130,7 @@ public class TokenProvider {
      * @author 이경태
      * @date 2024-04-27
      * @description check if token is expired
-     * @deprecated
      **/
-    @Deprecated(forRemoval = true)
     private boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
@@ -139,9 +139,7 @@ public class TokenProvider {
      * @author 이경태
      * @date 2024-04-27
      * @description extract Expiration from token
-     * @deprecated
      **/
-    @Deprecated(forRemoval = true)
     private Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
