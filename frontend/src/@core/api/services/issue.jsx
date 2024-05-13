@@ -1,9 +1,8 @@
 import { authAxios } from '@api';
 import API_URI from '@constant/uri';
 
-export const LoadIssueList = memberId => {
-  memberId = 1; // 테스트 코드
-  return authAxios.get(`${API_URI.ISSUE_LIST}/${memberId}`);
+export const LoadIssueList = projectId => {
+  return authAxios.get(`${API_URI.ISSUE_LIST}/${projectId}`);
 };
 
 export const LoadIssueData = issueId => {
