@@ -19,9 +19,9 @@ const ProjectPage = props => {
   return (
     <div className={styles.issue_container}>
       <h2>프로젝트 페이지</h2>
-      <div>
+      {/* <div>
         <IssueAddButton text={'이슈추가'} onClick={() => makingIssueId(id)}/>
-      </div>
+      </div> */}
       <div>
         <MainTab />
       </div>
