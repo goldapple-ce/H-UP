@@ -1,9 +1,8 @@
 import { useState } from 'react';
-import { CaretRightFill } from 'react-bootstrap-icons';
 import playIcon from '@asset/img/play_icon.png';
 import styles from './TodoItem.module.scss';
 
-const TodoItem = ({ Todo, onClick }) => {
+const TodoItem = ({ Todo }) => {
   const { id, content, createdAt, endAt, requester, assigneeList } = Todo;
   const [iconImage, setIconImage] = useState('');
 
@@ -20,7 +19,7 @@ const TodoItem = ({ Todo, onClick }) => {
   };
 
   return (
-    <div className={styles.Todo} onClick={onClick}>
+    <div className={styles.Todo}>
       <img src={playIcon} alt='' />
       <h5>{content}</h5>
       <ul>

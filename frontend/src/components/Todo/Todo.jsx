@@ -1,10 +1,9 @@
 import { useRecoilState } from 'recoil';
-import { TodoListState } from '@recoil/Todo';
 import styles from './Todo.module.scss';
 import TodoForm from './TodoForm';
+import { TodoListState } from '@recoil/todo';
 
 const Todo = () => {
-  const memberId = 2;
   const [TodoList, setTodoList] = useRecoilState(TodoListState);
   // const TodoSubmitList = TodoList.filter(
   //   Todo => Todo.requester.id === memberId,

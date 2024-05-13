@@ -6,7 +6,7 @@ const TodoItemContainer = ({ Todo }) => {
   const handleClick = () => {
     navigate(`/Todo/${Todo.id}`);
   };
-  return <TodoItem Todo={Todo} onClick={handleClick} />;
+  return <TodoItem Todo={Todo} />;
 };
 
 export default TodoItemContainer;
