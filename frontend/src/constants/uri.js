@@ -1,8 +1,11 @@
 const API_URI = {
   BASE: '/api',
+  // member
   SIGN_UP: '/member/signup',
   ID_CHECK: '/member/check',
-  LOGIN: '/member/login',
+  // auth
+  LOGIN: '/auth/login',
+  REFRESH: '/auth/refresh',
   // issue
   ISSUE: '/issue',
   UPDATE_ISSUE_STATUS: '/issue/status',
