@@ -19,8 +19,12 @@ function App() {
     <>
       <Router>
         <NavBar />
-        <MenuSidebar />
-        <MessengerSidebar />
+        {userInfo.isLogin ? (
+          <>
+            <MenuSidebar />
+            <MessengerSidebar />
+          </>
+            ) : null}
         <main>
           <Routes>
             {!userInfo.isLogin ? (
@@ -30,11 +34,12 @@ function App() {
               </Route>
             ) : null}
             <Route path='/' element={<Layout />}>
-              <Route path='project/:id' element={<ProjectPage />} />
+              <Route index element={<ProjectPage />} />
               <Route path='issue/:id' element={<IssueEditorPage />} />
             </Route>
           </Routes>
         </main>
+
         <Footer />
       </Router>
     </>
