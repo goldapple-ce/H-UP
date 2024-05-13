@@ -1,6 +1,7 @@
 package com.a702.hup.global.config.security.handler;
 
 import com.a702.hup.application.data.response.MemberLoginResponse;
+import com.a702.hup.domain.auth.redis.TokenService;
 import com.a702.hup.global.config.security.MemberDto;
 import com.a702.hup.global.config.security.SecurityUserDetailsDto;
 import com.a702.hup.global.config.security.jwt.JwtToken;
@@ -28,6 +29,7 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
 
     private final ObjectMapper objectMapper;
     private final TokenProvider tokenProvider;
+    private final TokenService tokenService;
 
     @Override
     public void onAuthenticationSuccess(
@@ -47,6 +49,9 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
         // 활성화 계정인 경우
         JwtToken token = tokenProvider.createToken(authentication);
         log.debug("[+] CustomAuthenticationSuccessHandler :: onAuthenticationSuccess :: generated Token : {}", token);
+
+        // token 저장
+        tokenService.save(memberDto.userId(), token);
 
         // response setting
         response.setStatus(HttpStatus.OK.value());
