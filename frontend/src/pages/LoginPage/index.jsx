@@ -37,9 +37,6 @@ const LoginPage = props => {
             value={'로그인'}
             onClick={login}
           />
-          <div className={styles.search_info}>
-            <p>비밀번호 재설정</p>
-          </div>
         </form>
       </div>
       <div className={styles.notMember_container}>
