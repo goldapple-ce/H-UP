@@ -53,3 +53,7 @@
       height: auto;
     }
   }
+
+  .bn-container[data-theming-css-variables-demo] .bn-side-menu {
+    color:#3f3f3f;
+  }

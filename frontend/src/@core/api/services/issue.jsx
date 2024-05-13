@@ -13,3 +13,7 @@ export const LoadIssueData = issueId => {
 export const updateIssueStatus = data => {
   return authAxios.post(`${API_URI.UPDATE_ISSUE_STATUS}`, data);
 };
+
+export const createIssue = data => {
+  return authAxios.post(`${API_URI.ISSUE}`, data);
+}

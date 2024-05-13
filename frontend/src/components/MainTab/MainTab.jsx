@@ -3,6 +3,7 @@ import MyCalendar from '../Calendar/Calendar';
 import IssueForm from '../Issue/IssueForm';
 import Kanban from '../Kanban/Kanban';
 import styles from './MainTab.module.scss';
+import Todo from '../Todo/Todo';
 
 const MainTab = () => {
   // /////////////////////////////////////////////////////////////////////
@@ -65,7 +66,7 @@ const MainTab = () => {
           </label>
 
           <div className={styles.tab__content}>
-            할 일 목록이 들어갈 공간입니다.
+            <Todo />
           </div>
         </div>
 
