@@ -9,22 +9,23 @@ export default function useLogin({ userId, password }) {
 
   const login = async () => {
     console.log(userId, password);
-    const response = await requestLogin({ userId, password });
-    console.log(response.data);
+    try {
+      const response = await requestLogin({ userId, password });
+      console.log(response.data);
+      const { jwtToken, memberId } = response.data;
 
-    sessionStorage.setItem('accessToken', response.data.jwtToken.accessToken);
-    sessionStorage.setItem('refreshToken', response.data.jwtToken.refreshToken);
+      localStorage.setItem('accessToken', jwtToken.accessToken);
+      localStorage.setItem('refreshToken', jwtToken.refreshToken);
 
-    setUserInfo({
-      isLogin: true,
-      memberId: response.data.memberId,
-      jwtToken: {
-        accessToken: response.data.jwtToken.accessToken,
-        refreshToken: response.data.jwtToken.refreshToken,
-      },
-    });
+      setUserInfo({
+        isLogin: true,
+        memberId: memberId,
+      });
 
-    if (response.status === 200) navigate('/');
+      if (response.status === 200) navigate('/');
+    } catch (error) {
+      window.alert('로그인 실패');
+    }
   };
 
   return { login };

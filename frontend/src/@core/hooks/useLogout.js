@@ -8,12 +8,11 @@ export default function useLogout() {
 
   const logout = async () => {
     console.log('logout');
+    localStorage.clear();
     setUserInfo({
       isLogin: false,
-      memberId: '',
+      memberId: 0,
     });
-    sessionStorage.removeItem('accessToken');
-    sessionStorage.removeItem('refreshToken');
     navigate('/login');
   };
 
