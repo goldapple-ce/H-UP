@@ -1,6 +1,6 @@
+import { requestIdCheck, requestSignup } from '@api/services/auth';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { requestIdCheck, requestSignup } from '@api/services/auth';
 import styles from './SignupPage.module.scss'; // SCSS 스타일 시트 임포트
 
 function SignupPage() {
