@@ -58,10 +58,12 @@ body {
       // Inactive tab styles
       & ~ .tab__label {
         background: transparent;
+        color: rgb(180, 180, 180);
       }
 
       & ~ .tab__content {
         display: none;
+        color: black;
       }
     }
   }
