@@ -4,6 +4,7 @@ import com.a702.hup.domain.issue.entity.Issue;
 import com.a702.hup.domain.issue.entity.IssueStatus;
 import com.a702.hup.domain.member.entity.Member;
 import com.a702.hup.domain.project.entity.Project;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
@@ -37,7 +38,9 @@ public class IssueDTO {
         private int issueId;
         private String title;
         private IssueStatus status;
+        @JsonFormat(pattern = "YYYY-MM-dd")
         private LocalDate startDate;
+        @JsonFormat(pattern = "YYYY-MM-dd")
         private LocalDate endDate;
         private MemberInfo memberInfo;
 
