@@ -3,6 +3,7 @@ package com.a702.hup.domain.member;
 import com.a702.hup.application.data.dto.MemberInfo;
 import com.a702.hup.application.data.request.MemberSignUpRequest;
 import com.a702.hup.application.data.response.IdCheckResponse;
+import com.a702.hup.application.data.response.MemberInfoListResponse;
 import com.a702.hup.application.data.response.UpdateProfileImgResponse;
 import com.a702.hup.domain.member.entity.Member;
 import com.a702.hup.global.config.security.SecurityUserDetailsDto;
@@ -125,5 +126,11 @@ public class MemberService {
         SecurityUserDetailsDto securityUserDetailsDto = (SecurityUserDetailsDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         log.info("[+] MemberService :: findMemberInfoById :: requested Id : {}, logined Id : {}", memberId, securityUserDetailsDto.memberId());
         return memberId.equals(securityUserDetailsDto.memberId());
+    }
+
+    public MemberInfoListResponse findAll() {
+        List<Member> memberList = memberRepository.findAllByDeletedAtIsNull();
+
+        return MemberInfoListResponse.from(memberList);
     }
 }

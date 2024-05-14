@@ -12,4 +12,6 @@ interface MemberRepository extends JpaRepository<Member,Integer> {
 
     Optional<Member> findByIdAndDeletedAtIsNull(Integer integer);
     List<Member> findByIdIsInAndDeletedAtIsNull(List<Integer> memberIdList);
+
+    List<Member> findAllByDeletedAtIsNull();
 }

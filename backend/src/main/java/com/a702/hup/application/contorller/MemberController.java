@@ -3,6 +3,7 @@ package com.a702.hup.application.contorller;
 import com.a702.hup.application.data.dto.MemberInfo;
 import com.a702.hup.application.data.request.MemberSignUpRequest;
 import com.a702.hup.application.data.response.IdCheckResponse;
+import com.a702.hup.application.data.response.MemberInfoListResponse;
 import com.a702.hup.application.data.response.UpdateProfileImgResponse;
 import com.a702.hup.domain.member.MemberService;
 import com.a702.hup.global.config.security.SecurityUserDetailsDto;
@@ -71,5 +72,15 @@ public class MemberController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(memberService.updateImg(file, user.memberId()));
+    }
+
+    /**
+     * @author 강용민
+     * @date 2024-05-14
+     * @description
+     */
+    @GetMapping("/all")
+    public ResponseEntity<MemberInfoListResponse> getAllMember(){
+        return ResponseEntity.ok(memberService.findAll());
     }
 }
