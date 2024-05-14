@@ -1,16 +1,55 @@
 import { List } from 'react-bootstrap-icons';
 import { useRecoilState } from 'recoil';
 import { MenuSidebarState } from '@recoil/recoil';
-import { MenuData } from './MenuData';
 import styles from './MenuSidebar.module.scss';
 import SubMenu from './SubMenu';
+import { LoadMyTeamList, LoadTeamProjectList } from '@api/services/team';
+import {useState, useEffect} from 'react'
 
 const MenuSidebar = () => {
   const [isOpen, setIsopen] = useRecoilState(MenuSidebarState);
+  const [projectList, setProjectList] = useState([]);
+  const [teamList, setTeamList] = useState([]);
 
+  // 팀 선택 Radio 
+  const handleRadioChange = async (event) => {
+    const teamId = event.target.value;
+    try {
+      setProjectList([]);
+      const teamData = await LoadTeamProjectList(teamId);
+      setProjectList(teamData.data.projectInfoList);
+    } catch (error) {
+      console.log(error)
+    }
+  };
+
+  // Side바 보여주기
   const ShowSidebar = () => {
     isOpen === true ? setIsopen(false) : setIsopen(true);
   };
+
+  // Team 리스트 불러오기
+  useEffect(() => {
+    const fetchData = async () => {
+
+      try {
+        setTeamList([])
+        const response = await LoadMyTeamList();
+        const teams = response.data.teamInfoList;
+        setTeamList(teams);
+
+        if (teams.length > 0) {
+          const teamData = await LoadTeamProjectList(teams[0].id);
+          setProjectList(teamData.data.projectInfoList);
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    fetchData();
+  }, []);
+
+
   return (
     <>
       <div className='bar-container'>
@@ -25,16 +64,27 @@ const MenuSidebar = () => {
           </div>
           <div className={styles.sd_body}>
             <ul>
-              {MenuData.map((item, index) => {
-                return <SubMenu item={item} key={index} />;
+              {projectList.map((item) => {
+                return <SubMenu key={item.id} item={item} />;
               })}
             </ul>
           </div>
+          <div>
+            
+            <p>Team</p>
+            {teamList.map((team) => (
+              <label key={team.id}>
+                <input
+                  type="radio"
+                  name="team"
+                  value={team.id}
+                  onChange={handleRadioChange}
+                />
+                {team.name}
+              </label>
+            ))}
+          </div>
         </div>
-        <div
-          className={`sidebar-overlay ${isOpen == true ? 'active' : ''}`}
-          onClick={ShowSidebar}
-        ></div>
       </div>
     </>
   );
