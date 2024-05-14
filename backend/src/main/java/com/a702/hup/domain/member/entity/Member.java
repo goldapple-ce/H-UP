@@ -79,4 +79,8 @@ public class Member extends BaseEntity {
         this.img = img;
         this.role = Role.USER;
     }
+
+    public void updateImg(String imgUrl) {
+        this.img = imgUrl;
+    }
 }
