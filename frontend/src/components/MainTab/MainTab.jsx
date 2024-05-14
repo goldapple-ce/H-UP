@@ -4,6 +4,9 @@ import IssueForm from '../Issue/IssueForm';
 import Kanban from '../Kanban/Kanban';
 import styles from './MainTab.module.scss';
 import Todo from '../Todo/Todo';
+import { useEffect, useState } from 'react';
+import { useIssueListQuery } from '@hook/ReactQuery/useIssueList';
+import { useParams } from 'react-router-dom/dist';
 
 const MainTab = () => {
   // /////////////////////////////////////////////////////////////////////
@@ -18,42 +21,48 @@ const MainTab = () => {
   //     console.log(data);
   //   }, []);
   //   ///////////////////////////////////////////////////////////////////
+  const { id } = useParams();
+  const { isLoading, data } = useIssueListQuery(parseInt(id));
 
   return (
     <div className={styles.maintab_container}>
       <div className={styles.tab__group}>
-        <div className={styles.tab}>
-          <input
-            className={styles.tab__radio}
-            type='radio'
-            id='tab-1'
-            name='tab-group-1'
-            defaultChecked={true}
-          />
-          <label className={styles.tab__label} htmlFor='tab-1'>
-            이슈
-          </label>
+        {!isLoading ? (
+          <>
+            <div className={styles.tab}>
+              <input
+                className={styles.tab__radio}
+                type='radio'
+                id='tab-1'
+                name='tab-group-1'
+                defaultChecked={true}
+              />
+              <label className={styles.tab__label} htmlFor='tab-1'>
+                이슈
+              </label>
 
-          <div className={styles.tab__content}>
-            <IssueForm />
-          </div>
-        </div>
+              <div className={styles.tab__content}>
+                <IssueForm issues={data} />
+              </div>
+            </div>
 
-        <div className={styles.tab}>
-          <input
-            className={styles.tab__radio}
-            type='radio'
-            id='tab-2'
-            name='tab-group-1'
-          />
-          <label className={styles.tab__label} htmlFor='tab-2'>
-            칸반
-          </label>
+            <div className={styles.tab}>
+              <input
+                className={styles.tab__radio}
+                type='radio'
+                id='tab-2'
+                name='tab-group-1'
+              />
+              <label className={styles.tab__label} htmlFor='tab-2'>
+                칸반
+              </label>
 
-          <div className={styles.tab__content}>
-            <Kanban />
-          </div>
-        </div>
+              <div className={styles.tab__content}>
+                <Kanban />
+              </div>
+            </div>
+          </>
+        ) : null}
 
         <div className={styles.tab}>
           <input

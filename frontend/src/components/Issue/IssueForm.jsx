@@ -1,49 +1,26 @@
-import { LoadIssueList } from '@api/services/issue';
 import { authState } from '@recoil/auth';
-import { useEffect, useRef, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import styles from './IssueForm.module.scss';
 import IssueItemContainer from './IssueItemContainer';
+import { useEffect, useState } from 'react';
 
-const IssueForm = () => {
+const IssueForm = issues => {
   const [issueList, setIssueList] = useState([]);
   const [userInfo] = useRecoilState(authState);
   // const { startLoading, finishLoading } = MyLayout.useLoading();
   // const { openDialog } = MyLayout.useDialog();
 
-  //////////////////////////////////////////////////////////////////////////////////
-  // 이슈 받아오는 테스트 코드 추가
-  const TestFunction = async () => {
-    try {
-      const response = await LoadIssueList(userInfo.memberId);
-      setIssueList(response.data.responseList);
-      console.log(response.data.responseList);
-    } catch (error) {
-      console.error('Error fetching initial content:', error);
-    }
-  };
-
-  const hasExecuted = useRef(false);
-
   useEffect(() => {
-    if (!hasExecuted.current) {
-      TestFunction();
-      hasExecuted.current = true;
-    }
-  }, []);
-  //////////////////////////////////////////////////////////////////////////////////
+    setIssueList(issues.issues);
+  }, [issues]);
 
+  console.log(issueList);
   const imminentDate = issue => {
     const date = issue.endDate;
     if (!date) {
       return new Date(2024, 4, 23, 0, 0, 0);
     }
-
-    const year = date.getFullYear();
-    const month = date.getMonth();
-    const day = date.getDate() - 7;
-
-    return new Date(year, month, day, 0, 0, 0, 0);
+    return new Date(date);
   };
 
   return (
@@ -52,11 +29,12 @@ const IssueForm = () => {
       <div className={styles.column1}>
         <div className={styles.issue_section}>
           <ul>
-            {issueList.map(issue => (
-              <li key={issue.issueId}>
-                <IssueItemContainer issue={issue} />
-              </li>
-            ))}
+            {issueList &&
+              issueList.map(issue => (
+                <li key={issue.issueId}>
+                  <IssueItemContainer issue={issue} />
+                </li>
+              ))}
           </ul>
         </div>
       </div>
@@ -65,17 +43,18 @@ const IssueForm = () => {
         <div className={styles.imminent_issue_section}>
           <h4>마감이 임박한 이슈</h4>
           <ul>
-            {issueList
-              .filter(
-                issue =>
-                  new Date() >= imminentDate(issue) &&
-                  issue.status !== 'COMPLETED',
-              )
-              .map(issue => (
-                <li key={issue.issueId}>
-                  <IssueItemContainer issue={issue} />
-                </li>
-              ))}
+            {issueList &&
+              issueList
+                .filter(
+                  issue =>
+                    new Date() >= imminentDate(issue) &&
+                    issue.status !== 'COMPLETED',
+                )
+                .map(issue => (
+                  <li key={issue.issueId}>
+                    <IssueItemContainer issue={issue} />
+                  </li>
+                ))}
           </ul>
         </div>
       </div>

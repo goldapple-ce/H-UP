@@ -7,7 +7,8 @@ import Card from './Card';
 import styles from './Kanban.module.scss';
 import KanbanList from './KanbanList';
 
-function Kanban() {
+function Kanban(issues) {
+  console.log(issues);
   const kanbanList = useRecoilValue(fetchListState);
   const { CREATED, SELECTED, PROGRESS, COMPLETED } = TITLE_NAME;
   const [selectedCategory, setSelectedCategory] = useState('TO_DO'); // Initial selected category
