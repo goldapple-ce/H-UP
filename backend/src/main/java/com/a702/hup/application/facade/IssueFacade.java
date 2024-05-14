@@ -41,8 +41,11 @@ public class IssueFacade {
 
         Issue issue = issueService.save(project,member);
         issueMemberService.save(issue,member);
-        documentsMongoService.save(String.valueOf(issue.getId()),"");
-        documentsRedisService.saveDocument(issue.getId(), memberId, "");
+        documentsMongoService.save(String.valueOf(issue.getId()),documentsRedisService.initChunkInfoList());
+        documentsRedisService.saveDocument(
+                issue.getId(),
+                memberId,
+                documentsRedisService.initChunkInfo());
         return issue;
     }
 
@@ -82,7 +85,8 @@ public class IssueFacade {
         Issue issue = issueService.findById(issueId);
         return IssueDTO.DetailResponse.toResponse(
                 issue,
-                documentsRedisService.findDocumentRedisById(Integer.toString(issueId)).getContent(),
+                documentsRedisService.getDocumentsContent(
+                        documentsRedisService.findDocumentRedisById(Integer.toString(issueId))),
                 issue.getProject(),
                 issue.getMember(),
                 createMemberInfoList(issue));

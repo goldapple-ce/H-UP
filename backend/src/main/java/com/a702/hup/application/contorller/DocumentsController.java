@@ -25,10 +25,14 @@ public class DocumentsController {
      **/
     @MessageMapping("/documents")
     public void handleMessage(DocumentsSaveRequest request) {
-        log.info("[+] PUB Message :: Documents :: documentsId = " + request.getDocumentsId() + ", memberId = " + request.getMemberId() + ", content : " + request.getContent());
+        log.info("[+] PUB Message :: Documents :: documentsId = " + request.getDocumentsId()
+                + ", memberId = " + request.getMemberId()
+                + ", chunk = " + request.getMessageChunkInfo().getChunkNum()
+                + ", messageId = " + request.getMessageChunkInfo().getMessageId()
+                + ", content : " + request.getMessageChunkInfo().getContent());
         simpMessageSendingOperations.convertAndSend(
                 "/sub/documents/" + request.getDocumentsId(),
-                documentsRedisService.saveDocument(request.getDocumentsId(), request.getMemberId(), request.getContent()));
+                documentsRedisService.saveDocument(request.getDocumentsId(), request.getMemberId(), request.getMessageChunkInfo()));
     }
 
     /**
