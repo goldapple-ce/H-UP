@@ -15,15 +15,15 @@ import './IssueEditorPageBlockNote.css';
 // Uploads a file to tmpfiles.org and returns the URL to the uploaded file.
 async function uploadFile(file) {
   const body = new FormData();
-  body.append("file", file);
- 
-  const ret = await fetch("https://tmpfiles.org/api/v1/upload", {
-    method: "POST",
+  body.append('file', file);
+
+  const ret = await fetch('https://tmpfiles.org/api/v1/upload', {
+    method: 'POST',
     body: body,
   });
   return (await ret.json()).data.url.replace(
-    "tmpfiles.org/",
-    "tmpfiles.org/dl/"
+    'tmpfiles.org/',
+    'tmpfiles.org/dl/',
   );
 }
 
@@ -37,7 +37,7 @@ function BlockNote() {
     collaboration: {
       fragment: ydoc.getXmlFragment('co-work'),
     },
-    uploadFile
+    uploadFile,
   });
 
   //   useEffect(() => {
@@ -49,6 +49,7 @@ function BlockNote() {
     async function fetchContent() {
       try {
         const response = await LoadIssueData(id);
+        console.log(response.data.content);
         const contentData = JSON.parse(response.data.content);
         if (Array.isArray(contentData)) {
           Y.applyUpdate(ydoc, new Uint8Array(contentData));
@@ -61,7 +62,7 @@ function BlockNote() {
       }
     }
     fetchContent();
-  }, [id]);
+  }, []);
 
   // Setup WebSocket connection and handlers
   useEffect(() => {
@@ -147,7 +148,13 @@ function BlockNote() {
     [ydoc, userInfo.memberId, id],
   );
 
-  return <BlockNoteView editor={editor} onChange={handleEditorChange} data-theming-css-variables-demo />;
+  return (
+    <BlockNoteView
+      editor={editor}
+      onChange={handleEditorChange}
+      data-theming-css-variables-demo
+    />
+  );
 }
 
 export default BlockNote;

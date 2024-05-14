@@ -17,7 +17,7 @@ const Todo = () => {
 
   return (
     <div className={styles.Todo}>
-        <TodoForm TodoList={TodoList} />
+      <TodoForm TodoList={TodoList} />
     </div>
   );
 };

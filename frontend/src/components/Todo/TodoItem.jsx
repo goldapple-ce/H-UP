@@ -23,7 +23,9 @@ const TodoItem = ({ Todo }) => {
       <img src={playIcon} alt='' />
       <h5>{content}</h5>
       <ul>
-        <p>{formatToDate(createdAt)} ~ {formatToDate(endAt)}</p>
+        <p>
+          {formatToDate(createdAt)} ~ {formatToDate(endAt)}
+        </p>
       </ul>
       {assigneeList.map(assignee => (
         <img
