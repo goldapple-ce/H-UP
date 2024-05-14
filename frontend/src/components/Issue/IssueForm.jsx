@@ -24,7 +24,9 @@ const IssueForm = () => {
   };
 
   useEffect(() => {
+    if (id > 0) {
       getIssueList(id);
+    }
   }, [id]);
 
 
