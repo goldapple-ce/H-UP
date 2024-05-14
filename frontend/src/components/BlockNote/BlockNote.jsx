@@ -72,6 +72,7 @@ function BlockNote() {
   // Setup WebSocket connection and handlers
   useEffect(() => {
     const sock = new SockJS('https://h-up.site/api/ws');
+    
     stompClient.current = Stomp.over(sock);
     stompClient.current.debug = () => {};
     stompClient.current.connect(
@@ -80,10 +81,10 @@ function BlockNote() {
         stompClient.current.subscribe(`/sub/documents/${id}`, message => {
           try {
             const payload = JSON.parse(message.body);
-            const content = JSON.parse(payload.content);
-            const chunkNum = JSON.parse(payload.chunkNum);
-            const totalChunks = JSON.parse(payload.totalChunks);
-            const messageId = JSON.parse(payload.messageId);
+            const content = JSON.parse(payload.content);          // 내용 (Uint8Array 형식)
+            const chunkNum = JSON.parse(payload.chunkNum);        // 청크 순서
+            const totalChunks = JSON.parse(payload.totalChunks);  // 총 청크 수
+            const messageId = JSON.parse(payload.messageId);      // 메시지 순서
 
             if (content && Array.isArray(content)) {
 
@@ -141,7 +142,7 @@ function BlockNote() {
           clearTimeout(timeoutRef.current);
         }
   
-        // 1초 후에 handleEditorChange 함수를 실행
+        // 0.2초 후에 handleEditorChange 함수를 실행
         timeoutRef.current = setTimeout(() => {
           // Encode Yjs document state to Uint8Array
           const updateArray = Y.encodeStateAsUpdate(ydoc);
@@ -150,7 +151,7 @@ function BlockNote() {
           if (stompClient.current && stompClient.current.connected) {
             chunkMessage(updateArray);
           }
-        }, 1000);
+        }, 200);
       } catch (error) {
         console.error('Error handling editor change:', error);
       }
