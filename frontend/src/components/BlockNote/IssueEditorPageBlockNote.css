@@ -44,7 +44,6 @@
   
   .bn-container[data-theming-css-variables-demo] .bn-block-content {
     margin: 10px 0;
-    display: block;
     max-width: 100%;
     height: auto;
     border-radius: 4px;
