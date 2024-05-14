@@ -14,9 +14,13 @@ const MenuSidebar = () => {
   // 팀 선택 Radio 
   const handleRadioChange = async (event) => {
     const teamId = event.target.value;
-    const teamData = await LoadTeamProjectList(teamId);
-
-    setProjectList(teamData.data.projectInfoList);
+    try {
+      setProjectList([]);
+      const teamData = await LoadTeamProjectList(teamId);
+      setProjectList(teamData.data.projectInfoList);
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   // Side바 보여주기
@@ -27,14 +31,23 @@ const MenuSidebar = () => {
   // Team 리스트 불러오기
   useEffect(() => {
     const fetchData = async () => {
-      const response = await LoadMyTeamList(); 
-      setTeamList(response.data.teamInfoList);
 
-      const teamData = await LoadTeamProjectList(1);
-      setProjectList(teamData.data.projectInfoList);
+      try {
+        setTeamList([])
+        const response = await LoadMyTeamList();
+        const teams = response.data.teamInfoList;
+        setTeamList(teams);
+
+        if (teams.length > 0) {
+          const teamData = await LoadTeamProjectList(teams[0].id);
+          setProjectList(teamData.data.projectInfoList);
+        }
+      } catch (error) {
+        console.log(error)
+      }
     }
     fetchData();
-  }, [])
+  }, []);
 
 
   return (

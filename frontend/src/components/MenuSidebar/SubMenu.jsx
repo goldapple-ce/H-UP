@@ -11,9 +11,12 @@ const SubMenu = ({ item }) => {
   const showSubnav = () => {setSubnav(!subnav)};
 
   const fetchData = async () => {
-    const response = await LoadProjectIssueList(item.id); 
-
-    setIssueList(response.data.responseList);
+    try {
+      const response = await LoadProjectIssueList(item.id); 
+      setIssueList(response.data.responseList);
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   useEffect(() => {
