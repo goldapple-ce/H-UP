@@ -70,17 +70,18 @@ function SignupPage() {
 
   return (
     <div className={styles.signup_container}>
+      <h2>회원가입</h2>
       <form onSubmit={handleSubmit}>
         <div className={styles.id_container}>
           <input
+            className={styles.inputId}
             type='text'
-            id='userId'
             value={userId}
             placeholder='ID를 입력하세요.'
             onChange={e => setuserId(e.target.value)}
             required
           />
-          <button id='duple-check' type='button' onClick={handleCheckUsername}>
+          <button className={styles.checkId} type='button' onClick={handleCheckUsername}>
             중복 확인
           </button>
         </div>
@@ -99,7 +100,7 @@ function SignupPage() {
             type='password'
             id='passwordConfirm'
             value={passwordConfirm}
-            placeholder='비밀번호를 확인.'
+            placeholder='비밀번호를 재입력하세요.'
             onChange={e => setPasswordConfirm(e.target.value)}
             required
           />
@@ -114,7 +115,7 @@ function SignupPage() {
             required
           />
         </div>
-        <button id='signup' type='submit'>가입하기</button>
+        <button className={styles.signup} type='submit'>가입하기</button>
       </form>
     </div>
   );
