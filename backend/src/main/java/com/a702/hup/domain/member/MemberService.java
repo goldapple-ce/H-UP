@@ -1,17 +1,21 @@
 package com.a702.hup.domain.member;
 
+import com.a702.hup.application.data.dto.MemberInfo;
 import com.a702.hup.application.data.request.MemberSignUpRequest;
 import com.a702.hup.application.data.response.IdCheckResponse;
-import com.a702.hup.application.data.dto.MemberInfo;
+import com.a702.hup.application.data.response.UpdateProfileImgResponse;
 import com.a702.hup.domain.member.entity.Member;
 import com.a702.hup.global.config.security.SecurityUserDetailsDto;
 import com.a702.hup.global.error.ErrorCode;
+import com.a702.hup.global.util.ImageType;
+import com.a702.hup.global.util.S3Util;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -22,6 +26,7 @@ import java.util.List;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+    private final S3Util s3Util;
 
     /**
      * @author 이경태
@@ -84,6 +89,22 @@ public class MemberService {
 
     public Member findById(String id){
         return this.findById(Integer.parseInt(id));
+    }
+
+    @Transactional
+    public UpdateProfileImgResponse updateImg(MultipartFile file, int memberId) {
+        // 멤버 찾기
+        Member member = findById(memberId);
+
+        // 업로드
+        String imageUrl = s3Util.upload(file, ImageType.PROFILE, memberId);
+        // 바뀐 url로 갱신
+        member.updateImg(imageUrl);
+
+        // 바뀐 url 반환
+        return UpdateProfileImgResponse.builder()
+                .imageUrl(imageUrl)
+                .build();
     }
 
     /**

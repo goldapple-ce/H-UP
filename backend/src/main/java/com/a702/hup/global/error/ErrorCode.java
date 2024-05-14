@@ -49,9 +49,10 @@ public enum ErrorCode {
     API_ERROR_USERNAME_NOT_FOUND(400, "AUTH001", "아이디 입력 오류"),
     API_ERROR_AUTHENTICATION_FAIL(401, "AUTH002", "인증 실패"),
     API_ERROR_TOKEN_NOT_FOUND(400, "AUTH003", "토큰이 없음"),
-    API_ERROR_TOKEN_EXPIRED(400, "AUTH004", "만료된 토큰"),
-    API_ERROR_IS_MALFORMED_TOKEN(400, "AUTH005", "잘못된 형식의 토큰"),
-    API_ERROR_UNAUTHORIZED(403, "AUTH006", "권한 없음"),
+    API_ERROR_ACCESS_TOKEN_EXPIRED(401, "AUTH004", "만료된 토큰"),
+    API_ERROR_REFRESH_TOKEN_EXPIRED(401, "AUTH005", "만료된 토큰"),
+    API_ERROR_IS_MALFORMED_TOKEN(400, "AUTH006", "잘못된 형식의 토큰"),
+    API_ERROR_UNAUTHORIZED(403, "AUTH007", "권한 없음"),
 
     ;
     private final int status;

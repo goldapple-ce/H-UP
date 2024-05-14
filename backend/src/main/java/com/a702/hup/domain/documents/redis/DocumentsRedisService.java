@@ -1,6 +1,7 @@
 package com.a702.hup.domain.documents.redis;
 
 import com.a702.hup.application.data.dto.DocumentsMemberInfo;
+import com.a702.hup.application.data.dto.MessageChunkInfo;
 import com.a702.hup.application.data.response.DocumentsMembersResponse;
 import com.a702.hup.application.data.response.DocumentsResponse;
 import com.a702.hup.domain.documents.DocumentException;
@@ -12,6 +13,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -30,22 +34,22 @@ public class DocumentsRedisService {
      * @date 2024-04-29
      * @description 0.1초마다 문서 상태를 Redis 저장
      **/
-    public DocumentsResponse saveDocument(Integer documentsId, Integer memberId, String content) {
+    public DocumentsResponse saveDocument(Integer documentsId, Integer memberId, MessageChunkInfo info) {
         long now = System.currentTimeMillis();
         if (isRunning || now - lastStartTime < 100) {
-            return createResponse(content);
+            return DocumentsResponse.from(info);
         }
 
         isRunning = true;
         lastStartTime = now;
 
         try {
-            processDocument(documentsId, memberId, content);
+            processDocument(documentsId, memberId, info);
         } finally {
             isRunning = false;
         }
 
-        return createResponse(content);
+        return DocumentsResponse.from(info);
     }
 
     /**
@@ -53,10 +57,10 @@ public class DocumentsRedisService {
      * @date 2024-04-29
      * @description 문서 업데이트
      **/
-    private void processDocument(Integer documentsId, Integer memberId, String content) {
+    private void processDocument(Integer documentsId, Integer memberId, MessageChunkInfo info) {
         DocumentsRedis documentsRedis = findOrCreateDocumentsRedis(
-                Integer.toString(documentsId), Integer.toString(memberId));
-        documentsRedis.updateContent(content);
+                Integer.toString(documentsId), memberId);
+        documentsRedis.updateInfo(info);
 
         documentsRedisRepository.save(documentsRedis);
     }
@@ -66,13 +70,56 @@ public class DocumentsRedisService {
      * @date 2024-04-29
      * @description 문서가 없다면, 생성
      **/
-    private DocumentsRedis findOrCreateDocumentsRedis(String documentsId, String senderId) {
+    private DocumentsRedis findOrCreateDocumentsRedis(String documentsId, Integer senderId) {
         return documentsRedisRepository.findById(documentsId)
-                .orElseGet(() -> new DocumentsRedis(documentsId, senderId));
+                .orElseGet(() -> DocumentsRedis.builder()
+                        .documentsId(documentsId)
+                        .memberId(senderId)
+                        .infoList(initChunkInfoList())
+                        .build());
     }
 
-    private DocumentsResponse createResponse(String content) {
-        return DocumentsResponse.from(content);
+     /**
+      * @author 손현조
+      * @date 2024-05-13
+      * @description 저장된 메시지 청크들로부터 메시지를 조합하여 반환
+      **/
+    public String getDocumentsContent(DocumentsRedis documentsRedis) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (MessageChunkInfo info : documentsRedis.getInfoList()) {
+            String s = info.getContent();
+            sb.append(s, 1, s.length() - 1).append(",");
+        }
+        sb.deleteCharAt(sb.length() - 1);
+        sb.append("]");
+        log.info(sb.toString());
+
+        return sb.toString();
+    }
+
+    /**
+     * @author 손현조
+     * @date 2024-05-13
+     * @description 메시지 청크 초기화
+     **/
+    public MessageChunkInfo initChunkInfo() {
+        return MessageChunkInfo.builder()
+                .chunkNum(0)
+                .totalChunks(1)
+                .messageId(0L)
+                .content("").build();
+    }
+
+    /**
+     * @author 손현조
+     * @date 2024-05-13
+     * @description 메시지 청크 리스트 초기화
+     **/
+    public List<MessageChunkInfo> initChunkInfoList() {
+        List<MessageChunkInfo> infoList = new ArrayList<>();
+        infoList.add(initChunkInfo());
+        return infoList;
     }
 
     /**
@@ -92,7 +139,7 @@ public class DocumentsRedisService {
      * @date 2024-04-28
      * @description
      *      - 문서를 사용중인 멤버 제거, 현재 사용중인 멤버들 정보 (Id, 이름, 이미지 url) 반환
-     *      - 문서를 사용중인 마지막 멤버가 연결을 종료하면, 문서 내용 영구 저장
+     *      - 문서를 사용중인 마지막 멤버가 연결을 종료하면, 문서 내용 (메지지 청크 리스트) 영구 저장
      **/
     public DocumentsMembersResponse removeMember(String documentsId, DocumentsMemberInfo memberDto) {
         ActiveDocumentsMembersRedis activeDocumentsMembersRedis = activeDocumentsMembersRedisRepository.findById(documentsId)
@@ -100,7 +147,7 @@ public class DocumentsRedisService {
 
         activeDocumentsMembersRedis.removeMember(memberDto);
         if (activeDocumentsMembersRedis.isDocumentMemberEmpty()) {
-            documentsMongoService.save(documentsId, getLatestContent(documentsId));
+            documentsMongoService.save(documentsId, getLatestMessageChunkInfoList(documentsId));
         }
         return DocumentsMembersResponse.from(activeDocumentsMembersRedisRepository.save(activeDocumentsMembersRedis));
     }
@@ -108,10 +155,10 @@ public class DocumentsRedisService {
     /**
      * @author 손현조
      * @date 2024-04-30
-     * @description 최근 문서 내용 Redis 에서 가져오기
+     * @description 최근 문서 내용 (메지지 청크 리스트) Redis 에서 가져오기
      **/
-    private String getLatestContent(String documentsId) {
-        return findDocumentRedisById(documentsId).getContent();
+    private List<MessageChunkInfo> getLatestMessageChunkInfoList(String documentsId) {
+        return findDocumentRedisById(documentsId).getInfoList();
     }
 
     /**

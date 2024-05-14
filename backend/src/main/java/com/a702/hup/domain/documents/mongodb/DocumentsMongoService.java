@@ -1,10 +1,13 @@
 package com.a702.hup.domain.documents.mongodb;
 
+import com.a702.hup.application.data.dto.MessageChunkInfo;
 import com.a702.hup.domain.documents.mongodb.entity.DocumentsMongo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Slf4j
 @Service
@@ -18,9 +21,9 @@ public class DocumentsMongoService {
      * @date 2024-04-30
      * @description 문서 영구 저장 (MongoDB)
      **/
-    public void save(String documentsId, String content) {
+    public void save(String documentsId, List<MessageChunkInfo> infoList) {
         DocumentsMongo documentsMongo = findOrCreateDocuments(documentsId);
-        documentsMongo.updateContent(content);
+        documentsMongo.updateContent(infoList);
         documentsMongoRepository.save(documentsMongo);
     }
 
