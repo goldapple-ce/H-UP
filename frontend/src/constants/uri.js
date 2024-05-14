@@ -14,6 +14,10 @@ const API_URI = {
   MY_TEAM_LIST: '/team/me',
   MY_PROJECT_LIST: '/project/list/team',
   MY_ISSUE_LIST: '/issue/list',
+  // todo
+  TODO: '/todo',
+  TODO_ASSIGNEE: '/todo/assignee',
+  TODO_LIST: '/todo/list'
 };
 
 export default API_URI;

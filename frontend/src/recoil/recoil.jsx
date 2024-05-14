@@ -87,7 +87,6 @@ export const fetchListState = selector({
   // },
   get: ({ get }) => {
     const list = get(issueListState);
-    console.log(list);
     return list;
   },
 });

@@ -9,7 +9,7 @@ const TodoForm = ({ TodoList }) => {
       <div className={styles.Todo__column1}>
         <ul className={styles.Todo__list}>
           {TodoList.map(Todo => (
-            <li key={Todo.id}>
+            <li key={Todo.todoId}>
               <TodoItemContainer Todo={Todo} />
             </li>
           ))}
@@ -19,7 +19,7 @@ const TodoForm = ({ TodoList }) => {
         <h4>마감이 임박한 할일</h4>
         <ul className={styles.Todo__new_list}>
           {newList.map(Todo => (
-            <li key={Todo.id}>
+            <li key={Todo.todoId}>
               <TodoItemContainer Todo={Todo} />
             </li>
           ))}
