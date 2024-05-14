@@ -25,7 +25,7 @@ import styles from '../Todo/Todo.module.scss';
 import { HiOutlineGlobeAlt } from "react-icons/hi";
 import { PostTodo } from "@api/services/todoapi";
 //import { RiAlertFill } from "react-icons/ri";
-import { ToggleType } from "./ToggleType";
+import { Alert } from "./Alert";
 
 
 
@@ -34,7 +34,7 @@ const schema = BlockNoteSchema.create({
     // Adds all default blocks.
     ...defaultBlockSpecs,
     // Adds the Alert block.
-    alert: ToggleType,
+    alert: Alert,
   },
 });
 
@@ -77,7 +77,7 @@ async function uploadFile(file) {
   );
 }
 
-const BlockNote = ({ id }) => {
+const BlockNote = ({ issueId }) => {
   
   const [userInfo] = useRecoilState(authState);
   const stompClient = useRef(null);
@@ -131,8 +131,9 @@ const getCustomSlashMenuItems = (
 
     const newTodoBlock = {
       type:"paragraph",
-      content: [{type:"alert", content:content}]
+      content: [{type:"alert", content}]
     }
+    console.log(newTodoBlock);
     closeModal();
     insertTodoBlock(editor, newTodoBlock);
   }
@@ -154,7 +155,7 @@ const getCustomSlashMenuItems = (
   useEffect(() => {
     async function fetchContent() {
       try {
-        const response = await LoadIssueData(id);
+        const response = await LoadIssueData(issueId);
         //console.log("res = " ,response.data.content);
         const contentData = JSON.parse(response.data.content);
         //console.log("content = ", contentData);
@@ -170,7 +171,7 @@ const getCustomSlashMenuItems = (
       }
     }
     fetchContent();
-  }, [id]);
+  }, [issueId]);
 
   // Setup WebSocket connection and handlers
   useEffect(() => {
@@ -181,7 +182,7 @@ const getCustomSlashMenuItems = (
     stompClient.current.connect(
       {},
       () => {
-        stompClient.current.subscribe(`/sub/documents/${id}`, message => {
+        stompClient.current.subscribe(`/sub/documents/${issueId}`, message => {
           try {
             const payload = JSON.parse(message.body);
             const content = JSON.parse(payload.content);          // 내용 (Uint8Array 형식)
@@ -220,7 +221,7 @@ const getCustomSlashMenuItems = (
         stompClient.current.send(
           `/pub/connection`,
           {},
-          JSON.stringify({ documentsId: id, memberId: userInfo.memberId }),
+          JSON.stringify({ documentsId: issueId, memberId: userInfo.memberId }),
         );
       },
       error => {
@@ -233,7 +234,7 @@ const getCustomSlashMenuItems = (
         stompClient.current.disconnect();
       }
     };
-  }, [id, ydoc, userInfo.memberId]);
+  }, [issueId, ydoc, userInfo.memberId]);
 
   
     const timeoutRef = useRef(null);
@@ -258,7 +259,7 @@ const getCustomSlashMenuItems = (
       } catch (error) {
         console.error('Error handling editor change:', error);
       }
-    }, [ydoc, userInfo.memberId, id]);
+    }, [ydoc, userInfo.memberId, issueId]);
 
 
   function chunkMessage(update) {
@@ -277,7 +278,7 @@ const getCustomSlashMenuItems = (
         `/pub/documents`,
         {},
         JSON.stringify({
-          documentsId: id,
+          documentsId: issueId,
           memberId: userInfo.memberId,
           messageChunkInfo: chunkInfo,
         }),

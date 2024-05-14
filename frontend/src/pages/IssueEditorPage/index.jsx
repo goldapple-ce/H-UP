@@ -6,10 +6,10 @@ function IssueEditorPage() {
 
   const { id } = useParams();
 
-  return (
+  return ( id &&
     <div className={styles.editor_page}>
       <div className={styles.editor_container}>
-        <BlockNote id={id}/>
+        <BlockNote issueId={id}/>
       </div>
     </div>
   );

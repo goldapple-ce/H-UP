@@ -49,7 +49,7 @@ export const Toggles = [
 ];
  
 // The Alert block.
-export const ToggleType = createReactBlockSpec(
+export const Alert = createReactBlockSpec(
   {
     type: "alert",
     propSchema: {
