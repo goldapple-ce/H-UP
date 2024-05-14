@@ -3,7 +3,8 @@ import playIcon from '@asset/img/play_icon.png';
 import styles from './TodoItem.module.scss';
 
 const TodoItem = ({ Todo }) => {
-  const { id, content, createdAt, endAt, requester, assigneeList } = Todo;
+  // const { todoId, content, createdAt, endAt, requester, assigneeList } = Todo;
+  const { todoId, content, createdAt, endAt, requester, assigneeList } = Todo;
   const [iconImage, setIconImage] = useState('');
 
   const formatToDate = jsDateStr => {
