@@ -1,5 +1,6 @@
 package com.a702.hup.global.config;
 
+import com.a702.hup.domain.auth.redis.TokenService;
 import com.a702.hup.global.config.security.CustomUserDetailsService;
 import com.a702.hup.global.config.security.filter.CustomAuthenticationFilter;
 import com.a702.hup.global.config.security.filter.JwtAuthorizationFilter;
@@ -34,7 +35,8 @@ import java.util.Collections;
 @EnableWebSecurity
 public class SecurityConfig {
     private static final String HOME = "/";
-    private static final String LOGIN_URL = "/member/login";
+    private static final String LOGIN_URL = "/auth/login";
+    private static final String TOKEN_REFRESH = "/auth/**";
     private static final String MEMBER = "/member/**";
     private static final String RESOURCES = "/resources/**";
     private static final String WEBSOCKET = "/ws/**";
@@ -81,6 +83,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(
                                 HOME,
+                                TOKEN_REFRESH,
                                 MEMBER,
                                 RESOURCES,
                                 SWAGGER,
@@ -178,9 +181,10 @@ public class SecurityConfig {
     @Bean
     public CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler(
             ObjectMapper objectMapper,
-            TokenProvider tokenProvider
+            TokenProvider tokenProvider,
+            TokenService tokenService
     ) {
-        return new CustomAuthenticationSuccessHandler(objectMapper, tokenProvider);
+        return new CustomAuthenticationSuccessHandler(objectMapper, tokenProvider, tokenService);
     }
 
     /**
