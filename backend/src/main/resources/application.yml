@@ -56,9 +56,6 @@ spring:
       stack:
         auto: false
 
-
-
-
 # jwt
 jwt:
   expiration:

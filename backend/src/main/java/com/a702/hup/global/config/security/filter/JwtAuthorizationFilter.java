@@ -67,7 +67,10 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         // header에 토큰 있는지 확인. 없으면 에러
         String token = resolveToken(request);
         log.debug("[+] JwtAuthorizationFilter :: doFilterInternal :: resolved token => {}", token);
-        if(token == null) filterChain.doFilter(request, response);
+        if(token == null) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         // token 유효성 검증
         if(tokenProvider.validateToken(token)) {
