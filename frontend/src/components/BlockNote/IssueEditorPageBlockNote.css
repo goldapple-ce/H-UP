@@ -56,3 +56,14 @@
   .bn-container[data-theming-css-variables-demo] .bn-side-menu {
     color:#3f3f3f;
   }
+
+  .bn-container[data-theming-css-variables-demo] .bn-suggestion-menu {
+    margin: 10px 0;
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+
+    img {
+      height: auto;
+    }
+  }

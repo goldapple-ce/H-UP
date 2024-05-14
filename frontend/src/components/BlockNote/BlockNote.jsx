@@ -1,16 +1,63 @@
+import {
+  BlockNoteSchema,
+  defaultBlockSpecs,
+  filterSuggestionItems,
+  insertOrUpdateBlock,
+} from "@blocknote/core";
 import { LoadIssueData } from '@api/services/issue';
 import '@blocknote/core/fonts/inter.css';
 import { BlockNoteView } from '@blocknote/mantine';
 import '@blocknote/mantine/style.css';
-import { useCreateBlockNote } from '@blocknote/react';
+import {
+  getDefaultReactSlashMenuItems,
+  SuggestionMenuController,
+  useCreateBlockNote,
+} from "@blocknote/react";
 import { authState } from '@recoil/auth';
+import Modal from 'react-modal';
 import { Stomp } from '@stomp/stompjs';
-import { useCallback, useEffect, useRef } from 'react';
-import { useParams } from 'react-router-dom';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import SockJS from 'sockjs-client';
 import * as Y from 'yjs';
 import './IssueEditorPageBlockNote.css';
+import styles from '../Todo/Todo.module.scss';
+import { HiOutlineGlobeAlt } from "react-icons/hi";
+import { PostTodo } from "@api/services/todoapi";
+//import { RiAlertFill } from "react-icons/ri";
+import { ToggleType } from "./ToggleType";
+
+
+
+const schema = BlockNoteSchema.create({
+  blockSpecs: {
+    // Adds all default blocks.
+    ...defaultBlockSpecs,
+    // Adds the Alert block.
+    alert: ToggleType,
+  },
+});
+
+// Slash menu item to insert an Alert block
+// const insertToggle = (editor) => ({
+//   title: "Toggle",
+//   onItemClick: () => {
+//     insertOrUpdateBlock(editor, {
+//       type: "alert",
+//     });
+//   },
+//   aliases: [
+//     "alert",
+//     "notification",
+//     "emphasize",
+//     "warning",
+//     "error",
+//     "info",
+//     "success",
+//   ],
+//   group: "Other",
+//   icon: <RiAlertFill />,
+// });
 
 // Uploads a file to tmpfiles.org and returns the URL to the uploaded file.
 async function uploadFile(file) {
@@ -27,13 +74,69 @@ async function uploadFile(file) {
   );
 }
 
-function BlockNote() {
-  const { id } = useParams();
+const BlockNote = ({ id }) => {
+  
   const [userInfo] = useRecoilState(authState);
   const stompClient = useRef(null);
   const ydoc = useRef(new Y.Doc()).current;
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [content, setContent] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+
+  // Custom Slash Menu item to insert a block after the current one.
+const insertTodo = (editor) => ({
+  title: "Make Todolist",
+  onItemClick: openModal,
+  aliases: ["todolist", "todo"],
+  group: "Other",
+  icon: <HiOutlineGlobeAlt size={18} />,
+  subtext: "Making TodoList",
+});
+
+// List containing all default Slash Menu Items, as well as our custom one.
+const getCustomSlashMenuItems = (
+  editor
+) => [
+  ...getDefaultReactSlashMenuItems(editor),
+  insertTodo(editor),
+  //insertToggle(editor)
+];
+
+  const openModal = () => {
+    setModalIsOpen(true);
+  }
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+  }
+
+  const insertTodoBlock = (editor, block) => {
+    const currentBlock = editor.getTextCursorPosition().block;
+    editor.insertBlocks([block], currentBlock, "after");
+  } 
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const contentAndDate = content+'#$%'+startDate+'#$%'+endDate;
+    //console.log(contentAndDate);
+    const newTodo = {
+      issueId:1,
+      content:contentAndDate
+    };
+    await PostTodo(newTodo);
+
+    const newTodoBlock = {
+      type:"paragraph",
+      content: [{type:"alert", content:content}]
+    }
+    closeModal();
+    insertTodoBlock(editor, newTodoBlock);
+  }
+
 
   const editor = useCreateBlockNote({
+    schema,
     collaboration: {
       fragment: ydoc.getXmlFragment('co-work'),
     },
@@ -147,7 +250,66 @@ function BlockNote() {
     [ydoc, userInfo.memberId, id],
   );
 
-  return <BlockNoteView editor={editor} onChange={handleEditorChange} data-theming-css-variables-demo />;
+  return (
+    <>
+        <BlockNoteView editor={editor} slashMenu={false} onChange={handleEditorChange} data-theming-css-variables-demo>
+        <SuggestionMenuController
+        triggerCharacter={"/"}
+        // Replaces the default Slash Menu items with our custom ones.
+        getItems={async (query) =>
+          filterSuggestionItems(getCustomSlashMenuItems(editor), query)
+        }
+      />
+      </BlockNoteView>
+
+      <Modal 
+      isOpen={modalIsOpen} 
+      onRequestClose={closeModal} 
+      className={styles.modal} 
+      overlayClassName={styles.overlay}
+      ariaHideApp={false}
+      >
+      <h2 className={styles.modalTitle}>할 일 추가</h2>
+      <form onSubmit={handleSubmit} className={styles.modalForm}>
+        <label className={styles.modalLabel}>
+          Content:
+          <input 
+            type="text" 
+            value={content} 
+            onChange={(e) => setContent(e.target.value)} 
+            className={styles.modalInput}
+            required 
+          />
+        </label>
+        <label className={styles.modalLabel}>
+          Start Date:
+          <input 
+            type="date" 
+            value={startDate} 
+            onChange={(e) => setStartDate(e.target.value)} 
+            className={styles.modalInput}
+            required 
+          />
+        </label>
+        <label className={styles.modalLabel}>
+          End Date:
+          <input 
+            type="date" 
+            value={endDate} 
+            onChange={(e) => setEndDate(e.target.value)} 
+            className={styles.modalInput}
+            required 
+          />
+        </label>
+        <div className={styles.modalButtons}>
+          <button type="submit" className={styles.submitButton}>Add</button>
+          <button type="button" onClick={closeModal} className={styles.cancelButton}>Cancel</button>
+        </div>
+      </form>
+      </Modal>
+    </>
+      
+  );
 }
 
 export default BlockNote;

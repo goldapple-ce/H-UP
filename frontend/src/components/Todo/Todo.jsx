@@ -18,7 +18,7 @@ const Todo = () => {
   useEffect(() => {
     const getTodoList = async () => {
       const response = await GetTodoList(1);
-      const todoList = response.data.todoList;
+      const todoList = response.data.todoInfoList;
 
       const modifiedList = todoList.map(item => {
         const [content, createdAt, endAt] = item.content.split('#$%');
@@ -56,9 +56,9 @@ const Todo = () => {
       
       <TodoForm TodoList={TodoList} />
 
-      <div>
+      {/* <div>
         <button className={styles.addButton} onClick={openModal}>추가</button>
-      </div>
+      </div> */}
 
       <Modal 
         isOpen={modalIsOpen} 
