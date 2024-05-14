@@ -16,7 +16,7 @@ public class AgendaInfoListByIssueResponse {
     public static AgendaInfoListByIssueResponse from(Issue issue){
         List<AgendaInfoResponse> agendaInfoList = new ArrayList<>();
         for(Agenda agenda : issue.getAgendaList()){
-            if(agenda.getDeletedAt() != null){
+            if(!agenda.isSoftDeleted()){
                 agendaInfoList.add(AgendaInfoResponse.from(agenda));
             }
         }

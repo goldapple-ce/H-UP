@@ -29,11 +29,15 @@ public class AgendaInfoResponse {
     public static AgendaInfoResponse from(Agenda agenda) {
         List<RelatedMember> assigneeList = new ArrayList<>();
         for (AgendaMember agendaMember : agenda.getAgendaMemberList()) {
-            assigneeList.add(RelatedMember.from(agendaMember));
+            if(!agenda.isSoftDeleted()){
+                assigneeList.add(RelatedMember.from(agendaMember));
+            }
         }
         List<Comment> commentList = new ArrayList<>();
         for (AgendaComment agendaComment : agenda.getAgendaCommentList()) {
-            commentList.add(Comment.from(agendaComment));
+            if(!agendaComment.isSoftDeleted()){
+                commentList.add(Comment.from(agendaComment));
+            }
         }
 
         return AgendaInfoResponse.builder()

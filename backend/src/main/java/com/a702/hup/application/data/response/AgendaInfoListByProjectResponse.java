@@ -17,8 +17,11 @@ public class AgendaInfoListByProjectResponse {
 
     public static AgendaInfoListByProjectResponse from(List<Object[]> agendaList){
         List<AgendaInfoByProject> agendaInfoList = new ArrayList<>();
-        for(Object[] agenda : agendaList){
-            agendaInfoList.add(AgendaInfoByProject.from((Agenda) agenda[0]));
+        for(Object[] object : agendaList){
+            Agenda agenda = (Agenda) object[0];
+            if(!agenda.isSoftDeleted()){
+                agendaInfoList.add(AgendaInfoByProject.from(agenda));
+            }
         }
         return AgendaInfoListByProjectResponse.builder().agendaList(agendaInfoList).build();
     }
