@@ -51,7 +51,9 @@ const IssueItem = ({ issue, onClick }) => {
         {memberInfo && (
           <img
             key={memberInfo.id}
-            src={memberInfo.img}
+            src={
+              memberInfo.img ? memberInfo.img : '/src/assets/img/no_image.png'
+            }
             alt={memberInfo.name}
           ></img>
         )}
