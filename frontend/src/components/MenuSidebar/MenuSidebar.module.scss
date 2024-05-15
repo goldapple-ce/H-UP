@@ -33,7 +33,7 @@ body {
   position: fixed;
   top: 50px;
   left: -280px; // width와 동일
-  z-index: 2;
+  z-index: 10;
   transition: 0.5s;
 }
 .sidebar.active {
@@ -86,4 +86,30 @@ body {
     cursor: pointer;
     text-decoration: none;
   }
+}
+
+.team {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.team__radio {
+
+  display: none;
+  
+  &:not(:checked) {
+    // Inactive tab styles
+    & ~ .tab__label {
+      background: transparent;
+      color: rgb(180, 180, 180);
+    }
+
+    & ~ .tab__content {
+      display: none;
+      color: black;
+    }
+  }
+
+  cursor: pointer;
 }
