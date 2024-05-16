@@ -64,11 +64,11 @@ const MenuSidebar = () => {
             </div>
           </div>
           <div className={styles.sd_body}>
-            <ul>
+            {/* <ul>
               {projectList.map((item) => {
                 return <SubMenu key={item.id} item={item} />;
               })}
-            </ul>
+            </ul> */}
           </div>
           <div className={styles.team_container}>
             

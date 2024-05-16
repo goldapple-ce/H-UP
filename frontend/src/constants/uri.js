@@ -17,7 +17,9 @@ const API_URI = {
   // todo
   TODO: '/todo',
   TODO_ASSIGNEE: '/todo/assignee',
-  TODO_LIST: '/todo/list'
+  TODO_LIST: '/todo/list',
+  // agenda
+  AGENDA_LIST: '/agenda/list/project',
 };
 
 export default API_URI;
