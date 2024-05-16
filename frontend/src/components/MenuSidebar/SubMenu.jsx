@@ -3,33 +3,35 @@ import { Link } from 'react-router-dom';
 import styles from './SubMenu.module.scss';
 import { LoadProjectIssueList } from '@api/services/team';
 import {useEffect} from 'react';
+import { useRecoilState } from 'recoil';
+import { IssueListState } from '@recoil/issue';
 
 const SubMenu = ({ item }) => {
   const [subnav, setSubnav] = useState(false);
-  const [issueList, setIssueList] = useState([])
+  const [issueList, setIssueList] = useRecoilState(IssueListState);
 
   const showSubnav = () => {setSubnav(!subnav)};
 
-  const fetchData = async () => {
+  const fetchData = async (e) => {
     try {
       const response = await LoadProjectIssueList(item.id); 
-      setIssueList(response.data.responseList);
+      const list = response.data.responseList;
+        
+      setIssueList(list);
     } catch (error) {
       console.log(error)
     }
   }
-
-  useEffect(() => {
-    fetchData();
-  }, [])
-
 
   return (
     <>
       <Link
         className={styles.sidebarLink}
         to={`/project/${item.id}`}
-        onClick={issueList && showSubnav}
+        onClick={() => {
+          showSubnav();
+          fetchData();
+        }}
       >
         <div>
           <div>

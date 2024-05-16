@@ -5,17 +5,18 @@ import styles from './MenuSidebar.module.scss';
 import SubMenu from './SubMenu';
 import { LoadMyTeamList, LoadTeamProjectList } from '@api/services/team';
 import {useState, useEffect} from 'react'
+import { TeamListState } from '@recoil/team';
+import { ProjectListState } from '@recoil/project';
 
 const MenuSidebar = () => {
   const [isOpen, setIsopen] = useRecoilState(MenuSidebarState);
-  const [projectList, setProjectList] = useState([]);
-  const [teamList, setTeamList] = useState([]);
+  const [projectList, setProjectList] = useRecoilState(ProjectListState);
+  const [teamList, setTeamList] = useRecoilState(TeamListState);
 
   // 팀 선택 Radio 
   const handleRadioChange = async (event) => {
     const teamId = event.target.value;
     try {
-      setProjectList([]);
       const teamData = await LoadTeamProjectList(teamId);
       setProjectList(teamData.data.projectInfoList);
     } catch (error) {
@@ -69,19 +70,23 @@ const MenuSidebar = () => {
               })}
             </ul>
           </div>
-          <div>
+          <div className={styles.team_container}>
             
-            <p>Team</p>
+            <h5>Team</h5>
             {teamList.map((team) => (
-              <label key={team.id}>
-                <input
-                  type="radio"
-                  name="team"
-                  value={team.id}
-                  onChange={handleRadioChange}
-                />
-                {team.name}
-              </label>
+              <div className={styles.team}>
+                <label key={team.id} htmlFor={team.id}>
+                  <input
+                    type="radio"
+                    name="team"
+                    value={team.id}
+                    id={team.id}
+                    className={styles.team__radio}
+                    onChange={handleRadioChange}
+                  />
+                  {team.name}
+                </label>
+              </div>
             ))}
           </div>
         </div>

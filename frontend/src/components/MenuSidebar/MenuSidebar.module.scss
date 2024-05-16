@@ -33,7 +33,7 @@ body {
   position: fixed;
   top: 50px;
   left: -280px; // width와 동일
-  z-index: 2;
+  z-index: 10;
   transition: 0.5s;
 }
 .sidebar.active {
@@ -86,4 +86,38 @@ body {
     cursor: pointer;
     text-decoration: none;
   }
+}
+
+.team {
+  display: inline-flex;
+  margin: 5px;
+  align-items: center;
+  justify-content: center;
+
+  label {
+    background-color: #d9f8fe;
+    padding: 10px;
+    border-radius: 5px;
+    display: inline-block;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: #bdf1ff;
+    }
+  }
+
+  input[type="radio"] {
+    display: none;
+  }
+
+  input[type="radio"]:checked + label {
+    background-color: #bdf1ff;
+  }
+}
+
+.team_container {
+    margin-left: 10px;
+    position: absolute;
+    bottom: 200px;
 }
