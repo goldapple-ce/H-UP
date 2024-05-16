@@ -15,7 +15,6 @@ const MenuSidebar = () => {
   const handleRadioChange = async (event) => {
     const teamId = event.target.value;
     try {
-      setProjectList([]);
       const teamData = await LoadTeamProjectList(teamId);
       setProjectList(teamData.data.projectInfoList);
     } catch (error) {
@@ -71,17 +70,20 @@ const MenuSidebar = () => {
           </div>
           <div>
             
-            <p>Team</p>
+            <h5>Team</h5>
             {teamList.map((team) => (
-              <label key={team.id}>
-                <input
-                  type="radio"
-                  name="team"
-                  value={team.id}
-                  onChange={handleRadioChange}
-                />
-                {team.name}
-              </label>
+              <div className={styles.team}>
+                <label key={team.id}>
+                  <input
+                    type="radio"
+                    name="team"
+                    value={team.id}
+                    className={styles.team__radio}
+                    onChange={handleRadioChange}
+                  />
+                  {team.name}
+                </label>
+              </div>
             ))}
           </div>
         </div>

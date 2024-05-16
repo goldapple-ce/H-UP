@@ -10,26 +10,26 @@ const SubMenu = ({ item }) => {
 
   const showSubnav = () => {setSubnav(!subnav)};
 
-  const fetchData = async () => {
+  const fetchData = async (e) => {
     try {
       const response = await LoadProjectIssueList(item.id); 
-      setIssueList(response.data.responseList);
+      const list = response.data.responseList;
+        
+      setIssueList(list);
     } catch (error) {
       console.log(error)
     }
   }
-
-  useEffect(() => {
-    fetchData();
-  }, [])
-
 
   return (
     <>
       <Link
         className={styles.sidebarLink}
         to={`/project/${item.id}`}
-        onClick={issueList && showSubnav}
+        onClick={() => {
+          showSubnav();
+          fetchData();
+        }}
       >
         <div>
           <div>
