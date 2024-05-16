@@ -22,7 +22,10 @@ const AgendaItem = ({ agenda, onClick }) => {
   return (
     <div className={styles.agenda} onClick={onClick}>
       <img src={playIcon} alt='' />
-      <h5>{content}</h5>
+        <div>
+          <h5>{content}</h5>
+          {/* <span>요청자 :{requester.name}</span> */}
+        </div>
       <ul>
         <p>{formatToDate(createdAt)}</p>
       </ul>
@@ -32,7 +35,7 @@ const AgendaItem = ({ agenda, onClick }) => {
         src={requester.img}
         alt={requester.name}
       /> */}
-      <CaretRightFill />
+      <CaretRightFill className={styles.caret}/>
       {/* {assigneeList.map(assignee => (
         <img
           className={styles.agenda__assignee}
