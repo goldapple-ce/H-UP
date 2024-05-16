@@ -17,7 +17,7 @@ const SubMenu = ({ item }) => {
         <div>
           <div>
             {item.icon}
-            <span>{item.title}</span>
+            <span className={styles.sidebarSpan}>{item.title}</span>
           </div>
           <div>
             {item.subNav && subnav
@@ -37,7 +37,7 @@ const SubMenu = ({ item }) => {
               key={index}
             >
               {item.icon}
-              <span>{item.title}</span>
+              <span className={styles.sidebarSpan}>{item.title}</span>
             </Link>
           );
         })}

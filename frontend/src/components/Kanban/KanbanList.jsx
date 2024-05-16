@@ -1,8 +1,8 @@
 import STATUS from '@constant/status';
+import STATUS_COLOR from '@constant/statusColor';
 import React, { useEffect, useState } from 'react';
 import { useDrop } from 'react-dnd';
 import styles from './KanbanList.module.scss';
-import { cardColor } from '@constant/cardColor';
 
 function KanbanList({ title, children }) {
   const [spanColor, setSpanColor] = useState('');
@@ -17,7 +17,7 @@ function KanbanList({ title, children }) {
   });
 
   useEffect(() => {
-    setSpanColor(cardColor[title]);
+    setSpanColor(STATUS_COLOR[title]);
   }, [title]);
 
   return (
@@ -29,7 +29,7 @@ function KanbanList({ title, children }) {
             style={{ backgroundColor: spanColor }}
             className={styles.kanbanListWrap}
           >
-            <span></span>
+            <span className={styles.span}></span>
             {children}
             {/* <KanbanCreator title={title} /> */}
           </div>

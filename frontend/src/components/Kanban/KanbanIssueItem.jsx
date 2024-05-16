@@ -1,5 +1,6 @@
 import UserIcon from '@component/common/UserIcon';
 import STATUS from '@constant/status';
+import STATUS_COLOR from '@constant/statusColor';
 import { issueState } from '@recoil/issue';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDrag } from 'react-dnd';
@@ -8,7 +9,6 @@ import { useRecoilState } from 'recoil';
 import styles from './Card.module.scss';
 
 function KanbanIssueItem({ item }) {
-  console.log(item);
   const [issueList, setIssueList] = useRecoilState(issueState);
   const [cardColor, setCardColor] = useState('');
   const index = issueList.findIndex(data => data === item);
@@ -74,8 +74,8 @@ function KanbanIssueItem({ item }) {
   };
 
   useEffect(() => {
-    console.log(item);
-    setCardColor(cardColor[item.status]);
+    console.log(STATUS_COLOR);
+    setCardColor(STATUS_COLOR[item.status]);
   }, []);
 
   return (

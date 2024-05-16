@@ -75,16 +75,16 @@ const MainTab = () => {
         <Tab id='1' name='이슈' setDefault={true}>
           {!issueLoading && <IssueForm />}
         </Tab>
-        <Tab id='2' name='칸반' setDefault={false}>
-          {!issueLoading && !todoLoading && <Kanban />}
+        <Tab id='2' name='칸반'>
+          {!issueLoading && <Kanban />}
         </Tab>
-        <Tab id='3' name='할일' setDefault={false}>
+        <Tab id='3' name='할일'>
           {!todoLoading && <Todo todos={todos} />}
         </Tab>
         {/* <Tab id='4' name='의사결정'>
           {!agendaLoading && <Agenda agendas={agendas} />}
         </Tab> */}
-        <Tab id='5' name='캘린더' setDefault={false}>
+        <Tab id='5' name='캘린더'>
           {!todoLoading && <MyCalendar todos={todos} />}
         </Tab>
       </div>

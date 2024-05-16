@@ -1,11 +1,11 @@
+import { agendaState } from '@recoil/agenda';
 import { useRecoilState } from 'recoil';
-import { agendaListState } from '@recoil/agenda';
 import styles from './Agenda.module.scss';
 import AgendaForm from './AgendaForm';
 
-const Agenda = () => {
+export default function Agenda() {
   const memberId = 2;
-  const [agendaList, setAgendaList] = useRecoilState(agendaListState);
+  const [agendaList] = useRecoilState(agendaState);
   const agendaSubmitList = agendaList.filter(
     agenda => agenda.requester.id === memberId,
   );
@@ -71,6 +71,4 @@ const Agenda = () => {
       </div>
     </div>
   );
-};
-
-export default Agenda;
+}

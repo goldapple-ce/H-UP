@@ -1,10 +1,9 @@
+import { todoState } from '@recoil/todo';
 import { useRecoilState } from 'recoil';
 import styles from './Todo.module.scss';
 import TodoForm from './TodoForm';
-import { TodoListState } from '@recoil/todolist';
 
-const Todo = () => {
-  const [TodoList, setTodoList] = useRecoilState(TodoListState);
+export default function Todo() {
   // const TodoSubmitList = TodoList.filter(
   //   Todo => Todo.requester.id === memberId,
   // );
@@ -17,9 +16,7 @@ const Todo = () => {
 
   return (
     <div className={styles.Todo}>
-      <TodoForm TodoList={TodoList} />
+      <TodoForm />
     </div>
   );
-};
-
-export default Todo;
+}

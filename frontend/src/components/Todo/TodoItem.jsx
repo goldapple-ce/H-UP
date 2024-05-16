@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import playIcon from '@asset/img/play_icon.png';
 import styles from './TodoItem.module.scss';
+import UserIcon from '@component/common/UserIcon';
+import { Arrow90degRight } from 'styled-icons/bootstrap';
+import { ArrowIosForward } from 'styled-icons/evaicons-solid';
 
-const TodoItem = ({ Todo }) => {
-  const { id, content, createdAt, endAt, requester, assigneeList } = Todo;
+const TodoItem = ({ todo }) => {
+  const { todoId, content, status, requesterInfo, assigneeInfo } = todo;
   const [iconImage, setIconImage] = useState('');
 
   const formatToDate = jsDateStr => {
@@ -22,19 +25,20 @@ const TodoItem = ({ Todo }) => {
     <div className={styles.Todo}>
       <img src={playIcon} alt='' />
       <h5>{content}</h5>
-      <ul>
-        <p>
-          {formatToDate(createdAt)} ~ {formatToDate(endAt)}
-        </p>
-      </ul>
-      {assigneeList.map(assignee => (
-        <img
+      <div>
+        <UserIcon
           className={styles.Todo__assignee}
-          key={assignee.id}
-          src={assignee.img}
-          alt={assignee.name}
+          key={requesterInfo.id}
+          src={requesterInfo.img}
+          alt={requesterInfo.name}
         />
-      ))}
+        <UserIcon
+          className={styles.Todo__assignee}
+          key={assigneeInfo.id}
+          src={assigneeInfo.img}
+          alt={assigneeInfo.name}
+        />
+      </div>
     </div>
   );
 };

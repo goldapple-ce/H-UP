@@ -1,4 +1,5 @@
 import Input from '@component/common/Input';
+import UserIcon from '@component/common/UserIcon';
 import { STATUS } from '@constant/status';
 import useInput from '@hook/useInput';
 import { issueState } from '@recoil/issue';
@@ -7,11 +8,10 @@ import { useEffect, useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useRecoilState } from 'recoil';
-import Card from './Card';
 import styles from './Kanban.module.scss';
-import KanbanList from './KanbanList';
 import KanbanIssueItem from './KanbanIssueItem';
-import UserIcon from '@component/common/UserIcon';
+import KanbanList from './KanbanList';
+import KanbanTodoItem from './KanbanTodoItem';
 
 export default function Kanban() {
   const { CREATED, SELECTED, PROGRESS, COMPLETED } = STATUS;
@@ -46,6 +46,8 @@ export default function Kanban() {
       .map(item => {
         if (selectedCategory === 'ISSUE') {
           return <KanbanIssueItem key={item.issueId} item={item} />;
+        } else {
+          return <KanbanTodoItem key={item.todoId} item={item} />;
         }
       });
   };
@@ -79,18 +81,19 @@ export default function Kanban() {
           <div className={styles.header__imageSet}>
             {kanbanList
               .reduce((uniqueImages, data) => {
-                const imgUrl = data.memberInfo.img;
-                if (
-                  !uniqueImages.some(
-                    prevImage => prevImage.id === data.memberInfo.id,
-                  )
-                ) {
-                  uniqueImages.push({
-                    img: imgUrl,
-                    id: data.memberInfo.id,
-                    name: data.memberInfo.name,
-                  });
-                }
+                data.assigneeInfoList.map(info => {
+                  console.log(info);
+                  const imgUrl = info.img;
+                  if (
+                    !uniqueImages.some(prevImage => prevImage.id === info.id)
+                  ) {
+                    uniqueImages.push({
+                      img: imgUrl,
+                      id: info.id,
+                      name: info.name,
+                    });
+                  }
+                });
                 return uniqueImages;
               }, [])
               .map(image => (
