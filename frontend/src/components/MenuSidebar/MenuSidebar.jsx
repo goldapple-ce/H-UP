@@ -5,11 +5,13 @@ import styles from './MenuSidebar.module.scss';
 import SubMenu from './SubMenu';
 import { LoadMyTeamList, LoadTeamProjectList } from '@api/services/team';
 import {useState, useEffect} from 'react'
+import { TeamListState } from '@recoil/team';
+import { ProjectListState } from '@recoil/project';
 
 const MenuSidebar = () => {
   const [isOpen, setIsopen] = useRecoilState(MenuSidebarState);
-  const [projectList, setProjectList] = useState([]);
-  const [teamList, setTeamList] = useState([]);
+  const [projectList, setProjectList] = useRecoilState(ProjectListState);
+  const [teamList, setTeamList] = useRecoilState(TeamListState);
 
   // 팀 선택 Radio 
   const handleRadioChange = async (event) => {

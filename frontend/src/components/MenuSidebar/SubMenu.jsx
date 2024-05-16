@@ -3,10 +3,12 @@ import { Link } from 'react-router-dom';
 import styles from './SubMenu.module.scss';
 import { LoadProjectIssueList } from '@api/services/team';
 import {useEffect} from 'react';
+import { useRecoilState } from 'recoil';
+import { IssueListState } from '@recoil/issue';
 
 const SubMenu = ({ item }) => {
   const [subnav, setSubnav] = useState(false);
-  const [issueList, setIssueList] = useState([])
+  const [issueList, setIssueList] = useRecoilState(IssueListState);
 
   const showSubnav = () => {setSubnav(!subnav)};
 
