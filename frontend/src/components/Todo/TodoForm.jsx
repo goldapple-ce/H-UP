@@ -1,7 +1,7 @@
 import styles from './TodoForm.module.scss';
 import TodoItemContainer from './TodoItemContainer';
 
-const TodoForm = ({ TodoList }) => {
+const TodoForm = ({ TodoList , setTodoList, projectId }) => {
   const newList = TodoList.filter(Todo => Todo.createdAt >= new Date());
 
   return (
@@ -10,7 +10,7 @@ const TodoForm = ({ TodoList }) => {
         <ul className={styles.Todo__list}>
           {TodoList.map(Todo => (
             <li key={Todo.todoId}>
-              <TodoItemContainer Todo={Todo} />
+              <TodoItemContainer Todo={Todo} setTodoList={setTodoList} projectId={projectId}/>
             </li>
           ))}
         </ul>
@@ -20,7 +20,7 @@ const TodoForm = ({ TodoList }) => {
         <ul className={styles.Todo__new_list}>
           {newList.map(Todo => (
             <li key={Todo.todoId}>
-              <TodoItemContainer Todo={Todo} />
+              <TodoItemContainer Todo={Todo} setTodoList={setTodoList} projectId={projectId}/>
             </li>
           ))}
         </ul>
