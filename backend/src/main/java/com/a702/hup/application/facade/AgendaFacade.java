@@ -3,6 +3,7 @@ package com.a702.hup.application.facade;
 import com.a702.hup.application.data.request.*;
 import com.a702.hup.application.data.response.AgendaInfoListByIssueResponse;
 import com.a702.hup.application.data.response.AgendaInfoListByProjectResponse;
+import com.a702.hup.application.data.response.AgendaInfoResponse;
 import com.a702.hup.domain.agenda.AgendaService;
 import com.a702.hup.domain.agenda.entity.Agenda;
 import com.a702.hup.domain.agenda.entity.AgendaStatus;
@@ -43,11 +44,12 @@ public class AgendaFacade {
      * @description 의사결정 요청 함수
      */
     @Transactional
-    public void saveAgenda(int memberId, AgendaCreateRequest request) {
+    public AgendaInfoResponse saveAgenda(int memberId, AgendaCreateRequest request) {
         Member requester = memberService.findById(memberId);
         Issue issue = issueService.findById(request.getIssueId());
         issueMemberService.validationRole(issue, requester);
-        agendaService.save(issue, requester, request.getContent());
+        Agenda agenda = agendaService.save(issue, requester, request.getContent());
+        return AgendaInfoResponse.from(agenda);
     }
 
     /**

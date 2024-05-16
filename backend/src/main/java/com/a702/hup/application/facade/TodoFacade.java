@@ -41,13 +41,13 @@ public class TodoFacade {
      * @description 할 일 요청
      **/
     @Transactional
-    public void save(Integer requesterId, TodoSaveRequest request) {
+    public TodoInfo save(Integer requesterId, TodoSaveRequest request) {
         Member requester = memberService.findById(requesterId);
         Issue issue = issueService.findById(request.getIssueId());
 
         issueMemberService.validationRole(issue, requester);
-
-        todoService.save(issue, requester, request.getContent());
+        Todo todo = todoService.save(issue, requester, request.getContent());
+        return TodoInfo.of(todo);
     }
 
     /**

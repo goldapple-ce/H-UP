@@ -24,13 +24,13 @@ public class TodoController {
     private final TodoFacade todoFacade;
 
     @PostMapping
-    public ResponseEntity<Void> save(
+    public ResponseEntity<TodoInfo> save(
             @AuthenticationPrincipal(errorOnInvalidType = true) SecurityUserDetailsDto user,
             @RequestBody TodoSaveRequest request) {
-        todoFacade.save(user.memberId(), request);
+        TodoInfo response = todoFacade.save(user.memberId(), request);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .build();
+                .body(response);
     }
 
     @PostMapping("/assignee")

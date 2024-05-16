@@ -26,4 +26,13 @@ public class TodoInfo {
                 .assigneeInfo(MemberDTO.MemberInfo.from(assignee))
                 .status(String.valueOf(todo.getStatus())).build();
     }
+
+    public static TodoInfo of (Todo todo){
+        return TodoInfo.builder()
+                .todoId(todo.getId())
+                .content(todo.getContent())
+                .requesterInfo(MemberDTO.MemberInfo.from(todo.getRequester()))
+                .assigneeInfo(MemberDTO.MemberInfo.from(todo.getTodoMemberList().get(0).getMember()))
+                .status(String.valueOf(todo.getStatus())).build();
+    }
 }

@@ -27,9 +27,9 @@ public class AgendaController {
      * @description 의사결정 저장
      */
     @PostMapping
-    public ResponseEntity<Void> saveAgenda(@AuthenticationPrincipal(errorOnInvalidType = true) SecurityUserDetailsDto user, @RequestBody @Valid AgendaCreateRequest request){
-        agendaFacade.saveAgenda(user.memberId(), request);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<AgendaInfoResponse> saveAgenda(@AuthenticationPrincipal(errorOnInvalidType = true) SecurityUserDetailsDto user, @RequestBody @Valid AgendaCreateRequest request){
+        AgendaInfoResponse agenda = agendaFacade.saveAgenda(user.memberId(), request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(agenda);
     }
 
     /**
