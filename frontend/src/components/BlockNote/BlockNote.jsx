@@ -195,7 +195,7 @@ const getCustomSlashMenuItems = (
 
   // Setup WebSocket connection and handlers
   useEffect(() => {
-    const sock = new SockJS('http://h-up.site/api/ws');
+    const sock = new SockJS('https://h-up.site/api/ws');
     
     stompClient.current = Stomp.over(sock);
     stompClient.current.debug = () => {};
