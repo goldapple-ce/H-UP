@@ -1,12 +1,19 @@
+import { useAgendaListQuery } from '@hook/ReactQuery/useAgendaList';
+import { useIssueListQuery } from '@hook/ReactQuery/useIssueList';
+import { useTodoListQuery } from '@hook/ReactQuery/useTodoList';
+import { agendaState } from '@recoil/agenda';
+import { issueState } from '@recoil/issue';
+import { todoState } from '@recoil/todo';
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom/dist';
+import { useSetRecoilState } from 'recoil';
 import Agenda from '../Agenda/Agenda';
 import MyCalendar from '../Calendar/Calendar';
 import IssueForm from '../Issue/IssueForm';
 import Kanban from '../Kanban/Kanban';
-import styles from './MainTab.module.scss';
 import Todo from '../Todo/Todo';
-import { useEffect, useState } from 'react';
-import { useIssueListQuery } from '@hook/ReactQuery/useIssueList';
-import { useParams } from 'react-router-dom/dist';
+import styles from './MainTab.module.scss';
+import Tab from './Tab';
 
 const MainTab = () => {
   // /////////////////////////////////////////////////////////////////////
@@ -22,95 +29,64 @@ const MainTab = () => {
   //   }, []);
   //   ///////////////////////////////////////////////////////////////////
   const { id } = useParams();
-  const { isLoading, data } = useIssueListQuery(parseInt(id));
+  // issue
+  const { isLoading: issueLoading, data: issues } = useIssueListQuery(
+    parseInt(id),
+  );
+
+  const setIssueList = useSetRecoilState(issueState);
+
+  useEffect(() => {
+    console.log('issue changed');
+    console.log(issues);
+    setIssueList(issues);
+  }, [issues]);
+
+  // to_do
+  const { isLoading: todoLoading, data: todos } = useTodoListQuery(
+    parseInt(id),
+  );
+
+  const setTodoList = useSetRecoilState(todoState);
+
+  useEffect(() => {
+    console.log('todo changed');
+    console.log(todos);
+    setTodoList(todos);
+  }, [todos]);
+
+  // agendas
+  // const { isLoading: agendaLoading, data: agendas } = useAgendaListQuery(
+  //   parseInt(id),
+  //   {},
+  // );
+
+  // const setAgendaList = useSetRecoilState(agendaState);
+
+  // useEffect(() => {
+  //   setAgendaList(agendas);
+  // }, [agendas]);
+
+  // state
 
   return (
     <div className={styles.maintab_container}>
       <div className={styles.tab__group}>
-        {!isLoading ? (
-          <>
-            <div className={styles.tab}>
-              <input
-                className={styles.tab__radio}
-                type='radio'
-                id='tab-1'
-                name='tab-group-1'
-                defaultChecked={true}
-              />
-              <label className={styles.tab__label} htmlFor='tab-1'>
-                이슈
-              </label>
-
-              <div className={styles.tab__content}>
-                <IssueForm issues={data} />
-              </div>
-            </div>
-
-            <div className={styles.tab}>
-              <input
-                className={styles.tab__radio}
-                type='radio'
-                id='tab-2'
-                name='tab-group-1'
-              />
-              <label className={styles.tab__label} htmlFor='tab-2'>
-                칸반
-              </label>
-
-              <div className={styles.tab__content}>
-                <Kanban />
-              </div>
-            </div>
-          </>
-        ) : null}
-
-        <div className={styles.tab}>
-          <input
-            className={styles.tab__radio}
-            type='radio'
-            id='tab-3'
-            name='tab-group-1'
-          />
-          <label className={styles.tab__label} htmlFor='tab-3'>
-            할 일
-          </label>
-
-          <div className={styles.tab__content}>
-            <Todo />
-          </div>
-        </div>
-
-        <div className={styles.tab}>
-          <input
-            className={styles.tab__radio}
-            type='radio'
-            id='tab-4'
-            name='tab-group-1'
-          />
-          <label className={styles.tab__label} htmlFor='tab-4'>
-            의사결정
-          </label>
-
-          <div className={styles.tab__content}>
-            <Agenda />
-          </div>
-        </div>
-
-        <div className={styles.tab}>
-          <input
-            className={styles.tab__radio}
-            type='radio'
-            id='tab-5'
-            name='tab-group-1'
-          />
-          <label className={styles.tab__label} htmlFor='tab-5'>
-            캘린더
-          </label>
-
-          <div className={styles.tab__content}>
-            <MyCalendar />
-          </div>
-        </div>
+        <Tab id='1' name='이슈' setDefault={true}>
+          {!issueLoading && <IssueForm />}
+        </Tab>
+        <Tab id='2' name='칸반' setDefault={false}>
+          {!issueLoading && !todoLoading && <Kanban />}
+        </Tab>
+        <Tab id='3' name='할일' setDefault={false}>
+          {!todoLoading && <Todo todos={todos} />}
+        </Tab>
+        {/* <Tab id='4' name='의사결정'>
+          {!agendaLoading && <Agenda agendas={agendas} />}
+        </Tab> */}
+        <Tab id='5' name='캘린더' setDefault={false}>
+          {!todoLoading && <MyCalendar todos={todos} />}
+        </Tab>
       </div>
     </div>
   );
