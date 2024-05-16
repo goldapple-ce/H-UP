@@ -115,11 +115,16 @@ public class TodoFacade {
     public TodoInfoListResponse findTodoList(Integer projectId) {
         Project project = projectService.findById(projectId);
         List<TodoInfo> todoInfoList = project.getIssueList().stream()
+                .filter(issue -> issue.getDeletedAt() == null)
                 .flatMap(issue -> issue.getTodoList().stream())
+                .filter(todo -> todo.getDeletedAt() == null)
                 .map(TodoInfo::of)
                 .collect(Collectors.toList());
+
         return TodoInfoListResponse.toResponse(todoInfoList);
     }
+
+
 
     /**
      * @author 손현조

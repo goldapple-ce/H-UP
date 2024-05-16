@@ -23,7 +23,7 @@ public class TodoService {
     }
 
     public Todo findById(Integer id) {
-        return todoRepository.findById(id).orElseThrow(
+        return todoRepository.findByIdAndDeletedAtIsNull(id).orElseThrow(
                 () -> new TodoException(ErrorCode.API_ERROR_TODO_NOT_FOUND));
     }
 
