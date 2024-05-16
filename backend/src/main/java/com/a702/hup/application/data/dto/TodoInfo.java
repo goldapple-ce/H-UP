@@ -32,7 +32,7 @@ public class TodoInfo {
                 .todoId(todo.getId())
                 .content(todo.getContent())
                 .requesterInfo(MemberDTO.MemberInfo.from(todo.getRequester()))
-                .assigneeInfo(MemberDTO.MemberInfo.from(todo.getTodoMemberList().get(0).getMember()))
+                .assigneeInfo(todo.getTodoMemberList().isEmpty() ? null :MemberDTO.MemberInfo.from(todo.getTodoMemberList().get(0).getMember()))
                 .status(String.valueOf(todo.getStatus())).build();
     }
 }
