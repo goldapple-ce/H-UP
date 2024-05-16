@@ -12,7 +12,7 @@
     font-size: 12px;
     color: grey;
     margin-right: 20px;
-    margin: 5px 0 25px 0;
+    margin: 5px 10px 25px 0;
   }
 
   ul {
@@ -25,21 +25,20 @@
     border-radius: 50%;
     width: 30px;
     height: 30px;
-    margin: 0px 10px 0px 5px;
     object-fit: cover;
-  }
-
-  div {
-    margin-top : 5px;
   }
 
   h5 {
     font-size: 1.2em;
-    margin-bottom: 30px;
+    margin: 5px 0 30px 30px;
   }
 
   &:hover {
     transform: translatex(2px);
+  }
+
+  &__assignee_list{
+    
   }
 }
 
@@ -48,5 +47,7 @@
 }
 
 .caret {
-  margin-top: 5px;
+  margin: 5px 5px 0 15px;
 }
+
+
