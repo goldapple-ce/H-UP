@@ -17,7 +17,6 @@ const Todo = () => {
       const response = await GetTodoList(1);
       const todoList = response.data.todoInfoList;
       const memberResponse = await authAxios.get(`https://h-up.site/api/team/members/${1}`);
-
       const modifiedList = todoList.map(item => {
         const [content, createdAt, endAt] = item.content.split('#$%');
         return { id:item.todoId, content, createdAt, endAt, assigneeList:memberResponse.data.memberInfoList };
