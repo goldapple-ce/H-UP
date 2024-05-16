@@ -18,6 +18,10 @@ const MenuSidebar = () => {
     const teamId = event.target.value;
     try {
       const teamData = await LoadTeamProjectList(teamId);
+<<<<<<< Updated upstream
+=======
+      console.log(teamData.data);
+>>>>>>> Stashed changes
       setProjectList(teamData.data.responseList);
     } catch (error) {
       console.log(error)
@@ -32,12 +36,12 @@ const MenuSidebar = () => {
   // Team 리스트 불러오기
   useEffect(() => {
     const fetchData = async () => {
-
       try {
-        setTeamList([])
+        setTeamList([]) 
         const response = await LoadMyTeamList();
         const teams = response.data.teamInfoList;
-        setTeamList(teams);
+        console.log(response.data.teamInfoList)
+        setTeamList(response.data.teamInfoList);
 
         if (teams.length > 0) {
           const teamData = await LoadTeamProjectList(teams[0].id);
@@ -51,7 +55,7 @@ const MenuSidebar = () => {
   }, []);
 
 
-  return (
+  return (projectList && (
     <>
       <div className='bar-container'>
         <div
@@ -92,7 +96,7 @@ const MenuSidebar = () => {
         </div>
       </div>
     </>
-  );
+  ));
 };
 
 export default MenuSidebar;
