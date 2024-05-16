@@ -1,24 +1,17 @@
-import { authState } from '@recoil/auth';
+import { issueState } from '@recoil/issue';
 import { useRecoilState } from 'recoil';
 import styles from './IssueForm.module.scss';
 import IssueItemContainer from './IssueItemContainer';
-import { useEffect, useState } from 'react';
 
-const IssueForm = issues => {
-  const [issueList, setIssueList] = useState([]);
-  const [userInfo] = useRecoilState(authState);
+const IssueForm = () => {
+  const [issueList, setIssueList] = useRecoilState(issueState);
   // const { startLoading, finishLoading } = MyLayout.useLoading();
   // const { openDialog } = MyLayout.useDialog();
-
-  useEffect(() => {
-    setIssueList(issues.issues);
-  }, [issues]);
-
   console.log(issueList);
   const imminentDate = issue => {
     const date = issue.endDate;
     if (!date) {
-      return new Date(2024, 4, 23, 0, 0, 0);
+      return new Date('2030-05-31');
     }
     return new Date(date);
   };
