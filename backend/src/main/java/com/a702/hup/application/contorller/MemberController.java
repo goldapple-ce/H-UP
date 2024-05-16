@@ -1,6 +1,6 @@
 package com.a702.hup.application.contorller;
 
-import com.a702.hup.application.data.dto.MemberInfo;
+import com.a702.hup.application.data.dto.MemberDTO;
 import com.a702.hup.application.data.request.MemberSignUpRequest;
 import com.a702.hup.application.data.response.IdCheckResponse;
 import com.a702.hup.application.data.response.MemberInfoListResponse;
@@ -54,7 +54,7 @@ public class MemberController {
      * @description 회원 정보 조회
      **/
     @GetMapping
-    public ResponseEntity<MemberInfo> getInfo(@RequestParam int memberId) {
+    public ResponseEntity<MemberDTO.MemberInfo> getInfo(@RequestParam int memberId) {
         log.info("[+] MemberController :: getInfo :: start");
         return ResponseEntity
                 .status(HttpStatus.OK)

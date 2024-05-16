@@ -21,15 +21,14 @@ public class IssueDTO {
     }
 
     @Getter
-    public static class UpdateStatus {
+    public static class Update {
+        @NotNull
         private int issueId;
+        private String title;
+        @NotNull
         private IssueStatus status;
-    }
-
-    @Getter
-    public static class UpdateDate {
-        private LocalDate startTime;
-        private LocalDate endTime;
+        private LocalDate startDate;
+        private LocalDate endDate;
     }
 
     @Getter
@@ -42,7 +41,8 @@ public class IssueDTO {
         private LocalDate startDate;
         @JsonFormat(pattern = "YYYY-MM-dd")
         private LocalDate endDate;
-        private MemberInfo memberInfo;
+        private MemberDTO.MemberInfo memberInfo;
+        private List<MemberDTO.MemberInfo> assigneeInfoList;
 
         public static Response from(Issue issue) {
             return Response.builder()
@@ -51,7 +51,10 @@ public class IssueDTO {
                     .status(issue.getStatus())
                     .startDate(issue.getStartDate())
                     .endDate(issue.getEndDate())
-                    .memberInfo(MemberInfo.from(issue.getMember()))
+                    .memberInfo(MemberDTO.MemberInfo.from(issue.getMember()))
+                    .assigneeInfoList(issue.getIssueMemberList().stream()
+                            .map(issueMember -> MemberDTO.MemberInfo.from(issueMember.getMember()))
+                            .toList())
                     .build();
         }
     }
@@ -65,16 +68,15 @@ public class IssueDTO {
         private LocalDate endDate;
         private Integer projectId;
         private String projectName;
-        private Integer producerId;
-        private String producerName;
-        private List<MemberInfo> memberInfoList;
+        private MemberDTO.MemberInfo producerInfo;
+        private List<MemberDTO.MemberInfo> assigneeInfoList;
 
         public static DetailResponse toResponse(
                 Issue issue,
                 String content,
                 Project project,
                 Member member,
-                List<MemberInfo> memberInfoList
+                List<MemberDTO.MemberInfo> memberInfoList
         ) {
             return DetailResponse.builder()
                     .title(issue.getTitle())
@@ -83,9 +85,8 @@ public class IssueDTO {
                     .endDate(issue.getEndDate())
                     .projectId(project.getId())
                     .projectName(project.getName())
-                    .producerId(member.getId())
-                    .producerName(member.getName())
-                    .memberInfoList(memberInfoList)
+                    .producerInfo(MemberDTO.MemberInfo.from(member))
+                    .assigneeInfoList(memberInfoList)
                     .build();
         }
     }

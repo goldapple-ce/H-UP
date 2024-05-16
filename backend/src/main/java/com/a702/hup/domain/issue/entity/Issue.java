@@ -1,5 +1,6 @@
 package com.a702.hup.domain.issue.entity;
 
+import com.a702.hup.application.data.dto.IssueDTO;
 import com.a702.hup.domain.agenda.entity.Agenda;
 import com.a702.hup.domain.comment.entity.Comment;
 import com.a702.hup.domain.issue_member.entity.IssueMember;
@@ -43,7 +44,7 @@ public class Issue extends BaseEntity {
     private Project project;
 
     @OneToMany(mappedBy = "issue")
-    private List<IssueMember> IssueMemberList = new ArrayList<>();
+    private List<IssueMember> issueMemberList = new ArrayList<>();
 
     @OneToMany(mappedBy = "issue")
     private List<Comment> commentList = new ArrayList<>();
@@ -67,6 +68,13 @@ public class Issue extends BaseEntity {
         this.startDate = startDate;
         this.endDate = endDate;
         status = IssueStatus.CREATED;
+    }
+
+    public void updateIssue(IssueDTO.Update update) {
+        this.title = update.getTitle();
+        this.startDate = update.getStartDate();
+        this.endDate = update.getEndDate();
+        this.status = update.getStatus();
     }
 
     private void addRelatedMember(Member member) {

@@ -1,9 +1,8 @@
 package com.a702.hup.application.facade;
 
-import com.a702.hup.application.data.dto.MemberInfo;
+import com.a702.hup.application.data.dto.MemberDTO;
 import com.a702.hup.application.data.request.AddTeamMembersRequest;
 import com.a702.hup.application.data.request.TeamSaveRequest;
-import com.a702.hup.application.data.response.MemberInfoListResponse;
 import com.a702.hup.application.data.response.TeamInfoListResponse;
 import com.a702.hup.domain.member.MemberException;
 import com.a702.hup.domain.member.MemberService;
@@ -112,7 +111,7 @@ public class TeamFacade {
      * @date 2024-05-03
      * @description 팀 멤버 조회
      **/
-    public MemberInfoListResponse findTeamMembers(int memberId, int teamId) {
+    public MemberDTO.MemberInfoList findTeamMembers(int memberId, int teamId) {
         // 조회하려는 멤버
         Member member = memberService.findById(memberId);
         Team team = teamService.findById(teamId);
@@ -121,12 +120,13 @@ public class TeamFacade {
         if(!teamMemberService.isMember(member, team))
             throw new TeamMemberException(ErrorCode.API_ERROR_IS_NOT_TEAM_MEMBER);
 
+        // 팀에 속한 멤버 정보 리스트
+        List<MemberDTO.MemberInfo> memberInfoList = teamMemberService.findAllInTeam(team).stream()
+                .map(teamMember -> MemberDTO.MemberInfo.from(teamMember.getMember()))
+                .toList();
+
         // 팀에 속한 멤버들의 정보 반환
-        return MemberInfoListResponse.builder()
-                .memberInfoList(teamMemberService.findAllInTeam(team).stream()
-                        .map(teamMember -> MemberInfo.from(teamMember.getMember()))
-                        .toList())
-                .build();
+        return MemberDTO.MemberInfoList.from(memberInfoList);
     }
 
     /**

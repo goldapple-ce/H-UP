@@ -27,6 +27,16 @@ public class IssueController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @PostMapping("/update")
+    public ResponseEntity<IssueDTO.Response> update(
+            @AuthenticationPrincipal(errorOnInvalidType = true) SecurityUserDetailsDto user,
+            @RequestBody @Valid IssueDTO.Update updateRequestDto
+    ) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(issueFacade.update(user.memberId(), updateRequestDto));
+    }
+
     /**
      * @author 이경태
      * @date 2024-05-07
@@ -48,5 +58,4 @@ public class IssueController {
                 .status(HttpStatus.OK)
                 .body(issueFacade.findIssueDetailsById(issueId));
     }
-
 }
