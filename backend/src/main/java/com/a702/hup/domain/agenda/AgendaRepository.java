@@ -18,7 +18,7 @@ interface AgendaRepository extends JpaRepository<Agenda, Integer> {
 
     @Query("select A from Agenda as A " +
             "where A.issue.project = :project " +
-            "and A.issue.project.deletedAt = null and A.issue.deletedAt = null and A.deletedAt = null " +
+            "and A.issue.project.deletedAt is null and A.issue.deletedAt is null and A.deletedAt is null " +
             "and (:content is null or A.content like concat('%',:content ,'%') or A.issue.title like concat('%',:content,'%')) " +
             "order by A.issue.endDate")
     List<Agenda> findAllByProjectAndOption(Project project, String content);
