@@ -116,22 +116,42 @@ const getCustomSlashMenuItems = (
 
   const insertTodoBlock = (editor, block) => {
     const currentBlock = editor.getTextCursorPosition().block;
-    editor.insertBlocks([block], currentBlock, "after");
+    editor.updateBlock(currentBlock, block);
   } 
+
+  const insertAlert = (editor) => ({
+    title: "Alert",
+    onItemClick: () => {
+      insertOrUpdateBlock(editor, {
+        type: "alert",
+      });
+    },
+    aliases: [
+      "alert",
+      "notification",
+      "emphasize",
+      "warning",
+      "error",
+      "info",
+      "success",
+    ],
+    group: "Other",
+    icon: <RiAlertFill />,
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const contentAndDate = content+'#$%'+startDate+'#$%'+endDate;
     //console.log(contentAndDate);
     const newTodo = {
-      issueId:1,
+      issueId:10,
       content:contentAndDate
     };
     await PostTodo(newTodo);
 
     const newTodoBlock = {
-      type:"paragraph",
-      content: [{type:"alert", content}]
+      type:"alert",
+      content: content
     }
     console.log(newTodoBlock);
     closeModal();
@@ -175,7 +195,7 @@ const getCustomSlashMenuItems = (
 
   // Setup WebSocket connection and handlers
   useEffect(() => {
-    const sock = new SockJS('https://h-up.site/api/ws');
+    const sock = new SockJS('http://h-up.site/api/ws');
     
     stompClient.current = Stomp.over(sock);
     stompClient.current.debug = () => {};
