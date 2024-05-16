@@ -12,11 +12,12 @@ public class MemberDTO {
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class MemberInfo {
         private Integer id;
+        private String userId;
         private String name;
         private String img;
 
         public static MemberInfo from(Member member) {
-            return new MemberInfo(member.getId(), member.getName(), member.getImg());
+            return new MemberInfo(member.getId(), member.getUserId(), member.getName(), member.getImg());
         }
 
 
