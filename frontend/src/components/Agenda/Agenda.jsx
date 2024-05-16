@@ -5,11 +5,13 @@ import AgendaForm from './AgendaForm';
 import { useEffect } from 'react';
 import { LoadAgendaList } from '@api/services/agenda';
 import { useParams } from 'react-router-dom';
+import { authState } from '@recoil/auth';
 
 const Agenda = () => {
-  const memberId = 2;
   const [agendaList, setAgendaList] = useRecoilState(AgendaListState);
+  const [userInfo] = useRecoilState(authState);
 
+  const memberId = userInfo.memberId;
   const {id} = useParams();
 
   // Team 리스트 불러오기
@@ -30,10 +32,10 @@ const Agenda = () => {
   }, []);
 
 
-  const agendaSubmitList = agendaList.filter(
+  const agendaSubmittedList = agendaList.filter(
     data => data.agenda.requester.id === memberId,
   );
-  const agendaSendList = agendaList.reduce((list, data) => {
+  const agendaReceivedList = agendaList.reduce((list, data) => {
     if (data.agenda.assigneeList.some(assignee => assignee.id === memberId)) {
       list.push(data);
     }
@@ -55,7 +57,7 @@ const Agenda = () => {
             받은 의사결정
           </label>
           <div className={styles.tab__content}>
-            <AgendaForm agendaList={agendaSubmitList} />
+            <AgendaForm agendaList={agendaReceivedList} />
           </div>
         </div>
 
@@ -72,7 +74,7 @@ const Agenda = () => {
           </label>
 
           <div className={styles.tab__content}>
-            <AgendaForm agendaList={agendaSendList} />
+            <AgendaForm agendaList={agendaSubmittedList} />
           </div>
         </div>
 

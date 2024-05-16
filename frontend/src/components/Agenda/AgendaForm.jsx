@@ -16,7 +16,7 @@ const AgendaForm = ({ agendaList }) => {
         </ul>
       </div>
       <div className={styles.agenda__column2}>
-        <h4>최근 생성된 의사결정</h4>
+        <h4>마감이 임박한 의사결정</h4>
         <ul className={styles.agenda__new_list}>
           {newList.map(data => (
             <li key={data.agenda.id}>
