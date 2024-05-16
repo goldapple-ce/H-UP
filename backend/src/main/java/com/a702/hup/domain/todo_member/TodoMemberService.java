@@ -41,4 +41,14 @@ public class TodoMemberService {
         return todoMemberRepository.findByTodoAndMemberAndDeletedAtIsNull(todo, member).orElseThrow(() ->
                 new TodoException(ErrorCode.API_ERROR_TODO_MEMBER_NOT_FOUND));
     }
+
+    /**
+     * @author 손현조
+     * @date 2024-05-16
+     * @description 할 일의 담당자 조회
+     **/
+    public TodoMember findByTodo(Todo todo) {
+        return todoMemberRepository.findByTodoAndDeletedAtIsNull(todo).orElseThrow(() ->
+                new TodoException(ErrorCode.API_ERROR_TODO_MEMBER_NOT_FOUND));
+    }
 }
