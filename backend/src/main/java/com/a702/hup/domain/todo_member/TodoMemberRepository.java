@@ -9,4 +9,5 @@ import java.util.Optional;
 
 public interface TodoMemberRepository extends JpaRepository<TodoMember,Integer> {
     Optional<TodoMember> findByTodoAndMemberAndDeletedAtIsNull(Todo todo, Member member);
+    Optional<TodoMember> findByTodoAndDeletedAtIsNull(Todo todo);
 }

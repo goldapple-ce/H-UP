@@ -21,8 +21,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -109,21 +109,33 @@ public class TodoFacade {
 
     /**
      * @author 손현조
+     * @date 2024-05-16
+     * @description 할 일 상세 조회
+     **/
+    public TodoInfo findTodo(Todo todo) {
+        Member requester = todo.getRequester();
+        Member assignee = todoMemberService.findByTodo(todo).getMember();
+        return TodoInfo.of(todo, requester, assignee);
+    }
+
+    /**
+     * @author 손현조
      * @date 2024-05-08
      * @description 할 일 리스트 조회
      **/
     public TodoInfoListResponse findTodoList(Integer projectId) {
         Project project = projectService.findById(projectId);
-        List<TodoInfo> todoInfoList = project.getIssueList().stream()
-                .filter(issue -> issue.getDeletedAt() == null)
-                .flatMap(issue -> issue.getTodoList().stream())
-                .filter(todo -> todo.getDeletedAt() == null)
-                .map(TodoInfo::of)
-                .collect(Collectors.toList());
+        List<TodoInfo> todoInfoList = new ArrayList<>();
 
+        for (Issue issue : project.getIssueList()) {
+            if (issue.isSoftDeleted()) continue;
+            for (Todo todo : issue.getTodoList()) {
+                if (todo.isSoftDeleted()) continue;
+                todoInfoList.add(findTodo(todo));
+            }
+        }
         return TodoInfoListResponse.toResponse(todoInfoList);
     }
-
 
 
     /**

@@ -70,7 +70,7 @@ public class TodoController {
 
     @GetMapping("/{todoId}")
     public ResponseEntity<TodoInfo> find(@PathVariable Integer todoId) {
-        return ResponseEntity.ok().body(TodoInfo.of(todoService.findById(todoId)));
+        return ResponseEntity.ok().body(todoFacade.findTodo(todoService.findById(todoId)));
     }
 
     @GetMapping("/list/{projectId}")

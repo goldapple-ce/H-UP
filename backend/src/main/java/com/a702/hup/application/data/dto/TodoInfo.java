@@ -1,5 +1,6 @@
 package com.a702.hup.application.data.dto;
 
+import com.a702.hup.domain.member.entity.Member;
 import com.a702.hup.domain.todo.entity.Todo;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -14,11 +15,15 @@ public class TodoInfo {
     private String content;
     @NotNull
     private String status;
+    private MemberDTO.MemberInfo requesterInfo;
+    private MemberDTO.MemberInfo assigneeInfo;
 
-    public static TodoInfo of(Todo todo) {
+    public static TodoInfo of(Todo todo, Member requester, Member assignee) {
         return TodoInfo.builder()
                 .todoId(todo.getId())
                 .content(todo.getContent())
+                .requesterInfo(MemberDTO.MemberInfo.from(requester))
+                .assigneeInfo(MemberDTO.MemberInfo.from(assignee))
                 .status(String.valueOf(todo.getStatus())).build();
     }
 }
