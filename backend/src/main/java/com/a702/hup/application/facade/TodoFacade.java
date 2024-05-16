@@ -62,6 +62,11 @@ public class TodoFacade {
 
         Member assignee = memberService.findById(request.getMemberId());
         todoMemberService.save(todo, assignee);
+
+        Issue issue = todo.getIssue();
+        Member member = memberService.findById(request.getMemberId());
+
+        issueMemberService.save(issue, member);
     }
 
     /**
