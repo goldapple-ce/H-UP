@@ -104,9 +104,9 @@ public class AgendaController {
      * @date 2024-05-02
      * @description 프로젝트 별 의사결정 정보 가져오기
      */
-    @PostMapping("/list/project/{projectId}")
-    public ResponseEntity<AgendaInfoListByProjectResponse> getAgendaInfoByProject(@PathVariable(name = "projectId") int projectId, @RequestBody AgendaInfoByProjectRequest request){
-        AgendaInfoListByProjectResponse response = agendaFacade.getAgendaInfoListByProject(projectId,request);
+    @GetMapping("/list/project/{projectId}")
+    public ResponseEntity<AgendaInfoListByProjectResponse> getAgendaInfoByProject(@PathVariable(name = "projectId") int projectId, @RequestParam(name = "content",required = false) String content){
+        AgendaInfoListByProjectResponse response = agendaFacade.getAgendaInfoListByProject(projectId,content);
         return ResponseEntity.ok(response);
     }
 

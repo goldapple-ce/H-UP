@@ -15,10 +15,20 @@ import java.util.List;
 public class AgendaInfoListByProjectResponse {
     private List<AgendaInfoByProject> agendaList;
 
-    public static AgendaInfoListByProjectResponse from(List<Object[]> agendaList){
+    public static AgendaInfoListByProjectResponse fromOfObject(List<Object[]> agendaList){
         List<AgendaInfoByProject> agendaInfoList = new ArrayList<>();
         for(Object[] object : agendaList){
             Agenda agenda = (Agenda) object[0];
+            if(!agenda.isSoftDeleted()){
+                agendaInfoList.add(AgendaInfoByProject.from(agenda));
+            }
+        }
+        return AgendaInfoListByProjectResponse.builder().agendaList(agendaInfoList).build();
+    }
+
+    public static AgendaInfoListByProjectResponse from(List<Agenda> agendaList){
+        List<AgendaInfoByProject> agendaInfoList = new ArrayList<>();
+        for(Agenda agenda : agendaList){
             if(!agenda.isSoftDeleted()){
                 agendaInfoList.add(AgendaInfoByProject.from(agenda));
             }

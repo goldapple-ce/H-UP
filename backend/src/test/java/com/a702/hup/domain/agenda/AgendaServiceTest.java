@@ -1,7 +1,6 @@
 package com.a702.hup.domain.agenda;
 
-import com.a702.hup.domain.agenda.dto.AgendaOptionOfFind;
-import com.a702.hup.domain.agenda.entity.AgendaStatus;
+import com.a702.hup.domain.agenda.entity.Agenda;
 import com.a702.hup.domain.member.MemberService;
 import com.a702.hup.domain.member.entity.Member;
 import com.a702.hup.domain.project.ProjectService;
@@ -11,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -29,15 +27,8 @@ class AgendaServiceTest {
     @Test
     void findByProjectAndOptionTest() {
         Project project = projectService.findById(1);
-        List<Integer> memberList = new ArrayList<>();
-        memberList.add(1);
-        List<AgendaStatus> agendaStatusList = new ArrayList<>();
-        agendaStatusList.add(AgendaStatus.ASSIGNED);
-        agendaStatusList.add(AgendaStatus.COMPLETED);
-
-        AgendaOptionOfFind option = AgendaOptionOfFind.from(null, null);
         assertDoesNotThrow(() -> {
-            List<Object[]> agendaList = agendaService.findByProjectAndOption(project, memberList, agendaStatusList, option);
+            List<Agenda> agendaList = agendaService.findByProjectAndOption(project, null);
             assertEquals(2, agendaList.size());
         });
     }

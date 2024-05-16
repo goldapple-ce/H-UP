@@ -129,9 +129,9 @@ public class AgendaFacade {
      * @date 2024-05-08
      * @description 프록젝트 별 의사결정 가져오기
      */
-    public AgendaInfoListByProjectResponse getAgendaInfoListByProject(int projectId, AgendaInfoByProjectRequest request ){
+    public AgendaInfoListByProjectResponse getAgendaInfoListByProject(int projectId, String content ){
         Project project = projectService.findById(projectId);
-        List<Object[]> agendaList = agendaService.findByProjectAndOption(project, request.getMemberIdList(),request.getStatusList(),request.toOption());
+        List<Agenda> agendaList = agendaService.findByProjectAndOption(project, content);
         return AgendaInfoListByProjectResponse.from(agendaList);
     }
 
@@ -144,7 +144,7 @@ public class AgendaFacade {
         Member member = memberService.findById(memberId);
         Project project = projectService.findById(projectId);
         List<Object[]> agendaList = agendaService.findNearByProject(project,member);
-        return AgendaInfoListByProjectResponse.from(agendaList);
+        return AgendaInfoListByProjectResponse.fromOfObject(agendaList);
     }
 
     /**

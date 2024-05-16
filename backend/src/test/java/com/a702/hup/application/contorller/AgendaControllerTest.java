@@ -161,7 +161,7 @@ class AgendaControllerTest {
                         .id(1)
                         .name("tester")
                         .build())
-                .createdAt(LocalDate.now())
+                .createdAt(LocalDate.now().toString())
                 .assigneeList(assigneeList)
                 .commentList(commentList)
                 .build()
