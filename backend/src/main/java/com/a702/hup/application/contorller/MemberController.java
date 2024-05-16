@@ -3,7 +3,6 @@ package com.a702.hup.application.contorller;
 import com.a702.hup.application.data.dto.MemberDTO;
 import com.a702.hup.application.data.request.MemberSignUpRequest;
 import com.a702.hup.application.data.response.IdCheckResponse;
-import com.a702.hup.application.data.response.MemberInfoListResponse;
 import com.a702.hup.application.data.response.UpdateProfileImgResponse;
 import com.a702.hup.domain.member.MemberService;
 import com.a702.hup.global.config.security.SecurityUserDetailsDto;
@@ -80,7 +79,7 @@ public class MemberController {
      * @description
      */
     @GetMapping("/all")
-    public ResponseEntity<MemberInfoListResponse> getAllMember(){
+    public ResponseEntity<MemberDTO.MemberInfoList> getAllMember(){
         return ResponseEntity.ok(memberService.findAll());
     }
 }

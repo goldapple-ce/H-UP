@@ -3,7 +3,6 @@ package com.a702.hup.domain.member;
 import com.a702.hup.application.data.dto.MemberDTO;
 import com.a702.hup.application.data.request.MemberSignUpRequest;
 import com.a702.hup.application.data.response.IdCheckResponse;
-import com.a702.hup.application.data.response.MemberInfoListResponse;
 import com.a702.hup.application.data.response.UpdateProfileImgResponse;
 import com.a702.hup.domain.member.entity.Member;
 import com.a702.hup.global.config.security.SecurityUserDetailsDto;
@@ -128,9 +127,12 @@ public class MemberService {
         return memberId.equals(securityUserDetailsDto.memberId());
     }
 
-    public MemberInfoListResponse findAll() {
+    public MemberDTO.MemberInfoList findAll() {
         List<Member> memberList = memberRepository.findAllByDeletedAtIsNull();
+        List<MemberDTO.MemberInfo> memberInfoList = memberList.stream()
+                .map(MemberDTO.MemberInfo::from)
+                .toList();
 
-        return MemberInfoListResponse.from(memberList);
+        return MemberDTO.MemberInfoList.from(memberInfoList);
     }
 }
