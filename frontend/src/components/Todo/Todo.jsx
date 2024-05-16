@@ -9,14 +9,14 @@ import { authAxios } from '@api/index';
 
 const Todo = () => {
   const [TodoList, setTodoList] = useRecoilState(TodoListState);
-  const { projectId } = useParams();
+  const { id } = useParams();
 
 
   useEffect(() => {
     const getTodoList = async () => {
-      const response = await GetTodoList(1);
+      const response = await GetTodoList(id);
       const todoList = response.data.todoInfoList;
-      const memberResponse = await authAxios.get(`https://h-up.site/api/team/members/${1}`);
+      const memberResponse = await authAxios.get(`https://h-up.site/api/project/members/${id}`);
       const modifiedList = todoList.map(item => {
         const [content, createdAt, endAt] = item.content.split('#$%');
         return { id:item.todoId, content, createdAt, endAt, assigneeList:memberResponse.data.memberInfoList };
@@ -31,7 +31,7 @@ const Todo = () => {
     <div className={styles.Todo}>
       
       
-      <TodoForm TodoList={TodoList} setTodoList={setTodoList}/>
+      <TodoForm TodoList={TodoList} setTodoList={setTodoList} projectId={id}/>
 
     </div>
   );

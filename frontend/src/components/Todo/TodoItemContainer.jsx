@@ -5,8 +5,9 @@ import TodoItem from './TodoItem';
 import styles from './TodoItem.module.scss'; // 스타일 파일 추가
 import { DeleteTodo, DeleteTotoAssignee, GetTodo, GetTodoList, ModifyTodo, PostTodoAssignee } from '@api/services/todoapi'; // GetTeamMembers API 추가
 import Modal from 'react-modal';
+import { authAxios } from '@api/index';
 
-const TodoItemContainer = ({ Todo, setTodoList }) => {
+const TodoItemContainer = ({ Todo, setTodoList, projectId }) => {
   const navigate = useNavigate();
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -22,7 +23,7 @@ const TodoItemContainer = ({ Todo, setTodoList }) => {
   useEffect(() => {
     async function fetchTeamMembers() {
       try {
-        const response = await authAxios.get(`https://h-up.site/api/team/members/${1}`);
+        const response = await authAxios.get(`https://h-up.site/api/team/members/${projectId}`);
         setTeamMembers(response.data.memberInfoList);
       } catch (error) {
         console.error('Error fetching team members:', error);
@@ -81,8 +82,6 @@ const TodoItemContainer = ({ Todo, setTodoList }) => {
 
   const handleAddAssignee = async () => {
     if (selectedMember) {
-      
-
       const response = await GetTodo(Todo.id);
       console.log(response.data);
       await PostTodoAssignee({todoId:Todo.id, memberIdList:[...response.data.memberInfoList, selectedMember]});
@@ -95,7 +94,7 @@ const TodoItemContainer = ({ Todo, setTodoList }) => {
     const DeleteMember = ToDeleteAssignee[0].assigneeId;
     await DeleteTotoAssignee({todoId:Todo.id, memberId:DeleteMember})
 
-    const response = await authAxios.get(`https://h-up.site/api/team/members/${1}`);
+    const response = await authAxios.get(`https://h-up.site/api/team/members/${projectId}`);
     setTeamMembers(response.data.memberInfoList);
   };
 
