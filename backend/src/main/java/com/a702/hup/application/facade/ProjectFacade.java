@@ -1,17 +1,13 @@
 package com.a702.hup.application.facade;
 
-import com.a702.hup.application.data.dto.MemberInfo;
-import com.a702.hup.application.data.request.ProjectMemberSaveRequest;
-import com.a702.hup.application.data.request.ProjectSaveRequest;
-import com.a702.hup.application.data.response.ProjectInfoListResponse;
-import com.a702.hup.application.data.response.ProjectMembersResponse;
+import com.a702.hup.application.data.dto.MemberDTO;
+import com.a702.hup.application.data.dto.ProjectDTO;
 import com.a702.hup.domain.member.MemberService;
 import com.a702.hup.domain.member.entity.Member;
 import com.a702.hup.domain.project.ProjectException;
 import com.a702.hup.domain.project.ProjectService;
 import com.a702.hup.domain.project.entity.Project;
 import com.a702.hup.domain.project_member.ProjectMemberService;
-import com.a702.hup.domain.project_member.entity.ProjectMember;
 import com.a702.hup.domain.team.TeamService;
 import com.a702.hup.domain.team.entity.Team;
 import com.a702.hup.domain.team_member.TeamMemberService;
@@ -20,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -39,7 +34,7 @@ public class ProjectFacade {
      * @description
      */
     @Transactional
-    public void save(int memberId, ProjectSaveRequest request){
+    public void save(int memberId, ProjectDTO.Save request){
         Member member = memberService.findById(memberId);
         Team team = teamService.findById(request.getTeamId());
         validation(member,team);
@@ -52,7 +47,7 @@ public class ProjectFacade {
      * @description 프로젝트 멤버 저장
      */
     @Transactional
-    public void saveProjectMember(int memberId, ProjectMemberSaveRequest request) {
+    public void saveProjectMember(int memberId, ProjectDTO.AddMember request) {
         Member member = memberService.findById(memberId);
         Project project = projectService.findById(request.getProjectId());
         validation(member,project.getTeam());
@@ -69,15 +64,15 @@ public class ProjectFacade {
      * @date 2024-05-09
      * @description 프로젝트 멤버 조회
      **/
-    public ProjectMembersResponse findMembers(Integer memberId, Integer projectId) {
+    public MemberDTO.MemberInfoList findMembers(Integer memberId, Integer projectId) {
         Project project = projectService.findById(projectId);
         projectMemberService.validation(memberService.findById(memberId), projectService.findById(projectId));
 
-        List<MemberInfo> memberInfoList = new ArrayList<>();
-        for (ProjectMember projectMember : projectMemberService.findMembers(project)) {
-            memberInfoList.add(MemberInfo.from(projectMember.getMember()));
-        }
-        return ProjectMembersResponse.from(memberInfoList);
+        List<MemberDTO.MemberInfo> memberInfoList = projectMemberService.findMembers(project).stream()
+                .map(projectMember -> MemberDTO.MemberInfo.from(projectMember.getMember()))
+                .toList();
+
+        return MemberDTO.MemberInfoList.from(memberInfoList);
     }
 
     private void validation(Member member, Team team){
@@ -91,9 +86,9 @@ public class ProjectFacade {
      * @date 2024-05-10
      * @description
      */
-    public ProjectInfoListResponse findByTeam(Integer teamId) {
+    public ProjectDTO.ResponseList findByTeam(Integer teamId) {
         Team team = teamService.findById(teamId);
         List<Project> projectList = projectService.findAllByTeam(team);
-        return ProjectInfoListResponse.from(projectList);
+        return ProjectDTO.ResponseList.from(projectList);
     }
 }

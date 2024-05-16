@@ -1,8 +1,8 @@
 package com.a702.hup.application.contorller;
 
+import com.a702.hup.application.data.dto.MemberDTO;
 import com.a702.hup.application.data.request.AddTeamMembersRequest;
 import com.a702.hup.application.data.request.TeamSaveRequest;
-import com.a702.hup.application.data.response.MemberInfoListResponse;
 import com.a702.hup.application.data.response.TeamInfoListResponse;
 import com.a702.hup.application.facade.TeamFacade;
 import com.a702.hup.global.config.security.SecurityUserDetailsDto;
@@ -52,7 +52,7 @@ public class TeamController {
      * @description 팀원 목록 조회 API
      **/
     @GetMapping("/members/{teamId}")
-    public ResponseEntity<MemberInfoListResponse> findMemberList(@AuthenticationPrincipal SecurityUserDetailsDto user, @PathVariable int teamId) {
+    public ResponseEntity<MemberDTO.MemberInfoList> findMemberList(@AuthenticationPrincipal SecurityUserDetailsDto user, @PathVariable int teamId) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(teamFacade.findTeamMembers(user.memberId(), teamId));

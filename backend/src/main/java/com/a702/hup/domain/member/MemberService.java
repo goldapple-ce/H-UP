@@ -1,6 +1,6 @@
 package com.a702.hup.domain.member;
 
-import com.a702.hup.application.data.dto.MemberInfo;
+import com.a702.hup.application.data.dto.MemberDTO;
 import com.a702.hup.application.data.request.MemberSignUpRequest;
 import com.a702.hup.application.data.response.IdCheckResponse;
 import com.a702.hup.application.data.response.UpdateProfileImgResponse;
@@ -44,11 +44,11 @@ public class MemberService {
      * @date 2024-04-29
      * @description 멤버 정보 반환 함수
      **/
-    public MemberInfo findMemberInfoById(Integer id) {
+    public MemberDTO.MemberInfo findMemberInfoById(Integer id) {
         // 본인 아니면 에러
         if(!isAuthorized(id))
             throw new MemberException(ErrorCode.API_ERROR_UNAUTHORIZED);
-        return MemberInfo.from(findById(id));
+        return MemberDTO.MemberInfo.from(findById(id));
     }
 
     /**
