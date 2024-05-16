@@ -1,11 +1,12 @@
+import STATUS from '@constant/status';
 import React, { useEffect, useState } from 'react';
 import { useDrop } from 'react-dnd';
-import { TITLE_NAME } from './Kanban';
 import styles from './KanbanList.module.scss';
+import { cardColor } from '@constant/cardColor';
 
 function KanbanList({ title, children }) {
   const [spanColor, setSpanColor] = useState('');
-  const { CREATED, SELECTED, PROGRESS, COMPLETED } = TITLE_NAME;
+  const { CREATED, SELECTED, PROGRESS, COMPLETED } = STATUS;
   const [{ canDrop, isOver }, drop] = useDrop({
     accept: 'card',
     drop: () => ({ name: title }),
@@ -16,20 +17,7 @@ function KanbanList({ title, children }) {
   });
 
   useEffect(() => {
-    switch (title) {
-      case CREATED:
-        setSpanColor('#ef5777');
-        break;
-      case SELECTED:
-        setSpanColor('#B33771');
-        break;
-      case PROGRESS:
-        setSpanColor('#341f97');
-        break;
-      case COMPLETED:
-        setSpanColor('#130f40');
-        break;
-    }
+    setSpanColor(cardColor[title]);
   }, [title]);
 
   return (

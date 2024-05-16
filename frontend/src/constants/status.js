@@ -1,0 +1,9 @@
+export const STATUS = {
+  CREATED: 'CREATED',
+  SELECTED: 'SELECTED',
+  PROGRESS: 'PROGRESS',
+  COMPLETED: 'COMPLETED',
+  APPROVED: 'APPROVED',
+};
+
+export default STATUS;

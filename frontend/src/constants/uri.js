@@ -11,6 +11,10 @@ const API_URI = {
   UPDATE_ISSUE_STATUS: '/issue/status',
   UPDATE_ISSUE_DATE: '/issue/date',
   ISSUE_LIST: '/issue/list',
+  // to_do
+  TODO_LIST: '/todo/list',
+  // agenda
+  AGENDA_LIST: '/agenda/list/project',
 };
 
 export default API_URI;
