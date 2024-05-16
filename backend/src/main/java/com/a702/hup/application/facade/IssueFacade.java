@@ -1,22 +1,26 @@
 package com.a702.hup.application.facade;
 
 import com.a702.hup.application.data.dto.IssueDTO;
-import com.a702.hup.application.data.dto.MemberInfo;
+import com.a702.hup.application.data.dto.MemberDTO;
 import com.a702.hup.domain.documents.mongodb.DocumentsMongoService;
 import com.a702.hup.domain.documents.redis.DocumentsRedisService;
 import com.a702.hup.domain.issue.IssueService;
 import com.a702.hup.domain.issue.entity.Issue;
 import com.a702.hup.domain.issue_member.IssueMemberService;
+import com.a702.hup.domain.issue_member.entity.IssueMember;
+import com.a702.hup.domain.member.MemberException;
 import com.a702.hup.domain.member.MemberService;
 import com.a702.hup.domain.member.entity.Member;
 import com.a702.hup.domain.project.ProjectService;
 import com.a702.hup.domain.project.entity.Project;
 import com.a702.hup.domain.project_member.ProjectMemberService;
+import com.a702.hup.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -44,6 +48,19 @@ public class IssueFacade {
         documentsMongoService.save(String.valueOf(issue.getId()),"");
         documentsRedisService.saveDocument(issue.getId(), memberId, "");
         return issue;
+    }
+
+    @Transactional
+    public IssueDTO.Response update(int memberId, IssueDTO.Update request) {
+        log.info("[+] issueFacade :: update :: start");
+        Issue issue = issueService.update(request);
+        Member member = memberService.findById(memberId);
+        issueMemberService.validationRole(issue, member);
+
+        issue.updateIssue(request);
+        log.info("[+] issueFacade :: update :: update info end");
+
+        return IssueDTO.Response.from(issue);
     }
 
     /**
@@ -94,9 +111,9 @@ public class IssueFacade {
      * @date 2024-05-08
      * @description get MemberInfoList
      **/
-    private List<MemberInfo> createMemberInfoList(Issue issue) {
+    private List<MemberDTO.MemberInfo> createMemberInfoList(Issue issue) {
         return issue.getIssueMemberList().stream()
-                .map(issueMember -> MemberInfo.from(issueMember.getMember()))
+                .map(issueMember -> MemberDTO.MemberInfo.from(issueMember.getMember()))
                 .toList();
     }
 }
