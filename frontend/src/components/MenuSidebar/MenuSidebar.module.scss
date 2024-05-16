@@ -89,27 +89,35 @@ body {
 }
 
 .team {
-  display: flex;
+  display: inline-flex;
+  margin: 5px;
   align-items: center;
   justify-content: center;
-}
 
-.team__radio {
+  label {
+    background-color: #d9f8fe;
+    padding: 10px;
+    border-radius: 5px;
+    display: inline-block;
+    cursor: pointer;
+    transition: background-color 0.3s;
 
-  display: none;
-  
-  &:not(:checked) {
-    // Inactive tab styles
-    & ~ .tab__label {
-      background: transparent;
-      color: rgb(180, 180, 180);
-    }
-
-    & ~ .tab__content {
-      display: none;
-      color: black;
+    &:hover {
+      background-color: #bdf1ff;
     }
   }
 
-  cursor: pointer;
+  input[type="radio"] {
+    display: none;
+  }
+
+  input[type="radio"]:checked + label {
+    background-color: #bdf1ff;
+  }
+}
+
+.team_container {
+    margin-left: 10px;
+    position: absolute;
+    bottom: 200px;
 }

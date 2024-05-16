@@ -70,16 +70,17 @@ const MenuSidebar = () => {
               })}
             </ul>
           </div>
-          <div>
+          <div className={styles.team_container}>
             
             <h5>Team</h5>
             {teamList.map((team) => (
               <div className={styles.team}>
-                <label key={team.id}>
+                <label key={team.id} htmlFor={team.id}>
                   <input
                     type="radio"
                     name="team"
                     value={team.id}
+                    id={team.id}
                     className={styles.team__radio}
                     onChange={handleRadioChange}
                   />
