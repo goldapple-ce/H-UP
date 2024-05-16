@@ -8,9 +8,9 @@ const AgendaForm = ({ agendaList }) => {
     <div className={styles.agenda}>
       <div className={styles.agenda__column1}>
         <ul className={styles.agenda__list}>
-          {agendaList.map(agenda => (
-            <li key={agenda.id}>
-              <AgendaItemContainer agenda={agenda} />
+          {agendaList.map(data => (
+            <li key={data.agenda.id}>
+              <AgendaItemContainer agenda={data.agenda} />
             </li>
           ))}
         </ul>
@@ -18,9 +18,9 @@ const AgendaForm = ({ agendaList }) => {
       <div className={styles.agenda__column2}>
         <h4>최근 생성된 의사결정</h4>
         <ul className={styles.agenda__new_list}>
-          {newList.map(agenda => (
-            <li key={agenda.id}>
-              <AgendaItemContainer agenda={agenda} />
+          {newList.map(data => (
+            <li key={data.agenda.id}>
+              <AgendaItemContainer agenda={data.agenda} />
             </li>
           ))}
         </ul>

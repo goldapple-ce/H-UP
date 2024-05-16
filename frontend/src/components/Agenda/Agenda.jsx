@@ -1,16 +1,40 @@
 import { useRecoilState } from 'recoil';
-import { agendaListState } from '@recoil/agenda';
+import { AgendaListState } from '@recoil/agenda';
 import styles from './Agenda.module.scss';
 import AgendaForm from './AgendaForm';
+import { useEffect } from 'react';
+import { LoadAgendaList } from '@api/services/agenda';
+import { useParams } from 'react-router-dom';
 
 const Agenda = () => {
   const memberId = 2;
-  const [agendaList, setAgendaList] = useRecoilState(agendaListState);
+  const [agendaList, setAgendaList] = useRecoilState(AgendaListState);
+
+  const {id} = useParams();
+
+  // Team 리스트 불러오기
+  useEffect(() => {
+    const fetchData = async () => {
+
+      try {
+        const response = await LoadAgendaList(id);
+        const agendaData = response.data.agendaList;
+        console.log(agendaData)
+        setAgendaList(agendaData);
+
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    fetchData();
+  }, []);
+
+
   const agendaSubmitList = agendaList.filter(
-    agenda => agenda.requester.id === memberId,
+    data => data.agenda.requester.id === memberId,
   );
   const agendaSendList = agendaList.reduce((list, data) => {
-    if (data.assigneeList.some(assignee => assignee.id === memberId)) {
+    if (data.agenda.assigneeList.some(assignee => assignee.id === memberId)) {
       list.push(data);
     }
     return list;
