@@ -1,7 +1,7 @@
 import { atom } from 'recoil';
 
-export const agendaListState = atom({
-  key: 'agendaListState',
+export const agendaState = atom({
+  key: 'agendaState',
   default: [
     {
       id: 1,

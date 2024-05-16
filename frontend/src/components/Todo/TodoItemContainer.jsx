@@ -1,12 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import TodoItem from './TodoItem';
 
-const TodoItemContainer = ({ Todo }) => {
+const TodoItemContainer = ({ todo }) => {
   const navigate = useNavigate();
   const handleClick = () => {
-    navigate(`/Todo/${Todo.id}`);
+    navigate(`/Todo/${todo.todoId}`);
   };
-  return <TodoItem Todo={Todo} />;
+  return <TodoItem todo={todo} />;
 };
 
 export default TodoItemContainer;

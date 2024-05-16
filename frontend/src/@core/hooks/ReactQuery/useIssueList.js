@@ -6,7 +6,7 @@ export const useIssueListQuery = projectId => {
   const { data, isLoading, isError } = useQuery({
     queryKey: [QUERY_KEY.ISSUE_LIST, projectId],
     queryFn: () => requestIssueList(projectId),
-    select: data => data.data.responseList,
+    select: data => data.data.issueInfoList,
   });
   return {
     isLoading,
