@@ -1,14 +1,14 @@
 import { defaultProps } from "@blocknote/core";
 import { createReactBlockSpec } from "@blocknote/react";
 import { Menu } from "@mantine/core";
-import { MdCancel, MdCheckCircle, MdError, MdInfo } from "react-icons/md";
+import { MdCheckCircle, MdError, MdPlayCircle } from "react-icons/md";
 import "./ToggleType.css";
  
 // The types of alerts that users can choose from.
 export const Toggles = [
   {
-    title: "Warning",
-    value: "warning",
+    title: "할당됨",
+    value: "ASSIGNED",
     icon: MdError,
     color: "#e69819",
     backgroundColor: {
@@ -17,9 +17,9 @@ export const Toggles = [
     },
   },
   {
-    title: "Error",
-    value: "error",
-    icon: MdCancel,
+    title: "진행중",
+    value: "PROGRESS",
+    icon: MdPlayCircle,
     color: "#d80d0d",
     backgroundColor: {
       light: "#ffe6e6",
@@ -27,23 +27,23 @@ export const Toggles = [
     },
   },
   {
-    title: "Info",
-    value: "info",
-    icon: MdInfo,
-    color: "#507aff",
-    backgroundColor: {
-      light: "#e6ebff",
-      dark: "#203380",
-    },
-  },
-  {
-    title: "Success",
-    value: "success",
+    title: "완료됨",
+    value: "COMPLETED",
     icon: MdCheckCircle,
     color: "#0bc10b",
     backgroundColor: {
       light: "#e6ffe6",
       dark: "#208020",
+    },
+  },
+  {
+    title: "승인됨",
+    value: "APPROVED",
+    icon: MdCheckCircle,
+    color: "#507aff",
+    backgroundColor: {
+      light: "#e6ebff",
+      dark: "#203380",
     },
   },
 ];
@@ -56,8 +56,8 @@ export const Alert = createReactBlockSpec(
       textAlignment: defaultProps.textAlignment,
       textColor: defaultProps.textColor,
       type: {
-        default: "info",
-        values: ["warning", "error", "info", "success"],
+        default: "ASSIGNED",
+        values: ["ASSIGNED", "COMPLETED", "COMPLETED", "APPROVED"],
       },
     },
     content: "inline",

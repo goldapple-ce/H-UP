@@ -4,40 +4,40 @@
     align-items: center;
     flex-grow: 1;
     border-radius: 4px;
-    height: 48px;
+    height: 12px;
     padding: 4px;
 }
  
-.alert[data-alert-type="warning"] {
-    background-color: #fff6e6;
+.alert[data-alert-type="ASSIGNED"] {
+    background-color: #ffffff;
 }
  
-.alert[data-alert-type="error"] {
-    background-color: #ffe6e6;
+.alert[data-alert-type="PROGRESS"] {
+    background-color: #ffffff;
 }
  
-.alert[data-alert-type="info"] {
-    background-color: #e6ebff;
+.alert[data-alert-type="COMPLETED"] {
+    background-color: #ffffff;
 }
  
-.alert[data-alert-type="success"] {
-    background-color: #e6ffe6;
+.alert[data-alert-type="APPROVED"] {
+    background-color: #ffffff;
 }
  
-[data-color-scheme="dark"] .alert[data-alert-type="warning"] {
-    background-color: #805d20;
+[data-color-scheme="dark"] .alert[data-alert-type="ASSIGNED"] {
+    background-color: #000000;
 }
  
-[data-color-scheme="dark"] .alert[data-alert-type="error"] {
-    background-color: #802020;
+[data-color-scheme="dark"] .alert[data-alert-type="PROGRESS"] {
+    background-color: #000000;
 }
  
-[data-color-scheme="dark"] .alert[data-alert-type="info"] {
-    background-color: #203380;
+[data-color-scheme="dark"] .alert[data-alert-type="COMPLETED"] {
+    background-color: #000000;
 }
  
-[data-color-scheme="dark"] .alert[data-alert-type="success"] {
-    background-color: #208020;
+[data-color-scheme="dark"] .alert[data-alert-type="APPROVED"] {
+    background-color: #000000;
 }
  
 .alert-icon-wrapper {
@@ -53,20 +53,20 @@
     cursor: pointer;
 }
  
-.alert-icon[data-alert-icon-type="warning"] {
+.alert-icon[data-alert-icon-type="ASSIGNED"] {
     color: #e69819
 }
  
-.alert-icon[data-alert-icon-type="error"] {
-    color: #d80d0d
+.alert-icon[data-alert-icon-type="PROGRESS"] {
+    color: #540dd8
 }
  
-.alert-icon[data-alert-icon-type="info"] {
-    color: #507aff
+.alert-icon[data-alert-icon-type="COMPLETED"] {
+    color: #26e215
 }
  
-.alert-icon[data-alert-icon-type="success"] {
-    color: #0bc10b
+.alert-icon[data-alert-icon-type="APPROVED"] {
+    color: #9408ba
 }
  
 .inline-content {
