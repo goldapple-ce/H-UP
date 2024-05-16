@@ -26,21 +26,21 @@ const AgendaItem = ({ agenda, onClick }) => {
       <ul>
         <p>{formatToDate(createdAt)}</p>
       </ul>
-      <img
+      {/* <img
         className={styles.agenda__requester}
         key={requester.id}
         src={requester.img}
         alt={requester.name}
-      />
+      /> */}
       <CaretRightFill />
-      {assigneeList.map(assignee => (
+      {/* {assigneeList.map(assignee => (
         <img
           className={styles.agenda__assignee}
           key={assignee.id}
           src={assignee.img}
           alt={assignee.name}
         />
-      ))}
+      ))} */}
     </div>
   );
 };
