@@ -143,6 +143,9 @@ const BlockNote = ({ issueId }) => {
 
   const closeModal = () => {
     setModalIsOpen(false);
+    setAssignees([]);
+    setSelectedMember('');
+    setContent('');
   };
 
   const insertTodoBlock = (editor, block) => {
