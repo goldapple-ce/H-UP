@@ -12,6 +12,12 @@ export const requestIssueDetail = async issueId => {
   return await authAxios.get(`${API_URI.ISSUE}/${issueId}`);
 };
 
+// 이슈 내용 변경
+export const updateIssue = async data => {
+  return await authAxios.post(`${API_URI.UPDATE_ISSUE}`, data);
+};
+
+
 // 이슈 상태 변경
 export const updateIssueStatus = async data => {
   return await authAxios.post(`${API_URI.UPDATE_ISSUE_STATUS}`, data);
