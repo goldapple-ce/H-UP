@@ -13,6 +13,8 @@ import { useRecoilState } from 'recoil';
 import { MyCalendarState } from '@recoil/calendar';
 import { requestIssueList } from '@api/services/issue';
 import { issueState } from '@recoil/issue';
+import { authState } from '@recoil/auth';
+import UserIcon from '@component/common/UserIcon';
 
 const Container = styled.div`
   .rbc-addons-dnd {
@@ -127,7 +129,7 @@ const MyCalendar = () => {
   const [onClickEventData, setOnClickEventData] = useState();
   const [isChecked, setIsChecked] = useRecoilState(MyCalendarState);
   const [issueList, setIssueList] = useRecoilState(issueState);
-  
+  const [userInfo] = useRecoilState(authState);
   const navigate = useNavigate();
 
   moment.locale('ko-KR');
@@ -136,6 +138,7 @@ const MyCalendar = () => {
   const DragAndDropCalendar = withDragAndDrop(Calendar);
 
   const {id} = useParams();
+  const memberId = userInfo.memberId;
 
   //유즈 로 일정 데이터를 받아옴
   useEffect(() => {
@@ -152,13 +155,13 @@ const MyCalendar = () => {
       getIssueList(id);
     }
     //  이슈 받아서 변환
-    // const adjEvents = issueList.map((data) => ({
-    //     ...data,
-    //     start: formatToJSDate(data.startDate),
-    //     end: formatToJSDate(data.endDate),
-    //   }));
-    //   console.log(adjEvents);
-    //   setMyEvents(adjEvents);
+    const adjEvents = issueList.map((data) => ({
+        ...data,
+        start: formatToJSDate(data.startDate),
+        end: formatToJSDate(data.endDate),
+      }));
+      console.log(adjEvents);
+      setMyEvents(adjEvents);
     }, [issueList]);
 
 
@@ -242,7 +245,7 @@ const MyCalendar = () => {
   const loadProfileImage = issue => {
     return (
       <div className={styles.title}>
-        <img src={issue.profile} />
+        <UserIcon key={issue.id} src={issue.memberInfo.img} alt={issue.memberInfo.name} />
         <p>{issue.title}</p>
       </div>
     );
@@ -267,10 +270,10 @@ const MyCalendar = () => {
       color: 'black',
       borderRadius: '20px',
     };
-    if (isChecked && event.member !== loginDummyData.memberId) {
+    if (isChecked && event.memberInfo.id !== memberId) {
       newStyle.display = 'none';
     };
-    if (event.member === loginDummyData.memberId) {
+    if (event.memberInfo.id === memberId) {
       newStyle.backgroundColor = 'lightblue';
     };
 

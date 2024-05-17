@@ -35,7 +35,7 @@ export default function Toolbar(props) {
           checked={isChecked}
           onChange={handleCheckboxChange}
         />
-        <label htmlFor='isMine'>내 할일</label>
+        <label htmlFor='isMine'>나의 이슈</label>
       </div>
     </div>
   );
