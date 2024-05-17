@@ -9,6 +9,7 @@ const API_URI = {
   // issue
   ISSUE: '/issue',
   ISSUE_LIST: '/issue/list',
+  UPDATE_ISSUE: '/issue/update',
   UPDATE_ISSUE_STATUS: '/issue/status',
   UPDATE_ISSUE_DATE: '/issue/date',
   //team

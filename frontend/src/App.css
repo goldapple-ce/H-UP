@@ -16,4 +16,5 @@ html,
 
 main {
   flex: 1; /* Main content takes up available space */
+  margin-bottom: 50px;
 }
