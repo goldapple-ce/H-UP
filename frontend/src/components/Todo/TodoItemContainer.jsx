@@ -103,11 +103,11 @@ const TodoItemContainer = ({ Todo, setTodoList, projectId }) => {
     const contentAndDate = content + '#$%' + startDate + '#$%' + endDate;
     const newTodo = {
       todoId: Todo.id,
-      content: contentAndDate,
+      content: content,
       todoStatus: 'PROGRESS'
     };
     await ModifyTodo(newTodo);
-    const response = await GetTodoList(1);
+    const response = await GetTodoList(projectId);
     const todoList = response.data.todoInfoList;
 
     const modifiedList = todoList.map((item) => {

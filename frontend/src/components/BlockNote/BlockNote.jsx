@@ -86,6 +86,19 @@ const BlockNote = ({ issueId }) => {
   const [content, setContent] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const [teamMembers, setTeamMembers] = useState([]);
+  const [selectedMember, setSelectedMember] = useState('');
+  const [assignees, setAssignees] = useState([]);
+  const [newAssignee, setNewAssignee] = useState('');
+
+  const handleAddAssignee = async () => {
+    if (selectedMember) {
+      const response = await GetTodo(Todo.id);
+      console.log(response.data);
+      await PostTodoAssignee({todoId:Todo.id, memberIdList:[...response.data.memberInfoList, selectedMember]});
+      setTeamMembers([...response.data, selectedMember]);
+    }
+  };
 
   // Custom Slash Menu item to insert a block after the current one.
 const insertTodo = (editor) => ({
@@ -338,31 +351,47 @@ const getCustomSlashMenuItems = (
             required 
           />
         </label>
-        <label className={styles.modalLabel}>
-          Start Date:
-          <input 
-            type="date" 
-            value={startDate} 
-            onChange={(e) => setStartDate(e.target.value)} 
-            className={styles.modalInput}
-            required 
-          />
-        </label>
-        <label className={styles.modalLabel}>
-          End Date:
-          <input 
-            type="date" 
-            value={endDate} 
-            onChange={(e) => setEndDate(e.target.value)} 
-            className={styles.modalInput}
-            required 
-          />
-        </label>
+      </form>
+
+      <h2 className={styles.modalTitle}>인원 관리</h2>
+        <form className={styles.modalForm}>
+          <label className={styles.modalLabel}>
+            Add Assignee:
+            <select
+              value={selectedMember}
+              onChange={(e) => setSelectedMember(e.target.value)}
+              className={styles.modalInput}
+            >
+              <option value="">Select a member</option>
+              {teamMembers.map((member, index) => (
+                <option key={index} value={member}>
+                  {member.id}
+                </option>
+              ))}
+            </select>
+            <button type="button" onClick={handleAddAssignee} className={styles.addButton}>
+              Add
+            </button>
+          </label>
+          <ul className={styles.assigneeList}>
+            {assignees.map((assignee, index) => (
+              <li key={index} className={styles.assigneeItem}>
+                {assignee.assigneeId}
+                <button
+                  type="button"
+                  onClick={() => handleRemoveAssignee(index)}
+                  className={styles.removeButton}
+                >
+                  <FaTimes />
+                </button>
+              </li>
+            ))}
+          </ul>
+        </form>
         <div className={styles.modalButtons}>
           <button type="submit" className={styles.submitButton}>Add</button>
           <button type="button" onClick={closeModal} className={styles.cancelButton}>Cancel</button>
         </div>
-      </form>
       </Modal>
     </>
       
