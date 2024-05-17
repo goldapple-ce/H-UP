@@ -351,10 +351,10 @@ const BlockNote = ({ issueId }) => {
   return (
     <>
       <div className={styles.header}>
-        <h1 className={styles.title}>{title}</h1>
+        <h1 className={styles.title}>{title ? title : '이슈'}</h1>
         <div className={styles.dateContainer}>
-          <span className={styles.date}>Start: {startDate}</span>
-          <span className={styles.date}>End: {endDate}</span>
+          <span className={styles.date}>Start: {startDate ? startDate : '2030-05-31'}</span>
+          <span className={styles.date}>End: {endDate ? endDate : '2030-05-31'}</span>
         </div>
       </div>
 
