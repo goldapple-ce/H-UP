@@ -29,6 +29,7 @@ const MainTab = () => {
   //   }, []);
   //   ///////////////////////////////////////////////////////////////////
   const { id } = useParams();
+
   // issue
   const { isLoading: issueLoading, data: issues } = useIssueListQuery(
     parseInt(id),
@@ -37,15 +38,24 @@ const MainTab = () => {
   const setIssueList = useSetRecoilState(issueState);
 
   useEffect(() => {
-    console.log('issue changed');
-    console.log(issues);
-    if (issues)
-      setIssueList(
-        issues.map(item => ({
-          ...item,
-          title: item.title || '제목 없음',
-        })),
-      );
+    const fetchData = async () => {
+      if (Array.isArray(issues) && issues.length > 0) {
+        try {
+          console.log('issue changed');
+          console.log(issues);
+          setIssueList(
+            issues.map(item => ({
+              ...item,
+              title: item.title || '제목 없음',
+            })),
+          );
+        } catch (error) {
+          console.log(error);
+          setIssueList([]);
+        }
+      }
+    };
+    fetchData();
   }, [issues]);
 
   // to_do
@@ -90,7 +100,7 @@ const MainTab = () => {
           {!agendaLoading && <Agenda />}
         </Tab>
         <Tab groupId='1' id='5' name='캘린더'>
-          {!todoLoading && <MyCalendar todos={todos} />}
+          {!issueLoading && <MyCalendar />}
         </Tab>
       </div>
     </div>
