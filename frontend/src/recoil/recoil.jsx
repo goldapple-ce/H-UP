@@ -1,5 +1,5 @@
 import { atom, selector } from 'recoil';
-import { issueState } from "./issue";
+import { issueState } from './issue';
 
 // 이슈 List에 대한 Atom
 export const issueListState = atom({
@@ -87,8 +87,7 @@ export const fetchListState = selector({
   //   return data;
   // },
   get: ({ get }) => {
-    const list = get(issueState);
-    console.log(list);
+    const list = get(issueListState);
     return list;
   },
 });

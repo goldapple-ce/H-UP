@@ -1,16 +1,38 @@
+import { requestAgendaList } from '@api/services/agenda';
 import { agendaState } from '@recoil/agenda';
+import { authState } from '@recoil/auth';
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import styles from './Agenda.module.scss';
 import AgendaForm from './AgendaForm';
 
 export default function Agenda() {
-  const memberId = 2;
-  const [agendaList] = useRecoilState(agendaState);
-  const agendaSubmitList = agendaList.filter(
-    agenda => agenda.requester.id === memberId,
+  const [agendaList, setAgendaList] = useRecoilState(agendaState);
+  const [userInfo] = useRecoilState(authState);
+
+  const memberId = userInfo.memberId;
+  const { id } = useParams();
+
+  // Team 리스트 불러오기
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await requestAgendaList(id);
+        const agendaData = response.data.agendaList;
+        setAgendaList(agendaData);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const agendaSubmittedList = agendaList.filter(
+    data => data.agenda.requester.id === memberId,
   );
-  const agendaSendList = agendaList.reduce((list, data) => {
-    if (data.assigneeList.some(assignee => assignee.id === memberId)) {
+  const agendaReceivedList = agendaList.reduce((list, data) => {
+    if (data.agenda.assigneeList.some(assignee => assignee.id === memberId)) {
       list.push(data);
     }
     return list;
@@ -31,7 +53,7 @@ export default function Agenda() {
             받은 의사결정
           </label>
           <div className={styles.tab__content}>
-            <AgendaForm agendaList={agendaSubmitList} />
+            <AgendaForm agendaList={agendaReceivedList} />
           </div>
         </div>
 
@@ -48,7 +70,7 @@ export default function Agenda() {
           </label>
 
           <div className={styles.tab__content}>
-            <AgendaForm agendaList={agendaSendList} />
+            <AgendaForm agendaList={agendaSubmittedList} />
           </div>
         </div>
 

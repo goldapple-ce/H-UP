@@ -2,12 +2,30 @@ import { issueState } from '@recoil/issue';
 import { useRecoilState } from 'recoil';
 import styles from './IssueForm.module.scss';
 import IssueItemContainer from './IssueItemContainer';
+import { useParams } from 'react-router-dom';
 
 const IssueForm = () => {
   const [issueList, setIssueList] = useRecoilState(issueState);
   // const { startLoading, finishLoading } = MyLayout.useLoading();
   // const { openDialog } = MyLayout.useDialog();
-  console.log(issueList);
+
+  // const { id } = useParams(); // Get the project ID from useParams hook
+
+  // const getIssueList = async (id) => {
+  //   try {
+  //     const response = await LoadIssueList(id);
+  //     setIssueList(response.data.responseList);
+  //   } catch (error) {
+  //     console.error('Error fetching initial content:', error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   if (id > 0) {
+  //     getIssueList(id);
+  //   }
+  // }, [id]);
+
   const imminentDate = issue => {
     const date = issue.endDate;
     if (!date) {

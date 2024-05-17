@@ -1,9 +1,7 @@
-import { useState } from 'react';
 import playIcon from '@asset/img/play_icon.png';
-import styles from './TodoItem.module.scss';
 import UserIcon from '@component/common/UserIcon';
-import { Arrow90degRight } from 'styled-icons/bootstrap';
-import { ArrowIosForward } from 'styled-icons/evaicons-solid';
+import { useState } from 'react';
+import styles from './TodoItem.module.scss';
 
 const TodoItem = ({ todo }) => {
   const { todoId, content, status, requesterInfo, assigneeInfo } = todo;

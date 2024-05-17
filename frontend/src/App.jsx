@@ -19,8 +19,12 @@ function App() {
     <>
       <Router>
         <NavBar />
-        <MenuSidebar />
-        <MessengerSidebar />
+        {userInfo.isLogin ? (
+          <>
+            <MenuSidebar />
+            <MessengerSidebar />
+          </>
+            ) : null}
         <main>
           <Routes>
             {!userInfo.isLogin ? (
@@ -35,6 +39,7 @@ function App() {
             </Route>
           </Routes>
         </main>
+
         <Footer />
       </Router>
     </>
