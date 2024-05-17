@@ -74,7 +74,6 @@ function KanbanIssueItem({ item }) {
   };
 
   useEffect(() => {
-    console.log(STATUS_COLOR);
     setCardColor(STATUS_COLOR[item.status]);
   }, []);
 

@@ -3,33 +3,29 @@ import {
   defaultBlockSpecs,
   filterSuggestionItems,
   insertOrUpdateBlock,
-} from "@blocknote/core";
-import { LoadIssueData } from '@api/services/issue';
+} from '@blocknote/core';
 import '@blocknote/core/fonts/inter.css';
 import { BlockNoteView } from '@blocknote/mantine';
 import '@blocknote/mantine/style.css';
 import {
-  getDefaultReactSlashMenuItems,
   SuggestionMenuController,
+  getDefaultReactSlashMenuItems,
   useCreateBlockNote,
-} from "@blocknote/react";
+} from '@blocknote/react';
 import { authState } from '@recoil/auth';
-import Modal from 'react-modal';
 import { Stomp } from '@stomp/stompjs';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { HiOutlineGlobeAlt } from 'react-icons/hi';
+import Modal from 'react-modal';
 import { useRecoilState } from 'recoil';
 import SockJS from 'sockjs-client';
 import * as Y from 'yjs';
-import './IssueEditorPageBlockNote.css';
 import styles from '../Todo/Todo.module.scss';
-import { HiOutlineGlobeAlt } from "react-icons/hi";
-import { PostTodo, PostTodoAssignee } from "@api/services/todoapi";
+import './IssueEditorPageBlockNote.css';
 //import { RiAlertFill } from "react-icons/ri";
-import { Alert } from "./Alert";
-import { authAxios } from "@api/index";
-import { FaPencilAlt, FaTimes, FaUser } from 'react-icons/fa'; // 아이콘 추가
-
-
+import { requestTeamMemberList } from '@api/services/team';
+import { FaTimes } from 'react-icons/fa'; // 아이콘 추가
+import { Alert } from './Alert';
 
 const schema = BlockNoteSchema.create({
   blockSpecs: {
@@ -80,7 +76,6 @@ async function uploadFile(file) {
 }
 
 const BlockNote = ({ issueId }) => {
-  
   const [userInfo] = useRecoilState(authState);
   const stompClient = useRef(null);
   const ydoc = useRef(new Y.Doc()).current;
@@ -96,7 +91,7 @@ const BlockNote = ({ issueId }) => {
   useEffect(() => {
     async function fetchTeamMembers() {
       try {
-        const response = await authAxios.get(`https://h-up.site/api/team/members/${issueId}`);
+        const response = requestTeamMemberList(issueId);
         setTeamMembers(response.data.memberInfoList);
       } catch (error) {
         console.error('Error fetching team members:', error);
@@ -107,91 +102,88 @@ const BlockNote = ({ issueId }) => {
 
   const handleAddAssignee = async () => {
     if (selectedMember && !assignees.includes(selectedMember)) {
-      const addobject = JSON.parse(selectedMember)
-      setAssignees([...assignees, addobject]);
+      const addObject = JSON.parse(selectedMember);
+      setAssignees([...assignees, addObject]);
     }
   };
 
-  const handleRemoveAssignee = async (index) => {
+  const handleRemoveAssignee = async index => {
     const ToDeleteAssignee = assignees.filter((_, i) => i !== index);
     setAssignees(ToDeleteAssignee);
   };
 
   // Custom Slash Menu item to insert a block after the current one.
-const insertTodo = (editor) => ({
-  title: "Make Todolist",
-  onItemClick: openModal,
-  aliases: ["todolist", "todo"],
-  group: "Other",
-  icon: <HiOutlineGlobeAlt size={18} />,
-  subtext: "Making TodoList",
-});
+  const insertTodo = editor => ({
+    title: 'Make Todolist',
+    onItemClick: openModal,
+    aliases: ['todolist', 'todo'],
+    group: 'Other',
+    icon: <HiOutlineGlobeAlt size={18} />,
+    subtext: 'Making TodoList',
+  });
 
-// List containing all default Slash Menu Items, as well as our custom one.
-const getCustomSlashMenuItems = (
-  editor
-) => [
-  ...getDefaultReactSlashMenuItems(editor),
-  insertTodo(editor),
-  //insertToggle(editor)
-];
+  // List containing all default Slash Menu Items, as well as our custom one.
+  const getCustomSlashMenuItems = editor => [
+    ...getDefaultReactSlashMenuItems(editor),
+    insertTodo(editor),
+    //insertToggle(editor)
+  ];
 
   const openModal = () => {
     setModalIsOpen(true);
-  }
+  };
 
   const closeModal = () => {
     setModalIsOpen(false);
-  }
+  };
 
   const insertTodoBlock = (editor, block) => {
     const currentBlock = editor.getTextCursorPosition().block;
     editor.updateBlock(currentBlock, block);
-  } 
+  };
 
-  const insertAlert = (editor) => ({
-    title: "Alert",
+  const insertAlert = editor => ({
+    title: 'Alert',
     onItemClick: () => {
       insertOrUpdateBlock(editor, {
-        type: "alert",
+        type: 'alert',
       });
     },
     aliases: [
-      "alert",
-      "notification",
-      "emphasize",
-      "warning",
-      "error",
-      "info",
-      "success",
+      'alert',
+      'notification',
+      'emphasize',
+      'warning',
+      'error',
+      'info',
+      'success',
     ],
-    group: "Other",
+    group: 'Other',
     icon: <RiAlertFill />,
   });
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     //console.log(contentAndDate);
     const newTodo = {
-      issueId:issueId,
-      content:content
+      issueId: issueId,
+      content: content,
     };
     const response = await PostTodo(newTodo);
     const responsetodoId = response.data.todoId;
 
     for (let i = 0; i < assignees.length; ++i) {
-      const data = {todoId: responsetodoId, memberId:assignees[i].id};
+      const data = { todoId: responsetodoId, memberId: assignees[i].id };
       PostTodoAssignee(data);
     }
 
     const newTodoBlock = {
-      type:"alert",
-      content: content
-    }
+      type: 'alert',
+      content: content,
+    };
     closeModal();
     insertTodoBlock(editor, newTodoBlock);
-  }
-
+  };
 
   const editor = useCreateBlockNote({
     schema,
@@ -316,7 +308,6 @@ const getCustomSlashMenuItems = (
     }
   }, [ydoc, userInfo.memberId, issueId]);
 
-
   function chunkMessage(update) {
     const updateArray = Array.from(update);
     const totalChunks = Math.max(1, Math.ceil(updateArray.length / 3000));
@@ -344,52 +335,61 @@ const getCustomSlashMenuItems = (
 
   return (
     <>
-        <BlockNoteView editor={editor} slashMenu={false} onChange={handleEditorChange} data-theming-css-variables-demo>
+      <BlockNoteView
+        editor={editor}
+        slashMenu={false}
+        onChange={handleEditorChange}
+        data-theming-css-variables-demo
+      >
         <SuggestionMenuController
-        triggerCharacter={"/"}
-        // Replaces the default Slash Menu items with our custom ones.
-        getItems={async (query) =>
-          filterSuggestionItems(getCustomSlashMenuItems(editor), query)
-        }
-      />
+          triggerCharacter={'/'}
+          // Replaces the default Slash Menu items with our custom ones.
+          getItems={async query =>
+            filterSuggestionItems(getCustomSlashMenuItems(editor), query)
+          }
+        />
       </BlockNoteView>
 
-      <Modal 
-      isOpen={modalIsOpen} 
-      onRequestClose={closeModal} 
-      className={styles.modal} 
-      overlayClassName={styles.overlay}
-      ariaHideApp={false}
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        className={styles.modal}
+        overlayClassName={styles.overlay}
+        ariaHideApp={false}
       >
-      <h2 className={styles.modalTitle}>할 일 추가</h2>
-      <form onSubmit={handleSubmit} className={styles.modalForm}>
-        <label className={styles.modalLabel}>
-          Content:
-          <input 
-            type="text" 
-            value={content} 
-            onChange={(e) => setContent(e.target.value)} 
-            className={styles.modalInput}
-            required 
-          />
-        </label>
+        <h2 className={styles.modalTitle}>할 일 추가</h2>
+        <form onSubmit={handleSubmit} className={styles.modalForm}>
+          <label className={styles.modalLabel}>
+            Content:
+            <input
+              type='text'
+              value={content}
+              onChange={e => setContent(e.target.value)}
+              className={styles.modalInput}
+              required
+            />
+          </label>
 
-      <h2 className={styles.modalTitle}>인원 관리</h2>
+          <h2 className={styles.modalTitle}>인원 관리</h2>
           <label className={styles.modalLabel}>
             Add Assignee:
             <select
               value={selectedMember}
-              onChange={(e) => setSelectedMember(e.target.value)}
+              onChange={e => setSelectedMember(e.target.value)}
               className={styles.modalInput}
             >
-              <option value="">Select a member</option>
+              <option value=''>Select a member</option>
               {teamMembers.map((member, index) => (
                 <option key={index} value={JSON.stringify(member)}>
                   {member.name}
                 </option>
               ))}
             </select>
-            <button type="button" onClick={handleAddAssignee} className={styles.addButton}>
+            <button
+              type='button'
+              onClick={handleAddAssignee}
+              className={styles.addButton}
+            >
               Add
             </button>
           </label>
@@ -398,7 +398,7 @@ const getCustomSlashMenuItems = (
               <li key={index} className={styles.assigneeItem}>
                 {assignee.name}
                 <button
-                  type="button"
+                  type='button'
                   onClick={() => handleRemoveAssignee(index)}
                   className={styles.removeButton}
                 >
@@ -407,16 +407,22 @@ const getCustomSlashMenuItems = (
               </li>
             ))}
           </ul>
-        <div className={styles.modalButtons}>
-          <button type="submit" className={styles.submitButton}>Add</button>
-          <button type="button" onClick={closeModal} className={styles.cancelButton}>Cancel</button>
-        </div>
+          <div className={styles.modalButtons}>
+            <button type='submit' className={styles.submitButton}>
+              Add
+            </button>
+            <button
+              type='button'
+              onClick={closeModal}
+              className={styles.cancelButton}
+            >
+              Cancel
+            </button>
+          </div>
         </form>
-        
       </Modal>
     </>
-      
   );
-}
+};
 
 export default BlockNote;

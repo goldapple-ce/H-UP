@@ -39,7 +39,13 @@ const MainTab = () => {
   useEffect(() => {
     console.log('issue changed');
     console.log(issues);
-    setIssueList(issues);
+    if (issues)
+      setIssueList(
+        issues.map(item => ({
+          ...item,
+          title: item.title || '제목 없음',
+        })),
+      );
   }, [issues]);
 
   // to_do

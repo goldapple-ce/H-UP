@@ -23,9 +23,7 @@ export default function Kanban() {
           data.status === cardTitle &&
           data.title.toLowerCase().includes(searchInput),
       )
-      .map(item => {
-        return <KanbanIssueItem key={item.issueId} item={item} />;
-      });
+      .map(item => <KanbanIssueItem key={item.issueId} item={item} />);
   };
 
   return (
@@ -41,7 +39,6 @@ export default function Kanban() {
             {issueList
               .reduce((uniqueImages, data) => {
                 data.assigneeInfoList.map(info => {
-                  console.log(info);
                   const imgUrl = info.img;
                   if (
                     !uniqueImages.some(prevImage => prevImage.id === info.id)

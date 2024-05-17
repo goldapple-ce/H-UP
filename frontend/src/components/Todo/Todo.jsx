@@ -1,42 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import { requestProjectMemberList } from '@api/services/project';
+import { requestTodoList } from '@api/services/todo';
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import styles from './Todo.module.scss';
 import TodoForm from './TodoForm';
-import { TodoListState } from '@recoil/todolist';
-import { useParams } from 'react-router-dom';
-import { GetTodoList, PostTodo } from '@api/services/todoapi';
-import { authAxios } from '@api/index';
+import { todoState } from '@recoil/todo';
 
 export default function Todo() {
-  const [TodoList, setTodoList] = useRecoilState(TodoListState);
-  const { id } = useParams();
+  const [todoList, setTodoList] = useRecoilState(todoState);
+  const { projectId } = useParams();
 
   useEffect(() => {
-    const getTodoList = async () => {
-      const response = await GetTodoList(id);
-      const todoList = response.data.todoInfoList;
-      const memberResponse = await authAxios.get(
-        `https://h-up.site/api/project/members/${id}`,
-      );
-      const modifiedList = todoList.map(item => {
-        const [content, createdAt, endAt] = item.content.split('#$%');
-        return {
-          id: item.todoId,
-          content,
-          createdAt,
-          endAt,
-          assigneeList: memberResponse.data.memberInfoList,
-        };
-      });
-
-      setTodoList(modifiedList);
-    };
-    getTodoList();
-  }, [setTodoList]);
+    console.log(todoList);
+  }, [todoList]);
 
   return (
     <div className={styles.Todo}>
-      <TodoForm TodoList={TodoList} setTodoList={setTodoList} projectId={id} />
+      <TodoForm todoList={todoList} projectId={projectId} />
     </div>
   );
 }
