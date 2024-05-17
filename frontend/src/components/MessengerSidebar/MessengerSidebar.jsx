@@ -51,7 +51,7 @@ const MessengerSidebar = (
                   {/* Replace with your chat routing */}
                   <div className={styles.userInfo}>
                     <img src={user.avatar} alt={user.name} />
-                    <span>{user.name}</span>
+                    <sidebarSpan>{user.name}</sidebarSpan>
                     {/* <ChatDots className={styles.chatdots}/> */}
                   </div>
                 </Link>

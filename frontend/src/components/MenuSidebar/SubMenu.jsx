@@ -35,7 +35,7 @@ const SubMenu = ({ item }) => {
       >
         <div>
           <div>
-            <span>{item.name}</span>
+            <subMenuSpan>{item.name}</subMenuSpan>
           </div>
           <div>
             {issueList && subnav
@@ -54,7 +54,7 @@ const SubMenu = ({ item }) => {
                 to={`/issue/${item.issueId}`}
                 key={index}
               >
-                <span>{item.title}</span>
+                <subMenuSpan>{item.title}</subMenuSpan>
               </Link>
             );
           })}
@@ -74,7 +74,7 @@ export default SubMenu;
         <div>
           <div>
             {item.icon}
-            <span>{item.title}</span>
+            <subMenuSpan>{item.title}</subMenuSpan>
           </div>
           <div>
             {item.subNav && subnav
@@ -94,7 +94,7 @@ export default SubMenu;
               key={index}
             >
               {item.icon}
-              <span>{item.title}</span>
+              <subMenuSpan>{item.title}</subMenuSpan>
             </Link>
           );
         })} */}

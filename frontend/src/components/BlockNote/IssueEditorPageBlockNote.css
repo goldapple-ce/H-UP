@@ -1,4 +1,4 @@
-/* BlockNote CSS customization */
+BlockNote CSS customization
 .bn-container[data-theming-css-variables-demo][data-color-scheme] {
     --bn-colors-editor-text: #3f3f3f;
     --bn-colors-editor-background: #ffffff;
@@ -55,4 +55,20 @@
 
   .bn-container[data-theming-css-variables-demo] .bn-side-menu {
     color:#3f3f3f;
+  }
+
+  .bn-container[data-theming-css-variables-demo] .bn_toolbar {
+    margin-left: 0;
+    padding: 0;
+  }
+
+  .bn-container[data-theming-css-variables-demo] .bn-suggestion-menu {
+    margin: 10px 0;
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+
+    img {
+      height: auto;
+    }
   }

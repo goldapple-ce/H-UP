@@ -1,0 +1,74 @@
+.alert {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    border-radius: 4px;
+    height: 12px;
+    padding: 4px;
+}
+ 
+.alert[data-alert-type="ASSIGNED"] {
+    background-color: #ffffff;
+}
+ 
+.alert[data-alert-type="PROGRESS"] {
+    background-color: #ffffff;
+}
+ 
+.alert[data-alert-type="COMPLETED"] {
+    background-color: #ffffff;
+}
+ 
+.alert[data-alert-type="APPROVED"] {
+    background-color: #ffffff;
+}
+ 
+[data-color-scheme="dark"] .alert[data-alert-type="ASSIGNED"] {
+    background-color: #000000;
+}
+ 
+[data-color-scheme="dark"] .alert[data-alert-type="PROGRESS"] {
+    background-color: #000000;
+}
+ 
+[data-color-scheme="dark"] .alert[data-alert-type="COMPLETED"] {
+    background-color: #000000;
+}
+ 
+[data-color-scheme="dark"] .alert[data-alert-type="APPROVED"] {
+    background-color: #000000;
+}
+ 
+.alert-icon-wrapper {
+    border-radius: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 12px;
+    margin-right: 12px;
+    height: 18px;
+    width: 18px;
+    user-select: none;
+    cursor: pointer;
+}
+ 
+.alert-icon[data-alert-icon-type="ASSIGNED"] {
+    color: #e69819
+}
+ 
+.alert-icon[data-alert-icon-type="PROGRESS"] {
+    color: #540dd8
+}
+ 
+.alert-icon[data-alert-icon-type="COMPLETED"] {
+    color: #26e215
+}
+ 
+.alert-icon[data-alert-icon-type="APPROVED"] {
+    color: #9408ba
+}
+ 
+.inline-content {
+    flex-grow: 1;
+}
