@@ -34,7 +34,7 @@ public class ProjectFacade {
      * @description
      */
     @Transactional
-    public void save(int memberId, ProjectDTO.Save request){
+    public void save(int memberId, ProjectDTO.SaveProject request){
         Member member = memberService.findById(memberId);
         Team team = teamService.findById(request.getTeamId());
         validation(member,team);
@@ -47,7 +47,7 @@ public class ProjectFacade {
      * @description 프로젝트 멤버 저장
      */
     @Transactional
-    public void saveProjectMember(int memberId, ProjectDTO.AddMember request) {
+    public void saveProjectMember(int memberId, ProjectDTO.AddProjectMember request) {
         Member member = memberService.findById(memberId);
         Project project = projectService.findById(request.getProjectId());
         validation(member,project.getTeam());
@@ -86,9 +86,9 @@ public class ProjectFacade {
      * @date 2024-05-10
      * @description
      */
-    public ProjectDTO.ResponseList findByTeam(Integer teamId) {
+    public ProjectDTO.ProjectInfoList findByTeam(Integer teamId) {
         Team team = teamService.findById(teamId);
         List<Project> projectList = projectService.findAllByTeam(team);
-        return ProjectDTO.ResponseList.from(projectList);
+        return ProjectDTO.ProjectInfoList.from(projectList);
     }
 }

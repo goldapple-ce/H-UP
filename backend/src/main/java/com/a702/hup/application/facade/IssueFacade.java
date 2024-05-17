@@ -7,20 +7,16 @@ import com.a702.hup.domain.documents.redis.DocumentsRedisService;
 import com.a702.hup.domain.issue.IssueService;
 import com.a702.hup.domain.issue.entity.Issue;
 import com.a702.hup.domain.issue_member.IssueMemberService;
-import com.a702.hup.domain.issue_member.entity.IssueMember;
-import com.a702.hup.domain.member.MemberException;
 import com.a702.hup.domain.member.MemberService;
 import com.a702.hup.domain.member.entity.Member;
 import com.a702.hup.domain.project.ProjectService;
 import com.a702.hup.domain.project.entity.Project;
 import com.a702.hup.domain.project_member.ProjectMemberService;
-import com.a702.hup.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -54,7 +50,7 @@ public class IssueFacade {
     }
 
     @Transactional
-    public IssueDTO.Response update(int memberId, IssueDTO.Update request) {
+    public IssueDTO.IssueInfo update(int memberId, IssueDTO.Update request) {
         log.info("[+] issueFacade :: update :: start");
         Issue issue = issueService.update(request);
         Member member = memberService.findById(memberId);
@@ -63,7 +59,7 @@ public class IssueFacade {
         issue.updateIssue(request);
         log.info("[+] issueFacade :: update :: update info end");
 
-        return IssueDTO.Response.from(issue);
+        return IssueDTO.IssueInfo.from(issue);
     }
 
     /**
@@ -71,7 +67,7 @@ public class IssueFacade {
      * @date 2024-05-08
      * @description 프로젝트 별 이슈 조회
      **/
-    public IssueDTO.ResponseList findByProject(int memberId, int projectId){
+    public IssueDTO.IssueInfoList findByProject(int memberId, int projectId){
         log.info("[+] IssueFacade :: findByProject :: start");
 
         // member 확인
@@ -84,9 +80,9 @@ public class IssueFacade {
         List<Issue> issueList = issueService.findByProjectId(projectId);
         log.info("[+] IssueFacade :: findByProject :: IssueList Size : {}", issueList.size());
 
-        return IssueDTO.ResponseList.builder()
-                .responseList(issueList.stream()
-                        .map(IssueDTO.Response::from)
+        return IssueDTO.IssueInfoList.builder()
+                .issueInfoList(issueList.stream()
+                        .map(IssueDTO.IssueInfo::from)
                         .toList()
                 ).build();
     }
@@ -98,9 +94,9 @@ public class IssueFacade {
      * @date 2024-05-07
      * @description 상세 조회 (제목, 날짜, 소속 프로젝트, 생성자) (내용은 X)
      **/
-    public IssueDTO.DetailResponse findIssueDetailsById(Integer issueId) {
+    public IssueDTO.IssueDetail findIssueDetailsById(Integer issueId) {
         Issue issue = issueService.findById(issueId);
-        return IssueDTO.DetailResponse.toResponse(
+        return IssueDTO.IssueDetail.toResponse(
                 issue,
                 documentsRedisService.getDocumentsContent(
                         documentsRedisService.findDocumentRedisById(Integer.toString(issueId))),

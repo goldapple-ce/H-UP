@@ -10,13 +10,13 @@ public class TeamDTO {
 
     @Getter
     @Builder
-    public static class Response {
+    public static class TeamInfo {
         private int teamId;
         private String teamName;
         private String teamImg;
 
-        public static Response from(Team team) {
-            return Response.builder()
+        public static TeamInfo from(Team team) {
+            return TeamInfo.builder()
                     .teamId(team.getId())
                     .teamName(team.getName())
                     .teamImg(team.getImg())
@@ -26,8 +26,8 @@ public class TeamDTO {
 
     @Getter
     @Builder
-    public static class ResponseList {
-        private List<Response> responseList;
+    public static class TeamInfoList {
+        private List<TeamInfo> teamInfoList;
     }
 
 }

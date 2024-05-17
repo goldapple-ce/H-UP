@@ -11,7 +11,7 @@ import java.util.List;
 public class ProjectDTO {
 
     @Getter
-    public static class Save {
+    public static class SaveProject {
         @NotNull
         private int teamId;
         @NotBlank
@@ -19,7 +19,7 @@ public class ProjectDTO {
     }
 
     @Getter
-    public static class AddMember {
+    public static class AddProjectMember {
         @NotNull
         private int projectId;
         @NotNull
@@ -28,27 +28,27 @@ public class ProjectDTO {
 
     @Getter
     @AllArgsConstructor
-    public static class Response {
+    public static class ProjectInfo {
         private int id;
         private String name;
         private String img;
 
-        public static Response of(Project project){
-            return new Response(project.getId(), project.getName(), project.getImg());
+        public static ProjectInfo of(Project project){
+            return new ProjectInfo(project.getId(), project.getName(), project.getImg());
         }
     }
 
     @Getter
     @AllArgsConstructor
-    public static class ResponseList {
-        private List<Response> responseList;
+    public static class ProjectInfoList {
+        private List<ProjectInfo> projectInfoList;
 
-        public static ResponseList from(List<Project> projectList){
-            List<Response> responseList = projectList.stream()
-                    .map(Response::of)
+        public static ProjectInfoList from(List<Project> projectList){
+            List<ProjectInfo> projectInfoList = projectList.stream()
+                    .map(ProjectInfo::of)
                     .toList();
 
-            return new ResponseList(responseList);
+            return new ProjectInfoList(projectInfoList);
         }
     }
 }

@@ -33,7 +33,7 @@ public class IssueDTO {
 
     @Getter
     @Builder
-    public static class Response {
+    public static class IssueInfo {
         private int issueId;
         private String title;
         private IssueStatus status;
@@ -44,8 +44,8 @@ public class IssueDTO {
         private MemberDTO.MemberInfo memberInfo;
         private List<MemberDTO.MemberInfo> assigneeInfoList;
 
-        public static Response from(Issue issue) {
-            return Response.builder()
+        public static IssueInfo from(Issue issue) {
+            return IssueInfo.builder()
                     .issueId(issue.getId())
                     .title(issue.getTitle())
                     .status(issue.getStatus())
@@ -61,7 +61,7 @@ public class IssueDTO {
 
     @Getter
     @Builder
-    public static class DetailResponse {
+    public static class IssueDetail {
         private String title;
         private String content;
         private LocalDate startDate;
@@ -71,14 +71,14 @@ public class IssueDTO {
         private MemberDTO.MemberInfo producerInfo;
         private List<MemberDTO.MemberInfo> assigneeInfoList;
 
-        public static DetailResponse toResponse(
+        public static IssueDetail toResponse(
                 Issue issue,
                 String content,
                 Project project,
                 Member member,
                 List<MemberDTO.MemberInfo> memberInfoList
         ) {
-            return DetailResponse.builder()
+            return IssueDetail.builder()
                     .title(issue.getTitle())
                     .content(content)
                     .startDate(issue.getStartDate())
@@ -93,7 +93,7 @@ public class IssueDTO {
 
     @Getter
     @Builder
-    public static class ResponseList {
-        private List<Response> responseList;
+    public static class IssueInfoList {
+        private List<IssueInfo> issueInfoList;
     }
 }

@@ -22,7 +22,7 @@ public class ProjectController {
     @PostMapping
     public ResponseEntity<Void> save(
             @AuthenticationPrincipal(errorOnInvalidType = true) SecurityUserDetailsDto user,
-            @Valid @RequestBody ProjectDTO.Save request
+            @Valid @RequestBody ProjectDTO.SaveProject request
     ) {
         projectFacade.save(user.memberId(), request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -31,7 +31,7 @@ public class ProjectController {
     @PostMapping("/member")
     public ResponseEntity<Void> saveProjectMember(
             @AuthenticationPrincipal(errorOnInvalidType = true) SecurityUserDetailsDto user,
-            @Valid @RequestBody ProjectDTO.AddMember request) {
+            @Valid @RequestBody ProjectDTO.AddProjectMember request) {
         projectFacade.saveProjectMember(user.memberId(), request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -47,7 +47,7 @@ public class ProjectController {
      * @description
      */
     @GetMapping("/list/team/{teamId}")
-    public ResponseEntity<ProjectDTO.ResponseList> findMembers(@PathVariable Integer teamId) {
+    public ResponseEntity<ProjectDTO.ProjectInfoList> findMembers(@PathVariable Integer teamId) {
         return ResponseEntity.ok(projectFacade.findByTeam(teamId));
     }
 }

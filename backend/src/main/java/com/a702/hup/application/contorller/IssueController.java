@@ -28,7 +28,7 @@ public class IssueController {
     }
 
     @PostMapping("/update")
-    public ResponseEntity<IssueDTO.Response> update(
+    public ResponseEntity<IssueDTO.IssueInfo> update(
             @AuthenticationPrincipal(errorOnInvalidType = true) SecurityUserDetailsDto user,
             @RequestBody @Valid IssueDTO.Update updateRequestDto
     ) {
@@ -43,7 +43,7 @@ public class IssueController {
      * @description 프로젝트 별 이슈 조회
      **/
     @GetMapping("/list/{projectId}")
-    public ResponseEntity<IssueDTO.ResponseList> findIssueByProjectId(
+    public ResponseEntity<IssueDTO.IssueInfoList> findIssueByProjectId(
             @AuthenticationPrincipal(errorOnInvalidType = true) SecurityUserDetailsDto user,
             @PathVariable int projectId
     ) {
@@ -53,7 +53,7 @@ public class IssueController {
     }
 
     @GetMapping("/{issueId}")
-    public ResponseEntity<IssueDTO.DetailResponse> findIssueDetails(@PathVariable Integer issueId) {
+    public ResponseEntity<IssueDTO.IssueDetail> findIssueDetails(@PathVariable Integer issueId) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(issueFacade.findIssueDetailsById(issueId));
