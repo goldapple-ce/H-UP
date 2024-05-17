@@ -28,15 +28,15 @@ export default function Agenda() {
     fetchData();
   }, []);
 
-  const agendaSubmittedList = agendaList.filter(
-    data => data.agenda.requester.id === memberId,
-  );
-  const agendaReceivedList = agendaList.reduce((list, data) => {
-    if (data.agenda.assigneeList.some(assignee => assignee.id === memberId)) {
-      list.push(data);
-    }
-    return list;
-  }, []);
+  // const agendaSubmittedList = agendaList.filter(
+  //   data => data.agenda.requester.id === memberId,
+  // );
+  // const agendaReceivedList = agendaList.reduce((list, data) => {
+  //   if (data.agenda.assigneeList.some(assignee => assignee.id === memberId)) {
+  //     list.push(data);
+  //   }
+  //   return list;
+  // }, []);
 
   return (
     <div className={styles.agenda}>
@@ -53,7 +53,7 @@ export default function Agenda() {
             받은 의사결정
           </label>
           <div className={styles.tab__content}>
-            <AgendaForm agendaList={agendaReceivedList} />
+            {/* <AgendaForm agendaList={agendaReceivedList} /> */}
           </div>
         </div>
 
@@ -70,7 +70,7 @@ export default function Agenda() {
           </label>
 
           <div className={styles.tab__content}>
-            <AgendaForm agendaList={agendaSubmittedList} />
+            {/* <AgendaForm agendaList={agendaSubmittedList} /> */}
           </div>
         </div>
 

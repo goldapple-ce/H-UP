@@ -1,18 +1,20 @@
-import { requestIssueList } from '@api/services/issue';
-import { MyCalendarState } from '@recoil/calendar';
-import { issueState } from '@recoil/issue';
 import moment from 'moment';
 import { useCallback, useEffect, useState } from 'react';
 import { Calendar, Views, momentLocalizer } from 'react-big-calendar';
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
 import { styled } from 'styled-components';
-import { loginDummyData } from './../../test/userData';
 import styles from './Calendar.module.scss';
 import events from './Events';
 import Toolbar from './Toolbar';
+import { loginDummyData } from './../../test/userData';
+import { useRecoilState } from 'recoil';
+import { MyCalendarState } from '@recoil/calendar';
+import { requestIssueList } from '@api/services/issue';
+import { issueState } from '@recoil/issue';
+import { authState } from '@recoil/auth';
+import UserIcon from '@component/common/UserIcon';
 
 const Container = styled.div`
   .rbc-addons-dnd {
@@ -127,7 +129,7 @@ const MyCalendar = () => {
   const [onClickEventData, setOnClickEventData] = useState();
   const [isChecked, setIsChecked] = useRecoilState(MyCalendarState);
   const [issueList, setIssueList] = useRecoilState(issueState);
-
+  const [userInfo] = useRecoilState(authState);
   const navigate = useNavigate();
 
   moment.locale('ko-KR');
@@ -135,30 +137,34 @@ const MyCalendar = () => {
   // Drag & Drop으로 변경
   const DragAndDropCalendar = withDragAndDrop(Calendar);
 
-  const { projectId } = useParams();
+  const {id} = useParams();
+  const memberId = userInfo.memberId;
 
   //유즈 로 일정 데이터를 받아옴
   useEffect(() => {
+    
     if (issueList.length === 0) {
-      const getIssueList = async projectId => {
+      const getIssueList = async (id) => {
         try {
-          const response = requestIssueList(projectId);
-          setIssueList(response.data.responseList);
+          const response = await requestIssueList(id);
+          setIssueList(response.data.issueInfoList);
         } catch (error) {
           console.error('Error fetching initial content:', error);
         }
       };
-      getIssueList(projectId);
+      getIssueList(id);
     }
     //  이슈 받아서 변환
-    // const adjEvents = issueList.map((data) => ({
-    //     ...data,
-    //     start: formatToJSDate(data.startDate),
-    //     end: formatToJSDate(data.endDate),
-    //   }));
-    //   console.log(adjEvents);
-    //   setMyEvents(adjEvents);
-  }, [issueList]);
+    const adjEvents = issueList.map((data) => ({
+        ...data,
+        start: formatToJSDate(data.startDate),
+        end: formatToJSDate(data.endDate),
+      }));
+      console.log(adjEvents);
+      setMyEvents(adjEvents);
+    }, [issueList]);
+
+
 
   //DB에서 들어오는 DATE 값을 JAVASCRIPT양식으로 바꿔주는 함수
   function formatToJSDate(oracleDateStr) {
@@ -239,7 +245,7 @@ const MyCalendar = () => {
   const loadProfileImage = issue => {
     return (
       <div className={styles.title}>
-        <img src={issue.profile} />
+        <UserIcon key={issue.id} src={issue.memberInfo.img} alt={issue.memberInfo.name} />
         <p>{issue.title}</p>
       </div>
     );
@@ -264,12 +270,12 @@ const MyCalendar = () => {
       color: 'black',
       borderRadius: '20px',
     };
-    if (isChecked && event.member !== loginDummyData.memberId) {
+    if (isChecked && event.memberInfo.id !== memberId) {
       newStyle.display = 'none';
-    }
-    if (event.member === loginDummyData.memberId) {
+    };
+    if (event.memberInfo.id === memberId) {
       newStyle.backgroundColor = 'lightblue';
-    }
+    };
 
     return {
       className: '',
@@ -313,7 +319,7 @@ const MyCalendar = () => {
   return (
     <Container>
       <DragAndDropCalendar
-        style={{ height: 500 }}
+        style={{ height: '540px' }}
         components={{
           toolbar: Toolbar,
           month: {

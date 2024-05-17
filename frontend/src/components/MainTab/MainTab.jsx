@@ -62,16 +62,17 @@ const MainTab = () => {
   }, [todos]);
 
   // agendas
-  // const { isLoading: agendaLoading, data: agendas } = useAgendaListQuery(
-  //   parseInt(id),
-  //   {},
-  // );
+  const { isLoading: agendaLoading, data: agendas } = useAgendaListQuery(
+    parseInt(id),
+    {},
+  );
 
-  // const setAgendaList = useSetRecoilState(agendaState);
+  const setAgendaList = useSetRecoilState(agendaState);
 
-  // useEffect(() => {
-  //   setAgendaList(agendas);
-  // }, [agendas]);
+  useEffect(() => {
+    console.log(agendas)
+    setAgendaList(agendas);
+  }, [agendas]);
 
   // state
 
@@ -87,11 +88,11 @@ const MainTab = () => {
         <Tab id='3' name='할일'>
           {!todoLoading && <Todo todos={todos} />}
         </Tab>
-        {/* <Tab id='4' name='의사결정'>
+        <Tab id='4' name='의사결정'>
           {!agendaLoading && <Agenda agendas={agendas} />}
-        </Tab> */}
+        </Tab>
         <Tab id='5' name='캘린더'>
-          {!todoLoading && <MyCalendar todos={todos} />}
+          {!todoLoading && <MyCalendar/>}
         </Tab>
       </div>
     </div>

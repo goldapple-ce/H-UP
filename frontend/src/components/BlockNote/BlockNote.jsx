@@ -181,11 +181,14 @@ const BlockNote = ({ issueId }) => {
       issueId: issueId,
       content: content,
     };
-    const response = requestSaveTodo(newTodo);
-    const responsetodoId = response.data.todoId;
+    const response = await requestSaveTodo(newTodo);
+    console.log(response);
 
     for (let i = 0; i < assignees.length; ++i) {
-      const data = { todoId: responsetodoId, memberId: assignees[i].id };
+      const data = {
+        todoId: response.data.todoId,
+        memberId: assignees[i].id,
+      };
       requestAssignTodo(data);
     }
 

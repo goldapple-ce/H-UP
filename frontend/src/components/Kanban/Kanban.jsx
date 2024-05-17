@@ -21,7 +21,7 @@ export default function Kanban() {
       .filter(
         data =>
           data.status === cardTitle &&
-          data.title.toLowerCase().includes(searchInput),
+          data.title?.toLowerCase().includes(searchInput),
       )
       .map(item => <KanbanIssueItem key={item.issueId} item={item} />);
   };
