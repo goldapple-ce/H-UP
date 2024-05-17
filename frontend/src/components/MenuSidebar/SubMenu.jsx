@@ -2,27 +2,16 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './SubMenu.module.scss';
 
-import { requestIssueList } from '@api/services/issue';
 import { issueState } from '@recoil/issue';
 import { useRecoilState } from 'recoil';
 
 const SubMenu = ({ item }) => {
+  console.log(item);
   const [subnav, setSubnav] = useState(false);
-  const [issueList, setIssueList] = useRecoilState(issueState);
+  const [issueList] = useRecoilState(issueState);
 
   const showSubnav = () => {
     setSubnav(!subnav);
-  };
-
-  const fetchData = async e => {
-    try {
-      const response = requestIssueList(item.id);
-      console.log(response.data);
-      const list = response.data.responseList;
-      setIssueList(list);
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   return (
@@ -32,7 +21,6 @@ const SubMenu = ({ item }) => {
         to={`/project/${item.id}`}
         onClick={() => {
           showSubnav();
-          fetchData();
         }}
       >
         <div>
