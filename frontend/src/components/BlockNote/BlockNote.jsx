@@ -28,6 +28,7 @@ import { requestTeamMemberList } from '@api/services/team';
 import { infoState } from '@recoil/info';
 import { FaTimes } from 'react-icons/fa'; // 아이콘 추가
 import { Alert } from './Alert';
+import { requestAssignTodo, requestSaveTodo } from '@api/services/todo';
 
 const schema = BlockNoteSchema.create({
   blockSpecs: {
@@ -95,6 +96,7 @@ const BlockNote = ({ issueId }) => {
     async function fetchTeamMembers() {
       try {
         if (info.teamId != 0) {
+          console.log(info.teamId);
           const response = requestTeamMemberList(info.teamId);
           setTeamMembers(response.data.memberInfoList);
         }
@@ -174,12 +176,12 @@ const BlockNote = ({ issueId }) => {
       issueId: issueId,
       content: content,
     };
-    const response = await PostTodo(newTodo);
+    const response = requestSaveTodo(newTodo);
     const responsetodoId = response.data.todoId;
 
     for (let i = 0; i < assignees.length; ++i) {
       const data = { todoId: responsetodoId, memberId: assignees[i].id };
-      PostTodoAssignee(data);
+      requestAssignTodo(data);
     }
 
     const newTodoBlock = {
