@@ -84,10 +84,10 @@ const MainTab = () => {
           {!issueLoading && <Kanban />}
         </Tab>
         <Tab groupId='1' id='3' name='할일'>
-          {!todoLoading && <Todo todos={todos} />}
+          {!todoLoading && <Todo />}
         </Tab>
         <Tab groupId='1' id='4' name='의사결정'>
-          {!agendaLoading && <Agenda agendas={agendas} />}
+          {!agendaLoading && <Agenda />}
         </Tab>
         <Tab groupId='1' id='5' name='캘린더'>
           {!todoLoading && <MyCalendar todos={todos} />}
