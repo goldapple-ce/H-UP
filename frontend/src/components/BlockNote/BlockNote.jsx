@@ -97,7 +97,8 @@ const BlockNote = ({ issueId }) => {
       try {
         if (info.teamId != 0) {
           console.log(info.teamId);
-          const response = requestTeamMemberList(info.teamId);
+          const response = await requestTeamMemberList(info.teamId);
+          console.log(response.data);
           setTeamMembers(response.data.memberInfoList);
         }
       } catch (error) {
@@ -176,11 +177,14 @@ const BlockNote = ({ issueId }) => {
       issueId: issueId,
       content: content,
     };
-    const response = requestSaveTodo(newTodo);
-    const responsetodoId = response.data.todoId;
+    const response = await requestSaveTodo(newTodo);
+    console.log(response);
 
     for (let i = 0; i < assignees.length; ++i) {
-      const data = { todoId: responsetodoId, memberId: assignees[i].id };
+      const data = {
+        todoId: response.data.todoId,
+        memberId: assignees[i].id,
+      };
       requestAssignTodo(data);
     }
 
@@ -205,26 +209,27 @@ const BlockNote = ({ issueId }) => {
   //   }, [token]);
 
   // Fetch initial content and set up document
-  useEffect(() => {
-    async function fetchContent() {
-      try {
-        const response = requestIssueDetail(issueId);
-        //console.log("res = " ,response.data.content);
-        const contentData = JSON.parse(response.data.content);
-        //console.log("content = ", contentData);
-        if (Array.isArray(contentData)) {
-          //console.log("Uint : " , new Uint8Array(contentData));
-          Y.applyUpdate(ydoc, new Uint8Array(contentData));
-          const xmlText = ydoc.getText('prosemirror');
-        } else {
-          console.error('Invalid initial content format');
-        }
-      } catch (error) {
-        console.error('Error fetching initial content:', error);
-      }
-    }
-    fetchContent();
-  }, [issueId]);
+  // useEffect(() => {
+  //   async function fetchContent() {
+  //     try {
+  //       const response = requestIssueDetail(issueId);
+  //       console.log(response.data);
+  //       //console.log("res = " ,response.data.content);
+  //       const contentData = JSON.parse(response.data.content);
+  //       //console.log("content = ", contentData);
+  //       if (Array.isArray(contentData)) {
+  //         //console.log("Uint : " , new Uint8Array(contentData));
+  //         Y.applyUpdate(ydoc, new Uint8Array(contentData));
+  //         const xmlText = ydoc.getText('prosemirror');
+  //       } else {
+  //         console.error('Invalid initial content format');
+  //       }
+  //     } catch (error) {
+  //       console.error('Error fetching initial content:', error);
+  //     }
+  //   }
+  //   fetchContent();
+  // }, [issueId]);
 
   // Setup WebSocket connection and handlers
   useEffect(() => {
