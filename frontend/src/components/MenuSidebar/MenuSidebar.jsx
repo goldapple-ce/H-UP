@@ -1,5 +1,6 @@
 import { requestTeamProjectList } from '@api/services/project';
-import { requestTeamList } from '@api/services/team';
+import { requestTeamList } from '@api/services/team.js';
+import { LoadTeamProjectList } from '@api/services/team.jsx';
 import { projectState } from '@recoil/project';
 import { MenuSidebarState } from '@recoil/recoil';
 import { teamState } from '@recoil/team';

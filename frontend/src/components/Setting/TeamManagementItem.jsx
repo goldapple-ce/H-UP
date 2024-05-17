@@ -3,7 +3,7 @@ import styles from './ManagementItem.module.scss';
 import { useEffect, useState } from 'react';
 import InviteMemberContainer from './InviteMemberContainer';
 import { requestAllMember } from '@api/services/auth';
-import { inviteTeamMember } from '@api/services/project';
+import { inviteTeamMember } from '@api/services/project.jsx';
 import MemberManagement from './MemberManagement';
 
 const TeamManagementItem = ({ team }) => {
