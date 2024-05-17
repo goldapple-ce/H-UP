@@ -12,6 +12,11 @@ export const requestTodoList = async projectId => {
   return await authAxios.get(`${API_URI.TODO_LIST}/${projectId}`);
 };
 
+// to_do 할당자 할당
+export const requestAssignTodo = async data => {
+  return await authAxios.post(`${API_URI.TODO_ASSIGN}`, data);
+};
+
 // 할당자 삭제
 export const requestDeleteTodoAssignee = async ({ todoId, memberId }) => {
   return await authAxios.delete(

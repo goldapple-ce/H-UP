@@ -13,11 +13,14 @@ const API_URI = {
   UPDATE_ISSUE_DATE: '/issue/date',
   //team
   TEAM_LIST: '/team/me',
+  TEAM_MEMBER_LIST: '/team/members',
   //project
+  PROJECT: '/project',
   PROJECT_LIST: '/project/list/team',
+  PROJECT_MEMBER_LIST: '/project/members',
   // to_do
   TODO: '/todo',
-  TODO_ASSIGNEE: '/todo/assignee',
+  TODO_ASSIGN: '/todo/assignee',
   TODO_LIST: '/todo/list',
   // agenda
   AGENDA_LIST: '/agenda/list/project',
