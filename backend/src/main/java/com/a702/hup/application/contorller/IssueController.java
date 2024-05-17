@@ -19,12 +19,13 @@ public class IssueController {
     private final IssueFacade issueFacade;
 
     @PostMapping
-    public ResponseEntity<Void> save(
+    public ResponseEntity<IssueDTO.IssueInfo> save(
             @AuthenticationPrincipal(errorOnInvalidType = true) SecurityUserDetailsDto user,
             @RequestBody @Valid IssueDTO.Save request
     ){
-        issueFacade.save(user.memberId(), request);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(IssueDTO.IssueInfo.from(issueFacade.save(user.memberId(), request)));
     }
 
     @PostMapping("/update")
