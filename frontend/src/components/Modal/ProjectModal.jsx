@@ -1,12 +1,12 @@
 import styles from './ProjectModal.module.scss';
 
-function ProjectModal({isOpen, children, closeModal}) {
+function ProjectModal({isOpen, children, createProject, closeModal}) {
     return (
         <div style={{ display: isOpen ? "block" : "none"}}>
-            <div className={styles.modal_background}></div>
+            <div className={styles.modal_background} onClick={ closeModal }></div>
             <div className={styles.modal_screen}>
             <div>{children}</div>
-            <button className={styles.modal_closeBnt} onClick={closeModal}>생성</button>
+            <button className={styles.modal_closeBnt} onClick={createProject}>생성</button>
             </div>
         </div>
     )

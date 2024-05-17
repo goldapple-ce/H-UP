@@ -24,12 +24,8 @@ const MenuSidebar = () => {
   const handleRadioChange = async event => {
     const teamId = event.target.value;
     try {
-      const teamData = await requestTeamProjectList(teamId);
-      console.log(teamData);
-      setInfo({
-        teamId: teamId,
-      });
-      setProjectList(teamData.data.projectInfoList);
+      const teamData = await LoadTeamProjectList(teamId);
+      setProjectList(teamData.data.responseList);
     } catch (error) {
       console.log(error);
     }
@@ -119,7 +115,7 @@ const MenuSidebar = () => {
         </div>
       </div>
     </>
-  ));
+  );
 };
 
 export default MenuSidebar;

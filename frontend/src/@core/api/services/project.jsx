@@ -1,5 +1,3 @@
-
-import { baseAxios } from '@api';
 import API_URI from '@constant/uri';
 import { authAxios } from '..';
 

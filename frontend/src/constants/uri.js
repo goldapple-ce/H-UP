@@ -45,10 +45,6 @@ const API_URI = {
 
   // agenda
   AGENDA_LIST: '/agenda/list/project',
-  // team
-  TEAM: '/team',
-  // project
-  PROJECT: '/project'
 };
 
 export default API_URI;
