@@ -85,6 +85,8 @@ public class DocumentsRedisService {
       * @description 저장된 메시지 청크들로부터 메시지를 조합하여 반환
       **/
     public String getDocumentsContent(DocumentsRedis documentsRedis) {
+        if (documentsRedis.getInfoList().get(0).getContent().equals("")) return "[]";
+
         StringBuilder sb = new StringBuilder();
         sb.append("[");
         for (MessageChunkInfo info : documentsRedis.getInfoList()) {
