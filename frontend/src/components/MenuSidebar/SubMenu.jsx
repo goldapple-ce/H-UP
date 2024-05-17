@@ -49,18 +49,18 @@ const SubMenu = ({ item }) => {
           </div>
         </div>
       </Link>
-        {subnav &&
-          issueList.map((item, index) => {
-            return (
-              <Link
-                className={styles.dropdownLink}
-                to={`/issue/${item.issueId}`}
-                key={index}
-              >
-                <subMenuSpan>{item.title}</subMenuSpan>
-              </Link>
-            );
-          })}
+      {subnav &&
+        issueList.map((item, index) => {
+          return (
+            <Link
+              className={styles.dropdownLink}
+              to={`/issue/${item.issueId}`}
+              key={index}
+            >
+              <subMenuSpan>{item.title}</subMenuSpan>
+            </Link>
+          );
+        })}
     </>
   );
 };
