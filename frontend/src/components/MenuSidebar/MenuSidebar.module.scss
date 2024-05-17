@@ -121,3 +121,18 @@ body {
     position: absolute;
     bottom: 200px;
 }
+
+.sd_option {
+  margin: 10px 15px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.sd_option_item{
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f1f1f1;
+  }
+}
