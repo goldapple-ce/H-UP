@@ -2,17 +2,19 @@ import { requestTeamProjectList } from '@api/services/project';
 import { requestTeamList } from '@api/services/team';
 import { projectState } from '@recoil/project';
 import { MenuSidebarState } from '@recoil/recoil';
-import { TeamListState } from '@recoil/team';
+import { teamState } from '@recoil/team';
 import { useEffect } from 'react';
 import { List } from 'react-bootstrap-icons';
 import { useRecoilState } from 'recoil';
 import styles from './MenuSidebar.module.scss';
 import SubMenu from './SubMenu';
+import { infoState } from '@recoil/info';
 
 const MenuSidebar = () => {
   const [isOpen, setIsopen] = useRecoilState(MenuSidebarState);
   const [projectList, setProjectList] = useRecoilState(projectState);
-  const [teamList, setTeamList] = useRecoilState(TeamListState);
+  const [teamList, setTeamList] = useRecoilState(teamState);
+  const [info, setInfo] = useRecoilState(infoState);
 
   // 팀 선택 Radio
   const handleRadioChange = async event => {
@@ -20,6 +22,9 @@ const MenuSidebar = () => {
     try {
       const teamData = await requestTeamProjectList(teamId);
       console.log(teamData);
+      setInfo({
+        teamId: teamId,
+      });
       setProjectList(teamData.data.projectInfoList);
     } catch (error) {
       console.log(error);

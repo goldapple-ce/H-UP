@@ -19,7 +19,6 @@ const SubMenu = ({ item }) => {
       const response = requestIssueList(item.id);
       console.log(response.data);
       const list = response.data.responseList;
-
       setIssueList(list);
     } catch (error) {
       console.log(error);
@@ -50,12 +49,12 @@ const SubMenu = ({ item }) => {
         </div>
       </Link>
       {subnav &&
-        issueList.map((item, index) => {
+        issueList.map(item => {
           return (
             <Link
+              key={item.issueId}
               className={styles.dropdownLink}
               to={`/issue/${item.issueId}`}
-              key={index}
             >
               <subMenuSpan>{item.title}</subMenuSpan>
             </Link>

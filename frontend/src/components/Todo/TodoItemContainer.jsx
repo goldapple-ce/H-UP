@@ -1,22 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { requestTeamMemberList } from '@api/services/team';
+import {
+  requestAssignTodo,
+  requestDeleteTodo,
+  requestTodoInfo,
+  requestTodoList,
+  requestUpdateTodo,
+} from '@api/services/todo';
+import STATUS from '@constant/status';
+import { useEffect, useState } from 'react';
 import { FaPencilAlt, FaTimes, FaUser } from 'react-icons/fa'; // 아이콘 추가
+import Modal from 'react-modal';
+import { useNavigate } from 'react-router-dom';
 import TodoItem from './TodoItem';
 import styles from './TodoItem.module.scss'; // 스타일 파일 추가
-import {
-  DeleteTodo,
-  DeleteTotoAssignee,
-  GetTodo,
-  GetTodoList,
-  ModifyTodo,
-  PostTodoAssignee,
-} from '@api/services/todoapi'; // GetTeamMembers API 추가
-import Modal from 'react-modal';
-import { authAxios } from '@api/index';
+import { useRecoilState } from 'recoil';
+import { infoState } from '@recoil/info';
 
-const TodoItemContainer = ({ Todo, setTodoList, projectId }) => {
+const TodoItemContainer = ({ todo, projectId }) => {
+  console.log(todo);
   const navigate = useNavigate();
 
+  const { CREATED, PROGRESS, SELECTED, COMPLETED } = STATUS;
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [manageModalIsOpen, setManageModalIsOpen] = useState(false);
   const [content, setContent] = useState('');
@@ -24,29 +28,28 @@ const TodoItemContainer = ({ Todo, setTodoList, projectId }) => {
   const [endDate, setEndDate] = useState('');
   const [teamMembers, setTeamMembers] = useState([]);
   const [selectedMember, setSelectedMember] = useState('');
-  const [assignees, setAssignees] = useState(Todo.assigneeList || []);
+  const [assignees, setAssignees] = useState(todo.assigneeList || []);
   const [newAssignee, setNewAssignee] = useState('');
+  const [info] = useRecoilState(infoState);
 
   useEffect(() => {
     async function fetchTeamMembers() {
       try {
-        const response = await authAxios.get(
-          `https://h-up.site/api/team/members/${projectId}`,
-        );
+        const response = requestTeamMemberList(info.teamId);
         setTeamMembers(response.data.memberInfoList);
       } catch (error) {
         console.error('Error fetching team members:', error);
       }
     }
-    fetchTeamMembers();
-  }, []);
+    if (info.teamId != 0) fetchTeamMembers();
+  }, [info.teamId]);
 
   const handleEdit = async e => {
     e.stopPropagation(); // 부모 요소의 클릭 이벤트를 막기 위해
     // 수정 버튼 클릭 시 수행할 작업
     openModal();
 
-    const response = await GetTodo(Todo.id);
+    const response = requestTodoList(projectId);
 
     const [content, createdAt, endAt] = response.data.content.split('#$%');
     setContent(content);
@@ -58,22 +61,7 @@ const TodoItemContainer = ({ Todo, setTodoList, projectId }) => {
     e.stopPropagation(); // 부모 요소의 클릭 이벤트를 막기 위해
     // 삭제 버튼 클릭 시 수행할 작업
     try {
-      await DeleteTodo(Todo.id);
-      const response = await GetTodoList(1);
-      const todoList = response.data.todoInfoList;
-
-      const modifiedList = todoList.map(item => {
-        const [content, createdAt, endAt] = item.content.split('#$%');
-        return {
-          id: item.todoId,
-          content,
-          createdAt,
-          endAt,
-          assigneeList: Todo.assigneeList,
-        };
-      });
-
-      setTodoList(modifiedList);
+      requestDeleteTodo(todo.todoId);
     } catch (error) {
       console.log(error);
     }
@@ -97,10 +85,10 @@ const TodoItemContainer = ({ Todo, setTodoList, projectId }) => {
 
   const handleAddAssignee = async () => {
     if (selectedMember) {
-      const response = await GetTodo(Todo.id);
+      const response = requestTodoInfo(todo.todoId);
       console.log(response.data);
-      await PostTodoAssignee({
-        todoId: Todo.id,
+      requestAssignTodo({
+        todoId: todo.id,
         memberIdList: [...response.data.memberInfoList, selectedMember],
       });
       setTeamMembers([...response.data, selectedMember]);
@@ -110,45 +98,28 @@ const TodoItemContainer = ({ Todo, setTodoList, projectId }) => {
   const handleRemoveAssignee = async index => {
     const ToDeleteAssignee = assignees.filter((_, i) => i === index);
     const DeleteMember = ToDeleteAssignee[0].assigneeId;
-    await DeleteTotoAssignee({ todoId: Todo.id, memberId: DeleteMember });
+    requestDeleteTodo({ todoId: todo.todoId, memberId: DeleteMember });
 
-    const response = await authAxios.get(
-      `https://h-up.site/api/team/members/${projectId}`,
-    );
+    const response = requestTeamMemberList(teamId);
     setTeamMembers(response.data.memberInfoList);
   };
 
   const handleSubmit = async e => {
     e.preventDefault();
-    const contentAndDate = content + '#$%' + startDate + '#$%' + endDate;
     const newTodo = {
-      todoId: Todo.id,
+      todoId: todo.id,
       content: content,
-      todoStatus: 'PROGRESS',
+      todoStatus: 'CREATED',
     };
-    await ModifyTodo(newTodo);
-    const response = await GetTodoList(projectId);
-    const todoList = response.data.todoInfoList;
-
-    const modifiedList = todoList.map(item => {
-      const [content, createdAt, endAt] = item.content.split('#$%');
-      return {
-        id: item.todoId,
-        content,
-        createdAt,
-        endAt,
-        assigneeList: Todo.assigneeList,
-      };
-    });
-
-    setTodoList(modifiedList);
+    requestUpdateTodo(newTodo);
+    setTodoList(response.data.todoInfoList);
     closeModal();
   };
 
   return (
     <>
       <div className={styles.todoItemContainer}>
-        <TodoItem Todo={Todo} />
+        <TodoItem todo={todo} />
         <div className={styles.buttons}>
           <button className={styles.userButton} onClick={openManageModal}>
             <FaUser />
