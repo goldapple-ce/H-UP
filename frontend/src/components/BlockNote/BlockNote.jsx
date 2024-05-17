@@ -209,27 +209,26 @@ const BlockNote = ({ issueId }) => {
   //   }, [token]);
 
   // Fetch initial content and set up document
-  // useEffect(() => {
-  //   async function fetchContent() {
-  //     try {
-  //       const response = requestIssueDetail(issueId);
-  //       console.log(response.data);
-  //       //console.log("res = " ,response.data.content);
-  //       const contentData = JSON.parse(response.data.content);
-  //       //console.log("content = ", contentData);
-  //       if (Array.isArray(contentData)) {
-  //         //console.log("Uint : " , new Uint8Array(contentData));
-  //         Y.applyUpdate(ydoc, new Uint8Array(contentData));
-  //         const xmlText = ydoc.getText('prosemirror');
-  //       } else {
-  //         console.error('Invalid initial content format');
-  //       }
-  //     } catch (error) {
-  //       console.error('Error fetching initial content:', error);
-  //     }
-  //   }
-  //   fetchContent();
-  // }, [issueId]);
+  useEffect(() => {
+    async function fetchContent() {
+      try {
+        const response = await requestIssueDetail(issueId);
+        //console.log("res = " ,response.data.content);
+        const contentData = JSON.parse(response.data.content);
+        //console.log("content = ", contentData);
+        if (Array.isArray(contentData)) {
+          //console.log("Uint : " , new Uint8Array(contentData));
+          Y.applyUpdate(ydoc, new Uint8Array(contentData));
+          const xmlText = ydoc.getText('prosemirror');
+        } else {
+          console.error('Invalid initial content format');
+        }
+      } catch (error) {
+        console.error('Error fetching initial content:', error);
+      }
+    }
+    fetchContent();
+  }, [issueId]);
 
   // Setup WebSocket connection and handlers
   useEffect(() => {
