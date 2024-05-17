@@ -3,13 +3,12 @@
 // import { Styleshare } from '@styled-icons/simple-icons';
 // import { useNavigate } from 'react-router-dom';
 import { useState } from "react";
-import { useNavigate } from 'react-router-dom';
 import TeamModal from "@component/Modal/TeamModal";
 import ProjectModal from "@component/Modal/ProjectModal";
 
 import styles from './FloatingButton.module.scss';
 
-import { CreateTeam } from "@api/services/team";
+import { CreateTeam } from "@api/services/team.jsx";
 
 const projectSubmit = async e => {
 
