@@ -1,5 +1,4 @@
 import { atom, selector } from 'recoil';
-import { issueState } from './issue';
 
 // 이슈 List에 대한 Atom
 export const issueListState = atom({

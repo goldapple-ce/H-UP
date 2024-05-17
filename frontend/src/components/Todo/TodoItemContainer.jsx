@@ -34,7 +34,7 @@ const TodoItemContainer = ({ todo, projectId }) => {
   useEffect(() => {
     async function fetchTeamMembers() {
       try {
-        const response = await requestTeamMemberList(info.teamId);
+        const response = await requestTeamMemberList(teamId);
         setTeamMembers(response.data.memberInfoList);
       } catch (error) {
         console.error('Error fetching team members:', error);
