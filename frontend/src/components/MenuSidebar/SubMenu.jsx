@@ -24,7 +24,7 @@ const SubMenu = ({ item }) => {
       >
         <div>
           <div>
-            <span>{item.name}</span>
+            <span className={styles.subMenuSpan}>{item.name}</span>
           </div>
           <div>
             {issueList && subnav
@@ -43,7 +43,7 @@ const SubMenu = ({ item }) => {
               className={styles.dropdownLink}
               to={`/issue/${item.issueId}`}
             >
-              <subMenuSpan>{item.title}</subMenuSpan>
+              <span className={styles.subMenuSpan}>{item.title}</span>
             </Link>
           );
         })}

@@ -1,7 +1,3 @@
-span {
-  margin-left: 16px;
-}
-
 .sidebarLink {
   display: flex;
   color: #5b5b5b;
@@ -34,4 +30,8 @@ span {
     background: #bcebff;
     cursor: pointer;
   }
+}
+
+.subMenuSpan {
+  margin-left: 16px;
 }
