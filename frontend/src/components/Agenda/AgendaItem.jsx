@@ -22,25 +22,30 @@ const AgendaItem = ({ agenda, onClick }) => {
   return (
     <div className={styles.agenda} onClick={onClick}>
       <img src={playIcon} alt='' />
-      <h5>{content}</h5>
+        <div>
+          <h5>{content}</h5>
+          {/* <span>요청자 :{requester.name}</span> */}
+        </div>
       <ul>
         <p>{formatToDate(createdAt)}</p>
       </ul>
-      {/* <img
+      <img
         className={styles.agenda__requester}
         key={requester.id}
-        src={requester.img}
+        src='https://images.unsplash.com/photo-1496345875659-11f7dd282d1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2250&q=80'
         alt={requester.name}
-      /> */}
-      <CaretRightFill />
-      {/* {assigneeList.map(assignee => (
-        <img
-          className={styles.agenda__assignee}
-          key={assignee.id}
-          src={assignee.img}
-          alt={assignee.name}
-        />
-      ))} */}
+      />
+      <CaretRightFill className={styles.caret}/>
+      <div className={styles.agenda__assignee_list}>
+        {assigneeList.map(assignee => (
+          <img
+            className={styles.agenda__assignee}
+            key={assignee.id}
+            src='https://images.unsplash.com/photo-1496345875659-11f7dd282d1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2250&q=80'
+            alt={assignee.name}
+          />
+        ))}
+      </div>
     </div>
   );
 };

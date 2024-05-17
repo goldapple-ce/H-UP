@@ -21,7 +21,6 @@ const Agenda = () => {
       try {
         const response = await LoadAgendaList(id);
         const agendaData = response.data.agendaList;
-        console.log(agendaData)
         setAgendaList(agendaData);
 
       } catch (error) {

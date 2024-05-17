@@ -18,7 +18,7 @@ const MenuSidebar = () => {
     const teamId = event.target.value;
     try {
       const teamData = await LoadTeamProjectList(teamId);
-      setProjectList(teamData.data.projectInfoList);
+      setProjectList(teamData.data.responseList);
     } catch (error) {
       console.log(error)
     }
@@ -41,7 +41,7 @@ const MenuSidebar = () => {
 
         if (teams.length > 0) {
           const teamData = await LoadTeamProjectList(teams[0].id);
-          setProjectList(teamData.data.projectInfoList);
+          setProjectList(teamData.data.responseList);
         }
       } catch (error) {
         console.log(error)
@@ -64,11 +64,11 @@ const MenuSidebar = () => {
             </div>
           </div>
           <div className={styles.sd_body}>
-            {/* <ul>
+            <ul>
               {projectList.map((item) => {
                 return <SubMenu key={item.id} item={item} />;
               })}
-            </ul> */}
+            </ul>
           </div>
           <div className={styles.team_container}>
             
