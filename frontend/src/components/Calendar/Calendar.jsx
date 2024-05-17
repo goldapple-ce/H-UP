@@ -150,7 +150,15 @@ const MyCalendar = () => {
       };
       getIssueList(id);
     }
-  })
+    //  이슈 받아서 변환
+    // const adjEvents = issueList.map((data) => ({
+    //     ...data,
+    //     start: formatToJSDate(data.startDate),
+    //     end: formatToJSDate(data.endDate),
+    //   }));
+    //   console.log(adjEvents);
+    //   setMyEvents(adjEvents);
+    }, [issueList]);
 
 
 
@@ -158,18 +166,6 @@ const MyCalendar = () => {
   function formatToJSDate(oracleDateStr) {
     return new Date(oracleDateStr);
   }
-
-  //쿼리가 발생하면 데이터를 받아서 날짜를 변환
-  // useEffect(() => {
-  //   if (dataOnLoadData) {
-  //     const adjEvents = Object.values(dataOnLoadData).map((data) => ({
-  //       ...data,
-  //       start: formatToJSDate(data.start),
-  //       end: formatToJSDate(data.end),
-  //     }));
-  //     setMyEvents(adjEvents);
-  //   }
-  // }, [dataOnLoadData]);
 
   //값을 업데이트함
   // const {
@@ -246,7 +242,7 @@ const MyCalendar = () => {
     return (
       <div className={styles.title}>
         <img src={issue.profile} />
-        <p>{issue.id}</p>
+        <p>{issue.title}</p>
       </div>
     );
   };
