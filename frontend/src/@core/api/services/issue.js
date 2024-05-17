@@ -8,7 +8,7 @@ export const requestIssueList = async projectId => {
 };
 
 // 이슈 상세 조회
-export const LoadIssueData = async issueId => {
+export const requestIssueDetail = async issueId => {
   return await authAxios.get(`${API_URI.ISSUE}/${issueId}`);
 };
 

@@ -23,7 +23,9 @@ import * as Y from 'yjs';
 import styles from '../Todo/Todo.module.scss';
 import './IssueEditorPageBlockNote.css';
 //import { RiAlertFill } from "react-icons/ri";
+import { requestIssueDetail } from '@api/services/issue';
 import { requestTeamMemberList } from '@api/services/team';
+import { infoState } from '@recoil/info';
 import { FaTimes } from 'react-icons/fa'; // 아이콘 추가
 import { Alert } from './Alert';
 
@@ -76,6 +78,7 @@ async function uploadFile(file) {
 }
 
 const BlockNote = ({ issueId }) => {
+  const [info] = useRecoilState(infoState);
   const [userInfo] = useRecoilState(authState);
   const stompClient = useRef(null);
   const ydoc = useRef(new Y.Doc()).current;
@@ -91,8 +94,10 @@ const BlockNote = ({ issueId }) => {
   useEffect(() => {
     async function fetchTeamMembers() {
       try {
-        const response = requestTeamMemberList(issueId);
-        setTeamMembers(response.data.memberInfoList);
+        if (info.teamId != 0) {
+          const response = requestTeamMemberList(info.teamId);
+          setTeamMembers(response.data.memberInfoList);
+        }
       } catch (error) {
         console.error('Error fetching team members:', error);
       }
@@ -201,7 +206,7 @@ const BlockNote = ({ issueId }) => {
   useEffect(() => {
     async function fetchContent() {
       try {
-        const response = await LoadIssueData(issueId);
+        const response = requestIssueDetail(issueId);
         //console.log("res = " ,response.data.content);
         const contentData = JSON.parse(response.data.content);
         //console.log("content = ", contentData);
