@@ -3,14 +3,13 @@
 // import { Styleshare } from '@styled-icons/simple-icons';
 // import { useNavigate } from 'react-router-dom';
 import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import TeamModal from "@component/Modal/TeamModal";
 import ProjectModal from "@component/Modal/ProjectModal";
 
 import styles from './FloatingButton.module.scss';
 
-const teamSubmit = async e => {
-
-} 
+import { CreateTeam } from "@api/services/team";
 
 const projectSubmit = async e => {
 
@@ -23,7 +22,28 @@ const issueCreate = () => {
 const FloatingButton = () => {
     const [isTeamModalOpen, setIsTeamModalOpen] = useState(false);
     const openTeamModal = () => setIsTeamModalOpen(true);
-    const closeTeamModal = () => setIsTeamModalOpen(false);
+    const [teamName, setTeamName] = useState('');
+    // const closeTeamModal = () => setIsTeamModalOpen(false);
+    const teamSubmit = async e => {
+        setIsTeamModalOpen(false);
+        const teamData = {
+            teamName: teamName,
+        };
+    
+        try {
+            const response = await CreateTeam(teamData);
+            console.log('Server Response: ', response.data);
+    
+            alert('팀 생성 성공');
+            
+            // 생성 성공 후 새로고침?
+        } catch (error) {
+            console.error(
+                'CreateTeam error: ',
+                error.response ? error.response.data : error,
+            );
+        }
+    };
 
     const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
     const openProjectModal = () => setIsProjectModalOpen(true);
@@ -57,7 +77,7 @@ const FloatingButton = () => {
             <label className={styles.nav__btn} htmlFor="menu-cb"></label>
             </nav>
 
-            <TeamModal isOpen={isTeamModalOpen} closeModal={closeTeamModal}>
+            <TeamModal isOpen={isTeamModalOpen} closeModal={ teamSubmit }>
                 <div className={styles.team}>
                     <h2>팀 생성</h2>
                     <form onSubmit={teamSubmit}>
@@ -65,7 +85,7 @@ const FloatingButton = () => {
                             className={styles.modal_team_input}
                             type='text'
                             placeholder='팀 이름을 입력하세요.'
-                            onChange={e => setName(e.target.value)}
+                            onChange={e => setTeamName(e.target.value)}
                             required
                         />
                     </form>
