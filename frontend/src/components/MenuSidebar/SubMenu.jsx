@@ -6,7 +6,6 @@ import { issueState } from '@recoil/issue';
 import { useRecoilState } from 'recoil';
 
 const SubMenu = ({ item }) => {
-  console.log(item);
   const [subnav, setSubnav] = useState(false);
   const [issueList] = useRecoilState(issueState);
 
