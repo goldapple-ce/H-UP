@@ -38,7 +38,7 @@ const SubMenu = ({ item }) => {
       >
         <div>
           <div>
-            <span>{item.name}</span>
+            <subMenuSpan>{item.name}</subMenuSpan>
           </div>
           <div>
             {issueList && subnav
@@ -49,18 +49,18 @@ const SubMenu = ({ item }) => {
           </div>
         </div>
       </Link>
-      {subnav &&
-        issueList.map((item, index) => {
-          return (
-            <Link
-              className={styles.dropdownLink}
-              to={`/issue/${item.issueId}`}
-              key={index}
-            >
-              <span>{item.title}</span>
-            </Link>
-          );
-        })}
+        {subnav &&
+          issueList.map((item, index) => {
+            return (
+              <Link
+                className={styles.dropdownLink}
+                to={`/issue/${item.issueId}`}
+                key={index}
+              >
+                <subMenuSpan>{item.title}</subMenuSpan>
+              </Link>
+            );
+          })}
     </>
   );
 };
@@ -76,7 +76,7 @@ export default SubMenu;
         <div>
           <div>
             {item.icon}
-            <span className={styles.sidebarSpan}>{item.title}</span>
+            <subMenuSpan>{item.title}</subMenuSpan>
           </div>
           <div>
             {item.subNav && subnav
@@ -96,7 +96,7 @@ export default SubMenu;
               key={index}
             >
               {item.icon}
-              <span className={styles.sidebarSpan}>{item.title}</span>
+              <subMenuSpan>{item.title}</subMenuSpan>
             </Link>
           );
         })} */
