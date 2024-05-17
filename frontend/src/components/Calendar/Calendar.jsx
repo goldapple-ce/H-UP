@@ -9,6 +9,8 @@ import styles from './Calendar.module.scss';
 import events from './Events';
 import Toolbar from './Toolbar';
 import { loginDummyData } from './../../test/userData';
+import { useRecoilState } from 'recoil';
+import { MyCalendarState } from '@recoil/calendar';
 
 const Container = styled.div`
   .rbc-addons-dnd {
@@ -121,6 +123,8 @@ const Container = styled.div`
 const MyCalendar = () => {
   const [myEvents, setMyEvents] = useState(events);
   const [onClickEventData, setOnClickEventData] = useState();
+  const [isChecked, setIsChecked] = useRecoilState(MyCalendarState);
+  
   const navigate = useNavigate();
 
   moment.locale('ko-KR');
@@ -250,9 +254,13 @@ const MyCalendar = () => {
       color: 'black',
       borderRadius: '20px',
     };
+    if (isChecked && event.member !== loginDummyData.memberId) {
+      newStyle.display = 'none';
+    };
     if (event.member === loginDummyData.memberId) {
       newStyle.backgroundColor = 'lightblue';
-    }
+    };
+
     return {
       className: '',
       style: newStyle,

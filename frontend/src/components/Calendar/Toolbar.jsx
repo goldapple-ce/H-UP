@@ -1,10 +1,17 @@
+import { useRecoilState } from 'recoil';
 import styles from './Toolbar.module.scss';
+import { MyCalendarState } from '@recoil/calendar';
 
 export default function Toolbar(props) {
+  const [isChecked, setIsChecked] = useRecoilState(MyCalendarState);
   const { date } = props;
 
   const navigate = action => {
     props.onNavigate(action);
+  };
+
+  const handleCheckboxChange = (event) => {
+    setIsChecked(event.target.checked);
   };
 
   return (
@@ -22,7 +29,12 @@ export default function Toolbar(props) {
         </button>
       </span>
       <div className={styles.checkbox}>
-        <input type='checkbox' id='isMine' />
+        <input 
+          type='checkbox'
+          id='isMine'
+          checked={isChecked}
+          onChange={handleCheckboxChange}
+        />
         <label htmlFor='isMine'>내 할일</label>
       </div>
     </div>
