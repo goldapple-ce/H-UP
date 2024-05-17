@@ -1,9 +1,9 @@
 import moment from 'moment';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Calendar, Views, momentLocalizer } from 'react-big-calendar';
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
 import styles from './Calendar.module.scss';
 import events from './Events';
@@ -11,6 +11,8 @@ import Toolbar from './Toolbar';
 import { loginDummyData } from './../../test/userData';
 import { useRecoilState } from 'recoil';
 import { MyCalendarState } from '@recoil/calendar';
+import { LoadIssueList } from '@api/services/issue';
+import { IssueListState } from '@recoil/issue';
 
 const Container = styled.div`
   .rbc-addons-dnd {
@@ -124,6 +126,7 @@ const MyCalendar = () => {
   const [myEvents, setMyEvents] = useState(events);
   const [onClickEventData, setOnClickEventData] = useState();
   const [isChecked, setIsChecked] = useRecoilState(MyCalendarState);
+  const [issueList, setIssueList] = useRecoilState(IssueListState);
   
   const navigate = useNavigate();
 
@@ -132,11 +135,24 @@ const MyCalendar = () => {
   // Drag & Drop으로 변경
   const DragAndDropCalendar = withDragAndDrop(Calendar);
 
-  //유즈쿼리로 일정 데이터를 받아옴
-  // const { data: dataOnLoadData, refetch: refetchOnLoadData } = useQuery(
-  //   "onLoadData",
-  //   onLoadData
-  // );
+  const {id} = useParams();
+
+  //유즈 로 일정 데이터를 받아옴
+  useEffect(() => {
+    if (issueList.length === 0) {
+      const getIssueList = async (id) => {
+        try {
+          const response = await LoadIssueList(id);
+          setIssueList(response.data.responseList);
+        } catch (error) {
+          console.error('Error fetching initial content:', error);
+        }
+      };
+      getIssueList(id);
+    }
+  })
+
+
 
   //DB에서 들어오는 DATE 값을 JAVASCRIPT양식으로 바꿔주는 함수
   function formatToJSDate(oracleDateStr) {
@@ -326,8 +342,6 @@ const MyCalendar = () => {
         //보여질 화면
         view={currentView}
         popup
-        resizable
-        selectable
         handleDragStart={handleClick}
         titleAccessor={loadProfileImage}
       />
