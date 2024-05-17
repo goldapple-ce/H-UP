@@ -16,12 +16,3 @@ export const requestTeamProjectList = async teamId => {
   return await authAxios.get(`${API_URI.PROJECT_LIST}/${teamId}`);
 };
 
-// 프로젝트 멤버 초대
-export const inviteProjectMember = data => {
-  return authAxios.post(`${API_URI.INVITE_PROJECT_MEMBER}`, data);
-}
-
-// 팀 멤버 초대
-export const inviteTeamMember = data => {
-  return authAxios.post(`${API_URI.INVITE_TEAM_MEMBER}`, data);
-}

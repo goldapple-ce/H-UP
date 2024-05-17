@@ -94,7 +94,7 @@ export const fetchListState = selector({
 
 export const MenuSidebarState = atom({
   key: 'MenuSideState',
-  default: [],
+  default: false,
 });
 
 export const MessengerSidebarState = atom({

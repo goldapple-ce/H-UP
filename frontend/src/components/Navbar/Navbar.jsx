@@ -1,28 +1,28 @@
 import useLogout from '@hook/useLogout';
 import { authState } from '@recoil/auth';
-import { MenuSidebarState, MessengerSidebarState } from '@recoil/recoil';
 import { Link } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import styles from './Navbar.module.scss';
 
-import IconButton from '../IconButton/IconButton';
+import { menuSidebarState, messengerSidebarState } from '@recoil/commonPersist';
 import { LogOut } from '@styled-icons/boxicons-regular/LogOut';
-import { CommentDetail } from '@styled-icons/boxicons-solid/CommentDetail';
 import { Menu } from '@styled-icons/boxicons-regular/Menu';
+import { CommentDetail } from '@styled-icons/boxicons-solid/CommentDetail';
+import IconButton from '../IconButton/IconButton';
 
 const NavBar = () => {
-  const [isMenuOpen, setIsMenuOpen] = useRecoilState(MenuSidebarState);
+  const [isOpen, setIsOpen] = useRecoilState(menuSidebarState);
 
   const [isMessengerOpen, setIsMessengerOpen] = useRecoilState(
-    MessengerSidebarState,
+    messengerSidebarState,
   );
 
   const ShowMenuSidebar = () => {
-    setIsMenuOpen(isMenuOpen ^ true);
+    setIsOpen(!isOpen);
   };
 
   const ShowMessengerSidebar = () => {
-    setIsMessengerOpen(isMessengerOpen ^ true);
+    setIsMessengerOpen(!isMessengerOpen);
   };
 
   const [userInfo] = useRecoilState(authState);

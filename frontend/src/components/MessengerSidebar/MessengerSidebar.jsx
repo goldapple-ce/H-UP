@@ -1,8 +1,8 @@
+import { messengerSidebarState } from '@recoil/commonPersist';
 import { useState } from 'react';
 import { List } from 'react-bootstrap-icons';
 import { Link } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { MessengerSidebarState } from '@recoil/recoil';
 import { MessengerData } from './MessengerData';
 import styles from './MessengerSidebar.module.scss';
 
@@ -13,10 +13,10 @@ const MessengerSidebar = (
     //   onUserClick,
   },
 ) => {
-  const [isOpen, setIsopen] = useRecoilState(MessengerSidebarState);
+  const [isOpen, setIsopen] = useRecoilState(messengerSidebarState);
 
   const ShowSidebar = () => {
-    isOpen === true ? setIsopen(false) : setIsopen(true);
+    setIsopen(!isOpen);
   };
 
   const activeUserId = 1;
