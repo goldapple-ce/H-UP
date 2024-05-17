@@ -1,9 +1,21 @@
+@mixin clearfix {
+  &:after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+}
+
 .agenda {
   width: 95%;
   padding: 10px;
   border-radius: 8px;
   margin: 10px;
   display: flex;
+
+  &__container {
+    @include clearfix;
+  }
 
   &__column1 {
     width: 70%;

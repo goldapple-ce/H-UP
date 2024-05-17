@@ -1,20 +1,18 @@
+import UserIcon from '@component/common/UserIcon';
+import { authState } from '@recoil/auth';
+import { MyCalendarState } from '@recoil/calendar';
+import { issueState } from '@recoil/issue';
 import moment from 'moment';
 import { useCallback, useEffect, useState } from 'react';
 import { Calendar, Views, momentLocalizer } from 'react-big-calendar';
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
 import { styled } from 'styled-components';
 import styles from './Calendar.module.scss';
 import events from './Events';
 import Toolbar from './Toolbar';
-import { loginDummyData } from './../../test/userData';
-import { useRecoilState } from 'recoil';
-import { MyCalendarState } from '@recoil/calendar';
-import { requestIssueList } from '@api/services/issue';
-import { issueState } from '@recoil/issue';
-import { authState } from '@recoil/auth';
-import UserIcon from '@component/common/UserIcon';
 
 const Container = styled.div`
   .rbc-addons-dnd {
@@ -125,46 +123,38 @@ const Container = styled.div`
 `;
 
 const MyCalendar = () => {
-  const [myEvents, setMyEvents] = useState(events);
-  const [onClickEventData, setOnClickEventData] = useState();
-  const [isChecked, setIsChecked] = useRecoilState(MyCalendarState);
-  const [issueList, setIssueList] = useRecoilState(issueState);
-  const [userInfo] = useRecoilState(authState);
   const navigate = useNavigate();
+  const [isChecked, setIsChecked] = useRecoilState(MyCalendarState);
+  const [issueList] = useRecoilState(issueState);
+  const [userInfo] = useRecoilState(authState);
+  const [myEvents, setMyEvents] = useState();
+  const memberId = userInfo.memberId;
 
   moment.locale('ko-KR');
   const localizer = momentLocalizer(moment);
   // Drag & Drop으로 변경
   const DragAndDropCalendar = withDragAndDrop(Calendar);
 
-  const {id} = useParams();
-  const memberId = userInfo.memberId;
-
   //유즈 로 일정 데이터를 받아옴
   useEffect(() => {
-    
-    if (issueList.length === 0) {
-      const getIssueList = async (id) => {
-        try {
-          const response = await requestIssueList(id);
-          setIssueList(response.data.issueInfoList);
-        } catch (error) {
-          console.error('Error fetching initial content:', error);
-        }
-      };
-      getIssueList(id);
-    }
     //  이슈 받아서 변환
-    const adjEvents = issueList.map((data) => ({
-        ...data,
-        start: formatToJSDate(data.startDate),
-        end: formatToJSDate(data.endDate),
-      }));
-      console.log(adjEvents);
-      setMyEvents(adjEvents);
-    }, [issueList]);
+    const fetchData = async () => {
+      try {
+        const adjEvents = issueList.map(data => ({
+          ...data,
+          start: formatToJSDate(data.startDate),
+          end: formatToJSDate(data.endDate),
+        }));
+        console.log(adjEvents);
+        setMyEvents(adjEvents);
+      } catch (error) {
+        console.log('error fail fetching data at calander : ' + error);
+      }
+    };
 
-
+    console.log(issueList);
+    if (Array.isArray(issueList) && issueList.length > 0) fetchData();
+  }, [issueList]);
 
   //DB에서 들어오는 DATE 값을 JAVASCRIPT양식으로 바꿔주는 함수
   function formatToJSDate(oracleDateStr) {
@@ -239,13 +229,19 @@ const MyCalendar = () => {
   );
 
   const handleClick = issue => {
-    navigate(`/issue/${issue.id}`);
+    console.log(issue);
+    navigate(`/issue/${issue.issueId}`);
   };
 
   const loadProfileImage = issue => {
+    console.log(issue);
     return (
       <div className={styles.title}>
-        <UserIcon key={issue.id} src={issue.memberInfo.img} alt={issue.memberInfo.name} />
+        <UserIcon
+          key={issue.id}
+          src={issue.memberInfo.img}
+          alt={issue.memberInfo.name}
+        />
         <p>{issue.title}</p>
       </div>
     );
@@ -272,10 +268,10 @@ const MyCalendar = () => {
     };
     if (isChecked && event.memberInfo.id !== memberId) {
       newStyle.display = 'none';
-    };
+    }
     if (event.memberInfo.id === memberId) {
       newStyle.backgroundColor = 'lightblue';
-    };
+    }
 
     return {
       className: '',

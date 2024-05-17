@@ -1,9 +1,9 @@
-import styles from './SettingContainer.module.scss';
+import { requestTeamList } from '@api/services/team';
+import { useEffect, useState } from 'react';
 import Modal from 'react-modal';
-import { useState ,useEffect} from 'react';
-import TeamManagementItem from './TeamManagementItem';
 import ProjectManagementItem from './ProjectManagementItem';
-import { requestMyTeam } from '@api/services/setting';
+import styles from './SettingContainer.module.scss';
+import TeamManagementItem from './TeamManagementItem';
 
 // 모달 스타일 정의
 const modalStyles = {
@@ -25,13 +25,13 @@ const modalStyles = {
   },
 };
 
-const SettingContainer = ({isOpen, closeSetting}) => {
+const SettingContainer = ({ isOpen, closeSetting }) => {
   // const [isOpen, setIsOpen] = useState(false);
   const [settingOption, setSettingOption] = useState('team');
   const [teams, setTeams] = useState([]);
 
   const getTeamInfo = async () => {
-    const response = await requestMyTeam();
+    const response = await requestTeamList();
     setTeams(response.data.teamInfoList);
   };
 
@@ -40,49 +40,49 @@ const SettingContainer = ({isOpen, closeSetting}) => {
   }, []);
 
   return (
-      <Modal isOpen={isOpen} 
-        onRequestClose={closeSetting}
-        style={modalStyles}
-      >
-        {/* header */}
-        <div className={styles.header}>
-          <h3>Settings</h3>
-          <button className={styles.closeButton} onClick={closeSetting}>
-            &times;
-          </button>
-          <div className={styles.menu}>
-            <div 
-              className={`${styles.menu_item} ${settingOption === 'team' ? styles.active : ''}`} 
-              onClick={() => setSettingOption('team')}>
-                Team Management
-            </div>
-            <div 
-              className={`${styles.menu_item} ${settingOption === 'project' ? styles.active : ''}`}
-              onClick={() => setSettingOption('project')}>
-                Project Management
-            </div>
+    <Modal isOpen={isOpen} onRequestClose={closeSetting} style={modalStyles}>
+      {/* header */}
+      <div className={styles.header}>
+        <h3>Settings</h3>
+        <button className={styles.closeButton} onClick={closeSetting}>
+          &times;
+        </button>
+        <div className={styles.menu}>
+          <div
+            className={`${styles.menu_item} ${settingOption === 'team' ? styles.active : ''}`}
+            onClick={() => setSettingOption('team')}
+          >
+            Team Management
+          </div>
+          <div
+            className={`${styles.menu_item} ${settingOption === 'project' ? styles.active : ''}`}
+            onClick={() => setSettingOption('project')}
+          >
+            Project Management
           </div>
         </div>
-        {/* body */}
-        <div className={styles.body}>
-          {settingOption === 'team' ? (
-            <div>  
-              {/* TEAM MANAGEMENT */}
-              {teams &&
-                teams.map(team => (
-                  <TeamManagementItem key={team.id} team={team} />
-                ))}
-            </div>) : (
-            <div>  
-              {/* TEAM MANAGEMENT */}
-              {teams &&
-                teams.map(team => (
-                  <ProjectManagementItem key={team.id} team={team} />
-                ))}
-            </div>
-          )}
-        </div>
-      </Modal>
+      </div>
+      {/* body */}
+      <div className={styles.body}>
+        {settingOption === 'team' ? (
+          <div>
+            {/* TEAM MANAGEMENT */}
+            {teams &&
+              teams.map(team => (
+                <TeamManagementItem key={team.id} team={team} />
+              ))}
+          </div>
+        ) : (
+          <div>
+            {/* TEAM MANAGEMENT */}
+            {teams &&
+              teams.map(team => (
+                <ProjectManagementItem key={team.id} team={team} />
+              ))}
+          </div>
+        )}
+      </div>
+    </Modal>
   );
 };
 

@@ -1,6 +1,6 @@
-import { requestProject, requestTeamMember } from '@api/services/setting';
-import styles from './ManagementItem.module.scss';
+import { requestTeamProjectList } from '@api/services/project';
 import { useEffect, useState } from 'react';
+import styles from './ManagementItem.module.scss';
 import ProjectMemberItem from './ProjectMemberItem';
 
 const ProjectManagementItem = ({ team }) => {
@@ -12,7 +12,7 @@ const ProjectManagementItem = ({ team }) => {
   };
 
   const getProject = async () => {
-    const response = await requestProject(team.id);
+    const response = await requestTeamProjectList(team.id);
     setProjects(response.data.projectInfoList);
   };
 
@@ -25,13 +25,18 @@ const ProjectManagementItem = ({ team }) => {
       <div className={styles.header} onClick={toggleContent}>
         {team.name}
       </div>
-      {isOpen && 
-        <div className={styles.body}>  
-          {projects && projects.map(project => (
-            <ProjectMemberItem key={project.id} team = {team} project = {project}/>
-          ))}
+      {isOpen && (
+        <div className={styles.body}>
+          {projects &&
+            projects.map(project => (
+              <ProjectMemberItem
+                key={project.id}
+                team={team}
+                project={project}
+              />
+            ))}
         </div>
-      }
+      )}
     </div>
   );
 };

@@ -7,17 +7,16 @@ import {
   requestUpdateTodo,
 } from '@api/services/todo';
 import STATUS from '@constant/status';
+import { teamIdState } from '@recoil/commonPersist';
 import { useEffect, useState } from 'react';
 import { FaPencilAlt, FaTimes, FaUser } from 'react-icons/fa'; // 아이콘 추가
 import Modal from 'react-modal';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 import TodoItem from './TodoItem';
 import styles from './TodoItem.module.scss'; // 스타일 파일 추가
-import { useRecoilState } from 'recoil';
-import { infoState } from '@recoil/info';
 
 const TodoItemContainer = ({ todo, projectId }) => {
-  console.log(todo);
   const navigate = useNavigate();
 
   const { CREATED, PROGRESS, SELECTED, COMPLETED } = STATUS;
@@ -30,19 +29,19 @@ const TodoItemContainer = ({ todo, projectId }) => {
   const [selectedMember, setSelectedMember] = useState('');
   const [assignees, setAssignees] = useState(todo.assigneeList || []);
   const [newAssignee, setNewAssignee] = useState('');
-  const [info] = useRecoilState(infoState);
+  const teamId = useRecoilValue(teamIdState);
 
   useEffect(() => {
     async function fetchTeamMembers() {
       try {
-        const response = requestTeamMemberList(info.teamId);
+        const response = await requestTeamMemberList(teamId);
         setTeamMembers(response.data.memberInfoList);
       } catch (error) {
         console.error('Error fetching team members:', error);
       }
     }
-    if (info.teamId != 0) fetchTeamMembers();
-  }, [info.teamId]);
+    if (teamId != 0) fetchTeamMembers();
+  }, [teamId]);
 
   const handleEdit = async e => {
     e.stopPropagation(); // 부모 요소의 클릭 이벤트를 막기 위해

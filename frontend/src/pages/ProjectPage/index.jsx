@@ -7,7 +7,6 @@ import Modal from 'react-modal';
 import { useState } from 'react';
 
 export default function ProjectPage() {
-
   const { id } = useParams();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [title, setTitle] = useState('');
@@ -32,7 +31,7 @@ export default function ProjectPage() {
   };
 
   const makeIssue = async () => {
-    const response = await createIssue({projectId:id});
+    const response = await createIssue({ projectId: id });
     const issueId = response.data.issueId;
 
     const newIssue = {
@@ -40,17 +39,17 @@ export default function ProjectPage() {
       title: title,
       startDate: startDate,
       endDate: endDate,
-      status: 'CREATED'
+      status: 'CREATED',
     };
 
     await updateIssue(newIssue);
-  }
+  };
 
   return (
     <div className={styles.issue_container}>
       <h2>프로젝트 페이지</h2>
       <div>
-        <IssueAddButton text={'이슈추가'} onClick={setModalIsOpen}/>
+        <IssueAddButton text={'이슈추가'} onClick={setModalIsOpen} />
       </div>
       <div>
         <MainTab />

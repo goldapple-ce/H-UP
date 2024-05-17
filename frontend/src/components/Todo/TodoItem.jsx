@@ -2,9 +2,9 @@ import playIcon from '@asset/img/play_icon.png';
 import UserIcon from '@component/common/UserIcon';
 import { useState } from 'react';
 import styles from './TodoItem.module.scss';
+import { CaretRightFill } from 'react-bootstrap-icons';
 
 const TodoItem = ({ todo }) => {
-  console.log(todo);
   const { todoId, content, status, requesterInfo, assigneeInfo } = todo;
   const [iconImage, setIconImage] = useState('');
 
@@ -33,6 +33,7 @@ const TodoItem = ({ todo }) => {
           src={requesterInfo.img}
           alt={requesterInfo.name}
         />
+        <CaretRightFill className={styles.caret} />
         <UserIcon
           className={styles.Todo__assignee}
           key={assigneeInfo.id}

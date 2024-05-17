@@ -107,19 +107,19 @@ body {
     }
   }
 
-  input[type="radio"] {
+  input[type='radio'] {
     display: none;
   }
 
-  input[type="radio"]:checked + label {
+  input[type='radio']:checked + label {
     background-color: #bdf1ff;
   }
 }
 
 .team_container {
-    margin-left: 10px;
-    position: absolute;
-    bottom: 200px;
+  margin-left: 10px;
+  position: absolute;
+  bottom: 200px;
 }
 
 .sd_option {
@@ -127,7 +127,7 @@ body {
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 
-.sd_option_item{
+.sd_option_item {
   display: flex;
   align-items: center;
   cursor: pointer;

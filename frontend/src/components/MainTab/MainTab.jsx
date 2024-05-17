@@ -29,6 +29,7 @@ const MainTab = () => {
   //   }, []);
   //   ///////////////////////////////////////////////////////////////////
   const { id } = useParams();
+
   // issue
   const { isLoading: issueLoading, data: issues } = useIssueListQuery(
     parseInt(id),
@@ -37,15 +38,24 @@ const MainTab = () => {
   const setIssueList = useSetRecoilState(issueState);
 
   useEffect(() => {
-    console.log('issue changed');
-    console.log(issues);
-    if (issues)
-      setIssueList(
-        issues.map(item => ({
-          ...item,
-          title: item.title || '제목 없음',
-        })),
-      );
+    const fetchData = async () => {
+      if (Array.isArray(issues) && issues.length > 0) {
+        try {
+          console.log('issue changed');
+          console.log(issues);
+          setIssueList(
+            issues.map(item => ({
+              ...item,
+              title: item.title || '제목 없음',
+            })),
+          );
+        } catch (error) {
+          console.log(error);
+          setIssueList([]);
+        }
+      }
+    };
+    fetchData();
   }, [issues]);
 
   // to_do
@@ -70,29 +80,27 @@ const MainTab = () => {
   const setAgendaList = useSetRecoilState(agendaState);
 
   useEffect(() => {
-    console.log(agendas)
+    console.log(agendas);
     setAgendaList(agendas);
   }, [agendas]);
-
-  // state
 
   return (
     <div className={styles.maintab_container}>
       <div className={styles.tab__group}>
-        <Tab id='1' name='이슈' setDefault={true}>
+        <Tab groupId='1' id='1' name='이슈' setDefault={true}>
           {!issueLoading && <IssueForm />}
         </Tab>
-        <Tab id='2' name='칸반'>
+        <Tab groupId='1' id='2' name='칸반'>
           {!issueLoading && <Kanban />}
         </Tab>
-        <Tab id='3' name='할일'>
-          {!todoLoading && <Todo todos={todos} />}
+        <Tab groupId='1' id='3' name='할일'>
+          {!todoLoading && <Todo />}
         </Tab>
-        <Tab id='4' name='의사결정'>
-          {!agendaLoading && <Agenda agendas={agendas} />}
+        <Tab groupId='1' id='4' name='의사결정'>
+          {!agendaLoading && <Agenda />}
         </Tab>
-        <Tab id='5' name='캘린더'>
-          {!todoLoading && <MyCalendar/>}
+        <Tab groupId='1' id='5' name='캘린더'>
+          {!issueLoading && <MyCalendar />}
         </Tab>
       </div>
     </div>
