@@ -32,19 +32,23 @@ const NavBar = () => {
   return (
     <nav>
       <div className={styles.nav_container}>
+        <IconButton toDo={ShowMenuSidebar}>
+          <Menu />
+        </IconButton>
         <Link to={userInfo.isLogin ? '/' : '/login'} className={styles.logo}>
           H•UP
         </Link>
         <div className={styles.btn_container} hidden={!userInfo.isLogin}>
-          <IconButton toDo={ShowMenuSidebar}>
-            <Menu />
-          </IconButton>
-          <IconButton toDo={ShowMessengerSidebar}>
-            <CommentDetail />
-          </IconButton>
-          <IconButton toDo={logout}>
-            <LogOut />
-          </IconButton>
+          {userInfo.isLogin ? (
+            <>
+              <IconButton toDo={ShowMessengerSidebar}>
+                <CommentDetail />
+              </IconButton>
+              <IconButton toDo={logout}>
+                <LogOut />
+              </IconButton>
+            </>
+          ) : null}
         </div>
       </div>
     </nav>
