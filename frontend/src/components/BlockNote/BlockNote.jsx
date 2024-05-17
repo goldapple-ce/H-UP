@@ -23,9 +23,11 @@ import * as Y from 'yjs';
 import './IssueEditorPageBlockNote.css';
 import styles from '../Todo/Todo.module.scss';
 import { HiOutlineGlobeAlt } from "react-icons/hi";
-import { PostTodo } from "@api/services/todoapi";
+import { PostTodo, PostTodoAssignee } from "@api/services/todoapi";
 //import { RiAlertFill } from "react-icons/ri";
 import { Alert } from "./Alert";
+import { authAxios } from "@api/index";
+import { FaPencilAlt, FaTimes, FaUser } from 'react-icons/fa'; // 아이콘 추가
 
 
 
@@ -91,13 +93,28 @@ const BlockNote = ({ issueId }) => {
   const [assignees, setAssignees] = useState([]);
   const [newAssignee, setNewAssignee] = useState('');
 
-  const handleAddAssignee = async () => {
-    if (selectedMember) {
-      const response = await GetTodo(Todo.id);
-      console.log(response.data);
-      await PostTodoAssignee({todoId:Todo.id, memberIdList:[...response.data.memberInfoList, selectedMember]});
-      setTeamMembers([...response.data, selectedMember]);
+  useEffect(() => {
+    async function fetchTeamMembers() {
+      try {
+        const response = await authAxios.get(`https://h-up.site/api/team/members/${issueId}`);
+        setTeamMembers(response.data.memberInfoList);
+      } catch (error) {
+        console.error('Error fetching team members:', error);
+      }
     }
+    fetchTeamMembers();
+  }, []);
+
+  const handleAddAssignee = async () => {
+    if (selectedMember && !assignees.includes(selectedMember)) {
+      const addobject = JSON.parse(selectedMember)
+      setAssignees([...assignees, addobject]);
+    }
+  };
+
+  const handleRemoveAssignee = async (index) => {
+    const ToDeleteAssignee = assignees.filter((_, i) => i !== index);
+    setAssignees(ToDeleteAssignee);
   };
 
   // Custom Slash Menu item to insert a block after the current one.
@@ -154,19 +171,23 @@ const getCustomSlashMenuItems = (
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const contentAndDate = content+'#$%'+startDate+'#$%'+endDate;
     //console.log(contentAndDate);
     const newTodo = {
-      issueId:10,
-      content:contentAndDate
+      issueId:issueId,
+      content:content
     };
-    await PostTodo(newTodo);
+    const response = await PostTodo(newTodo);
+    const responsetodoId = response.data.todoId;
+
+    for (let i = 0; i < assignees.length; ++i) {
+      const data = {todoId: responsetodoId, memberId:assignees[i].id};
+      PostTodoAssignee(data);
+    }
 
     const newTodoBlock = {
       type:"alert",
       content: content
     }
-    console.log(newTodoBlock);
     closeModal();
     insertTodoBlock(editor, newTodoBlock);
   }
@@ -351,10 +372,8 @@ const getCustomSlashMenuItems = (
             required 
           />
         </label>
-      </form>
 
       <h2 className={styles.modalTitle}>인원 관리</h2>
-        <form className={styles.modalForm}>
           <label className={styles.modalLabel}>
             Add Assignee:
             <select
@@ -364,8 +383,8 @@ const getCustomSlashMenuItems = (
             >
               <option value="">Select a member</option>
               {teamMembers.map((member, index) => (
-                <option key={index} value={member}>
-                  {member.id}
+                <option key={index} value={JSON.stringify(member)}>
+                  {member.name}
                 </option>
               ))}
             </select>
@@ -376,7 +395,7 @@ const getCustomSlashMenuItems = (
           <ul className={styles.assigneeList}>
             {assignees.map((assignee, index) => (
               <li key={index} className={styles.assigneeItem}>
-                {assignee.assigneeId}
+                {assignee.name}
                 <button
                   type="button"
                   onClick={() => handleRemoveAssignee(index)}
@@ -387,11 +406,12 @@ const getCustomSlashMenuItems = (
               </li>
             ))}
           </ul>
-        </form>
         <div className={styles.modalButtons}>
           <button type="submit" className={styles.submitButton}>Add</button>
           <button type="button" onClick={closeModal} className={styles.cancelButton}>Cancel</button>
         </div>
+        </form>
+        
       </Modal>
     </>
       
