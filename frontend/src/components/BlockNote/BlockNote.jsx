@@ -98,6 +98,7 @@ const BlockNote = ({ issueId }) => {
         if (info.teamId != 0) {
           console.log(info.teamId);
           const response = requestTeamMemberList(info.teamId);
+          console.log(response.data);
           setTeamMembers(response.data.memberInfoList);
         }
       } catch (error) {
@@ -209,6 +210,7 @@ const BlockNote = ({ issueId }) => {
     async function fetchContent() {
       try {
         const response = requestIssueDetail(issueId);
+        console.log(response.data);
         //console.log("res = " ,response.data.content);
         const contentData = JSON.parse(response.data.content);
         //console.log("content = ", contentData);
