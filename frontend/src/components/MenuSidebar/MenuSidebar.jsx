@@ -3,18 +3,22 @@ import { requestTeamList } from '@api/services/team';
 import { projectState } from '@recoil/project';
 import { MenuSidebarState } from '@recoil/recoil';
 import { teamState } from '@recoil/team';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { List } from 'react-bootstrap-icons';
 import { useRecoilState } from 'recoil';
 import styles from './MenuSidebar.module.scss';
 import SubMenu from './SubMenu';
 import { infoState } from '@recoil/info';
+import { Settings } from '@styled-icons/evaicons-solid/Settings';
+import IconButton from '../IconButton/IconButton';
+import SettingContainer from '@component/Setting/SettingContainer';
 
 const MenuSidebar = () => {
   const [isOpen, setIsopen] = useRecoilState(MenuSidebarState);
   const [projectList, setProjectList] = useRecoilState(projectState);
   const [teamList, setTeamList] = useRecoilState(teamState);
   const [info, setInfo] = useRecoilState(infoState);
+  const [isSettingOpen, setIsSettingOpen] = useState(false);
 
   // 팀 선택 Radio
   const handleRadioChange = async event => {
@@ -35,6 +39,13 @@ const MenuSidebar = () => {
   const ShowSidebar = () => {
     isOpen === true ? setIsopen(false) : setIsopen(true);
   };
+
+  const showSetting = () => {
+    setIsSettingOpen(true);
+  }
+  const closeSetting = () => {
+    setIsSettingOpen(false);
+  }
 
   // Team 리스트 불러오기
   useEffect(() => {
@@ -69,6 +80,15 @@ const MenuSidebar = () => {
             <div className='btn' onClick={ShowSidebar}>
               <List />
             </div>
+          </div>
+          <div className={styles.sd_option}>
+            <div className={styles.sd_option_item} onClick={showSetting}>
+              <IconButton >
+                <Settings />
+              </IconButton>
+              <div >설정</div>
+            </div>
+            <SettingContainer isOpen={isSettingOpen} closeSetting={closeSetting}/>
           </div>
           <div className={styles.sd_body}>
             <ul>
