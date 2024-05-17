@@ -91,6 +91,7 @@ const BlockNote = ({ issueId }) => {
   const [selectedMember, setSelectedMember] = useState('');
   const [assignees, setAssignees] = useState([]);
   const [newAssignee, setNewAssignee] = useState('');
+  const [title, setTitle] = useState('');
 
   useEffect(() => {
     async function fetchTeamMembers() {
@@ -215,6 +216,9 @@ const BlockNote = ({ issueId }) => {
         const response = await requestIssueDetail(issueId);
         //console.log("res = " ,response.data.content);
         const contentData = JSON.parse(response.data.content);
+        setStartDate(response.data.startDate);
+        setEndDate(response.data.endDate);
+        setTitle(response.data.title);
         //console.log("content = ", contentData);
         if (Array.isArray(contentData)) {
           //console.log("Uint : " , new Uint8Array(contentData));
@@ -346,6 +350,14 @@ const BlockNote = ({ issueId }) => {
 
   return (
     <>
+      <div className={styles.header}>
+        <h1 className={styles.title}>{title}</h1>
+        <div className={styles.dateContainer}>
+          <span className={styles.date}>Start: {startDate}</span>
+          <span className={styles.date}>End: {endDate}</span>
+        </div>
+      </div>
+
       <BlockNoteView
         editor={editor}
         slashMenu={false}
