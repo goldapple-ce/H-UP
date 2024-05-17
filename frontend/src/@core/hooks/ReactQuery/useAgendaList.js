@@ -7,7 +7,6 @@ export const useAgendaListQuery = projectId => {
     queryKey: [QUERY_KEY.AGENDA_LIST, projectId],
     queryFn: () => requestAgendaList(projectId),
     select: data => data.data.agendaList,
-    refetchInterval: 5000,
   });
   return {
     isLoading,
