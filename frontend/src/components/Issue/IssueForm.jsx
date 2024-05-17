@@ -2,10 +2,9 @@ import { issueState } from '@recoil/issue';
 import { useRecoilState } from 'recoil';
 import styles from './IssueForm.module.scss';
 import IssueItemContainer from './IssueItemContainer';
-import { useParams } from 'react-router-dom';
 
 const IssueForm = () => {
-  const [issueList, setIssueList] = useRecoilState(issueState);
+  const [issueList] = useRecoilState(issueState);
   // const { startLoading, finishLoading } = MyLayout.useLoading();
   // const { openDialog } = MyLayout.useDialog();
 

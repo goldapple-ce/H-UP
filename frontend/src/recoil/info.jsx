@@ -7,7 +7,6 @@ export const infoState = atom({
   key: 'infoState',
   default: {
     teamId: 0,
-    projectId: 0,
   },
   effects_UNSTABLE: [persistAtom],
 });

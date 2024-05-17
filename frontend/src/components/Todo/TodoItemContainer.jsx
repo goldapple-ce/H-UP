@@ -17,7 +17,6 @@ import { useRecoilState } from 'recoil';
 import { infoState } from '@recoil/info';
 
 const TodoItemContainer = ({ todo, projectId }) => {
-  console.log(todo);
   const navigate = useNavigate();
 
   const { CREATED, PROGRESS, SELECTED, COMPLETED } = STATUS;
@@ -35,7 +34,7 @@ const TodoItemContainer = ({ todo, projectId }) => {
   useEffect(() => {
     async function fetchTeamMembers() {
       try {
-        const response = requestTeamMemberList(info.teamId);
+        const response = await requestTeamMemberList(info.teamId);
         setTeamMembers(response.data.memberInfoList);
       } catch (error) {
         console.error('Error fetching team members:', error);

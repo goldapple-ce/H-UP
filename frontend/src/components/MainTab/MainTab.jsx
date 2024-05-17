@@ -70,29 +70,27 @@ const MainTab = () => {
   const setAgendaList = useSetRecoilState(agendaState);
 
   useEffect(() => {
-    console.log(agendas)
+    console.log(agendas);
     setAgendaList(agendas);
   }, [agendas]);
-
-  // state
 
   return (
     <div className={styles.maintab_container}>
       <div className={styles.tab__group}>
-        <Tab id='1' name='이슈' setDefault={true}>
+        <Tab groupId='1' id='1' name='이슈' setDefault={true}>
           {!issueLoading && <IssueForm />}
         </Tab>
-        <Tab id='2' name='칸반'>
+        <Tab groupId='1' id='2' name='칸반'>
           {!issueLoading && <Kanban />}
         </Tab>
-        <Tab id='3' name='할일'>
+        <Tab groupId='1' id='3' name='할일'>
           {!todoLoading && <Todo todos={todos} />}
         </Tab>
-        <Tab id='4' name='의사결정'>
+        <Tab groupId='1' id='4' name='의사결정'>
           {!agendaLoading && <Agenda agendas={agendas} />}
         </Tab>
-        <Tab id='5' name='캘린더'>
-          {!todoLoading && <MyCalendar/>}
+        <Tab groupId='1' id='5' name='캘린더'>
+          {!todoLoading && <MyCalendar todos={todos} />}
         </Tab>
       </div>
     </div>

@@ -22,10 +22,10 @@ const AgendaItem = ({ agenda, onClick }) => {
   return (
     <div className={styles.agenda} onClick={onClick}>
       <img src={playIcon} alt='' />
-        <div>
-          <h5>{content}</h5>
-          {/* <span>요청자 :{requester.name}</span> */}
-        </div>
+      <div>
+        <h5>{content}</h5>
+        {/* <span>요청자 :{requester.name}</span> */}
+      </div>
       <ul>
         <p>{formatToDate(createdAt)}</p>
       </ul>
@@ -35,7 +35,7 @@ const AgendaItem = ({ agenda, onClick }) => {
         src='https://images.unsplash.com/photo-1496345875659-11f7dd282d1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2250&q=80'
         alt={requester.name}
       />
-      <CaretRightFill className={styles.caret}/>
+      <CaretRightFill className={styles.caret} />
       <div className={styles.agenda__assignee_list}>
         {assigneeList.map(assignee => (
           <img

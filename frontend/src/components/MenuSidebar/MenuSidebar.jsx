@@ -54,11 +54,12 @@ const MenuSidebar = () => {
         setTeamList([]);
         const response = await requestTeamList();
         console.log(response.data);
-        const teams = response.data.teamInfoList;
-        setTeamList(teams);
+        setTeamList(response.data.teamInfoList);
 
-        if (teams.length > 0) {
-          const teamData = await requestTeamProjectList(teams[0].id);
+        if (response.data.teamInfoList.length > 0) {
+          const teamData = await requestTeamProjectList(
+            response.data.teamInfoList[0].id,
+          );
           console.log(teamData.data);
           setProjectList(teamData.data.projectInfoList);
         }

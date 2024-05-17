@@ -4,7 +4,6 @@ import { useState } from 'react';
 import styles from './TodoItem.module.scss';
 
 const TodoItem = ({ todo }) => {
-  console.log(todo);
   const { todoId, content, status, requesterInfo, assigneeInfo } = todo;
   const [iconImage, setIconImage] = useState('');
 

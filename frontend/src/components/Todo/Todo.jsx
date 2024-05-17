@@ -16,8 +16,10 @@ export default function Todo() {
   }, [todoList]);
 
   return (
-    <div className={styles.Todo}>
-      <TodoForm todoList={todoList} projectId={projectId} />
-    </div>
+    todoList && (
+      <div className={styles.Todo}>
+        <TodoForm todoList={todoList} projectId={projectId} />
+      </div>
+    )
   );
 }
