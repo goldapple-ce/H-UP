@@ -8,12 +8,13 @@ const API_URI = {
   REFRESH: '/auth/refresh',
   // issue
   ISSUE: '/issue',
+  ISSUE_LIST: '/issue/list',
   UPDATE_ISSUE_STATUS: '/issue/status',
   UPDATE_ISSUE_DATE: '/issue/date',
-  ISSUE_LIST: '/issue/list',
-  MY_TEAM_LIST: '/team/me',
-  MY_PROJECT_LIST: '/project/list/team',
-  MY_ISSUE_LIST: '/issue/list',
+  //team
+  TEAM_LIST: '/team/me',
+  //project
+  PROJECT_LIST: '/project/list/team',
   // to_do
   TODO: '/todo',
   TODO_ASSIGNEE: '/todo/assignee',
