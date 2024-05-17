@@ -1,14 +1,18 @@
+import { requestIssueList } from '@api/services/issue';
+import { MyCalendarState } from '@recoil/calendar';
+import { issueState } from '@recoil/issue';
 import moment from 'moment';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Calendar, Views, momentLocalizer } from 'react-big-calendar';
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
 import { styled } from 'styled-components';
+import { loginDummyData } from './../../test/userData';
 import styles from './Calendar.module.scss';
 import events from './Events';
 import Toolbar from './Toolbar';
-import { loginDummyData } from './../../test/userData';
 
 const Container = styled.div`
   .rbc-addons-dnd {
@@ -121,6 +125,9 @@ const Container = styled.div`
 const MyCalendar = () => {
   const [myEvents, setMyEvents] = useState(events);
   const [onClickEventData, setOnClickEventData] = useState();
+  const [isChecked, setIsChecked] = useRecoilState(MyCalendarState);
+  const [issueList, setIssueList] = useRecoilState(issueState);
+
   const navigate = useNavigate();
 
   moment.locale('ko-KR');
@@ -128,28 +135,35 @@ const MyCalendar = () => {
   // Drag & Drop으로 변경
   const DragAndDropCalendar = withDragAndDrop(Calendar);
 
-  //유즈쿼리로 일정 데이터를 받아옴
-  // const { data: dataOnLoadData, refetch: refetchOnLoadData } = useQuery(
-  //   "onLoadData",
-  //   onLoadData
-  // );
+  const { projectId } = useParams();
+
+  //유즈 로 일정 데이터를 받아옴
+  useEffect(() => {
+    if (issueList.length === 0) {
+      const getIssueList = async projectId => {
+        try {
+          const response = requestIssueList(projectId);
+          setIssueList(response.data.responseList);
+        } catch (error) {
+          console.error('Error fetching initial content:', error);
+        }
+      };
+      getIssueList(projectId);
+    }
+    //  이슈 받아서 변환
+    // const adjEvents = issueList.map((data) => ({
+    //     ...data,
+    //     start: formatToJSDate(data.startDate),
+    //     end: formatToJSDate(data.endDate),
+    //   }));
+    //   console.log(adjEvents);
+    //   setMyEvents(adjEvents);
+  }, [issueList]);
 
   //DB에서 들어오는 DATE 값을 JAVASCRIPT양식으로 바꿔주는 함수
   function formatToJSDate(oracleDateStr) {
     return new Date(oracleDateStr);
   }
-
-  //쿼리가 발생하면 데이터를 받아서 날짜를 변환
-  // useEffect(() => {
-  //   if (dataOnLoadData) {
-  //     const adjEvents = Object.values(dataOnLoadData).map((data) => ({
-  //       ...data,
-  //       start: formatToJSDate(data.start),
-  //       end: formatToJSDate(data.end),
-  //     }));
-  //     setMyEvents(adjEvents);
-  //   }
-  // }, [dataOnLoadData]);
 
   //값을 업데이트함
   // const {
@@ -226,7 +240,7 @@ const MyCalendar = () => {
     return (
       <div className={styles.title}>
         <img src={issue.profile} />
-        <p>{issue.id}</p>
+        <p>{issue.title}</p>
       </div>
     );
   };
@@ -250,9 +264,13 @@ const MyCalendar = () => {
       color: 'black',
       borderRadius: '20px',
     };
+    if (isChecked && event.member !== loginDummyData.memberId) {
+      newStyle.display = 'none';
+    }
     if (event.member === loginDummyData.memberId) {
       newStyle.backgroundColor = 'lightblue';
     }
+
     return {
       className: '',
       style: newStyle,
@@ -318,8 +336,6 @@ const MyCalendar = () => {
         //보여질 화면
         view={currentView}
         popup
-        resizable
-        selectable
         handleDragStart={handleClick}
         titleAccessor={loadProfileImage}
       />

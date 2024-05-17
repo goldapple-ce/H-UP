@@ -8,15 +8,19 @@ const API_URI = {
   REFRESH: '/auth/refresh',
   // issue
   ISSUE: '/issue',
+  ISSUE_LIST: '/issue/list',
   UPDATE_ISSUE_STATUS: '/issue/status',
   UPDATE_ISSUE_DATE: '/issue/date',
-  ISSUE_LIST: '/issue/list',
-  MY_TEAM_LIST: '/team/me',
-  MY_PROJECT_LIST: '/project/list/team',
-  MY_ISSUE_LIST: '/issue/list',
-  // todo
+  //team
+  TEAM_LIST: '/team/me',
+  TEAM_MEMBER_LIST: '/team/members',
+  //project
+  PROJECT: '/project',
+  PROJECT_LIST: '/project/list/team',
+  PROJECT_MEMBER_LIST: '/project/members',
+  // to_do
   TODO: '/todo',
-  TODO_ASSIGNEE: '/todo/assignee',
+  TODO_ASSIGN: '/todo/assignee',
   TODO_LIST: '/todo/list',
   // agenda
   AGENDA_LIST: '/agenda/list/project',

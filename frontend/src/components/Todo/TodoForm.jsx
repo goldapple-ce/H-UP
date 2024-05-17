@@ -1,31 +1,32 @@
 import styles from './TodoForm.module.scss';
 import TodoItemContainer from './TodoItemContainer';
 
-const TodoForm = ({ TodoList }) => {
-  const newList = TodoList.filter(Todo => Todo.createdAt >= new Date());
-
+const TodoForm = ({ todoList, projectId }) => {
+  console.log(todoList);
   return (
-    <div className={styles.Todo}>
-      <div className={styles.Todo__column1}>
-        <ul className={styles.Todo__list}>
-          {TodoList.map(Todo => (
-            <li key={Todo.todoId}>
-              <TodoItemContainer Todo={Todo} />
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div className={styles.Todo__column2}>
-        <h4>마감이 임박한 할일</h4>
-        <ul className={styles.Todo__new_list}>
+    todoList && (
+      <div className={styles.Todo}>
+        <div className={styles.Todo__column1}>
+          <ul className={styles.Todo__list}>
+            {todoList.map(todo => (
+              <li key={todo.todoId}>
+                <TodoItemContainer todo={todo} projectId={projectId} />
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className={styles.Todo__column2}>
+          <h4>마감이 임박한 할일</h4>
+          {/* <ul className={styles.Todo__new_list}>
           {newList.map(Todo => (
             <li key={Todo.todoId}>
-              <TodoItemContainer Todo={Todo} />
+              <TodoItemContainer todo={Todo} projectId={projectId} />
             </li>
           ))}
-        </ul>
+        </ul> */}
+        </div>
       </div>
-    </div>
+    )
   );
 };
 

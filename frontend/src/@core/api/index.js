@@ -14,4 +14,5 @@ export const authAxios = axios.create({
     'Content-Type': 'application/json',
   },
 });
+
 interceptor(authAxios);

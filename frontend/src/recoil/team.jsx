@@ -1,6 +1,6 @@
-import { atom } from "recoil";
+import { atom } from 'recoil';
 
-export const TeamListState = atom({
-    key: 'TeamListState',
-    default: [],
-})
+export const teamState = atom({
+  key: 'teamState',
+  default: [],
+});

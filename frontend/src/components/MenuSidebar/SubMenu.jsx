@@ -1,27 +1,29 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './SubMenu.module.scss';
-import { LoadProjectIssueList } from '@api/services/team';
-import {useEffect} from 'react';
+
+import { requestIssueList } from '@api/services/issue';
+import { issueState } from '@recoil/issue';
 import { useRecoilState } from 'recoil';
-import { IssueListState } from '@recoil/issue';
 
 const SubMenu = ({ item }) => {
   const [subnav, setSubnav] = useState(false);
-  const [issueList, setIssueList] = useRecoilState(IssueListState);
+  const [issueList, setIssueList] = useRecoilState(issueState);
 
-  const showSubnav = () => {setSubnav(!subnav)};
+  const showSubnav = () => {
+    setSubnav(!subnav);
+  };
 
-  const fetchData = async (e) => {
+  const fetchData = async e => {
     try {
-      const response = await LoadProjectIssueList(item.id); 
+      const response = requestIssueList(item.id);
+      console.log(response.data);
       const list = response.data.responseList;
-        
       setIssueList(list);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   return (
     <>
@@ -35,7 +37,7 @@ const SubMenu = ({ item }) => {
       >
         <div>
           <div>
-            <span>{item.name}</span>
+            <subMenuSpan>{item.name}</subMenuSpan>
           </div>
           <div>
             {issueList && subnav
@@ -46,27 +48,26 @@ const SubMenu = ({ item }) => {
           </div>
         </div>
       </Link>
-        {subnav &&
-          issueList.map((item, index) => {
-            return (
-              <Link
-                className={styles.dropdownLink}
-                to={`/issue/${item.issueId}`}
-                key={index}
-              >
-                <span>{item.title}</span>
-              </Link>
-            );
-          })}
+      {subnav &&
+        issueList.map(item => {
+          return (
+            <Link
+              key={item.issueId}
+              className={styles.dropdownLink}
+              to={`/issue/${item.issueId}`}
+            >
+              <subMenuSpan>{item.title}</subMenuSpan>
+            </Link>
+          );
+        })}
     </>
   );
 };
 
 export default SubMenu;
 
-
-
-{/* <Link
+{
+  /* <Link
         className={styles.sidebarLink}
         to={item.path}
         onClick={item.subNav && showSubnav}
@@ -74,7 +75,7 @@ export default SubMenu;
         <div>
           <div>
             {item.icon}
-            <span>{item.title}</span>
+            <subMenuSpan>{item.title}</subMenuSpan>
           </div>
           <div>
             {item.subNav && subnav
@@ -94,7 +95,8 @@ export default SubMenu;
               key={index}
             >
               {item.icon}
-              <span>{item.title}</span>
+              <subMenuSpan>{item.title}</subMenuSpan>
             </Link>
           );
-        })} */}
+        })} */
+}

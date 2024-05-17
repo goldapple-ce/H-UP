@@ -2,13 +2,22 @@ import checkIcon from '@asset/img/check_icon.png';
 import pauseIcon from '@asset/img/pause_icon.png';
 import playIcon from '@asset/img/play_icon.png';
 import upArrowIcon from '@asset/img/up_arrow_icon.png';
+import STATUS from '@constant/status';
 import { useEffect, useState } from 'react';
-import { TITLE_NAME } from '../Kanban/Kanban';
 import styles from './IssueItem.module.scss';
+import UserIcon from '@component/common/UserIcon';
 
 const IssueItem = ({ issue, onClick }) => {
-  const { issueId, title, status, startDate, endDate, memberInfo } = issue;
-  const { CREATED, SELECTED, PROGRESS, COMPLETED } = TITLE_NAME;
+  const {
+    issueId,
+    title,
+    status,
+    startDate,
+    endDate,
+    memberInfo,
+    assigneeInfoList,
+  } = issue;
+  const { CREATED, SELECTED, PROGRESS, COMPLETED } = STATUS;
   const [iconImage, setIconImage] = useState('');
 
   const formatToDate = jsDateStr => {
@@ -48,13 +57,10 @@ const IssueItem = ({ issue, onClick }) => {
         <p className={styles.date}>
           {formatToDate(startDate)} ~ {formatToDate(endDate)}
         </p>
-        {memberInfo && (
-          <img
-            key={memberInfo.id}
-            src={memberInfo.img}
-            alt={memberInfo.name}
-          ></img>
-        )}
+        {assigneeInfoList &&
+          assigneeInfoList.map(mem => (
+            <UserIcon key={mem.id} src={mem.img} alt={mem.name} />
+          ))}
       </ul>
     </div>
   );

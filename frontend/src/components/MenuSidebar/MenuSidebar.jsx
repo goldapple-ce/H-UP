@@ -1,30 +1,33 @@
+import { requestTeamProjectList } from '@api/services/project';
+import { requestTeamList } from '@api/services/team';
+import { projectState } from '@recoil/project';
+import { MenuSidebarState } from '@recoil/recoil';
+import { teamState } from '@recoil/team';
+import { useEffect } from 'react';
 import { List } from 'react-bootstrap-icons';
 import { useRecoilState } from 'recoil';
-import { MenuSidebarState } from '@recoil/recoil';
 import styles from './MenuSidebar.module.scss';
 import SubMenu from './SubMenu';
-import { LoadMyTeamList, LoadTeamProjectList } from '@api/services/team';
-import {useState, useEffect} from 'react'
-import { TeamListState } from '@recoil/team';
-import { ProjectListState } from '@recoil/project';
+import { infoState } from '@recoil/info';
 
 const MenuSidebar = () => {
   const [isOpen, setIsopen] = useRecoilState(MenuSidebarState);
-  const [projectList, setProjectList] = useRecoilState(ProjectListState);
-  const [teamList, setTeamList] = useRecoilState(TeamListState);
+  const [projectList, setProjectList] = useRecoilState(projectState);
+  const [teamList, setTeamList] = useRecoilState(teamState);
+  const [info, setInfo] = useRecoilState(infoState);
 
-  // 팀 선택 Radio 
-  const handleRadioChange = async (event) => {
+  // 팀 선택 Radio
+  const handleRadioChange = async event => {
     const teamId = event.target.value;
     try {
-      const teamData = await LoadTeamProjectList(teamId);
-<<<<<<< Updated upstream
-=======
-      console.log(teamData.data);
->>>>>>> Stashed changes
-      setProjectList(teamData.data.responseList);
+      const teamData = await requestTeamProjectList(teamId);
+      console.log(teamData);
+      setInfo({
+        teamId: teamId,
+      });
+      setProjectList(teamData.data.projectInfoList);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
 
@@ -37,25 +40,26 @@ const MenuSidebar = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setTeamList([]) 
-        const response = await LoadMyTeamList();
+        setTeamList([]);
+        const response = await requestTeamList();
+        console.log(response.data);
         const teams = response.data.teamInfoList;
         console.log(response.data.teamInfoList)
         setTeamList(response.data.teamInfoList);
 
         if (teams.length > 0) {
-          const teamData = await LoadTeamProjectList(teams[0].id);
-          setProjectList(teamData.data.responseList);
+          const teamData = await requestTeamProjectList(teams[0].id);
+          console.log(teamData.data);
+          setProjectList(teamData.data.projectInfoList);
         }
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
-    }
+    };
     fetchData();
   }, []);
 
-
-  return (projectList && (
+  return (
     <>
       <div className='bar-container'>
         <div
@@ -69,20 +73,19 @@ const MenuSidebar = () => {
           </div>
           <div className={styles.sd_body}>
             <ul>
-              {projectList.map((item) => {
+              {projectList.map(item => {
                 return <SubMenu key={item.id} item={item} />;
               })}
             </ul>
           </div>
           <div className={styles.team_container}>
-            
             <h5>Team</h5>
-            {teamList.map((team) => (
+            {teamList.map(team => (
               <div className={styles.team}>
                 <label key={team.id} htmlFor={team.id}>
                   <input
-                    type="radio"
-                    name="team"
+                    type='radio'
+                    name='team'
                     value={team.id}
                     id={team.id}
                     className={styles.team__radio}
