@@ -20,17 +20,17 @@ const TodoItemContainer = ({ Todo, setTodoList, projectId }) => {
   const [assignees, setAssignees] = useState(Todo.assigneeList || []);
   const [newAssignee, setNewAssignee] = useState('');
 
-  useEffect(() => {
-    async function fetchTeamMembers() {
-      try {
-        const response = await authAxios.get(`https://h-up.site/api/team/members/${projectId}`);
-        setTeamMembers(response.data.memberInfoList);
-      } catch (error) {
-        console.error('Error fetching team members:', error);
-      }
-    }
-    fetchTeamMembers();
-  }, []);
+  // useEffect(() => {
+  //   async function fetchTeamMembers() {
+  //     try {
+  //       const response = await authAxios.get(`https://h-up.site/api/team/members/${projectId}`);
+  //       setTeamMembers(response.data.memberInfoList);
+  //     } catch (error) {
+  //       console.error('Error fetching team members:', error);
+  //     }
+  //   }
+  //   fetchTeamMembers();
+  // }, []);
 
   const handleEdit = async (e) => {
     e.stopPropagation(); // 부모 요소의 클릭 이벤트를 막기 위해

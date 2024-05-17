@@ -15,11 +15,11 @@ const Todo = () => {
   useEffect(() => {
     const getTodoList = async () => {
       const response = await GetTodoList(id);
-      const todoList = response.data.todoInfoList;
-      const memberResponse = await authAxios.get(`https://h-up.site/api/project/members/${id}`);
+      const todoList = response.data.todoList;
+      // const memberResponse = await authAxios.get(`https://h-up.site/api/project/members/${id}`);
       const modifiedList = todoList.map(item => {
-        const [content, createdAt, endAt] = item.content.split('#$%');
-        return { id:item.todoId, content, createdAt, endAt, assigneeList:memberResponse.data.memberInfoList };
+        // const [content, createdAt, endAt] = item.content.split('#$%');
+        return { id:item.todoId, content, assigneeList };
       })
 
       setTodoList(modifiedList);
