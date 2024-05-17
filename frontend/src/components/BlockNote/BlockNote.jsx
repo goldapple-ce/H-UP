@@ -178,6 +178,7 @@ const BlockNote = ({ issueId }) => {
       content: content,
     };
     const response = await requestSaveTodo(newTodo);
+    console.log(response);
 
     for (let i = 0; i < assignees.length; ++i) {
       const data = {
