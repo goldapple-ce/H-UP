@@ -15,14 +15,16 @@ export default function Agenda() {
   const memberId = userInfo.memberId;
 
   useEffect(() => {
-    setAgendaSubmittedList(
-      agendaList.filter(data => data.agenda.requester.id === memberId),
-    );
-    setAgendaReceivedList(
-      agendaList.filter(data =>
-        data.agenda.assigneeList.some(assignee => assignee.id === memberId),
-      ),
-    );
+    if (Array.isArray(agendaList) && agendaList.length > 0) {
+      setAgendaSubmittedList(
+        agendaList.filter(data => data.agenda.requester.id === memberId),
+      );
+      setAgendaReceivedList(
+        agendaList.filter(data =>
+          data.agenda.assigneeList.some(assignee => assignee.id === memberId),
+        ),
+      );
+    }
   }, [agendaList, memberId]);
 
   return (
@@ -31,10 +33,10 @@ export default function Agenda() {
         <Tab groupId='4' id='1' name='전체 의사결정' setDefault={true}>
           <AgendaForm agendaList={agendaList} />
         </Tab>
-        <Tab groupId='4' id='3' name='요청한 의사결정'>
+        <Tab groupId='4' id='2' name='요청한 의사결정'>
           <AgendaForm agendaList={agendaSubmittedList} />
         </Tab>
-        <Tab groupId='4' id='2' name='받은 의사결정'>
+        <Tab groupId='4' id='3' name='받은 의사결정'>
           <AgendaForm agendaList={agendaReceivedList} />
         </Tab>
       </div>
