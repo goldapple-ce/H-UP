@@ -41,7 +41,7 @@ const IssueForm = () => {
         <div className={styles.issue_section}>
           <ul>
             {issueList &&
-              issueList.map(issue => (
+              issueList?.map(issue => (
                 <li key={issue.issueId}>
                   <IssueItemContainer issue={issue} />
                 </li>
