@@ -91,6 +91,7 @@ const BlockNote = ({ issueId }) => {
   const [selectedMember, setSelectedMember] = useState('');
   const [assignees, setAssignees] = useState([]);
   const [newAssignee, setNewAssignee] = useState('');
+  const [title, setTitle] = useState('');
 
   useEffect(() => {
     async function fetchTeamMembers() {
@@ -143,6 +144,9 @@ const BlockNote = ({ issueId }) => {
 
   const closeModal = () => {
     setModalIsOpen(false);
+    setAssignees([]);
+    setSelectedMember('');
+    setContent('');
   };
 
   const insertTodoBlock = (editor, block) => {
@@ -209,27 +213,29 @@ const BlockNote = ({ issueId }) => {
   //   }, [token]);
 
   // Fetch initial content and set up document
-  // useEffect(() => {
-  //   async function fetchContent() {
-  //     try {
-  //       const response = requestIssueDetail(issueId);
-  //       console.log(response.data);
-  //       //console.log("res = " ,response.data.content);
-  //       const contentData = JSON.parse(response.data.content);
-  //       //console.log("content = ", contentData);
-  //       if (Array.isArray(contentData)) {
-  //         //console.log("Uint : " , new Uint8Array(contentData));
-  //         Y.applyUpdate(ydoc, new Uint8Array(contentData));
-  //         const xmlText = ydoc.getText('prosemirror');
-  //       } else {
-  //         console.error('Invalid initial content format');
-  //       }
-  //     } catch (error) {
-  //       console.error('Error fetching initial content:', error);
-  //     }
-  //   }
-  //   fetchContent();
-  // }, [issueId]);
+  useEffect(() => {
+    async function fetchContent() {
+      try {
+        const response = await requestIssueDetail(issueId);
+        //console.log("res = " ,response.data.content);
+        const contentData = JSON.parse(response.data.content);
+        setStartDate(response.data.startDate);
+        setEndDate(response.data.endDate);
+        setTitle(response.data.title);
+        //console.log("content = ", contentData);
+        if (Array.isArray(contentData)) {
+          //console.log("Uint : " , new Uint8Array(contentData));
+          Y.applyUpdate(ydoc, new Uint8Array(contentData));
+          const xmlText = ydoc.getText('prosemirror');
+        } else {
+          console.error('Invalid initial content format');
+        }
+      } catch (error) {
+        console.error('Error fetching initial content:', error);
+      }
+    }
+    fetchContent();
+  }, [issueId]);
 
   // Setup WebSocket connection and handlers
   useEffect(() => {
@@ -347,6 +353,14 @@ const BlockNote = ({ issueId }) => {
 
   return (
     <>
+      <div className={styles.header}>
+        <h1 className={styles.title}>{title ? title : '제목 없음'}</h1>
+        <div className={styles.dateContainer}>
+          <span className={styles.date}>Start: {startDate ? startDate : '1970-01-01'}</span>
+          <span className={styles.date}>End: {endDate ? endDate : '1970-01-01'}</span>
+        </div>
+      </div>
+
       <BlockNoteView
         editor={editor}
         slashMenu={false}

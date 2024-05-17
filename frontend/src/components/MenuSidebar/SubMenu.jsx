@@ -25,7 +25,7 @@ const SubMenu = ({ item }) => {
       >
         <div>
           <div>
-            <subMenuSpan>{item.name}</subMenuSpan>
+            <span>{item.name}</span>
           </div>
           <div>
             {issueList && subnav

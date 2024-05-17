@@ -28,3 +28,7 @@ export const requestTokenRefresh = async () => {
     },
   });
 };
+
+export const requestAllMember = async () => {
+  return baseAxios.get(`${API_URI.SHOW_MEMBER_ALL}`)
+};
