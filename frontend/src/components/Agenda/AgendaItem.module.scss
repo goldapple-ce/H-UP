@@ -1,51 +1,19 @@
 .agenda {
+  margin: 0 auto;
   width: 100%;
   min-width: 300px;
   border-bottom: 1px solid #333;
-  margin: 5px;
+  padding-top: 20px;
+  margin: 5px 0 10px 5px;
   background-color: white;
   display: flex;
-  align-items: center;
 
-  div {
-    margin: 20px 0px;
-  }
-
-  .icon {
-    flex: 1;
-  }
-
-  .content {
-    flex: 5;
-    justify-content: flex-start;
-  }
-
-  .date {
-    flex: 2;
-    font-size: 12px;
-  }
-
-  .info_container {
-    flex: 2;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-  }
-
-  .delete_button {
-    flex: 1;
-    display: flex;
-    justify-content: flex-end;
-  }
-
-  .caret {
-    margin: 0 15px;
-  }
-
+  
   p {
     font-size: 12px;
     color: grey;
-    margin: 0 10px;
+    margin-right: 20px;
+    margin: 5px 10px 25px 0;
   }
 
   ul {
@@ -63,17 +31,54 @@
 
   h5 {
     font-size: 1.2em;
-    margin: 0;
-    text-align: left;
+    margin: 5px 0 30px 30px;
   }
 
   &:hover {
     transform: translatex(2px);
   }
 
-  &__assignee_list {
+  &__assignee_list{
     display: flex;
     flex-direction: row;
     padding-right: 30px;
+  }
+}
+
+.date {
+  font-size: 12px;
+}
+
+.caret {
+  margin: 5px 5px 0 15px;
+}
+
+
+.userButton,
+.editButton,
+.deleteButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #e0e0e0;
+  }
+}
+
+.deleteButton {
+  background-color: #f8d7da;
+  color: #721c24;
+
+  &:hover {
+    background-color: #f5c6cb;
   }
 }

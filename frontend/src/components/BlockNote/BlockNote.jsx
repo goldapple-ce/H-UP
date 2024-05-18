@@ -29,6 +29,7 @@ import { FaTimes } from 'react-icons/fa'; // 아이콘 추가
 import { Alert } from './Alert';
 import { requestAssignTodo, requestSaveTodo } from '@api/services/todo';
 import { teamIdState } from '@recoil/commonPersist';
+import { AddAgendaAssignee, createAgenda } from '@api/services/agenda';
 
 const schema = BlockNoteSchema.create({
   blockSpecs: {
@@ -93,6 +94,12 @@ const BlockNote = ({ issueId }) => {
   const [newAssignee, setNewAssignee] = useState('');
   const [title, setTitle] = useState('');
 
+  // agenda 관련
+  const [agendaModalIsOpen, setAgendaModalIsOpen] = useState(false);
+  const [agendaContent, setAgendaContent] = useState('');
+  const [agendaAssignees, setAgendaAssignees] = useState([]);
+  const [agendaSelectedMember, setAgendaSelectedMember] = useState('');
+
   useEffect(() => {
     async function fetchTeamMembers() {
       try {
@@ -135,7 +142,7 @@ const BlockNote = ({ issueId }) => {
   const getCustomSlashMenuItems = editor => [
     ...getDefaultReactSlashMenuItems(editor),
     insertTodo(editor),
-    //insertToggle(editor)
+    insertAgenda(editor)
   ];
 
   const openModal = () => {
@@ -199,6 +206,79 @@ const BlockNote = ({ issueId }) => {
     closeModal();
     insertTodoBlock(editor, newTodoBlock);
   };
+
+  
+  // Agenda 관련
+
+  const insertAgendaBlock = (editor, block) => {
+    const currentBlock = editor.getTextCursorPosition().block;
+    editor.updateBlock(currentBlock, block);
+  };
+
+  const insertAgenda = editor => ({
+    title: 'Make Agenda',
+    onItemClick: openAgendaModal,
+    aliases: ['Agenda', 'agenda'],
+    group: 'Other',
+    icon: <HiOutlineGlobeAlt size={18} />,
+    subtext: 'Making Agenda',
+  });
+
+  const handleAddAgendaAssignee = async () => {
+    if (agendaSelectedMember && !agendaAssignees.includes(agendaSelectedMember)) {
+      const addObject = JSON.parse(agendaSelectedMember);
+      setAgendaAssignees([...agendaAssignees, addObject]);
+    }
+  };
+
+  const handleRemoveAgendaAssignee = async index => {
+    const ToDeleteAssignee = agendaAssignees.filter((_, i) => i !== index);
+    setAgendaAssignees(ToDeleteAssignee);
+  };
+
+  const openAgendaModal = () => {
+    setAgendaModalIsOpen(true);
+  };
+
+  const closeAgendaModal = () => {
+    setAgendaModalIsOpen(false);
+    setAgendaContent('');
+    setAgendaSelectedMember('');
+    setAgendaAssignees([]);
+  };
+
+  const handleAgendaSubmit = async e => {
+    e.preventDefault();
+    makeAgenda();
+  };
+
+  const makeAgenda = async () => {
+
+    const newAgenda = {
+      issueId: issueId,
+      content: agendaContent,
+    };
+
+    const response = await createAgenda(newAgenda);
+    const agendaId = response.data.id;
+
+    for (let i = 0; i < agendaAssignees.length; ++i) {
+      const data = {
+        agendaId: agendaId,
+        memberId: agendaAssignees[i].id,
+      };
+      await AddAgendaAssignee(data);
+    }
+
+    const newAgendaBlock = {
+      type: 'alert',
+      content: agendaContent,
+    };
+    closeAgendaModal();
+    insertAgendaBlock(editor, newAgendaBlock);
+  }
+
+
 
   const editor = useCreateBlockNote({
     schema,
@@ -444,6 +524,80 @@ const BlockNote = ({ issueId }) => {
             <button
               type='button'
               onClick={closeModal}
+              className={styles.cancelButton}
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      </Modal>
+
+      <Modal
+        isOpen={agendaModalIsOpen}
+        onRequestClose={closeAgendaModal}
+        className={styles.modal}
+        overlayClassName={styles.overlay}
+        ariaHideApp={false}
+      >
+        <h2 className={styles.modalTitle}>의사결정 요청</h2>
+        <form onSubmit={handleAgendaSubmit} className={styles.modalForm}>
+
+          <label className={styles.modalLabel}>
+            Agenda:
+            <input
+              type='text'
+              value={agendaContent}
+              onChange={e => setAgendaContent(e.target.value)}
+              className={styles.modalInput}
+              required
+            />
+          </label>
+
+          <label className={styles.modalLabel}>
+            Select Assignee:
+            <select
+              value={agendaSelectedMember}
+              onChange={e => setAgendaSelectedMember(e.target.value)}
+              className={styles.modalInput}
+            >
+              <option value=''>Select a member</option>
+              {teamMembers.map((member, index) => (
+                <option key={index} value={JSON.stringify(member)}>
+                  {member.name}
+                </option>
+              ))}
+            </select>
+            <button
+              type='button'
+              onClick={handleAddAgendaAssignee}
+              className={styles.addButton}
+            >
+              Add
+            </button>
+          </label>
+
+          <ul className={styles.assigneeList}>
+            {agendaAssignees.map((assignee, index) => (
+              <li key={index} className={styles.assigneeItem}>
+                {assignee.name}
+                <button
+                  type='button'
+                  onClick={() => handleRemoveAgendaAssignee(index)}
+                  className={styles.removeButton}
+                >
+                  <FaTimes />
+                </button>
+              </li>
+            ))}
+          </ul>
+
+          <div className={styles.modalButtons}>
+            <button type='submit' className={styles.submitButton}>
+              Add
+            </button>
+            <button
+              type='button'
+              onClick={closeAgendaModal}
               className={styles.cancelButton}
             >
               Cancel
