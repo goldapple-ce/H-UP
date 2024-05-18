@@ -13,6 +13,7 @@ import { styled } from 'styled-components';
 import styles from './Calendar.module.scss';
 import events from './Events';
 import Toolbar from './Toolbar';
+import { updateIssue } from '@api/services/issue';
 
 const Container = styled.div`
   .rbc-addons-dnd {
@@ -184,7 +185,7 @@ const MyCalendar = () => {
     const day = date.getDate();
     const hour = date.getHours();
     const minutes = date.getMinutes();
-    const formattedDate = `${year}-${month}-${day} ${hour}:${minutes}`;
+    const formattedDate = `${year}-${month}-${day}`;
     return formattedDate;
   };
 
@@ -192,16 +193,17 @@ const MyCalendar = () => {
   const moveEvent = useCallback(
     ({ event, start, end }) => {
       setMyEvents(prev => {
-        const existing = prev.find(ev => ev.id === event.id) ?? {};
-        const filtered = prev.filter(ev => ev.id !== event.id);
-        // mutateUpdate({
-        //   id: existing.id,
-        //   title: event.title,
-        //   allday: event.allday,
-        //   start: formatToOracleDate(start),
-        //   end: formatToOracleDate(end),
-        //   memo: event.memo,
-        // });
+        const existing = prev.find(ev => ev.issueId === event.issueId) ?? {};
+        const filtered = prev.filter(ev => ev.issueId !== event.issueId);
+
+        const newIssue = {
+          ...existing,
+          startDate: formatToOracleDate(start),
+          endDate: formatToOracleDate(end),
+        };
+
+        // updateIssue(newIssue);
+          
         return [...filtered, { ...existing, start, end }];
       });
     },
@@ -214,14 +216,17 @@ const MyCalendar = () => {
       setMyEvents(prev => {
         const existing = prev.find(ev => ev.id === event.id) ?? {};
         const filtered = prev.filter(ev => ev.id !== event.id);
-        // mutateUpdate({
-        //   id: existing.id,
-        //   title: event.title,
-        //   allday: event.allday,
-        //   start: formatToOracleDate(start),
-        //   end: formatToOracleDate(end),
-        //   memo: event.memo,
-        // });
+    
+        const issueData = {
+          issueId: existing.id,
+          title: existing.title,
+          status: existing.status,
+          startDate: formatToOracleDate(start),
+          endDate: formatToOracleDate(end),
+        };
+
+        updateIssue(issueData);
+
         return [...filtered, { ...existing, start, end }];
       });
     },
@@ -234,7 +239,7 @@ const MyCalendar = () => {
   };
 
   const loadProfileImage = issue => {
-    console.log(issue);
+    // console.log(issue);
     return (
       <div className={styles.title}>
         <UserIcon
@@ -338,6 +343,8 @@ const MyCalendar = () => {
         //보여질 화면
         view={currentView}
         popup
+        resizable
+        selectable
         handleDragStart={handleClick}
         titleAccessor={loadProfileImage}
       />
