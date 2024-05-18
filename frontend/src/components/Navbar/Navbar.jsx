@@ -32,23 +32,25 @@ const NavBar = () => {
   return (
     <nav>
       <div className={styles.nav_container}>
-        <IconButton toDo={ShowMenuSidebar}>
-          <Menu />
-        </IconButton>
-        <Link to={userInfo.isLogin ? '/' : '/login'} className={styles.logo}>
-          H•UP
-        </Link>
-        <div className={styles.btn_container} hidden={!userInfo.isLogin}>
-          {userInfo.isLogin ? (
-            <>
-              <IconButton toDo={ShowMessengerSidebar}>
-                <CommentDetail />
-              </IconButton>
-              <IconButton toDo={logout}>
-                <LogOut />
-              </IconButton>
-            </>
-          ) : null}
+        <div>
+          <IconButton toDo={ShowMenuSidebar}>
+            <Menu />
+          </IconButton>
+        </div>
+        <div>
+          <Link to={userInfo.isLogin ? '/' : '/login'} className={styles.logo}>
+            H•UP
+          </Link>
+        </div>
+        <div
+          className={`${styles.btn_container} ${userInfo.isLogin ? styles.visible : ''}`}
+        >
+          <IconButton toDo={ShowMessengerSidebar}>
+            <CommentDetail />
+          </IconButton>
+          <IconButton toDo={logout}>
+            <LogOut />
+          </IconButton>
         </div>
       </div>
     </nav>

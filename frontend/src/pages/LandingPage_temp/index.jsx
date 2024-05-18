@@ -1,4 +1,3 @@
-
 const LandingPage = props => {
   return (
     <div>
