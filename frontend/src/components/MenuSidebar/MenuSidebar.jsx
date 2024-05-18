@@ -76,6 +76,12 @@ const MenuSidebar = () => {
     setIsSettingOpen(false);
   };
 
+  const [activeSubMenuId, setActiveSubMenuId] = useState(null);
+
+  const handleSubMenuClick = (id) => {
+    setActiveSubMenuId(prevId => prevId === id ? null : id);
+  };
+
   return (
     <>
       <div className='bar-container'>
@@ -103,7 +109,12 @@ const MenuSidebar = () => {
           <div className={styles.sd_body}>
             <ul>
               {projectList.map(item => {
-                return <SubMenu key={item.id} item={item} />;
+                return <SubMenu 
+                key={item.id} 
+                item={item} 
+                activeSubMenuId={activeSubMenuId}
+                onSubMenuClick={handleSubMenuClick}
+                />;
               })}
             </ul>
           </div>
