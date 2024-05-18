@@ -1,9 +1,6 @@
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './SubMenu.module.scss';
-
-import { issueState } from '@recoil/issue';
-import { useRecoilState } from 'recoil';
 import { requestIssueList } from '@api/services/issue';
 
 const SubMenu = ({ item, activeSubMenuId, onSubMenuClick }) => {
@@ -22,6 +19,7 @@ const SubMenu = ({ item, activeSubMenuId, onSubMenuClick }) => {
 
   return (
     <>
+      <div>
       <Link
         className={styles.sidebarLink}
         to={`/project/${item.id}`}
@@ -40,6 +38,7 @@ const SubMenu = ({ item, activeSubMenuId, onSubMenuClick }) => {
           </div>
         </div>
       </Link>
+      </div>
       <div className={`${styles.dropdownContent} ${subnav ? styles.open : ''}`}>
         {subnav &&
           issueList.map((issue, index) => (
@@ -57,38 +56,3 @@ const SubMenu = ({ item, activeSubMenuId, onSubMenuClick }) => {
 };
 
 export default SubMenu;
-
-{
-  /* <Link
-        className={styles.sidebarLink}
-        to={item.path}
-        onClick={item.subNav && showSubnav}
-      >
-        <div>
-          <div>
-            {item.icon}
-            <subMenuSpan>{item.title}</subMenuSpan>
-          </div>
-          <div>
-            {item.subNav && subnav
-              ? item.iconOpened
-              : item.subNav
-                ? item.iconClosed
-                : null}
-          </div>
-        </div>
-      </Link>
-      {subnav &&
-        item.subNav.map((item, index) => {
-          return (
-            <Link
-              className={styles.dropdownLink}
-              to={`issue/${item.id}`}
-              key={index}
-            >
-              {item.icon}
-              <subMenuSpan>{item.title}</subMenuSpan>
-            </Link>
-          );
-        })} */
-}
