@@ -72,3 +72,11 @@
 .inline-content {
     flex-grow: 1;
 }
+
+.name {
+    padding-left: 20px;
+}
+
+.caret {
+    margin: 5px 15px 0 15px;
+  }
