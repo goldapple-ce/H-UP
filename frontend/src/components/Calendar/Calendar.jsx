@@ -207,8 +207,9 @@ const MyCalendar = () => {
         };
         
         updateIssue(newIssue);
-        // setIssueList([...filtered, { ...newIssue, start, end }]);
-          
+
+        setIssueList([...filtered, { ...existing, ...newIssue }]);
+
         return [...filtered, { ...existing, start, end }];
       });
     },
@@ -230,8 +231,9 @@ const MyCalendar = () => {
           endDate: formatToOracleDate(end),
         };
         
-        // setIssueList([...filtered, newIssue]);
         updateIssue(newIssue);
+
+        setIssueList([...filtered, { ...existing, ...newIssue }]);
 
         return [...filtered, { ...existing, start, end }];
       });
