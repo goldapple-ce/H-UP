@@ -1,11 +1,10 @@
-// import useInput from '@hook/useInput';
-// import useLogin from '@hook/useLogin';
-// import { Styleshare } from '@styled-icons/simple-icons';
-// import { useNavigate } from 'react-router-dom';
 import ProjectModal from '@component/Modal/ProjectModal';
 import TeamModal from '@component/Modal/TeamModal';
 import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
+import Modal from 'react-modal';
+import { useParams } from 'react-router-dom';
+import { createIssue, updateIssue } from '@api/services/issue';
 
 import styles from './FloatingButton.module.scss';
 
@@ -13,16 +12,23 @@ import { requestSaveProject } from '@api/services/project';
 import { requestCreateTeam } from '@api/services/team';
 import { teamIdState } from '@recoil/commonPersist';
 
-const issueCreate = () => {};
-
 const FloatingButton = () => {
   const teamId = useRecoilValue(teamIdState);
 
+  //팀
   const [isTeamModalOpen, setIsTeamModalOpen] = useState(false);
-  const openTeamModal = () => setIsTeamModalOpen(true);
+  const openTeamModal = () => {
+    setIsTeamModalOpen(true);
+    setIsProjectModalOpen(false);
+    setModalIsOpen(false);
+  };
   const [teamName, setTeamName] = useState('');
-  const closeTeamModal = () => setIsTeamModalOpen(false);
+  const closeTeamModal = () => {
+    setIsTeamModalOpen(false);
+    setTeamName('');
+  };
   const teamSubmit = async e => {
+    e.preventDefault();
     setIsTeamModalOpen(false);
     const teamData = {
       teamName: teamName,
@@ -33,8 +39,6 @@ const FloatingButton = () => {
       console.log('Server Response: ', response.data);
 
       alert('팀 생성 성공');
-
-      // 생성 성공 후 새로고침?
     } catch (error) {
       console.error(
         'CreateTeam error: ',
@@ -43,10 +47,18 @@ const FloatingButton = () => {
     }
   };
 
+  //프로젝트
   const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
-  const openProjectModal = () => setIsProjectModalOpen(true);
+  const openProjectModal = () => {
+    setIsProjectModalOpen(true);
+    setIsTeamModalOpen(false);
+    setModalIsOpen(false);
+  };
   const [name, setName] = useState('');
-  const closeProjectModal = () => setIsProjectModalOpen(false);
+  const closeProjectModal = () => {
+    setIsProjectModalOpen(false);
+    setName('');
+  };
   const projectSubmit = async e => {
     setIsProjectModalOpen(false);
     const projectData = {
@@ -70,12 +82,51 @@ const FloatingButton = () => {
     }
   };
 
+  //이슈
+  const { id } = useParams();
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [title, setTitle] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+
+  const openModal = () => {
+    setModalIsOpen(true);
+    setIsProjectModalOpen(false);
+    setIsTeamModalOpen(false);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+    setStartDate('');
+    setEndDate('');
+    setTitle('');
+  };
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+    makeIssue();
+    closeModal();
+  };
+
+  const makeIssue = async () => {
+    const response = await createIssue({ projectId: id });
+    const issueId = response.data.issueId;
+
+    const newIssue = {
+      issueId: issueId,
+      title: title,
+      startDate: startDate,
+      endDate: endDate,
+      status: 'CREATED',
+    };
+
+    await updateIssue(newIssue);
+  };
+
   return (
     <div>
       <nav className={styles.nav}>
         <input type='checkbox' className={styles.nav__cb} id='menu-cb' />
-        {/* <Plus/> */}
-        {/* <Plus type={PlusButtonType} className={PlusButtonClassName}/> */}
         <div className={styles.nav__content}>
           <ul className={styles.nav__items}>
             <li className={styles.nav__item}>
@@ -92,8 +143,8 @@ const FloatingButton = () => {
               </span>
             </li>
             <li className={styles.nav__item}>
-              <span className={styles.nav__item_text} onClick={issueCreate}>
-                이슈 생성
+              <span className={styles.nav__item_text} onClick={openModal}>
+                이슈 추가
               </span>
             </li>
           </ul>
@@ -138,6 +189,53 @@ const FloatingButton = () => {
           </form>
         </div>
       </ProjectModal>
+
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        className={styles.modal}
+        overlayClassName={styles.overlay}
+        ariaHideApp={false}
+      >
+        <h2 className={styles.modalTitle}>이슈 추가</h2>
+        <form onSubmit={handleSubmit} className={styles.modalForm}>
+          <label className={styles.modalLabel}>
+            <input
+              type='text'
+              value={title}
+              onChange={e => setTitle(e.target.value)}
+              className={styles.modalInput}
+              placeholder='이슈 제목을 입력하세요.'
+              required
+            />
+          </label>
+          <label className={styles.modalLabel}>
+            <p className={ styles.modalLabel_start }>시작</p>
+            <input
+              type='date'
+              value={startDate}
+              onChange={e => setStartDate(e.target.value)}
+              className={styles.modalInput}
+              required
+            />
+          </label>
+          <label className={styles.modalLabel}>
+            <p className={ styles.modalLabel_end }>마감</p>
+            <input
+              type='date'
+              value={endDate}
+              onChange={e => setEndDate(e.target.value)}
+              className={styles.modalInput}
+              required
+            />
+          </label>
+          <div className={styles.modalButtons}>
+            <button type='submit' className={styles.submitButton}>
+              생성
+            </button>
+          </div>
+        </form>
+      </Modal>
     </div>
   );
 };
