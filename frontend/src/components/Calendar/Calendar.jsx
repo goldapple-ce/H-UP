@@ -126,7 +126,7 @@ const Container = styled.div`
 const MyCalendar = () => {
   const navigate = useNavigate();
   const [isChecked, setIsChecked] = useRecoilState(MyCalendarState);
-  const [issueList] = useRecoilState(issueState);
+  const [issueList, setIssueList] = useRecoilState(issueState);
   const [userInfo] = useRecoilState(authState);
   const [myEvents, setMyEvents] = useState();
   const memberId = userInfo.memberId;
@@ -182,10 +182,12 @@ const MyCalendar = () => {
     const date = new Date(jsDateStr);
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
+    const formattedMonth = month.toString().padStart(2, '0');
     const day = date.getDate();
+    const formattedDay = day.toString().padStart(2, '0')
     const hour = date.getHours();
     const minutes = date.getMinutes();
-    const formattedDate = `${year}-${month}-${day}`;
+    const formattedDate = `${year}-${formattedMonth}-${formattedDay}`;
     return formattedDate;
   };
 
@@ -197,12 +199,15 @@ const MyCalendar = () => {
         const filtered = prev.filter(ev => ev.issueId !== event.issueId);
 
         const newIssue = {
-          ...existing,
+          issueId: existing.issueId,
+          title: existing.title,
+          status: existing.status,
           startDate: formatToOracleDate(start),
           endDate: formatToOracleDate(end),
         };
-
-        // updateIssue(newIssue);
+        
+        // setIssueList([...filtered, newIssue]);
+        updateIssue(newIssue);
           
         return [...filtered, { ...existing, start, end }];
       });
@@ -214,18 +219,19 @@ const MyCalendar = () => {
   const resizeEvent = useCallback(
     ({ event, start, end }) => {
       setMyEvents(prev => {
-        const existing = prev.find(ev => ev.id === event.id) ?? {};
-        const filtered = prev.filter(ev => ev.id !== event.id);
+        const existing = prev.find(ev => ev.issueId === event.issueId) ?? {};
+        const filtered = prev.filter(ev => ev.issueId !== event.issueId);
     
-        const issueData = {
-          issueId: existing.id,
+        const newIssue = {
+          issueId: existing.issueId,
           title: existing.title,
           status: existing.status,
           startDate: formatToOracleDate(start),
           endDate: formatToOracleDate(end),
         };
-
-        updateIssue(issueData);
+        
+        // setIssueList([...filtered, newIssue]);
+        updateIssue(newIssue);
 
         return [...filtered, { ...existing, start, end }];
       });
@@ -316,6 +322,7 @@ const MyCalendar = () => {
     },
     [setMyEvents],
   );
+
 
   return (
     <Container>
