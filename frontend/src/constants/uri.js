@@ -25,6 +25,8 @@ const API_URI = {
   TODO_LIST: '/todo/list',
   // agenda
   AGENDA_LIST: '/agenda/list/project',
+  AGENDA: '/agenda',
+  AGENDA_ASSIGNEE: '/agenda/assignee'
 };
 
 export default API_URI;
