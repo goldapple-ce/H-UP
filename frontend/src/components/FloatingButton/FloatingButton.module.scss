@@ -54,18 +54,18 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-
     overflow: hidden;
-    position: absolute;
-    left: 50%;
-    top: 50%;
+    position: fixed;
+    right: 3rem;
+    bottom: 3rem;
     width: auto;
     height: $btnSize;
     margin-top: calc($btnSize / -2);
     background: #fff;
     border-radius: 5px;
-    transform: translate3d(-50%,0,0);
+    transform: translate3d(0%,0,0);
     box-shadow: 0 10px 35px rgba(0,0,0,0.2);
+    z-index: 4;
   
     &__cb {
       z-index: -1000;
