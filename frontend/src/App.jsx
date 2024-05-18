@@ -11,6 +11,7 @@ import ProjectPage from '@page/ProjectPage';
 import SignupPage from '@page/SignupPage';
 import { useRecoilState } from 'recoil';
 import { authState } from '@recoil/auth';
+import LandingPage from '@page/LandingPage_temp';
 
 function App() {
   const [userInfo] = useRecoilState(authState);
@@ -24,7 +25,7 @@ function App() {
             <MenuSidebar />
             <MessengerSidebar />
           </>
-            ) : null}
+        ) : null}
         <main>
           <Routes>
             {!userInfo.isLogin ? (
@@ -34,6 +35,7 @@ function App() {
               </Route>
             ) : null}
             <Route path='/' element={<Layout />}>
+              <Route index element={<LandingPage />} />
               <Route path='project/:id' element={<ProjectPage />} />
               <Route path='issue/:id' element={<IssueEditorPage />} />
             </Route>

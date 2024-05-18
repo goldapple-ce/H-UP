@@ -25,10 +25,10 @@ import './IssueEditorPageBlockNote.css';
 //import { RiAlertFill } from "react-icons/ri";
 import { requestIssueDetail } from '@api/services/issue';
 import { requestTeamMemberList } from '@api/services/team';
-import { infoState } from '@recoil/info';
 import { FaTimes } from 'react-icons/fa'; // 아이콘 추가
 import { Alert } from './Alert';
 import { requestAssignTodo, requestSaveTodo } from '@api/services/todo';
+import { teamIdState } from '@recoil/commonPersist';
 
 const schema = BlockNoteSchema.create({
   blockSpecs: {
@@ -79,7 +79,7 @@ async function uploadFile(file) {
 }
 
 const BlockNote = ({ issueId }) => {
-  const [info] = useRecoilState(infoState);
+  const [teamId] = useRecoilState(teamIdState);
   const [userInfo] = useRecoilState(authState);
   const stompClient = useRef(null);
   const ydoc = useRef(new Y.Doc()).current;
@@ -96,9 +96,9 @@ const BlockNote = ({ issueId }) => {
   useEffect(() => {
     async function fetchTeamMembers() {
       try {
-        if (info.teamId != 0) {
-          console.log(info.teamId);
-          const response = await requestTeamMemberList(info.teamId);
+        if (teamId != 0) {
+          console.log(teamId);
+          const response = await requestTeamMemberList(teamId);
           console.log(response.data);
           setTeamMembers(response.data.memberInfoList);
         }
@@ -356,8 +356,12 @@ const BlockNote = ({ issueId }) => {
       <div className={styles.header}>
         <h1 className={styles.title}>{title ? title : '제목 없음'}</h1>
         <div className={styles.dateContainer}>
-          <span className={styles.date}>Start: {startDate ? startDate : '1970-01-01'}</span>
-          <span className={styles.date}>End: {endDate ? endDate : '1970-01-01'}</span>
+          <span className={styles.date}>
+            Start: {startDate ? startDate : '1970-01-01'}
+          </span>
+          <span className={styles.date}>
+            End: {endDate ? endDate : '1970-01-01'}
+          </span>
         </div>
       </div>
 

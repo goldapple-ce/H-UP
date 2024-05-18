@@ -11,9 +11,13 @@ import IssueAddButton from '@component/IssueAddButton/IssueAddButton';
 import { requestProjectMemberList } from '@api/services/project';
 import { FaTimes } from 'react-icons/fa'; // 아이콘 추가
 import { requestIssueList } from '@api/services/issue';
+import { useEffect, useState } from 'react';
+import Tab from '@component/MainTab/Tab';
 
 export default function Agenda() {
-  const [agendaList, setAgendaList] = useRecoilState(agendaState);
+  const [agendaList] = useRecoilState(agendaState);
+  const [agendaSubmittedList, setAgendaSubmittedList] = useState([]);
+  const [agendaReceivedList, setAgendaReceivedList] = useState([]);
   const [userInfo] = useRecoilState(authState);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [agendaContent, setAgendaContent] = useState('');
@@ -44,7 +48,6 @@ export default function Agenda() {
     fetchTeamMembers();
   }, [id]);
 
-  // Team 리스트 불러오기
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -125,61 +128,21 @@ export default function Agenda() {
   return (
     <div className={styles.agenda}>
       <div className={styles.tab__group}>
-        {/* 받은 의사결정 탭 */}
-        <div className={styles.tab}>
-          <input
-            className={styles.tab__radio}
-            type='radio'
-            id='tab-4-1'
-            name='tab-group-4'
-          />
-          <label className={styles.tab__label} htmlFor='tab-4-1'>
-            받은 의사결정
-          </label>
-          <div className={styles.tab__content}>
-            {/* <AgendaForm agendaList={agendaReceivedList} /> */}
-          </div>
-        </div>
-
-        {/* 요청한 의사결정 탭 */}
-        <div className={styles.tab}>
-          <input
-            className={styles.tab__radio}
-            type='radio'
-            id='tab-4-2'
-            name='tab-group-4'
-          />
-          <label className={styles.tab__label} htmlFor='tab-4-2'>
-            요청한 의사결정
-          </label>
-
-          <div className={styles.tab__content}>
-            {/* <AgendaForm agendaList={agendaSubmittedList} /> */}
-          </div>
-        </div>
-
-        {/* 전체 의사결정 탭 */}
-        <div className={styles.tab}>
-          <input
-            className={styles.tab__radio}
-            type='radio'
-            id='tab-4-3'
-            name='tab-group-4'
-          />
-          <label className={styles.tab__label} htmlFor='tab-4-3'>
-            전체 의사결정
-          </label>
-
-          <div className={styles.tab__content}>
-            <AgendaForm agendaList={agendaList} />
-          </div>
+        <Tab groupId='4' id='1' name='전체 의사결정' setDefault={true}>
+          <AgendaForm agendaList={agendaList} />
+        </Tab>
+        <Tab groupId='4' id='2' name='요청한 의사결정'>
+          <AgendaForm agendaList={agendaSubmittedList} />
 
           
 
         </div>
         <div className={styles.agendaButton}>
         <IssueAddButton text={'의사결정 요청'} onClick={setModalIsOpen}/>
-        </div>
+        </Tab>
+        <Tab groupId='4' id='3' name='받은 의사결정'>
+          <AgendaForm agendaList={agendaReceivedList} />
+        </Tab>
         
 
       </div>

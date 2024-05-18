@@ -1,3 +1,11 @@
+@mixin clearfix {
+  &:after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+}
+
 .agenda {
   width: 95%;
   padding: 0px 10px;
@@ -9,6 +17,10 @@
   .agendaButton{
     padding-left: 600px;
     margin-top: -5px;
+  }
+
+  &__container {
+    @include clearfix;
   }
 
   &__column1 {

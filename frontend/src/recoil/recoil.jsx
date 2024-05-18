@@ -1,5 +1,4 @@
 import { atom, selector } from 'recoil';
-import { issueState } from './issue';
 
 // 이슈 List에 대한 Atom
 export const issueListState = atom({
@@ -94,7 +93,7 @@ export const fetchListState = selector({
 
 export const MenuSidebarState = atom({
   key: 'MenuSideState',
-  default: [],
+  default: false,
 });
 
 export const MessengerSidebarState = atom({

@@ -1,3 +1,12 @@
+$tab-label-height: 40px;
+$tab-content-height: 550px;
+$background-color: #f1f1f1;
+$active-tab-color: $background-color;
+$inactive-tab-color: transparent;
+$inactive-tab-text-color: rgb(180, 180, 180);
+$text-color: black;
+$border-color: black;
+
 @mixin clearfix {
   &:after {
     content: '';
@@ -6,36 +15,37 @@
   }
 }
 
-$tab-label-height: 40px;
-$tab-content-height: 550px;
-
 * {
   box-sizing: border-box;
 }
+
 body {
   background: #f1f1f1;
   padding: 0px;
 }
 
 .tab {
-  float: left;
+  display: flex;
+  flex-direction: column;
 
   &__group {
     @include clearfix;
+    display: flex;
+    flex-direction: row;
     position: relative;
-    height: $tab-label-height + $tab-content-height;
+    height: auto; //$tab-label-height + $tab-content-height;
   }
-
   &__label {
-    display: inline-block;
+    flex: 1;
     padding: 0 20px;
-
     font-size: 16px;
     line-height: $tab-label-height;
     cursor: pointer;
+    text-align: center;
+    margin: 0px 2px;
 
     // Active tab styles
-    background: #fff;
+    background: $active-tab-color;
     font-weight: 800;
   }
 
@@ -44,11 +54,9 @@ body {
     width: 100%;
     height: $tab-content-height;
     top: $tab-label-height;
-    left: 0;
-    right: 0;
-    overflow-y: hidden;
+    overflow-y: auto;
     background: #fff;
-    border-top: 1px solid black;
+    border-top: 1px solid $border-color;
   }
 
   &__radio {
@@ -57,18 +65,28 @@ body {
     &:not(:checked) {
       // Inactive tab styles
       & ~ .tab__label {
-        background: transparent;
-        color: rgb(180, 180, 180);
+        background: $inactive-tab-color;
+        color: $inactive-tab-text-color;
       }
 
       & ~ .tab__content {
         display: none;
-        color: black;
+        color: $text-color;
       }
     }
   }
 }
 
+@media (max-width: 768px) {
+  .tab {
+    float: left;
+    width: 100%;
+    &__label {
+      padding: 0 10px;
+    }
+  }
+}
+
 .kanban {
-  width: 300px;
+  width: 100%;
 }

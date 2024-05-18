@@ -1,28 +1,28 @@
 import useLogout from '@hook/useLogout';
 import { authState } from '@recoil/auth';
-import { MenuSidebarState, MessengerSidebarState } from '@recoil/recoil';
 import { Link } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import styles from './Navbar.module.scss';
 
-import IconButton from '../IconButton/IconButton';
+import { menuSidebarState, messengerSidebarState } from '@recoil/commonPersist';
 import { LogOut } from '@styled-icons/boxicons-regular/LogOut';
-import { CommentDetail } from '@styled-icons/boxicons-solid/CommentDetail';
 import { Menu } from '@styled-icons/boxicons-regular/Menu';
+import { CommentDetail } from '@styled-icons/boxicons-solid/CommentDetail';
+import IconButton from '../IconButton/IconButton';
 
 const NavBar = () => {
-  const [isMenuOpen, setIsMenuOpen] = useRecoilState(MenuSidebarState);
+  const [isOpen, setIsOpen] = useRecoilState(menuSidebarState);
 
   const [isMessengerOpen, setIsMessengerOpen] = useRecoilState(
-    MessengerSidebarState,
+    messengerSidebarState,
   );
 
   const ShowMenuSidebar = () => {
-    setIsMenuOpen(isMenuOpen ^ true);
+    setIsOpen(!isOpen);
   };
 
   const ShowMessengerSidebar = () => {
-    setIsMessengerOpen(isMessengerOpen ^ true);
+    setIsMessengerOpen(!isMessengerOpen);
   };
 
   const [userInfo] = useRecoilState(authState);
@@ -32,19 +32,23 @@ const NavBar = () => {
   return (
     <nav>
       <div className={styles.nav_container}>
+        <IconButton toDo={ShowMenuSidebar}>
+          <Menu />
+        </IconButton>
         <Link to={userInfo.isLogin ? '/' : '/login'} className={styles.logo}>
           H•UP
         </Link>
         <div className={styles.btn_container} hidden={!userInfo.isLogin}>
-          <IconButton toDo={ShowMenuSidebar}>
-            <Menu />
-          </IconButton>
-          <IconButton toDo={ShowMessengerSidebar}>
-            <CommentDetail />
-          </IconButton>
-          <IconButton toDo={logout}>
-            <LogOut />
-          </IconButton>
+          {userInfo.isLogin ? (
+            <>
+              <IconButton toDo={ShowMessengerSidebar}>
+                <CommentDetail />
+              </IconButton>
+              <IconButton toDo={logout}>
+                <LogOut />
+              </IconButton>
+            </>
+          ) : null}
         </div>
       </div>
     </nav>

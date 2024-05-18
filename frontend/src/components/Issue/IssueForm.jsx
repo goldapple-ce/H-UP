@@ -2,10 +2,9 @@ import { issueState } from '@recoil/issue';
 import { useRecoilState } from 'recoil';
 import styles from './IssueForm.module.scss';
 import IssueItemContainer from './IssueItemContainer';
-import { useParams } from 'react-router-dom';
 
 const IssueForm = () => {
-  const [issueList, setIssueList] = useRecoilState(issueState);
+  const [issueList] = useRecoilState(issueState);
   // const { startLoading, finishLoading } = MyLayout.useLoading();
   // const { openDialog } = MyLayout.useDialog();
 
@@ -41,7 +40,8 @@ const IssueForm = () => {
         <div className={styles.issue_section}>
           <ul>
             {issueList &&
-              issueList?.map(issue => (
+              issueList.length > 0 &&
+              issueList.map(issue => (
                 <li key={issue.issueId}>
                   <IssueItemContainer issue={issue} />
                 </li>
@@ -55,6 +55,7 @@ const IssueForm = () => {
           <h4>마감이 임박한 이슈</h4>
           <ul>
             {issueList &&
+              issueList.length > 0 &&
               issueList
                 .filter(
                   issue =>

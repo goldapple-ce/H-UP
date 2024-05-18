@@ -28,10 +28,10 @@ const AgendaItem = ({ agenda, onClick }) => {
   return (
     <div className={styles.agenda} onClick={onClick}>
       <img src={playIcon} alt='' />
-        <div>
-          <h5>{content}</h5>
-          {/* <span>요청자 :{requester.name}</span> */}
-        </div>
+      <div>
+        <h5>{content}</h5>
+        {/* <span>요청자 :{requester.name}</span> */}
+      </div>
       <ul>
         <p>{formatToDate(createdAt)}</p>
       </ul>

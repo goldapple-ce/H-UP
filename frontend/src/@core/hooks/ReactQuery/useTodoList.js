@@ -7,7 +7,6 @@ export const useTodoListQuery = projectId => {
     queryKey: [QUERY_KEY.TODO_LIST, projectId],
     queryFn: () => requestTodoList(projectId),
     select: data => data.data.todoInfoList,
-    refetchInterval: 5000,
   });
   return {
     isLoading,
