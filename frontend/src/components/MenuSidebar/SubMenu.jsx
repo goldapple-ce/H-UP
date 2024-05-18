@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './SubMenu.module.scss';
 
@@ -6,26 +6,26 @@ import { issueState } from '@recoil/issue';
 import { useRecoilState } from 'recoil';
 import { requestIssueList } from '@api/services/issue';
 
-const SubMenu = ({ item }) => {
-  const [subnav, setSubnav] = useState(false);
+const SubMenu = ({ item, activeSubMenuId, onSubMenuClick }) => {
   const [issueList, setIssueList] = useState([]);
+  const subnav = activeSubMenuId === item.id;
 
-  const showSubnav = async (projectId) => {
-    if (!subnav) {
-      const response = await requestIssueList(projectId);
-      setIssueList(response.data.issueInfoList)
-    }
-    setSubnav(!subnav);
-  };
+  useLayoutEffect(() => {
+    const fetchIssueList = async () => {
+      if (subnav) {
+        const response = await requestIssueList(item.id);
+        setIssueList(response.data.issueInfoList);
+      }
+    };
+    fetchIssueList();
+  }, [subnav, item.id]);
 
   return (
     <>
       <Link
         className={styles.sidebarLink}
         to={`/project/${item.id}`}
-        onClick={() => {
-          showSubnav(item.id);
-        }}
+        onClick={() => onSubMenuClick(item.id)}
       >
         <div>
           <div>
@@ -40,18 +40,18 @@ const SubMenu = ({ item }) => {
           </div>
         </div>
       </Link>
-      {subnav &&
-        issueList.map((item, index) => {
-          return (
+      <div className={`${styles.dropdownContent} ${subnav ? styles.open : ''}`}>
+        {subnav &&
+          issueList.map((issue, index) => (
             <Link
               key={index}
               className={styles.dropdownLink}
-              to={`/issue/${item.issueId}`}
+              to={`/issue/${issue.issueId}`}
             >
-              <span className={styles.subMenuSpan}>{item.title}</span>
+              <span className={styles.subMenuSpan}>{issue.title}</span>
             </Link>
-          );
-        })}
+          ))}
+      </div>
     </>
   );
 };
