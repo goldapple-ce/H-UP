@@ -4,12 +4,17 @@ import styles from './SubMenu.module.scss';
 
 import { issueState } from '@recoil/issue';
 import { useRecoilState } from 'recoil';
+import { requestIssueList } from '@api/services/issue';
 
 const SubMenu = ({ item }) => {
   const [subnav, setSubnav] = useState(false);
-  const [issueList] = useRecoilState(issueState);
+  const [issueList, setIssueList] = useState([]);
 
-  const showSubnav = () => {
+  const showSubnav = async (projectId) => {
+    if (!subnav) {
+      const response = await requestIssueList(projectId);
+      setIssueList(response.data.issueInfoList)
+    }
     setSubnav(!subnav);
   };
 
@@ -19,7 +24,7 @@ const SubMenu = ({ item }) => {
         className={styles.sidebarLink}
         to={`/project/${item.id}`}
         onClick={() => {
-          showSubnav();
+          showSubnav(item.id);
         }}
       >
         <div>
@@ -36,10 +41,10 @@ const SubMenu = ({ item }) => {
         </div>
       </Link>
       {subnav &&
-        issueList.map(item => {
+        issueList.map((item, index) => {
           return (
             <Link
-              key={item.issueId}
+              key={index}
               className={styles.dropdownLink}
               to={`/issue/${item.issueId}`}
             >
