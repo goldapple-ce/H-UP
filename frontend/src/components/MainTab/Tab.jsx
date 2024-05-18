@@ -1,8 +1,9 @@
+import Todo from '@component/Todo/Todo';
 import styles from './MainTab.module.scss';
 
-export default function Tab({ groupId, id, name, children, setDefault }) {
+export default function Tab({ groupId, id, name, setDefault, onClick }) {
   return (
-    <div className={styles.tab}>
+    <div className={styles.tab} onClick={onClick}>
       <input
         className={styles.tab__radio}
         type='radio'
@@ -13,7 +14,6 @@ export default function Tab({ groupId, id, name, children, setDefault }) {
       <label className={styles.tab__label} htmlFor={`tab-${groupId}-${id}`}>
         {name}
       </label>
-      <div className={styles.tab__content}>{children}</div>
     </div>
   );
 }
