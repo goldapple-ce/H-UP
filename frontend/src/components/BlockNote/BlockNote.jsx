@@ -1,6 +1,7 @@
 import {
   BlockNoteSchema,
   defaultBlockSpecs,
+  defaultInlineContentSpecs,
   filterSuggestionItems,
   insertOrUpdateBlock,
 } from '@blocknote/core';
@@ -26,7 +27,7 @@ import './IssueEditorPageBlockNote.css';
 import { requestIssueDetail } from '@api/services/issue';
 import { requestTeamMemberList } from '@api/services/team';
 import { FaTimes } from 'react-icons/fa'; // 아이콘 추가
-import { Alert } from './Alert';
+import { Agenda, Alert, Mention } from './Alert';
 import { requestAssignTodo, requestSaveTodo } from '@api/services/todo';
 import { teamIdState } from '@recoil/commonPersist';
 import { AddAgendaAssignee, createAgenda } from '@api/services/agenda';
@@ -37,6 +38,12 @@ const schema = BlockNoteSchema.create({
     ...defaultBlockSpecs,
     // Adds the Alert block.
     alert: Alert,
+    agenda: Agenda,
+  },
+  inlineContentSpecs: {
+    // Adds all default inline content.
+    ...defaultInlineContentSpecs,
+    mention: Mention
   },
 });
 
@@ -99,6 +106,8 @@ const BlockNote = ({ issueId }) => {
   const [agendaContent, setAgendaContent] = useState('');
   const [agendaAssignees, setAgendaAssignees] = useState([]);
   const [agendaSelectedMember, setAgendaSelectedMember] = useState('');
+  const [userName, setUserName] = useState(null);
+  const [userImg, setUserImg] = useState(null);
 
   useEffect(() => {
     async function fetchTeamMembers() {
@@ -114,12 +123,19 @@ const BlockNote = ({ issueId }) => {
       }
     }
     fetchTeamMembers();
+
+    for (let i = 0; i < teamMembers.length; ++i) {
+      if (teamMembers[i].id === userInfo.memberId) {
+        setUserName(teamMembers[i].name);
+        setUserImg(teamMembers[i].img);
+      }
+    }
   }, []);
 
   const handleAddAssignee = async () => {
     if (selectedMember && !assignees.includes(selectedMember)) {
       const addObject = JSON.parse(selectedMember);
-      setAssignees([...assignees, addObject]);
+      setAssignees([addObject]);
     }
   };
 
@@ -159,14 +175,17 @@ const BlockNote = ({ issueId }) => {
   const insertTodoBlock = (editor, block) => {
     const currentBlock = editor.getTextCursorPosition().block;
     editor.updateBlock(currentBlock, block);
+
+    //editor.insertBlock(block);
   };
 
   const insertAlert = editor => ({
-    title: 'Alert',
+    title: 'Todo',
     onItemClick: () => {
       insertOrUpdateBlock(editor, {
         type: 'alert',
       });
+      
     },
     aliases: [
       'alert',
@@ -199,10 +218,19 @@ const BlockNote = ({ issueId }) => {
       requestAssignTodo(data);
     }
 
-    const newTodoBlock = {
-      type: 'alert',
-      content: content,
-    };
+    let newTodoBlock = {
+        type:'alert',
+        content,
+        props:{mention:assignees[0].name}
+      };
+
+    if (assignees[0].img) {
+      newTodoBlock = {
+        type:'alert',
+        content,
+        props:{mention:assignees[0].name, img:assignees[0].img}
+      };
+    }
     closeModal();
     insertTodoBlock(editor, newTodoBlock);
   };
@@ -227,7 +255,7 @@ const BlockNote = ({ issueId }) => {
   const handleAddAgendaAssignee = async () => {
     if (agendaSelectedMember && !agendaAssignees.includes(agendaSelectedMember)) {
       const addObject = JSON.parse(agendaSelectedMember);
-      setAgendaAssignees([...agendaAssignees, addObject]);
+      setAgendaAssignees([addObject]);
     }
   };
 
@@ -269,11 +297,28 @@ const BlockNote = ({ issueId }) => {
       };
       await AddAgendaAssignee(data);
     }
-
-    const newAgendaBlock = {
-      type: 'alert',
-      content: agendaContent,
+    
+    let newAgendaBlock = {
+      type:'agenda',
+      content:agendaContent,
+      props:{assignee:agendaAssignees[0].name, mention:userName}
     };
+
+  if (agendaAssignees[0].img) {
+    newAgendaBlock = {
+      type:'agenda',
+      content:agendaContent,
+      props:{assignee:agendaAssignees[0].name, mention:userName, assigneeimg:agendaAssignees[0].img}
+    };
+  }
+
+  if (userImg) {
+    newAgendaBlock = {
+      type:'agenda',
+      content:agendaContent,
+      props:{assignee:agendaAssignees[0].name, mention:userName, mentionimg:userImg}
+    };
+  }
     closeAgendaModal();
     insertAgendaBlock(editor, newAgendaBlock);
   }
