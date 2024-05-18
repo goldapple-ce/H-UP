@@ -4,7 +4,6 @@ import Footer from '@component/Footer/Footer';
 import MenuSidebar from '@component/MenuSidebar/MenuSidebar';
 import MessengerSidebar from '@component/MessengerSidebar/MessengerSidebar';
 import NavBar from '@component/Navbar/Navbar';
-import Layout from '@component/layout/Layout';
 import IssueEditorPage from '@page/IssueEditorPage';
 import LoginPage from '@page/LoginPage';
 import ProjectPage from '@page/ProjectPage';
@@ -34,7 +33,7 @@ function App() {
                 <Route path='signUp' element={<SignupPage />} />
               </Route>
             ) : null}
-            <Route path='/' element={<Layout />}>
+            <Route path='/'>
               <Route index element={<LandingPage />} />
               <Route path='project/:id' element={<ProjectPage />} />
               <Route path='issue/:id' element={<IssueEditorPage />} />
