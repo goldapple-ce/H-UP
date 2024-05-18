@@ -5,6 +5,7 @@ import { createIssue, updateIssue } from '@api/services/issue';
 import IssueAddButton from '@component/IssueAddButton/IssueAddButton';
 import Modal from 'react-modal';
 import { useState } from 'react';
+import FloatingButton from '@component/FloatingButton/FloatingButton';
 
 export default function ProjectPage() {
   const { id } = useParams();
@@ -54,7 +55,7 @@ export default function ProjectPage() {
       <div>
         <MainTab />
       </div>
-
+      <FloatingButton/>
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
