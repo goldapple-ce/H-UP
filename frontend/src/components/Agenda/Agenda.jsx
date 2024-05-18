@@ -5,14 +5,13 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import styles from './Agenda.module.scss';
-import AgendaForm from './AgendaForm';
 import Modal from 'react-modal';
 import IssueAddButton from '@component/IssueAddButton/IssueAddButton';
 import { requestProjectMemberList } from '@api/services/project';
 import { FaTimes } from 'react-icons/fa'; // 아이콘 추가
-import { requestIssueList } from '@api/services/issue';
-import { useEffect, useState } from 'react';
+import AgendaForm from './AgendaForm';
 import Tab from '@component/MainTab/Tab';
+import { requestIssueList } from '@api/services/issue';
 
 export default function Agenda() {
   const [agendaList] = useRecoilState(agendaState);
@@ -29,7 +28,7 @@ export default function Agenda() {
   const [selectedIssue, setSelectedIssue] = useState(null);
 
   const memberId = userInfo.memberId;
-  const { id } = useParams();
+  const {id} = useParams();
 
   useEffect(() => {
     async function fetchTeamMembers() {
@@ -48,6 +47,7 @@ export default function Agenda() {
     fetchTeamMembers();
   }, [id]);
 
+  // Team 리스트 불러오기
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -114,38 +114,41 @@ export default function Agenda() {
       await AddAgendaAssignee(data);
     }
   }
-
-  // const agendaSubmittedList = agendaList.filter(
-  //   data => data.agenda.requester.id === memberId,
-  // );
-  // const agendaReceivedList = agendaList.reduce((list, data) => {
-  //   if (data.agenda.assigneeList.some(assignee => assignee.id === memberId)) {
-  //     list.push(data);
-  //   }
-  //   return list;
-  // }, []);
+  useEffect(() => {
+    if (Array.isArray(agendaList) && agendaList.length > 0) {
+      setAgendaSubmittedList(
+        agendaList.filter(data => data.agenda.requester.id === memberId),
+      );
+      setAgendaReceivedList(
+        agendaList.filter(data =>
+          data.agenda.assigneeList.some(assignee => assignee.id === memberId),
+        ),
+      );
+    }
+  }, [agendaList, memberId]);
 
   return (
-    <div className={styles.agenda}>
+    <div>
+          <div className={styles.agenda}>
       <div className={styles.tab__group}>
         <Tab groupId='4' id='1' name='전체 의사결정' setDefault={true}>
           <AgendaForm agendaList={agendaList} />
         </Tab>
         <Tab groupId='4' id='2' name='요청한 의사결정'>
           <AgendaForm agendaList={agendaSubmittedList} />
-
-          
-
-        </div>
-        <div className={styles.agendaButton}>
-        <IssueAddButton text={'의사결정 요청'} onClick={setModalIsOpen}/>
         </Tab>
         <Tab groupId='4' id='3' name='받은 의사결정'>
           <AgendaForm agendaList={agendaReceivedList} />
         </Tab>
-        
 
       </div>
+
+      
+      <div className={styles.agendaButton}>
+        <IssueAddButton text={'의사결정 요청'} onClick={setModalIsOpen}/>
+        </div>
+    </div>
+
 
       <Modal
         isOpen={modalIsOpen}
