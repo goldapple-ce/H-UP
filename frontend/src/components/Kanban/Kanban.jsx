@@ -28,7 +28,7 @@ export default function Kanban() {
 
   return (
     issueList && (
-      <div>
+      <>
         <div className={styles.header}>
           <Input
             className={styles.header__search}
@@ -71,7 +71,7 @@ export default function Kanban() {
             </KanbanList>
           </DndProvider>
         </section>
-      </div>
+      </>
     )
   );
 }
