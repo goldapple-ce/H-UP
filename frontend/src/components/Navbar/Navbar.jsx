@@ -45,9 +45,9 @@ const NavBar = () => {
         <div
           className={`${styles.btn_container} ${userInfo.isLogin ? styles.visible : ''}`}
         >
-          <IconButton toDo={ShowMessengerSidebar}>
+          {/* <IconButton toDo={ShowMessengerSidebar}>
             <CommentDetail />
-          </IconButton>
+          </IconButton> */}
           <IconButton toDo={logout}>
             <LogOut />
           </IconButton>
