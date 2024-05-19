@@ -63,6 +63,7 @@ public class AgendaFacade {
         validation(agenda,memberId);
 
         Member assignee = memberService.findById(request.getMemberId());
+        issueMemberService.save(agenda.getIssue(),assignee);
         agendaMemberService.save(agenda,assignee);
     }
 
