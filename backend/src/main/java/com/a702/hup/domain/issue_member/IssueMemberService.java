@@ -21,9 +21,6 @@ import java.util.List;
 @Slf4j
 public class IssueMemberService {
     private final IssueMemberRepository issueMemberRepository;
-    private final MemberService memberService;
-    private final IssueService issueService;
-    private final AgendaService agendaService;
 
     /**
      * @author 강용민
@@ -33,7 +30,7 @@ public class IssueMemberService {
     public void validationRole(Issue issue, Member member) {
         // todo : member에 Role 생기면 추가해야함. owner, maintainer면 가능
         if (!issue.getMember().getId().equals(member.getId()) &&
-                issueMemberRepository.existsByIssueAndMemberAndDeletedAtIsNull(issue, member)) {
+                !issueMemberRepository.existsByIssueAndMemberAndDeletedAtIsNull(issue, member)) {
             throw new IssueException(ErrorCode.API_ERROR_ISSUE_NOT_ROLE);
         }
     }

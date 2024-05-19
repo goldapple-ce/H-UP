@@ -58,9 +58,9 @@ public class TodoFacade {
     @Transactional
     public void saveAssignee(Integer requesterId, TodoAssigneeSaveRequest request) {
         Todo todo = todoService.findById(request.getTodoId());
-        validation(todo, requesterId);
-
         Member assignee = memberService.findById(request.getMemberId());
+
+        issueMemberService.save(todo.getIssue(),assignee);
         todoMemberService.save(todo, assignee);
 
         Issue issue = todo.getIssue();
