@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import Modal from 'react-modal';
 import { useParams } from 'react-router-dom';
-import { createIssue, updateIssue } from '@api/services/issue';
+import { requestCreateIssue, requestUpdateIssue } from '@api/services/issue';
 
 import styles from './FloatingButton.module.scss';
 
@@ -109,7 +109,7 @@ const FloatingButton = () => {
   };
 
   const makeIssue = async () => {
-    const response = await createIssue({ projectId: id });
+    const response = await requestCreateIssue({ projectId: id });
     const issueId = response.data.issueId;
 
     const newIssue = {
@@ -120,7 +120,7 @@ const FloatingButton = () => {
       status: 'CREATED',
     };
 
-    await updateIssue(newIssue);
+    await requestUpdateIssue(newIssue);
   };
 
   return (
@@ -210,7 +210,7 @@ const FloatingButton = () => {
             />
           </label>
           <label className={styles.modalLabel}>
-            <p className={ styles.modalLabel_start }>시작</p>
+            <p className={styles.modalLabel_start}>시작</p>
             <input
               type='date'
               value={startDate}
@@ -220,7 +220,7 @@ const FloatingButton = () => {
             />
           </label>
           <label className={styles.modalLabel}>
-            <p className={ styles.modalLabel_end }>마감</p>
+            <p className={styles.modalLabel_end}>마감</p>
             <input
               type='date'
               value={endDate}

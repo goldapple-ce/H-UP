@@ -1,3 +1,4 @@
+import { requestUpdateIssue } from '@api/services/issue';
 import UserIcon from '@component/common/UserIcon';
 import { authState } from '@recoil/auth';
 import { MyCalendarState } from '@recoil/calendar';
@@ -11,9 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { styled } from 'styled-components';
 import styles from './Calendar.module.scss';
-import events from './Events';
 import Toolbar from './Toolbar';
-import { updateIssue } from '@api/services/issue';
 
 const Container = styled.div`
   .rbc-addons-dnd {
@@ -184,7 +183,7 @@ const MyCalendar = () => {
     const month = date.getMonth() + 1;
     const formattedMonth = month.toString().padStart(2, '0');
     const day = date.getDate();
-    const formattedDay = day.toString().padStart(2, '0')
+    const formattedDay = day.toString().padStart(2, '0');
     const hour = date.getHours();
     const minutes = date.getMinutes();
     const formattedDate = `${year}-${formattedMonth}-${formattedDay}`;
@@ -205,8 +204,8 @@ const MyCalendar = () => {
           startDate: formatToOracleDate(start),
           endDate: formatToOracleDate(end),
         };
-        
-        updateIssue(newIssue);
+
+        requestUpdateIssue(newIssue);
 
         setIssueList([...filtered, { ...existing, ...newIssue }]);
 
@@ -222,7 +221,7 @@ const MyCalendar = () => {
       setMyEvents(prev => {
         const existing = prev.find(ev => ev.issueId === event.issueId) ?? {};
         const filtered = prev.filter(ev => ev.issueId !== event.issueId);
-    
+
         const newIssue = {
           issueId: existing.issueId,
           title: existing.title,
@@ -230,8 +229,8 @@ const MyCalendar = () => {
           startDate: formatToOracleDate(start),
           endDate: formatToOracleDate(end),
         };
-        
-        updateIssue(newIssue);
+
+        requestUpdateIssue(newIssue);
 
         setIssueList([...filtered, { ...existing, ...newIssue }]);
 
@@ -324,7 +323,6 @@ const MyCalendar = () => {
     },
     [setMyEvents],
   );
-
 
   return (
     <Container>
