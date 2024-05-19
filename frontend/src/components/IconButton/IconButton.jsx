@@ -4,8 +4,9 @@ const StyledIconButton = styled.button`
   width: 40px;
   height: 40px;
   border: none;
-  display: inline;
+  display: flex;
   text-decoration: none;
+  align-items: center;
   background: none;
   color: #3f3d56;
   opacity: 50%;

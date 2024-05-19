@@ -33,7 +33,6 @@
 }
 
 a:hover {
-  // color: #3baef1;
   text-decoration: none;
   color: #0077b6;
 }
@@ -44,11 +43,6 @@ a:hover {
   align-items: center;
   margin-bottom: 3px;
   margin-right: 10px;
-  visibility: hidden;
-}
-
-.btn_container.visible {
-  visibility: visible;
 }
 
 .logo {

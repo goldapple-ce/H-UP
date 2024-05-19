@@ -1,28 +1,18 @@
 import useLogout from '@hook/useLogout';
 import { authState } from '@recoil/auth';
-import { Link } from 'react-router-dom';
+import { menuSidebarState } from '@recoil/commonPersist';
+import { LogOut, Menu, LogIn } from '@styled-icons/boxicons-regular';
+import { Link, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
+import IconButton from '../IconButton/IconButton';
 import styles from './Navbar.module.scss';
 
-import { menuSidebarState, messengerSidebarState } from '@recoil/commonPersist';
-import { LogOut } from '@styled-icons/boxicons-regular/LogOut';
-import { Menu } from '@styled-icons/boxicons-regular/Menu';
-import { CommentDetail } from '@styled-icons/boxicons-solid/CommentDetail';
-import IconButton from '../IconButton/IconButton';
-
 const NavBar = () => {
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useRecoilState(menuSidebarState);
-
-  const [isMessengerOpen, setIsMessengerOpen] = useRecoilState(
-    messengerSidebarState,
-  );
 
   const ShowMenuSidebar = () => {
     setIsOpen(!isOpen);
-  };
-
-  const ShowMessengerSidebar = () => {
-    setIsMessengerOpen(!isMessengerOpen);
   };
 
   const [userInfo] = useRecoilState(authState);
@@ -38,19 +28,20 @@ const NavBar = () => {
           </IconButton>
         </div>
         <div>
-          <Link to={userInfo.isLogin ? '/' : '/login'} className={styles.logo}>
+          <Link to='/' className={styles.logo}>
             H•UP
           </Link>
         </div>
-        <div
-          className={`${styles.btn_container} ${userInfo.isLogin ? styles.visible : ''}`}
-        >
-          {/* <IconButton toDo={ShowMessengerSidebar}>
-            <CommentDetail />
-          </IconButton> */}
-          <IconButton toDo={logout}>
-            <LogOut />
-          </IconButton>
+        <div className={styles.btn_container}>
+          {userInfo.isLogin ? (
+            <IconButton toDo={logout}>
+              <LogOut />
+            </IconButton>
+          ) : (
+            <IconButton toDo={() => navigate('/login')}>
+              <LogIn />
+            </IconButton>
+          )}
         </div>
       </div>
     </nav>

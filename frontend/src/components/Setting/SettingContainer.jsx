@@ -4,6 +4,8 @@ import Modal from 'react-modal';
 import ProjectManagementItem from './ProjectManagementItem';
 import styles from './SettingContainer.module.scss';
 import TeamManagementItem from './TeamManagementItem';
+import { useRecoilState } from 'recoil';
+import { authState } from '@recoil/auth';
 
 // 모달 스타일 정의
 const modalStyles = {
@@ -12,7 +14,7 @@ const modalStyles = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex:'20',
+    zIndex: '20',
   },
   content: {
     position: 'relative',
@@ -30,14 +32,15 @@ const SettingContainer = ({ isOpen, closeSetting }) => {
   // const [isOpen, setIsOpen] = useState(false);
   const [settingOption, setSettingOption] = useState('team');
   const [teams, setTeams] = useState([]);
-
-  const getTeamInfo = async () => {
-    const response = await requestTeamList();
-    setTeams(response.data.teamInfoList);
-  };
+  const [userInfo] = useRecoilState(authState);
 
   useEffect(() => {
-    getTeamInfo();
+    const getTeamInfo = async () => {
+      const response = await requestTeamList();
+      setTeams(response.data.teamInfoList);
+    };
+
+    if (userInfo.isLogin) getTeamInfo();
   }, []);
 
   return (
