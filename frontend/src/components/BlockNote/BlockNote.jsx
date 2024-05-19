@@ -21,7 +21,7 @@ import Modal from 'react-modal';
 import { useRecoilState } from 'recoil';
 import SockJS from 'sockjs-client';
 import * as Y from 'yjs';
-import styles from '../Todo/Todo.module.scss';
+import styles from './EditorModal.module.scss';
 import './IssueEditorPageBlockNote.css';
 //import { RiAlertFill } from "react-icons/ri";
 import { requestIssueDetail } from '@api/services/issue';
@@ -43,7 +43,7 @@ const schema = BlockNoteSchema.create({
   inlineContentSpecs: {
     // Adds all default inline content.
     ...defaultInlineContentSpecs,
-    mention: Mention
+    mention: Mention,
   },
 });
 
@@ -132,7 +132,7 @@ const BlockNote = ({ issueId }) => {
     }
   }, []);
 
-  const handleAddAssignee = async (selectedMember) => {
+  const handleAddAssignee = async selectedMember => {
     if (selectedMember && !assignees.includes(selectedMember)) {
       const addObject = JSON.parse(selectedMember);
       setAssignees([addObject]);
@@ -158,7 +158,7 @@ const BlockNote = ({ issueId }) => {
   const getCustomSlashMenuItems = editor => [
     ...getDefaultReactSlashMenuItems(editor),
     insertTodo(editor),
-    insertAgenda(editor)
+    insertAgenda(editor),
   ];
 
   const openModal = () => {
@@ -185,7 +185,6 @@ const BlockNote = ({ issueId }) => {
       insertOrUpdateBlock(editor, {
         type: 'alert',
       });
-      
     },
     aliases: [
       'alert',
@@ -219,23 +218,22 @@ const BlockNote = ({ issueId }) => {
     }
 
     let newTodoBlock = {
-        type:'alert',
-        content,
-        props:{mention:assignees[0].name}
-      };
+      type: 'alert',
+      content,
+      props: { mention: assignees[0].name },
+    };
 
     if (assignees[0].img) {
       newTodoBlock = {
-        type:'alert',
+        type: 'alert',
         content,
-        props:{mention:assignees[0].name, img:assignees[0].img}
+        props: { mention: assignees[0].name, img: assignees[0].img },
       };
     }
     closeModal();
     insertTodoBlock(editor, newTodoBlock);
   };
 
-  
   // Agenda 관련
 
   const insertAgendaBlock = (editor, block) => {
@@ -252,8 +250,11 @@ const BlockNote = ({ issueId }) => {
     subtext: 'Making Agenda',
   });
 
-  const handleAddAgendaAssignee = async (agendaSelectedMember) => {
-    if (agendaSelectedMember && !agendaAssignees.includes(agendaSelectedMember)) {
+  const handleAddAgendaAssignee = async agendaSelectedMember => {
+    if (
+      agendaSelectedMember &&
+      !agendaAssignees.includes(agendaSelectedMember)
+    ) {
       const addObject = JSON.parse(agendaSelectedMember);
       setAgendaAssignees([addObject]);
     }
@@ -281,7 +282,6 @@ const BlockNote = ({ issueId }) => {
   };
 
   const makeAgenda = async () => {
-
     const newAgenda = {
       issueId: issueId,
       content: agendaContent,
@@ -297,31 +297,29 @@ const BlockNote = ({ issueId }) => {
       };
       await AddAgendaAssignee(data);
     }
-    
+
     let newAgendaBlock = {
-      type:'agenda',
-      content:agendaContent,
-      props:{assignee:agendaAssignees[0].name, mention:userName}
+      type: 'agenda',
+      content: agendaContent,
+      props: { assignee: agendaAssignees[0].name, mention: userName },
     };
 
-  if (agendaAssignees[0].img) {
-    newAgendaBlock = {
-      ...newAgendaBlock,
-      props:{...newAgendaBlock.props, assigneeimg:agendaAssignees[0].img}
-    };
-  }
+    if (agendaAssignees[0].img) {
+      newAgendaBlock = {
+        ...newAgendaBlock,
+        props: { ...newAgendaBlock.props, assigneeimg: agendaAssignees[0].img },
+      };
+    }
 
-  if (userImg) {
-    newAgendaBlock = {
-      ...newAgendaBlock,
-      props:{...newAgendaBlock.props, mentionimg:userImg}
-    };
-  }
+    if (userImg) {
+      newAgendaBlock = {
+        ...newAgendaBlock,
+        props: { ...newAgendaBlock.props, mentionimg: userImg },
+      };
+    }
     closeAgendaModal();
     insertAgendaBlock(editor, newAgendaBlock);
-  }
-
-
+  };
 
   const editor = useCreateBlockNote({
     schema,
@@ -534,7 +532,7 @@ const BlockNote = ({ issueId }) => {
             >
               <option value=''>팀원을 선택해주세요.</option>
               {teamMembers.map((member, index) => (
-                <option key={index} value={JSON.stringify(member)} >
+                <option key={index} value={JSON.stringify(member)}>
                   {member.name}
                 </option>
               ))}
@@ -543,24 +541,24 @@ const BlockNote = ({ issueId }) => {
           <ul className={styles.assigneeList}>
             {assignees.map((assignee, index) => (
               <li key={index} className={styles.assigneeItem}>
-              <div className={styles.assigneeContainer}>
-                <img
-                  className={styles.assigneeImg}
-                  src='https://mblogthumb-phinf.pstatic.net/MjAyMDExMDFfMTgy/MDAxNjA0MjI4ODc1NDMw.Ex906Mv9nnPEZGCh4SREknadZvzMO8LyDzGOHMKPdwAg.ZAmE6pU5lhEdeOUsPdxg8-gOuZrq_ipJ5VhqaViubI4g.JPEG.gambasg/%EC%9C%A0%ED%8A%9C%EB%B8%8C_%EA%B8%B0%EB%B3%B8%ED%94%84%EB%A1%9C%ED%95%84_%ED%95%98%EB%8A%98%EC%83%89.jpg?type=w800'
-                  alt="Profile Image"
-                />
-                <div> {assignee.name}</div>
-                <div className={styles.removeButtonWrapper}>
-                  <button
-                    type='button'
-                    onClick={() => handleRemoveAssignee(index)}
-                    className={styles.removeButton}
-                  >
-                    <FaTimes />
-                  </button>
+                <div className={styles.assigneeContainer}>
+                  <img
+                    className={styles.assigneeImg}
+                    src='https://mblogthumb-phinf.pstatic.net/MjAyMDExMDFfMTgy/MDAxNjA0MjI4ODc1NDMw.Ex906Mv9nnPEZGCh4SREknadZvzMO8LyDzGOHMKPdwAg.ZAmE6pU5lhEdeOUsPdxg8-gOuZrq_ipJ5VhqaViubI4g.JPEG.gambasg/%EC%9C%A0%ED%8A%9C%EB%B8%8C_%EA%B8%B0%EB%B3%B8%ED%94%84%EB%A1%9C%ED%95%84_%ED%95%98%EB%8A%98%EC%83%89.jpg?type=w800'
+                    alt='Profile Image'
+                  />
+                  <div> {assignee.name}</div>
+                  <div className={styles.removeButtonWrapper}>
+                    <button
+                      type='button'
+                      onClick={() => handleRemoveAssignee(index)}
+                      className={styles.removeButton}
+                    >
+                      <FaTimes />
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </li>
+              </li>
             ))}
           </ul>
           <div className={styles.modalButtons}>
@@ -587,7 +585,6 @@ const BlockNote = ({ issueId }) => {
       >
         <h2 className={styles.modalTitle}>의사결정 요청</h2>
         <form onSubmit={handleAgendaSubmit} className={styles.modalForm}>
-
           <label className={styles.modalLabel}>
             <input
               type='text'
@@ -624,7 +621,7 @@ const BlockNote = ({ issueId }) => {
                   <img
                     className={styles.assigneeImg}
                     src='https://mblogthumb-phinf.pstatic.net/MjAyMDExMDFfMTgy/MDAxNjA0MjI4ODc1NDMw.Ex906Mv9nnPEZGCh4SREknadZvzMO8LyDzGOHMKPdwAg.ZAmE6pU5lhEdeOUsPdxg8-gOuZrq_ipJ5VhqaViubI4g.JPEG.gambasg/%EC%9C%A0%ED%8A%9C%EB%B8%8C_%EA%B8%B0%EB%B3%B8%ED%94%84%EB%A1%9C%ED%95%84_%ED%95%98%EB%8A%98%EC%83%89.jpg?type=w800'
-                    alt="Profile Image"
+                    alt='Profile Image'
                   />
                   <div> {assignee.name}</div>
                   <div className={styles.removeButtonWrapper}>
