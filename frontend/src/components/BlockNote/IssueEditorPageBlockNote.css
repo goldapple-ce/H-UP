@@ -78,4 +78,14 @@ BlockNote
 .bn-block-content {
   margin: 0px;
   padding: 0px;
+  align-items: center;
+
+  .alert {
+    max-height: 30px;
+    max-width: 600px;
+  }
+
+  &:hover {
+    background-color: #f1f1f1;
+  }
 }
