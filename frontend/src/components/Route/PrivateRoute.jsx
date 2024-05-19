@@ -1,9 +1,10 @@
+import { authState } from '@recoil/auth';
 import { Navigate, Outlet } from 'react-router-dom';
-
-const isLogin = !!localStorage.getItem('bagtoken');
+import { useRecoilState } from 'recoil';
 
 const PrivateRoute = () => {
-  return isLogin ? <Outlet /> : <Navigate to='/login' />;
+  const [userInfo] = useRecoilState(authState);
+  return userInfo.isLogin ? <Outlet /> : <Navigate to='/login' />;
 };
 
 export default PrivateRoute;
