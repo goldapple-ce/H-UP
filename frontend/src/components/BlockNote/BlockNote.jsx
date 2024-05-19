@@ -306,17 +306,15 @@ const BlockNote = ({ issueId }) => {
 
   if (agendaAssignees[0].img) {
     newAgendaBlock = {
-      type:'agenda',
-      content:agendaContent,
-      props:{assignee:agendaAssignees[0].name, mention:userName, assigneeimg:agendaAssignees[0].img}
+      ...newAgendaBlock,
+      props:{...newAgendaBlock.props, assigneeimg:agendaAssignees[0].img}
     };
   }
 
   if (userImg) {
     newAgendaBlock = {
-      type:'agenda',
-      content:agendaContent,
-      props:{assignee:agendaAssignees[0].name, mention:userName, mentionimg:userImg}
+      ...newAgendaBlock,
+      props:{...newAgendaBlock.props, mentionimg:userImg}
     };
   }
     closeAgendaModal();

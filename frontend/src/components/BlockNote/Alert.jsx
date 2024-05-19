@@ -126,7 +126,9 @@ export const Alert = createReactBlockSpec(
                     onClick={() =>
                       props.editor.updateBlock(props.block, {
                         type: "alert",
-                        props: { type: type.value },
+                        props: { type: type.value,
+                                mention:props.block.props.mention,
+                              img:props.block.props.img },
                       })
                     }>
                     {type.title}
@@ -210,11 +212,17 @@ export const Agenda = createReactBlockSpec(
                         data-alert-icon-type={type.value}
                       />
                     }
-                    onClick={() =>
+                    onClick={() =>{
                       props.editor.updateBlock(props.block, {
-                        type: "alert",
-                        props: { type: type.value },
+                        type: "agenda",
+                        props:{type:type.value,
+                              assignee:props.block.props.assignee,
+                              mention:props.block.props.mention,
+                              assigneeimg:props.block.props.assigneeimg,
+                              mentionimg:props.block.props.mentionimg}
                       })
+                    }
+                      
                     }>
                     {type.title}
                   </Menu.Item>
