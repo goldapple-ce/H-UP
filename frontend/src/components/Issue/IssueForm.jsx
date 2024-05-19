@@ -1,7 +1,7 @@
 import { issueState } from '@recoil/issue';
 import { useRecoilState } from 'recoil';
 import styles from './IssueForm.module.scss';
-import IssueItemContainer from './IssueItemContainer';
+import IssueItem from './IssueItem';
 
 const IssueForm = () => {
   const [issueList] = useRecoilState(issueState);
@@ -25,50 +25,45 @@ const IssueForm = () => {
   //   }
   // }, [id]);
 
-  const imminentDate = issue => {
-    const date = issue.endDate;
-    if (!date) {
-      return new Date('2030-05-31');
+  const isImminent = issue => {
+    if (issue.endDate) {
+      const today = new Date();
+      const endDate = new Date(issue.endDate);
+      const timeDiff = endDate - today;
+      const daysLeft = timeDiff / (1000 * 60 * 60 * 24);
+
+      return daysLeft <= 10 && issue.status != 'COMPLETED';
     }
-    return new Date(date);
+
+    return false;
   };
 
   return (
-    <div className={styles.issue_page}>
-      {/* 이슈 목록 */}
-      <div className={styles.column1}>
-        <div className={styles.issue_section}>
-          <ul>
-            {issueList &&
-              issueList.length > 0 &&
-              issueList.map(issue => (
+    <div className={styles.issue__container}>
+      <div className={styles.issue__column1}>
+        <ul className={styles.issue__list}>
+          {issueList &&
+            issueList.length > 0 &&
+            issueList.map(issue => (
+              <li key={issue.issueId}>
+                <IssueItem issue={issue} />
+              </li>
+            ))}
+        </ul>
+      </div>
+      <div className={styles.issue__column2}>
+        <h4>마감이 임박한 이슈</h4>
+        <ul className={styles.issue__new_list}>
+          {issueList &&
+            issueList.length > 0 &&
+            issueList
+              .filter(issue => isImminent(issue))
+              .map(issue => (
                 <li key={issue.issueId}>
-                  <IssueItemContainer issue={issue} />
+                  <IssueItem issue={issue} />
                 </li>
               ))}
-          </ul>
-        </div>
-      </div>
-      {/* 마감 임박 이슈 목록 */}
-      <div className={styles.column2}>
-        <div className={styles.imminent_issue_section}>
-          <h4>마감이 임박한 이슈</h4>
-          <ul>
-            {issueList &&
-              issueList.length > 0 &&
-              issueList
-                .filter(
-                  issue =>
-                    new Date() >= imminentDate(issue) &&
-                    issue.status !== 'COMPLETED',
-                )
-                .map(issue => (
-                  <li key={issue.issueId}>
-                    <IssueItemContainer issue={issue} />
-                  </li>
-                ))}
-          </ul>
-        </div>
+        </ul>
       </div>
     </div>
   );

@@ -4,10 +4,14 @@ import playIcon from '@asset/img/play_icon.png';
 import upArrowIcon from '@asset/img/up_arrow_icon.png';
 import STATUS from '@constant/status';
 import { useEffect, useState } from 'react';
-import styles from './IssueItem.module.scss';
+import './IssueItem.scss';
 import UserIcon from '@component/common/UserIcon';
+import DropdownMenu from '@component/common/DropdownMenu';
+import { requestUpdateIssue } from '@api/services/issue';
+import { useNavigate } from 'react-router-dom';
 
-const IssueItem = ({ issue, onClick }) => {
+const IssueItem = ({ issue }) => {
+  const navigate = useNavigate();
   const {
     issueId,
     title,
@@ -19,6 +23,16 @@ const IssueItem = ({ issue, onClick }) => {
   } = issue;
   const { CREATED, SELECTED, PROGRESS, COMPLETED } = STATUS;
   const [iconImage, setIconImage] = useState('');
+  const [issueStatus, setIssueStatus] = useState(status);
+  const [showAll, setShowAll] = useState(false);
+
+  const handleShowMore = () => {
+    setShowAll(true);
+  };
+
+  const handleClick = () => {
+    navigate(`/issue/${issueId}`);
+  };
 
   const formatToDate = jsDateStr => {
     const date = new Date(jsDateStr);
@@ -47,21 +61,45 @@ const IssueItem = ({ issue, onClick }) => {
         setIconImage(pauseIcon);
         break;
     }
-  }, [status]);
+  }, [issueStatus]);
+
+  const updateIssueStatus = async newStatus => {
+    setIssueStatus(newStatus);
+    await requestUpdateIssue({
+      issueId: issueId,
+      title: title,
+      status: newStatus,
+      startDate: startDate,
+      endDate: endDate,
+    });
+  };
 
   return (
-    <div className={styles.issue_item_container} onClick={onClick}>
-      <img className={styles.iconImage} src={iconImage} alt={status} />
-      <h5 className='task-name'>{title}</h5>
-      <ul>
-        <p className={styles.date}>
-          {formatToDate(startDate)} ~ {formatToDate(endDate)}
-        </p>
-        {assigneeInfoList &&
-          assigneeInfoList.map(mem => (
-            <UserIcon key={mem.id} src={mem.img} alt={mem.name} />
-          ))}
-      </ul>
+    <div className='issue_item__container'>
+      <div className='issue__icon'>
+        <DropdownMenu status={issueStatus} setStatus={updateIssueStatus} />
+      </div>
+      <div className='issue_item'>
+        <div className='issue_item__content' onClick={handleClick}>
+          <h5>{title}</h5>
+        </div>
+        <div className='issue_item__date'>
+          <p>
+            {formatToDate(startDate)} ~ {formatToDate(endDate)}
+          </p>
+        </div>
+        <div className='issue_item__info_container'>
+          {assigneeInfoList &&
+            assigneeInfoList
+              .slice(0, showAll ? assigneeInfoList.length : 2)
+              .map(mem => (
+                <UserIcon key={mem.id} src={mem.img} alt={mem.name} />
+              ))}
+          {assigneeInfoList.length > 2 && !showAll && (
+            <p onClick={handleShowMore}>+{assigneeInfoList.length - 2} more</p>
+          )}
+        </div>
+      </div>
     </div>
   );
 };
