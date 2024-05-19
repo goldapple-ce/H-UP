@@ -1,10 +1,15 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './AgendaForm.module.scss';
-import AgendaItemContainer from './AgendaItemContainer';
+import AgendaItem from './AgendaItem';
 
 const AgendaForm = ({ agendaList }) => {
-  console.log(agendaList);
+  const navigate = useNavigate();
   const [newList, setNewList] = useState([]);
+  const handleClick = agendaId => {
+    navigate(`/agenda/${agendaId}`);
+  };
+
   useEffect(() => {
     function fetchAgendaList() {
       const currentDate = new Date();
@@ -26,7 +31,10 @@ const AgendaForm = ({ agendaList }) => {
             agendaList.length > 0 &&
             agendaList.map(data => (
               <li key={data.agenda.id}>
-                <AgendaItemContainer agenda={data.agenda} />
+                <AgendaItem
+                  agenda={data.agenda}
+                  onClick={() => handleClick(data.agenda.id)}
+                />
               </li>
             ))}
         </ul>
@@ -38,7 +46,10 @@ const AgendaForm = ({ agendaList }) => {
             newList.length > 0 &&
             newList.map(data => (
               <li key={data.agenda.id}>
-                <AgendaItemContainer agenda={data.agenda} />
+                <AgendaItem
+                  agenda={data.agenda}
+                  onClick={() => handleClick(data.agenda.id)}
+                />
               </li>
             ))}
         </ul>

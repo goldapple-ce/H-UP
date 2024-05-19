@@ -1,12 +1,11 @@
+import { deleteAgenda } from '@api/services/agenda';
+import playIcon from '@asset/img/play_icon.png';
+import IconButton from '@component/IconButton/IconButton';
+import UserIcon from '@component/common/UserIcon';
 import { useState } from 'react';
 import { CaretRightFill } from 'react-bootstrap-icons';
-import playIcon from '@asset/img/play_icon.png';
-import styles from './AgendaItem.module.scss';
-import { deleteAgenda } from '@api/services/agenda';
-import { FaPencilAlt, FaTimes, FaUser } from 'react-icons/fa'; // 아이콘 추가
-import UserIcon from '@component/common/UserIcon';
-import IconButton from '@component/IconButton/IconButton';
 import { DeleteOutline } from 'styled-icons/material';
+import styles from './AgendaItem.module.scss';
 
 const AgendaItem = ({ agenda, onClick }) => {
   const { id, content, createdAt, requester, assigneeList } = agenda;
@@ -51,8 +50,8 @@ const AgendaItem = ({ agenda, onClick }) => {
             />
           ))}
       </div>
-      <div className={styles.delete_button} onClick={handledelete}>
-        <IconButton>
+      <div className={styles.delete_button}>
+        <IconButton todo={handledelete}>
           <DeleteOutline />
         </IconButton>
       </div>
