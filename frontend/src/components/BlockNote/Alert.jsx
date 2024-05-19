@@ -7,6 +7,7 @@ import { Menu } from '@mantine/core';
 import { MdCheckCircle, MdError, MdPlayCircle } from 'react-icons/md';
 import './ToggleType.css';
 import { CaretRightFill } from 'react-bootstrap-icons';
+import UserIcon from '@component/common/UserIcon';
 
 // The types of alerts that users can choose from.
 export const Toggles = [
@@ -145,9 +146,9 @@ export const Alert = createReactBlockSpec(
           {/*Rich text field for user to type in*/}
           <div className={'inline-content'} ref={props.contentRef} />
           <div className={'info-wrapper'}>
-            <img
-              styles='width:30px; border-radius:50%'
+            <UserIcon
               src={props.block.props.img}
+              name={props.block.props.mention}
             />
             <div className='name'>{props.block.props.mention}</div>
           </div>

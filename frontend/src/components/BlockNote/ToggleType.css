@@ -63,6 +63,10 @@
   }
 }
 
+.name {
+  margin-left: 15px;
+}
+
 .inline-content {
   flex: 4;
   margin-left: 10px;
