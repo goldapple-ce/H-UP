@@ -50,7 +50,7 @@ const AgendaItem = ({ agenda, onClick }) => {
             ))}
         </div>
         <div className='agenda_item__delete_button'>
-          <IconButton todo={handledelete}>
+          <IconButton agenda={handledelete}>
             <DeleteOutline />
           </IconButton>
         </div>
