@@ -1,11 +1,11 @@
 .agenda {
-  width: 100%;
-  min-width: 300px;
-  border-bottom: 1px solid #333;
-  margin: 5px;
-  background-color: white;
   display: flex;
   align-items: center;
+  background-color: white;
+  border-bottom: 1px solid #333;
+  width: 100%;
+  min-width: 300px;
+  margin: 5px;
 
   div {
     margin: 20px 0px;
@@ -49,9 +49,9 @@
   }
 
   ul {
-    margin-left: auto;
     display: flex;
     flex-direction: row;
+    margin-left: auto;
   }
 
   img {
