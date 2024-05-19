@@ -241,15 +241,15 @@ export const Agenda = createReactBlockSpec(
           {/*Rich text field for user to type in*/}
           <div className={'inline-content'} ref={props.contentRef} />
           <div className={'info-wrapper'}>
-            <img
-              styles='width:30px; height:30px; border-radius:50%'
+            <UserIcon
               src={props.block.props.mentionimg}
+              name={props.block.props.mention}
             />
             <div className='name'>{props.block.props.mention}</div>
             <CaretRightFill className='caret' />
-            <img
-              styles='width:30px; height:30px; border-radius:50%'
+            <UserIcon
               src={props.block.props.assigneeimg}
+              name={props.block.props.assignee}
             />
             <div className='name'>{props.block.props.assignee}</div>
           </div>
