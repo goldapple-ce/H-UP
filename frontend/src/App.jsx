@@ -19,22 +19,13 @@ function App() {
     <>
       <Router>
         <NavBar />
-        {userInfo.isLogin ? (
-          <>
-            <MenuSidebar />
-            <MessengerSidebar />
-          </>
-        ) : null}
+        {userInfo.isLogin ? <MenuSidebar /> : null}
         <main>
           <Routes>
-            {!userInfo.isLogin ? (
-              <Route path='/'>
-                <Route path='login' element={<LoginPage />} />
-                <Route path='signUp' element={<SignupPage />} />
-              </Route>
-            ) : null}
             <Route path='/'>
               <Route index element={<LandingPage />} />
+              <Route path='login' element={<LoginPage />} />
+              <Route path='signUp' element={<SignupPage />} />
               <Route path='project/:id' element={<ProjectPage />} />
               <Route path='issue/:id' element={<IssueEditorPage />} />
             </Route>
