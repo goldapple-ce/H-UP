@@ -3,6 +3,7 @@ package com.a702.hup.domain.team_member;
 import com.a702.hup.domain.member.entity.Member;
 import com.a702.hup.domain.team.entity.Team;
 import com.a702.hup.domain.team_member.entity.TeamMember;
+import com.a702.hup.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -56,5 +57,16 @@ public class TeamMemberService {
      **/
     public boolean isMember(Member member, Team team) {
         return teamMemberRepository.existsByTeamAndMember(team, member);
+    }
+
+    /**
+     * @author 강용민
+     * @date 2024-05-19
+     * @description 팀 소속 여부 체크
+     **/
+    public void validation(Team team, Member member) {
+        if(!isMember(member,team)){
+            throw new TeamMemberException(ErrorCode.API_ERROR_IS_NOT_TEAM_MEMBER);
+        }
     }
 }

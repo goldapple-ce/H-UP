@@ -73,8 +73,8 @@ public class IssueFacade {
         // member 확인
         Member member = memberService.findById(memberId);
         Project project = projectService.findById(projectId);
-        projectMemberService.validation(member, project);
-        log.info("[+] IssueFacade :: findByProject :: Member Check Success");
+//        projectMemberService.validation(member, project);
+//        log.info("[+] IssueFacade :: findByProject :: Member Check Success");
 
         // issue List By Project
         List<Issue> issueList = issueService.findByProjectId(projectId);

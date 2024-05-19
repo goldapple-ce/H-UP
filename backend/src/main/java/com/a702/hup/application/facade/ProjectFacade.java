@@ -66,7 +66,7 @@ public class ProjectFacade {
      **/
     public MemberDTO.MemberInfoList findMembers(Integer memberId, Integer projectId) {
         Project project = projectService.findById(projectId);
-        projectMemberService.validation(memberService.findById(memberId), projectService.findById(projectId));
+//        teamMemberService.validation(project.getTeam(),memberService.findById(memberId));
 
         List<MemberDTO.MemberInfo> memberInfoList = projectMemberService.findMembers(project).stream()
                 .map(projectMember -> MemberDTO.MemberInfo.from(projectMember.getMember()))
