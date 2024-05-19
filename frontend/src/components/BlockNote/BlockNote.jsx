@@ -316,7 +316,7 @@ const BlockNote = ({ issueId }) => {
     newAgendaBlock = {
       type:'agenda',
       content:agendaContent,
-      props:{assignee:agendaAssignees[0].name, mention:userName, mentionimg:userImg}
+      props:{assignee:agendaAssignees[0].name, mention:userName, assigneeimg:agendaAssignees[0].img, mentionimg:userImg}
     };
   }
     closeAgendaModal();
