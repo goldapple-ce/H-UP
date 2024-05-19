@@ -42,7 +42,9 @@ function DropdownMenu({ status, setStatus }) {
       <button onClick={handleDropdownToggle} className={styles.dropdown_button}>
         <img className={styles.iconImage} src={iconImage} alt={status} />
       </button>
-      <div className={`${styles.dropdown_content} isOpen ? 'show' : ''`}>
+      <div
+        className={`${styles.dropdown_content} ${isOpen ? styles.show : ''}`}
+      >
         <button onClick={() => handleStatusChange(SELECTED)}>
           <img className={styles.iconImage} src={pauseIcon} alt={status} />
           <p>Selected</p>
