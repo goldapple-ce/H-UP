@@ -4,7 +4,7 @@ import playIcon from '@asset/img/play_icon.png';
 import upArrowIcon from '@asset/img/up_arrow_icon.png';
 import STATUS from '@constant/status';
 import { useEffect, useState } from 'react';
-import './DropdownMenu.scss';
+import styles from './DropdownMenu.module.scss';
 
 function DropdownMenu({ status, setStatus }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -38,21 +38,21 @@ function DropdownMenu({ status, setStatus }) {
   };
 
   return (
-    <div className='dropdown-container'>
-      <button onClick={handleDropdownToggle} className='dropdown-button'>
-        <img className='iconImage' src={iconImage} alt={status} />
+    <div className={styles.dropdown_container}>
+      <button onClick={handleDropdownToggle} className={styles.dropdown_button}>
+        <img className={styles.iconImage} src={iconImage} alt={status} />
       </button>
-      <div className={`dropdown-content ${isOpen ? 'show' : ''}`}>
+      <div className={`${styles.dropdown_content} isOpen ? 'show' : ''`}>
         <button onClick={() => handleStatusChange(SELECTED)}>
-          <img className='iconImage' src={pauseIcon} alt={status} />
+          <img className={styles.iconImage} src={pauseIcon} alt={status} />
           <p>Selected</p>
         </button>
         <button onClick={() => handleStatusChange(PROGRESS)}>
-          <img className='iconImage' src={playIcon} alt={status} />
+          <img className={styles.iconImage} src={playIcon} alt={status} />
           <p>In Progress</p>
         </button>
         <button onClick={() => handleStatusChange(COMPLETED)}>
-          <img className='iconImage' src={checkIcon} alt={status} />
+          <img className={styles.iconImage} src={checkIcon} alt={status} />
           <p>Completed</p>
         </button>
       </div>

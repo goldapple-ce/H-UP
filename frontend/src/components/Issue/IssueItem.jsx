@@ -4,7 +4,7 @@ import playIcon from '@asset/img/play_icon.png';
 import upArrowIcon from '@asset/img/up_arrow_icon.png';
 import STATUS from '@constant/status';
 import { useEffect, useState } from 'react';
-import './IssueItem.scss';
+import styles from './IssueItem.module.scss';
 import UserIcon from '@component/common/UserIcon';
 import DropdownMenu from '@component/common/DropdownMenu';
 import { requestUpdateIssue } from '@api/services/issue';
@@ -75,20 +75,20 @@ const IssueItem = ({ issue }) => {
   };
 
   return (
-    <div className='issue_item__container'>
-      <div className='issue__icon'>
+    <div className={styles.issue_item__container}>
+      <div className={styles.issue__icon}>
         <DropdownMenu status={issueStatus} setStatus={updateIssueStatus} />
       </div>
-      <div className='issue_item'>
-        <div className='issue_item__content' onClick={handleClick}>
+      <div className={styles.issue_item}>
+        <div className={styles.issue_item__content} onClick={handleClick}>
           <h5>{title}</h5>
         </div>
-        <div className='issue_item__date'>
+        <div className={styles.issue_item__date}>
           <p>
             {formatToDate(startDate)} ~ {formatToDate(endDate)}
           </p>
         </div>
-        <div className='issue_item__info_container'>
+        <div className={styles.issue_item__info_container}>
           {assigneeInfoList &&
             assigneeInfoList
               .slice(0, showAll ? assigneeInfoList.length : 2)

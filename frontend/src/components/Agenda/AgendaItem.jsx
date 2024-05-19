@@ -4,7 +4,7 @@ import IconButton from '@component/IconButton/IconButton';
 import UserIcon from '@component/common/UserIcon';
 import { CaretRightFill } from 'react-bootstrap-icons';
 import { DeleteOutline } from 'styled-icons/material';
-import './AgendaItem.scss';
+import styles from './AgendaItem.module.scss';
 
 const AgendaItem = ({ agenda, onClick }) => {
   const { id, content, createdAt, requester, assigneeList } = agenda;
@@ -26,20 +26,20 @@ const AgendaItem = ({ agenda, onClick }) => {
   };
 
   return (
-    <div className='agenda_item__container' onClick={onClick}>
-      <div className='agenda_item__icon'>
+    <div className={styles.agenda_item__container} onClick={onClick}>
+      <div className={styles.agenda_item__icon}>
         <img src={playIcon} alt='' />
       </div>
-      <div className='agenda_item'>
-        <div className='agenda_item__content'>
+      <div className={styles.agenda_item}>
+        <div className={styles.agenda_item__content}>
           <h5>{content}</h5>
         </div>
-        <div className='agenda_item__date'>
+        <div className={styles.agenda_item__date}>
           <p>{formatToDate(createdAt)}</p>
         </div>
-        <div className='agenda_item__info_container'>
+        <div className={styles.agenda_item__info_container}>
           <UserIcon src={requester.img} alt={requester.name} />
-          <CaretRightFill className='agenda_item__caret' />
+          <CaretRightFill className={styles.agenda_item__caret} />
           {assigneeList.length > 0 &&
             assigneeList.map(assignee => (
               <UserIcon
@@ -49,7 +49,7 @@ const AgendaItem = ({ agenda, onClick }) => {
               />
             ))}
         </div>
-        <div className='agenda_item__delete_button'>
+        <div className={styles.agenda_item__delete_button}>
           <IconButton agenda={handledelete}>
             <DeleteOutline />
           </IconButton>

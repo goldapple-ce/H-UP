@@ -1,9 +1,9 @@
-.dropdown-container {
+.dropdown_container {
   position: relative;
   display: inline-block;
 }
 
-.dropdown-button {
+.dropdown_button {
   padding: 10px;
   font-size: 16px;
   border: none;
@@ -11,7 +11,7 @@
   background-color: white;
 }
 
-.dropdown-content {
+.dropdown_content {
   display: flex;
   flex-direction: column;
   position: absolute;
@@ -28,14 +28,14 @@
     display 0s 0.5s; // display 변경에 대한 지연 추가
 }
 
-.dropdown-container .dropdown-content.show {
+.dropdown_container .dropdown_content.show {
   display: flex;
   flex-direction: column;
   opacity: 1;
   visibility: visible;
 }
 
-.dropdown-content button {
+.dropdown_content button {
   display: flex;
   align-items: center;
   color: black;
@@ -53,7 +53,7 @@
   }
 }
 
-.dropdown-content button:hover {
+.dropdown_content button:hover {
   background-color: #f1f1f1;
 }
 
