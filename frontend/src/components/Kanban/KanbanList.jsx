@@ -31,7 +31,6 @@ function KanbanList({ title, children }) {
           >
             <span className={styles.span}></span>
             {children}
-            {/* <KanbanCreator title={title} /> */}
           </div>
         </div>
       </div>

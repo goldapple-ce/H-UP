@@ -7,51 +7,38 @@ $navy: #02469d;
 
 .cardWrap {
   display: flex;
-  flex-direction: row;
-  position: relative;
-  margin: 5px 10px;
-  padding: 20px;
-  border: 1px solid $white;
-  border-radius: 7px;
-  background-color: $white;
-  box-shadow: 1px 1px 5px 0.1px rgba(0, 0, 0, 0.15);
+  margin: 0px 4px 8px 4px;
+  border-radius: 3px;
   cursor: pointer;
-  height: 60px;
+  height: auto;
   width: auto;
   justify-content: space-around;
   align-items: center;
+  overflow: hidden;
+  padding: 15px;
+  gap: 10px;
 
   .cardHeaderWrap {
     display: flex;
-    flex-direction: column;
+    flex: 1;
     justify-content: space-between;
     align-items: center;
-    height: 20px;
-  }
+    height: 100%;
 
-  .cardTitle {
-    width: 90%;
-    margin: 10px 0 5px 0;
-    border: none;
-    outline: 0;
-    font-size: 14px;
-    font-weight: 700;
-    text-overflow: ellipsis;
-    color: $fontColor;
+    h5 {
+      margin-top: 10px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      overflow-wrap: break-word;
+      max-height: 20px;
+    }
   }
 
   .cardContent {
-    height: 70px;
-    border: none;
-    outline: 0;
-    resize: none;
-    overflow: visible;
-    font-size: 13px;
-    font-weight: 300;
-    color: $fontColor;
+    margin-right: 10px;
   }
 
   .imageList {
-    margin-left: auto;
+    margin-left: 100px;
   }
 }

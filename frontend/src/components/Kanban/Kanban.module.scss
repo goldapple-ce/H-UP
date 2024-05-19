@@ -1,11 +1,30 @@
 .kanbanListContainer {
+  display: grid;
+  flex-direction: column;
   justify-content: space-evenly;
   margin: 10px 0 10px 0;
   height: 100%;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(20%, 1fr));
+  // grid-template-columns: repeat(auto-fit, minmax(20%, 1fr));
+  grid-template-columns: repeat(4, 350px);
   gap: 20px; /* Adjust spacing between columns as needed */
+
+  // overflow-y: scroll;
+  overflow-x: scroll;
   
+  /* 스크롤바의 폭 너비 */
+  &::-webkit-scrollbar {
+      width: 7px;  
+      height: 7px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+      background: #0077b6; /* 스크롤바 색상 */
+      border-radius: 10px; /* 스크롤바 둥근 테두리 */
+  }
+  
+  &::-webkit-scrollbar-track {
+      background: #0076b62d;  /*스크롤바 뒷 배경 색상*/
+  }
 }
 
 .header {
@@ -56,6 +75,12 @@
   &__search {
     border-radius: 15px;
     border: 3px solid skyblue;
+
+    text-indent: 10px;
+  }
+
+  input:focus {
+    outline: none;
   }
 
   &__imageSet {

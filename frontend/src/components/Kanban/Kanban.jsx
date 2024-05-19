@@ -32,7 +32,7 @@ export default function Kanban() {
         <div className={styles.header}>
           <Input
             className={styles.header__search}
-            placeholder={'검색'}
+            placeholder={'이슈 검색'}
             onChange={onSearchInputChange}
           />
           <div className={styles.header__imageSet}>
