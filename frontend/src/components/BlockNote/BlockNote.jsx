@@ -118,16 +118,23 @@ const BlockNote = ({ issueId }) => {
   const [agendaContent, setAgendaContent] = useState('');
   const [agendaAssignees, setAgendaAssignees] = useState([]);
   const [agendaSelectedMember, setAgendaSelectedMember] = useState('');
-  const [userName, setUserName] = useState(null);
-  const [userImg, setUserImg] = useState(null);
+  const [userName, setUserName] = useState('');
+  const [userImg, setUserImg] = useState('');
+
+  const setUser = () => {
+    for (let i = 0; i < teamMembers.length; ++i) {
+      if (teamMembers[i].id === userInfo.memberId) {
+        setUserName(teamMembers[i].name);
+        setUserImg(teamMembers[i].img);
+      }
+    }
+  }
 
   useEffect(() => {
     async function fetchTeamMembers() {
       try {
         if (teamId != 0) {
-          console.log(teamId);
           const response = await requestTeamMemberList(teamId);
-          console.log(response.data);
           setTeamMembers(response.data.memberInfoList);
         }
       } catch (error) {
@@ -136,13 +143,13 @@ const BlockNote = ({ issueId }) => {
     }
     fetchTeamMembers();
 
-    for (let i = 0; i < teamMembers.length; ++i) {
-      if (teamMembers[i].id === userInfo.memberId) {
-        setUserName(teamMembers[i].name);
-        setUserImg(teamMembers[i].img);
-      }
+  }, [teamId]);
+
+  useEffect(() => {
+    if (teamMembers.length > 0) {
+      setUser();
     }
-  }, []);
+  }, [teamMembers]);
 
   const handleAddAssignee = async selectedMember => {
     if (selectedMember && !assignees.includes(selectedMember)) {
