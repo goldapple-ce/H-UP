@@ -1,17 +1,21 @@
 import checkIcon from '@asset/img/check_icon.png';
 import pauseIcon from '@asset/img/pause_icon.png';
 import playIcon from '@asset/img/play_icon.png';
+import upArrowIcon from '@asset/img/up_arrow_icon.png';
 import STATUS from '@constant/status';
 import { useEffect, useState } from 'react';
 import './DropdownMenu.scss';
 
 function DropdownMenu({ status, setStatus }) {
   const [isOpen, setIsOpen] = useState(false);
-  const { SELECTED, PROGRESS, COMPLETED } = STATUS;
+  const { CREATED, SELECTED, PROGRESS, COMPLETED } = STATUS;
   const [iconImage, setIconImage] = useState('');
 
   useEffect(() => {
     switch (status) {
+      case CREATED:
+        setIconImage(upArrowIcon);
+        break;
       case PROGRESS:
         setIconImage(playIcon);
         break;
