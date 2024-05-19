@@ -78,8 +78,8 @@ const MenuSidebar = () => {
 
   const [activeSubMenuId, setActiveSubMenuId] = useState(null);
 
-  const handleSubMenuClick = (id) => {
-    setActiveSubMenuId(prevId => prevId === id ? null : id);
+  const handleSubMenuClick = id => {
+    setActiveSubMenuId(prevId => (prevId === id ? null : id));
   };
 
   return (
@@ -89,7 +89,7 @@ const MenuSidebar = () => {
           className={`${styles.sidebar} ${isOpen == true ? styles.active : ''}`}
         >
           <div className={styles.sd_header}>
-            <div className={ styles.sd_header_btn } onClick={ShowSidebar}>
+            <div className={styles.sd_header_btn} onClick={ShowSidebar}>
               &lt;&lt;
             </div>
           </div>
@@ -115,12 +115,14 @@ const MenuSidebar = () => {
             <h5 className={styles.sd_body_h5}>Project</h5>
             <ul>
               {projectList.map(item => {
-                return <SubMenu 
-                key={item.id} 
-                item={item} 
-                activeSubMenuId={activeSubMenuId}
-                onSubMenuClick={handleSubMenuClick}
-                />;
+                return (
+                  <SubMenu
+                    key={item.id}
+                    item={item}
+                    activeSubMenuId={activeSubMenuId}
+                    onSubMenuClick={handleSubMenuClick}
+                  />
+                );
               })}
             </ul>
           </div>

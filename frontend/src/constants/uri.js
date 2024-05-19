@@ -29,7 +29,7 @@ const API_URI = {
   // agenda
   AGENDA_LIST: '/agenda/list/project',
   AGENDA: '/agenda',
-  AGENDA_ASSIGNEE: '/agenda/assignee'
+  AGENDA_ASSIGNEE: '/agenda/assignee',
 };
 
 export default API_URI;

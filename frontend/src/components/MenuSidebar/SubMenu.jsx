@@ -20,24 +20,24 @@ const SubMenu = ({ item, activeSubMenuId, onSubMenuClick }) => {
   return (
     <>
       <div>
-      <Link
-        className={styles.sidebarLink}
-        to={`/project/${item.id}`}
-        onClick={() => onSubMenuClick(item.id)}
-      >
-        <div>
+        <Link
+          className={styles.sidebarLink}
+          to={`/project/${item.id}`}
+          onClick={() => onSubMenuClick(item.id)}
+        >
           <div>
-            <span className={styles.subMenuSpan}>{item.name}</span>
+            <div>
+              <span className={styles.subMenuSpan}>{item.name}</span>
+            </div>
+            <div>
+              {issueList && subnav
+                ? item.iconOpened
+                : issueList
+                  ? item.iconClosed
+                  : null}
+            </div>
           </div>
-          <div>
-            {issueList && subnav
-              ? item.iconOpened
-              : issueList
-                ? item.iconClosed
-                : null}
-          </div>
-        </div>
-      </Link>
+        </Link>
       </div>
       <div className={`${styles.dropdownContent} ${subnav ? styles.open : ''}`}>
         {subnav &&

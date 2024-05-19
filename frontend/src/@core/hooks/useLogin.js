@@ -3,6 +3,17 @@ import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { authState } from '@recoil/auth';
 
+import Swal from 'sweetalert2';
+
+function loginFailAlert() {
+  Swal.fire({
+    title: '로그인 실패',
+    text: '입력하신 정보를 확인해주세요.',
+    icon: 'info',
+    confirmButtonText: '확인',
+  });
+}
+
 export default function useLogin({ userId, password }) {
   const navigate = useNavigate();
   const setUserInfo = useSetRecoilState(authState);
@@ -24,7 +35,7 @@ export default function useLogin({ userId, password }) {
 
       if (response.status === 200) navigate('/');
     } catch (error) {
-      window.alert('로그인 실패');
+      loginFailAlert();
     }
   };
 

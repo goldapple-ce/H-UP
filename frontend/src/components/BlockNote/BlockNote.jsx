@@ -499,7 +499,7 @@ const BlockNote = ({ issueId }) => {
           <span className={styles.date}>
             Start: {startDate ? formatToDate(startDate) : '1970-01-01'}
           </span>
-          
+
           <span className={styles.date}>
             End: {endDate ? formatToDate(endDate) : '1970-01-01'}
           </span>

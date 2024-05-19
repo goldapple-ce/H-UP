@@ -81,7 +81,11 @@ function SignupPage() {
             onChange={e => setuserId(e.target.value)}
             required
           />
-          <button className={styles.checkId} type='button' onClick={handleCheckUsername}>
+          <button
+            className={styles.checkId}
+            type='button'
+            onClick={handleCheckUsername}
+          >
             중복 확인
           </button>
         </div>
@@ -115,7 +119,9 @@ function SignupPage() {
             required
           />
         </div>
-        <button className={styles.signup} type='submit'>가입하기</button>
+        <button className={styles.signup} type='submit'>
+          가입하기
+        </button>
       </form>
     </div>
   );

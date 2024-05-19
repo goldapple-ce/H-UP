@@ -33,6 +33,7 @@
     "sockjs-client": "^1.6.1",
     "styled-components": "^6.1.10",
     "styled-icons": "^10.47.1",
+    "sweetalert2": "^11.11.0",
     "y-websocket": "^2.0.2",
     "yjs": "^13.6.15"
   },
