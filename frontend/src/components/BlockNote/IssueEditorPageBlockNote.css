@@ -74,3 +74,8 @@ BlockNote
     height: auto;
   }
 }
+
+.bn-block-content {
+  margin: 0px;
+  padding: 0px;
+}
