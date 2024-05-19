@@ -15,6 +15,7 @@ public class TodoInfo {
     private String content;
     @NotNull
     private String status;
+    private IssueDTO.IssueInfo issueInfo;
     private MemberDTO.MemberInfo requesterInfo;
     private MemberDTO.MemberInfo assigneeInfo;
 
@@ -22,6 +23,7 @@ public class TodoInfo {
         return TodoInfo.builder()
                 .todoId(todo.getId())
                 .content(todo.getContent())
+                .issueInfo(IssueDTO.IssueInfo.from(todo.getIssue()))
                 .requesterInfo(MemberDTO.MemberInfo.from(requester))
                 .assigneeInfo(MemberDTO.MemberInfo.from(assignee))
                 .status(String.valueOf(todo.getStatus())).build();
@@ -31,6 +33,7 @@ public class TodoInfo {
         return TodoInfo.builder()
                 .todoId(todo.getId())
                 .content(todo.getContent())
+                .issueInfo(IssueDTO.IssueInfo.from(todo.getIssue()))
                 .requesterInfo(MemberDTO.MemberInfo.from(todo.getRequester()))
                 .assigneeInfo(todo.getTodoMemberList().isEmpty() ? null :MemberDTO.MemberInfo.from(todo.getTodoMemberList().get(0).getMember()))
                 .status(String.valueOf(todo.getStatus())).build();
