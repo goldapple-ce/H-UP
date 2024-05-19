@@ -1,11 +1,11 @@
 $tab-label-height: 40px;
 $tab-content-height: 550px;
-$background-color: #f1f1f1;
+$background-color: #00b4d837;
 $active-tab-color: $background-color;
 $inactive-tab-color: transparent;
 $inactive-tab-text-color: rgb(180, 180, 180);
 $text-color: black;
-$border-color: black;
+$border-color: #00b4d876;
 
 @mixin clearfix {
   &:after {
@@ -64,7 +64,7 @@ body {
     position: relative;
     overflow-y: auto;
     background: #fff;
-    border-top: 1px solid $border-color;
+    border-top: 3px solid $border-color;
   }
 
   &__radio {
