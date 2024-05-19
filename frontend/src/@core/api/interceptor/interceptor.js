@@ -1,6 +1,34 @@
 import { requestTokenRefresh } from '@api/services/auth';
 import { authAxios } from '..';
 
+import Swal from 'sweetalert2';
+
+function loginAlert() {
+  Swal.fire({
+    title: '로그인 필요',
+    text: '로그인 후 이용해주세요.',
+    icon: 'info',
+    confirmButtonText: '확인'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      window.location.href = '/login';
+    }
+  });
+}
+
+function loginAgainAlert() {
+  Swal.fire({
+    title: '로그인 필요',
+    text: '다시 로그인해주세요.',
+    icon: 'info',
+    confirmButtonText: '확인'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      window.location.href = '/login';
+    }
+  });
+}
+
 export default function interceptor(api) {
   requestInterceptor(api);
   responseInterceptor(api);
@@ -13,8 +41,7 @@ function requestInterceptor(instance) {
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       } else {
-        alert('로그인 후 이용해주세요');
-        window.location.href = '/login';
+        loginAlert();
         return;
       }
 
@@ -25,6 +52,19 @@ function requestInterceptor(instance) {
       return Promise.reject(error.response);
     },
   );
+}
+
+function errorAlert(errorMessage) {
+  Swal.fire({
+    title: '에러',
+    text: errorMessage,
+    icon: 'error',
+    confirmButtonText: '확인'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      window.location.href = '/login';
+    }
+  });
 }
 
 function responseInterceptor(instance) {
@@ -54,11 +94,10 @@ function responseInterceptor(instance) {
           return authAxios.request(originConfig);
         } else if (businessCode == 'AUTH005') {
           localStorage.clear();
-          window.location.href = '/login';
-          window.alert('다시 로그인 해주세요.');
+          loginAgainAlert();
         }
       } else if (status == 400 || status == 404 || status == 409) {
-        window.alert(errorMessage);
+        errorAlert(errorMessage);
       }
       return Promise.reject(error);
     },
