@@ -32,6 +32,18 @@ import { requestAssignTodo, requestSaveTodo } from '@api/services/todo';
 import { teamIdState } from '@recoil/commonPersist';
 import { AddAgendaAssignee, createAgenda } from '@api/services/agenda';
 
+const formatToDate = jsDateStr => {
+  const date = new Date(jsDateStr);
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  // const hour = date.getHours();
+  // const minutes = date.getMinutes();
+  // const formattedDate = `${year}년 ${month}월 ${day}일 ${hour}:${minutes}`;
+  const formattedDate = `${year}-${month}-${day}`;
+  return formattedDate;
+};
+
 const schema = BlockNoteSchema.create({
   blockSpecs: {
     // Adds all default blocks.
@@ -473,15 +485,16 @@ const BlockNote = ({ issueId }) => {
   }
 
   return (
-    <>
+    <div className={styles.editorcontainer}>
       <div className={styles.header}>
         <h1 className={styles.title}>{title ? title : '제목 없음'}</h1>
         <div className={styles.dateContainer}>
           <span className={styles.date}>
-            Start: {startDate ? startDate : '1970-01-01'}
+            Start: {startDate ? formatToDate(startDate) : '1970-01-01'}
           </span>
+          
           <span className={styles.date}>
-            End: {endDate ? endDate : '1970-01-01'}
+            End: {endDate ? formatToDate(endDate) : '1970-01-01'}
           </span>
         </div>
       </div>
@@ -652,7 +665,7 @@ const BlockNote = ({ issueId }) => {
           </div>
         </form>
       </Modal>
-    </>
+    </div>
   );
 };
 
