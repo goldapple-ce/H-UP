@@ -8,8 +8,8 @@ function loginAlert() {
     title: '로그인 필요',
     text: '로그인 후 이용해주세요.',
     icon: 'info',
-    confirmButtonText: '확인'
-  }).then((result) => {
+    confirmButtonText: '확인',
+  }).then(result => {
     if (result.isConfirmed) {
       window.location.href = '/login';
     }
@@ -21,8 +21,8 @@ function loginAgainAlert() {
     title: '로그인 필요',
     text: '다시 로그인해주세요.',
     icon: 'info',
-    confirmButtonText: '확인'
-  }).then((result) => {
+    confirmButtonText: '확인',
+  }).then(result => {
     if (result.isConfirmed) {
       window.location.href = '/login';
     }
@@ -59,8 +59,8 @@ function errorAlert(errorMessage) {
     title: '에러',
     text: errorMessage,
     icon: 'error',
-    confirmButtonText: '확인'
-  }).then((result) => {
+    confirmButtonText: '확인',
+  }).then(result => {
     if (result.isConfirmed) {
       window.history.back();
     }

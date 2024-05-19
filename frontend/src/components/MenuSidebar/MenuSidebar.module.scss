@@ -40,7 +40,7 @@ body {
     left: 0;
   }
 
-  &_overlay{
+  &_overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -51,7 +51,7 @@ body {
     opacity: 0;
     visibility: hidden;
 
-    &.active{
+    &.active {
       opacity: 1;
       visibility: visible;
     }
@@ -81,7 +81,7 @@ body {
   overflow-x: hidden;
   overflow-y: auto;
 
-  &::-webkit-scrollbar{
+  &::-webkit-scrollbar {
     width: 0px;
   }
 
@@ -133,7 +133,7 @@ body {
     // position: absolute;
     bottom: 200px;
 
-    &::-webkit-scrollbar{
+    &::-webkit-scrollbar {
       width: 0px;
     }
   }
@@ -142,7 +142,7 @@ body {
     // background-color: #84ddef;
     color: white;
     font-weight: bold;
-    
+
     padding: 5px;
     border-radius: 2px;
     display: inline-block;
@@ -162,8 +162,6 @@ body {
   input[type='radio']:checked + label {
     background-color: #bdf1ff;
   }
-
-
 }
 
 //설정
@@ -171,7 +169,7 @@ body {
   margin: 10px 15px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 
-  &_item{
+  &_item {
     display: flex;
     align-items: center;
     color: rgb(88, 88, 88);

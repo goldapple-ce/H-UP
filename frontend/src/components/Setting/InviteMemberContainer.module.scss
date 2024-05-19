@@ -1,69 +1,68 @@
 .wrapper {
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    padding: 20px;
-    border-radius: 8px;
-  }
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  border-radius: 8px;
+}
 
 .inputContainer {
-    display: flex;
-  }
-  
+  display: flex;
+}
+
 .inputContainer input {
-    flex: 1;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    border-radius: 6px 0px 0px 6px;
+  flex: 1;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 6px 0px 0px 6px;
 }
-  
+
 .inputContainer button {
-width: 80px;
-padding: 8px 12px;
-border: none;
-background-color: #00B4D8;
-color: white;
-border-radius: 0px 6px 6px 0px;
-cursor: pointer;
+  width: 80px;
+  padding: 8px 12px;
+  border: none;
+  background-color: #00b4d8;
+  color: white;
+  border-radius: 0px 6px 6px 0px;
+  cursor: pointer;
 }
-  
+
 .inputContainer button:hover {
-background-color: #008eab;
+  background-color: #008eab;
 }
 
 .title {
-    font-size: 1em;
-    margin-bottom: 10px;
-    text-align: center;
+  font-size: 1em;
+  margin-bottom: 10px;
+  text-align: center;
 }
 
 .inviteMember {
-    display: flex;
+  display: flex;
 }
-  
+
 .inviteMember div {
-    background-color: #e0e0e0;
-    border-radius: 16px;
-    padding: 5px 10px;
-    margin: 5px;
-    cursor: pointer;
+  background-color: #e0e0e0;
+  border-radius: 16px;
+  padding: 5px 10px;
+  margin: 5px;
+  cursor: pointer;
 }
 
 .inviteMember div:hover {
-    background-color: #d0d0d0;
+  background-color: #d0d0d0;
 }
 
 .filteredMembers {
-    max-height: 150px;
-    overflow-y: auto;
-    margin-top: 10px;
-  }
-  
+  max-height: 150px;
+  overflow-y: auto;
+  margin-top: 10px;
+}
+
 .filteredMembers div {
-    padding: 8px;
-    border-bottom: 1px solid #ccc;
-    cursor: pointer;
-    transition: background-color 0.3s;
+  padding: 8px;
+  border-bottom: 1px solid #ccc;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .filteredMembers div:hover {
-    background-color: #f1f1f1;
+  background-color: #f1f1f1;
 }
-  

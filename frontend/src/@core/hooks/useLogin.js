@@ -10,7 +10,7 @@ function loginFailAlert() {
     title: '로그인 실패',
     text: '입력하신 정보를 확인해주세요.',
     icon: 'info',
-    confirmButtonText: '확인'
+    confirmButtonText: '확인',
   });
 }
 

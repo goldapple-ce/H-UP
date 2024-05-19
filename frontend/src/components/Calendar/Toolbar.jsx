@@ -10,7 +10,7 @@ export default function Toolbar(props) {
     props.onNavigate(action);
   };
 
-  const handleCheckboxChange = (event) => {
+  const handleCheckboxChange = event => {
     setIsChecked(event.target.checked);
   };
 
@@ -29,7 +29,7 @@ export default function Toolbar(props) {
         </button>
       </span>
       <div className={styles.checkbox}>
-        <input 
+        <input
           type='checkbox'
           id='isMine'
           checked={isChecked}
