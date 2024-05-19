@@ -62,7 +62,7 @@ function errorAlert(errorMessage) {
     confirmButtonText: '확인'
   }).then((result) => {
     if (result.isConfirmed) {
-      window.location.href = '/login';
+      window.history.back();
     }
   });
 }
