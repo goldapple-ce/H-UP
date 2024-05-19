@@ -2,14 +2,12 @@ import { deleteAgenda } from '@api/services/agenda';
 import playIcon from '@asset/img/play_icon.png';
 import IconButton from '@component/IconButton/IconButton';
 import UserIcon from '@component/common/UserIcon';
-import { useState } from 'react';
 import { CaretRightFill } from 'react-bootstrap-icons';
 import { DeleteOutline } from 'styled-icons/material';
-import styles from './AgendaItem.module.scss';
+import './AgendaItem.scss';
 
 const AgendaItem = ({ agenda, onClick }) => {
   const { id, content, createdAt, requester, assigneeList } = agenda;
-  const [iconImage, setIconImage] = useState('');
 
   const formatToDate = jsDateStr => {
     const date = new Date(jsDateStr);
@@ -28,32 +26,34 @@ const AgendaItem = ({ agenda, onClick }) => {
   };
 
   return (
-    <div className={styles.agenda} onClick={onClick}>
-      <div className={styles.icon}>
+    <div className='agenda_item__container' onClick={onClick}>
+      <div className='agenda_item__icon'>
         <img src={playIcon} alt='' />
       </div>
-      <div className={styles.content}>
-        <h5>{content}</h5>
-      </div>
-      <div className={styles.date}>
-        <p>{formatToDate(createdAt)}</p>
-      </div>
-      <div className={styles.info_container}>
-        <UserIcon src={requester.img} alt={requester.name} />
-        <CaretRightFill className={styles.caret} />
-        {assigneeList.length > 0 &&
-          assigneeList.map(assignee => (
-            <UserIcon
-              key={assignee.id}
-              src={assignee.img}
-              alt={assignee.name}
-            />
-          ))}
-      </div>
-      <div className={styles.delete_button}>
-        <IconButton todo={handledelete}>
-          <DeleteOutline />
-        </IconButton>
+      <div className='agenda_item'>
+        <div className='agenda_item__content'>
+          <h5>{content}</h5>
+        </div>
+        <div className='agenda_item__date'>
+          <p>{formatToDate(createdAt)}</p>
+        </div>
+        <div className='agenda_item__info_container'>
+          <UserIcon src={requester.img} alt={requester.name} />
+          <CaretRightFill className='agenda_item__caret' />
+          {assigneeList.length > 0 &&
+            assigneeList.map(assignee => (
+              <UserIcon
+                key={assignee.id}
+                src={assignee.img}
+                alt={assignee.name}
+              />
+            ))}
+        </div>
+        <div className='agenda_item__delete_button'>
+          <IconButton todo={handledelete}>
+            <DeleteOutline />
+          </IconButton>
+        </div>
       </div>
     </div>
   );
