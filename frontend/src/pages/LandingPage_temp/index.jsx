@@ -1,9 +1,7 @@
-import FloatingButton from '@component/FloatingButton/FloatingButton';
-
 const LandingPage = props => {
   return (
     <div>
-      <FloatingButton />
+      반가워요!
     </div>
   );
 };

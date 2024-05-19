@@ -1,26 +1,29 @@
-import { useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './SubMenu.module.scss';
+import { requestIssueList } from '@api/services/issue';
 
-import { issueState } from '@recoil/issue';
-import { useRecoilState } from 'recoil';
+const SubMenu = ({ item, activeSubMenuId, onSubMenuClick }) => {
+  const [issueList, setIssueList] = useState([]);
+  const subnav = activeSubMenuId === item.id;
 
-const SubMenu = ({ item }) => {
-  const [subnav, setSubnav] = useState(false);
-  const [issueList] = useRecoilState(issueState);
-
-  const showSubnav = () => {
-    setSubnav(!subnav);
-  };
+  useLayoutEffect(() => {
+    const fetchIssueList = async () => {
+      if (subnav) {
+        const response = await requestIssueList(item.id);
+        setIssueList(response.data.issueInfoList);
+      }
+    };
+    fetchIssueList();
+  }, [subnav, item.id]);
 
   return (
     <>
+      <div>
       <Link
         className={styles.sidebarLink}
         to={`/project/${item.id}`}
-        onClick={() => {
-          showSubnav();
-        }}
+        onClick={() => onSubMenuClick(item.id)}
       >
         <div>
           <div>
@@ -35,55 +38,21 @@ const SubMenu = ({ item }) => {
           </div>
         </div>
       </Link>
-      {subnav &&
-        issueList.map(item => {
-          return (
+      </div>
+      <div className={`${styles.dropdownContent} ${subnav ? styles.open : ''}`}>
+        {subnav &&
+          issueList.map((issue, index) => (
             <Link
-              key={item.issueId}
+              key={index}
               className={styles.dropdownLink}
-              to={`/issue/${item.issueId}`}
+              to={`/issue/${issue.issueId}`}
             >
-              <span className={styles.subMenuSpan}>{item.title}</span>
+              <span className={styles.subMenuSpan}>{issue.title}</span>
             </Link>
-          );
-        })}
+          ))}
+      </div>
     </>
   );
 };
 
 export default SubMenu;
-
-{
-  /* <Link
-        className={styles.sidebarLink}
-        to={item.path}
-        onClick={item.subNav && showSubnav}
-      >
-        <div>
-          <div>
-            {item.icon}
-            <subMenuSpan>{item.title}</subMenuSpan>
-          </div>
-          <div>
-            {item.subNav && subnav
-              ? item.iconOpened
-              : item.subNav
-                ? item.iconClosed
-                : null}
-          </div>
-        </div>
-      </Link>
-      {subnav &&
-        item.subNav.map((item, index) => {
-          return (
-            <Link
-              className={styles.dropdownLink}
-              to={`issue/${item.id}`}
-              key={index}
-            >
-              {item.icon}
-              <subMenuSpan>{item.title}</subMenuSpan>
-            </Link>
-          );
-        })} */
-}

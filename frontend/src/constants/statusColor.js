@@ -1,6 +1,6 @@
 export const STATUS_COLOR = {
-  CREATED: '#ef5777',
-  SELECTED: '#B33771',
+  CREATED: '#00b4d8',
+  SELECTED: '#0077b6',
   PROGRESS: '#341f97',
   COMPLETED: '#130f40',
 };

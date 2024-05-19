@@ -76,6 +76,12 @@ const MenuSidebar = () => {
     setIsSettingOpen(false);
   };
 
+  const [activeSubMenuId, setActiveSubMenuId] = useState(null);
+
+  const handleSubMenuClick = (id) => {
+    setActiveSubMenuId(prevId => prevId === id ? null : id);
+  };
+
   return (
     <>
       <div className='bar-container'>
@@ -83,32 +89,12 @@ const MenuSidebar = () => {
           className={`${styles.sidebar} ${isOpen == true ? styles.active : ''}`}
         >
           <div className={styles.sd_header}>
-            <h4 className='mb-0'>사이드 바</h4>
-            <div className='btn' onClick={ShowSidebar}>
-              <List />
+            <div className={ styles.sd_header_btn } onClick={ShowSidebar}>
+              &lt;&lt;
             </div>
-          </div>
-          <div className={styles.sd_option}>
-            <div className={styles.sd_option_item} onClick={showSetting}>
-              <IconButton>
-                <Settings />
-              </IconButton>
-              <div>설정</div>
-            </div>
-            <SettingContainer
-              isOpen={isSettingOpen}
-              closeSetting={closeSetting}
-            />
-          </div>
-          <div className={styles.sd_body}>
-            <ul>
-              {projectList.map(item => {
-                return <SubMenu key={item.id} item={item} />;
-              })}
-            </ul>
           </div>
           <div className={styles.team_container}>
-            <h5>Team</h5>
+            <h5 className={styles.team_h5}>Team</h5>
             {teamList.map(team => (
               <div key={team.id} className={styles.team}>
                 <label htmlFor={team.id}>
@@ -124,6 +110,31 @@ const MenuSidebar = () => {
                 </label>
               </div>
             ))}
+          </div>
+          <div className={styles.sd_body}>
+            <h5 className={styles.sd_body_h5}>Project</h5>
+            <ul>
+              {projectList.map(item => {
+                return <SubMenu 
+                key={item.id} 
+                item={item} 
+                activeSubMenuId={activeSubMenuId}
+                onSubMenuClick={handleSubMenuClick}
+                />;
+              })}
+            </ul>
+          </div>
+          <div className={styles.sd_option}>
+            <div className={styles.sd_option_item} onClick={showSetting}>
+              <IconButton>
+                <Settings />
+              </IconButton>
+              <div>설정</div>
+            </div>
+            <SettingContainer
+              isOpen={isSettingOpen}
+              closeSetting={closeSetting}
+            />
           </div>
         </div>
       </div>
