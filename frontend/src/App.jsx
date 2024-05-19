@@ -11,6 +11,7 @@ import SignupPage from '@page/SignupPage';
 import { useRecoilState } from 'recoil';
 import { authState } from '@recoil/auth';
 import LandingPage from '@page/LandingPage_temp';
+import PrivateRoute from '@component/Route/PrivateRoute';
 
 function App() {
   const [userInfo] = useRecoilState(authState);
@@ -22,10 +23,10 @@ function App() {
         {userInfo.isLogin ? <MenuSidebar /> : null}
         <main>
           <Routes>
-            <Route path='/'>
-              <Route index element={<LandingPage />} />
-              <Route path='login' element={<LoginPage />} />
-              <Route path='signUp' element={<SignupPage />} />
+            <Route path='/' element={<LandingPage />} />
+            <Route path='/login' element={<LoginPage />} />
+            <Route path='/signUp' element={<SignupPage />} />
+            <Route element={<PrivateRoute />}>
               <Route path='project/:id' element={<ProjectPage />} />
               <Route path='issue/:id' element={<IssueEditorPage />} />
             </Route>
