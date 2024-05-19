@@ -132,7 +132,7 @@ const BlockNote = ({ issueId }) => {
     }
   }, []);
 
-  const handleAddAssignee = async () => {
+  const handleAddAssignee = async (selectedMember) => {
     if (selectedMember && !assignees.includes(selectedMember)) {
       const addObject = JSON.parse(selectedMember);
       setAssignees([addObject]);
@@ -252,7 +252,7 @@ const BlockNote = ({ issueId }) => {
     subtext: 'Making Agenda',
   });
 
-  const handleAddAgendaAssignee = async () => {
+  const handleAddAgendaAssignee = async (agendaSelectedMember) => {
     if (agendaSelectedMember && !agendaAssignees.includes(agendaSelectedMember)) {
       const addObject = JSON.parse(agendaSelectedMember);
       setAgendaAssignees([addObject]);
@@ -513,63 +513,66 @@ const BlockNote = ({ issueId }) => {
         <h2 className={styles.modalTitle}>할 일 추가</h2>
         <form onSubmit={handleSubmit} className={styles.modalForm}>
           <label className={styles.modalLabel}>
-            Content:
             <input
               type='text'
               value={content}
               onChange={e => setContent(e.target.value)}
               className={styles.modalInput}
+              placeholder='할 일 내용을 입력해주세요.'
               required
             />
           </label>
 
-          <h2 className={styles.modalTitle}>인원 관리</h2>
           <label className={styles.modalLabel}>
-            Add Assignee:
             <select
               value={selectedMember}
-              onChange={e => setSelectedMember(e.target.value)}
+              onChange={e => {
+                setSelectedMember(e.target.value);
+                handleAddAssignee(e.target.value);
+              }}
               className={styles.modalInput}
             >
-              <option value=''>Select a member</option>
+              <option value=''>팀원을 선택해주세요.</option>
               {teamMembers.map((member, index) => (
-                <option key={index} value={JSON.stringify(member)}>
+                <option key={index} value={JSON.stringify(member)} >
                   {member.name}
                 </option>
               ))}
             </select>
-            <button
-              type='button'
-              onClick={handleAddAssignee}
-              className={styles.addButton}
-            >
-              Add
-            </button>
           </label>
           <ul className={styles.assigneeList}>
             {assignees.map((assignee, index) => (
               <li key={index} className={styles.assigneeItem}>
-                {assignee.name}
-                <button
-                  type='button'
-                  onClick={() => handleRemoveAssignee(index)}
-                  className={styles.removeButton}
-                >
-                  <FaTimes />
-                </button>
-              </li>
+              <div className={styles.assigneeContainer}>
+                <img
+                  className={styles.assigneeImg}
+                  src='https://mblogthumb-phinf.pstatic.net/MjAyMDExMDFfMTgy/MDAxNjA0MjI4ODc1NDMw.Ex906Mv9nnPEZGCh4SREknadZvzMO8LyDzGOHMKPdwAg.ZAmE6pU5lhEdeOUsPdxg8-gOuZrq_ipJ5VhqaViubI4g.JPEG.gambasg/%EC%9C%A0%ED%8A%9C%EB%B8%8C_%EA%B8%B0%EB%B3%B8%ED%94%84%EB%A1%9C%ED%95%84_%ED%95%98%EB%8A%98%EC%83%89.jpg?type=w800'
+                  alt="Profile Image"
+                />
+                <div> {assignee.name}</div>
+                <div className={styles.removeButtonWrapper}>
+                  <button
+                    type='button'
+                    onClick={() => handleRemoveAssignee(index)}
+                    className={styles.removeButton}
+                  >
+                    <FaTimes />
+                  </button>
+                </div>
+              </div>
+            </li>
             ))}
           </ul>
           <div className={styles.modalButtons}>
             <button type='submit' className={styles.submitButton}>
-              Add
+              생성
             </button>
             <button
               type='button'
               onClick={closeModal}
               className={styles.cancelButton}
             >
-              Cancel
+              취소
             </button>
           </div>
         </form>
@@ -586,64 +589,68 @@ const BlockNote = ({ issueId }) => {
         <form onSubmit={handleAgendaSubmit} className={styles.modalForm}>
 
           <label className={styles.modalLabel}>
-            Agenda:
             <input
               type='text'
               value={agendaContent}
               onChange={e => setAgendaContent(e.target.value)}
               className={styles.modalInput}
+              placeholder='의사 결정 내용을 입력해주세요.'
               required
             />
           </label>
 
           <label className={styles.modalLabel}>
-            Select Assignee:
             <select
               value={agendaSelectedMember}
-              onChange={e => setAgendaSelectedMember(e.target.value)}
+              onChange={e => {
+                setAgendaSelectedMember(e.target.value);
+                handleAddAgendaAssignee(e.target.value);
+              }}
               className={styles.modalInput}
             >
-              <option value=''>Select a member</option>
+              <option value=''>팀원을 선택해주세요.</option>
               {teamMembers.map((member, index) => (
                 <option key={index} value={JSON.stringify(member)}>
                   {member.name}
                 </option>
               ))}
             </select>
-            <button
-              type='button'
-              onClick={handleAddAgendaAssignee}
-              className={styles.addButton}
-            >
-              Add
-            </button>
           </label>
 
           <ul className={styles.assigneeList}>
             {agendaAssignees.map((assignee, index) => (
               <li key={index} className={styles.assigneeItem}>
-                {assignee.name}
-                <button
-                  type='button'
-                  onClick={() => handleRemoveAgendaAssignee(index)}
-                  className={styles.removeButton}
-                >
-                  <FaTimes />
-                </button>
+                <div className={styles.assigneeContainer}>
+                  <img
+                    className={styles.assigneeImg}
+                    src='https://mblogthumb-phinf.pstatic.net/MjAyMDExMDFfMTgy/MDAxNjA0MjI4ODc1NDMw.Ex906Mv9nnPEZGCh4SREknadZvzMO8LyDzGOHMKPdwAg.ZAmE6pU5lhEdeOUsPdxg8-gOuZrq_ipJ5VhqaViubI4g.JPEG.gambasg/%EC%9C%A0%ED%8A%9C%EB%B8%8C_%EA%B8%B0%EB%B3%B8%ED%94%84%EB%A1%9C%ED%95%84_%ED%95%98%EB%8A%98%EC%83%89.jpg?type=w800'
+                    alt="Profile Image"
+                  />
+                  <div> {assignee.name}</div>
+                  <div className={styles.removeButtonWrapper}>
+                    <button
+                      type='button'
+                      onClick={() => handleRemoveAgendaAssignee(index)}
+                      className={styles.removeButton}
+                    >
+                      <FaTimes />
+                    </button>
+                  </div>
+                </div>
               </li>
             ))}
           </ul>
 
           <div className={styles.modalButtons}>
             <button type='submit' className={styles.submitButton}>
-              Add
+              생성
             </button>
             <button
               type='button'
               onClick={closeAgendaModal}
               className={styles.cancelButton}
             >
-              Cancel
+              취소
             </button>
           </div>
         </form>
