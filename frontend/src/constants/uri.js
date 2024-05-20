@@ -15,6 +15,8 @@ const API_URI = {
   TEAM: '/team',
   TEAM_LIST: '/team/me',
   TEAM_MEMBER_LIST: '/team/members',
+  TEAM_INVITE_MEMBER: 'team/members',
+  
   //project
   PROJECT: '/project',
   PROJECT_LIST: '/project/list/team',
