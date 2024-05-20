@@ -18,5 +18,5 @@ export const requestCreateTeam = async data => {
 
 // team 초대
 export const requestTeamInviteMember = async data => {
-  return authAxios.post(`${API_URI.PROJECT_INVITE_MEMBER}`, data);
+  return authAxios.post(`${API_URI.TEAM_INVITE_MEMBER}`, data);
 };
