@@ -59,11 +59,13 @@ public class AgendaInfoResponse {
         private int id;
         private Integer assigneeId;
         private String name;
+        private String img;
 
         public static RelatedMember from (Member member) {
             return RelatedMember.builder()
                     .id(member.getId())
                     .name(member.getName())
+                    .img(member.getImg())
                     .build();
         }
 
@@ -72,6 +74,7 @@ public class AgendaInfoResponse {
                     .id(agendaMember.getMember().getId())
                     .assigneeId(agendaMember.getId())
                     .name(agendaMember.getMember().getName())
+                    .img(agendaMember.getMember().getImg())
                     .build();
         }
     }
