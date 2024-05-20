@@ -10,7 +10,8 @@ import org.springframework.data.redis.repository.configuration.EnableRedisReposi
 
 @Configuration
 @EnableRedisRepositories(basePackages = {
-        "**.redis.**"
+        "com.a702.hup.domain.documents.redis",
+        "com.a702.hup.domain.auth.redis"
 })
 public class RedisConfig {
     @Value("${spring.data.redis.host}")

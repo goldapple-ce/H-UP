@@ -40,18 +40,22 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         log.debug("[+] JwtAuthorizationFilter :: doFilterInternal :: requestURI : {}", request.getRequestURI());
         log.debug("[+] JwtAuthorizationFilter :: doFilterInternal :: requestMethod : {}", request.getMethod());
 
-        // token 검증 제외 api path
-        List<String> apiList = Arrays.asList(
-                "/api/swagger-ui"
-        );
-
-        // 제외 api인지 확인
-        for(String api : apiList) {
-            if(request.getRequestURI().startsWith(api)) {
-                filterChain.doFilter(request, response);
-                return;
-            }
-        }
+//        // token 검증 제외 api path
+//        List<String> apiList = Arrays.asList(
+//                "/api/swagger-ui",
+//                "/api/v3/api-docs", // swagger
+//                "/api/ws",          // 웹소켓
+//                "/api/member",      // 회원가입, 아이디 체크, 로그인
+//                "/api/auth"         // 토큰 갱신
+//        );
+//
+//        // 제외 api인지 확인
+//        for(String api : apiList) {
+//            if(request.getRequestURI().startsWith(api)) {
+//                filterChain.doFilter(request, response);
+//                return;
+//            }
+//        }
 
         // METHOD == OPTIONS 바로 넘김
         if(request.getMethod().equalsIgnoreCase("OPTIONS")) {
@@ -63,6 +67,10 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         // header에 토큰 있는지 확인. 없으면 에러
         String token = resolveToken(request);
         log.debug("[+] JwtAuthorizationFilter :: doFilterInternal :: resolved token => {}", token);
+        if(token == null) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         // token 유효성 검증
         if(tokenProvider.validateToken(token)) {

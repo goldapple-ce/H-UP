@@ -85,4 +85,6 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         // ID, password 로 미인증 AuthenticationToken 생성
         return new UsernamePasswordAuthenticationToken(loginRequest.getUserId(), loginRequest.getPassword());
     }
+
+
 }

@@ -1,14 +1,18 @@
 package com.a702.hup.application.contorller;
 
+import com.a702.hup.application.data.dto.MemberDTO;
 import com.a702.hup.application.data.request.MemberSignUpRequest;
 import com.a702.hup.application.data.response.IdCheckResponse;
-import com.a702.hup.application.data.response.MemberInfoResponse;
+import com.a702.hup.application.data.response.UpdateProfileImgResponse;
 import com.a702.hup.domain.member.MemberService;
+import com.a702.hup.global.config.security.SecurityUserDetailsDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -49,12 +53,33 @@ public class MemberController {
      * @description 회원 정보 조회
      **/
     @GetMapping
-    public ResponseEntity<MemberInfoResponse> getInfo(@RequestParam int memberId) {
+    public ResponseEntity<MemberDTO.MemberInfo> getInfo(@RequestParam int memberId) {
         log.info("[+] MemberController :: getInfo :: start");
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(memberService.findMemberInfoById(memberId));
     }
 
-//    public ResponseEntity<Void> updateInfo(@RequestParam int memberId, MemberInfoResponse memberInfoResponse) {}
+    @PostMapping("/image")
+    public ResponseEntity<UpdateProfileImgResponse> updateImage(
+            @AuthenticationPrincipal SecurityUserDetailsDto user,
+            @RequestParam("file") MultipartFile file
+    ) {
+        log.info("[+] MemberController :: updateImage :: start");
+        log.info("[+] MemberController :: updateImage :: file : {}", file);
+        log.info("[+] MemberController :: updateImage :: end");
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(memberService.updateImg(file, user.memberId()));
+    }
+
+    /**
+     * @author 강용민
+     * @date 2024-05-14
+     * @description
+     */
+    @GetMapping("/all")
+    public ResponseEntity<MemberDTO.MemberInfoList> getAllMember(){
+        return ResponseEntity.ok(memberService.findAll());
+    }
 }

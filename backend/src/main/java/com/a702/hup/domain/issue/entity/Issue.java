@@ -1,7 +1,9 @@
 package com.a702.hup.domain.issue.entity;
 
+import com.a702.hup.application.data.dto.IssueDTO;
 import com.a702.hup.domain.agenda.entity.Agenda;
 import com.a702.hup.domain.comment.entity.Comment;
+import com.a702.hup.domain.issue_member.entity.IssueMember;
 import com.a702.hup.domain.member.entity.Member;
 import com.a702.hup.domain.project.entity.Project;
 import com.a702.hup.domain.todo.entity.Todo;
@@ -42,6 +44,9 @@ public class Issue extends BaseEntity {
     private Project project;
 
     @OneToMany(mappedBy = "issue")
+    private List<IssueMember> issueMemberList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "issue")
     private List<Comment> commentList = new ArrayList<>();
 
     @OneToMany(mappedBy = "issue")
@@ -51,13 +56,25 @@ public class Issue extends BaseEntity {
     private List<Todo> todoList = new ArrayList<>();
 
     @Builder
-    public Issue(Member member, Project project, String title, LocalDate startDate, LocalDate endDate) {
+    public Issue(
+            Member member,
+            Project project,
+            String title,
+            LocalDate startDate,
+            LocalDate endDate) {
         addRelatedMember(member);
         addRelatedProject(project);
         this.title = title;
         this.startDate = startDate;
         this.endDate = endDate;
         status = IssueStatus.CREATED;
+    }
+
+    public void updateIssue(IssueDTO.Update update) {
+        this.title = update.getTitle();
+        this.startDate = update.getStartDate();
+        this.endDate = update.getEndDate();
+        this.status = update.getStatus();
     }
 
     private void addRelatedMember(Member member) {
@@ -69,4 +86,5 @@ public class Issue extends BaseEntity {
         project.getIssueList().add(this);
         this.project = project;
     }
+
 }

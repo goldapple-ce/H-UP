@@ -25,10 +25,11 @@ spring:
     mongodb:
       host: ${MONGO_HOST}
       port: ${MONGO_PORT}
-      authentication-database: ${MONGO_ADMIN}
+      database: ${MONGO_DATABASE}
       username: ${MONGO_USERNAME}
       password: ${MONGO_PASSWORD}
-      database: ${MONGO_DATABASE}
+      authentication-database: ${MONGO_AUTHENTICATION}
+      auto-index-creation: true
 
   jpa:
     hibernate:
@@ -38,12 +39,46 @@ spring:
         format_sql: true
         show_sql: true
 
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+
+  cloud:
+    aws:
+      credentials:
+        access-key: ${S3_ACCESS_KEY}
+        secret-key: ${S3_SECRET_KEY}
+      region:
+        static: ap-northeast-2
+      s3:
+        bucket: ${S3_BUCKET_NAME}
+      stack:
+        auto: false
+
 # jwt
 jwt:
   expiration:
     access : ${JWT_EXPIRATION_ACCESS}
     refresh: ${JWT_EXPIRATION_REFRESH}
   secret: ${JWT_SECRET}
+
+# Swagger
+springdoc:
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+  api-docs:
+    groups:
+      enabled: true
+  swagger-ui:
+    operations-sorter: alpha    # alpha(알파벳 오름차순), method(HTTP메소드순)
+    tags-sorter: alpha          # 태그 정렬 기준
+    path: index.html      # html 문서 접속 경로
+    disable-swagger-default-url: true
+    display-query-params-without-oauth2: true
+    doc-expansion: none         # tag, operation 펼치는 방식
+  paths-to-match:
+    - /**
 
 # log
 logging:

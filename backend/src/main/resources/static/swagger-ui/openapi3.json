@@ -11,9 +11,32 @@
   "tags" : [ ],
   "paths" : {
     "/agenda" : {
+      "put" : {
+        "tags" : [ "agenda" ],
+        "operationId" : "update-agenda-assignee",
+        "requestBody" : {
+          "content" : {
+            "application/json;charset=UTF-8" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/agenda-1829758783"
+              },
+              "examples" : {
+                "update-agenda-assignee" : {
+                  "value" : "{\r\n  \"agendaId\" : 1,\r\n  \"content\" : \"수정된 내용\",\r\n  \"status\" : \"완료\"\r\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200"
+          }
+        }
+      },
       "post" : {
         "tags" : [ "agenda" ],
-        "operationId" : "agenda-save",
+        "operationId" : "agenda-savesave-agenda",
         "requestBody" : {
           "content" : {
             "application/json;charset=UTF-8" : {
@@ -23,6 +46,9 @@
               "examples" : {
                 "agenda-save" : {
                   "value" : "{\r\n  \"issueId\" : 1,\r\n  \"content\" : \"의사결정 제공\"\r\n}"
+                },
+                "save-agenda" : {
+                  "value" : "{\r\n  \"issueId\" : 1,\r\n  \"content\" : \"의사결정 제공\"\r\n}"
                 }
               }
             }
@@ -31,6 +57,101 @@
         "responses" : {
           "201" : {
             "description" : "201"
+          }
+        }
+      }
+    },
+    "/agenda/assignee" : {
+      "post" : {
+        "tags" : [ "agenda" ],
+        "operationId" : "save-agenda-assignee",
+        "requestBody" : {
+          "content" : {
+            "application/json;charset=UTF-8" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/agenda-assignee-1533037509"
+              },
+              "examples" : {
+                "save-agenda-assignee" : {
+                  "value" : "{\r\n  \"agendaId\" : 1,\r\n  \"memberId\" : 1\r\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "201"
+          }
+        }
+      }
+    },
+    "/agenda/{agendaId}" : {
+      "get" : {
+        "tags" : [ "agenda" ],
+        "operationId" : "get-agenda-info",
+        "parameters" : [ {
+          "name" : "agendaId",
+          "in" : "path",
+          "description" : "",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/agenda-agendaId-2023562834"
+                },
+                "examples" : {
+                  "get-agenda-info" : {
+                    "value" : "{\r\n  \"id\" : 1,\r\n  \"content\" : \"내용\",\r\n  \"createdAt\" : \"2024-05-02\",\r\n  \"requester\" : {\r\n    \"id\" : 1,\r\n    \"name\" : \"tester\"\r\n  },\r\n  \"assigneeList\" : [ {\r\n    \"id\" : 2,\r\n    \"assigneeId\" : 1,\r\n    \"name\" : \"tester2\"\r\n  }, {\r\n    \"id\" : 3,\r\n    \"assigneeId\" : 2,\r\n    \"name\" : \"tester3\"\r\n  } ],\r\n  \"commentList\" : [ {\r\n    \"commenter\" : {\r\n      \"id\" : 2,\r\n      \"name\" : \"tester2\"\r\n    },\r\n    \"content\" : \"content\"\r\n  }, {\r\n    \"commenter\" : {\r\n      \"id\" : 3,\r\n      \"name\" : \"tester3\"\r\n    },\r\n    \"content\" : \"content2\"\r\n  } ]\r\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "agenda" ],
+        "operationId" : "delete-agenda",
+        "parameters" : [ {
+          "name" : "agendaId",
+          "in" : "path",
+          "description" : "",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200"
+          }
+        }
+      }
+    },
+    "/agenda/assignee/{assigneeId}" : {
+      "delete" : {
+        "tags" : [ "agenda" ],
+        "operationId" : "delete-agenda-assignee",
+        "parameters" : [ {
+          "name" : "assigneeId",
+          "in" : "path",
+          "description" : "",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200"
           }
         }
       }
@@ -83,12 +204,121 @@
           }
         }
       },
+      "agenda-1829758783" : {
+        "type" : "object",
+        "properties" : {
+          "agendaId" : {
+            "type" : "number",
+            "description" : "의사결정 Id"
+          },
+          "content" : {
+            "type" : "string",
+            "description" : "수정할 내용"
+          },
+          "status" : {
+            "type" : "string",
+            "description" : "상태 변경,[ASSIGNED,PROGRESS,COMPLETED,APPROVED]"
+          }
+        }
+      },
       "hello-1270671984" : {
         "type" : "object",
         "properties" : {
           "body" : {
             "type" : "string",
             "description" : "바디"
+          }
+        }
+      },
+      "agenda-assignee-1533037509" : {
+        "type" : "object",
+        "properties" : {
+          "agendaId" : {
+            "type" : "number",
+            "description" : "의사결정 Id"
+          },
+          "memberId" : {
+            "type" : "number",
+            "description" : "담당자 Id"
+          }
+        }
+      },
+      "agenda-agendaId-2023562834" : {
+        "type" : "object",
+        "properties" : {
+          "commentList" : {
+            "type" : "array",
+            "description" : "의사결정 댓글",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "content" : {
+                  "type" : "string",
+                  "description" : "댓글 내용"
+                },
+                "commenter" : {
+                  "type" : "object",
+                  "properties" : {
+                    "name" : {
+                      "type" : "string",
+                      "description" : "댓글자 이름"
+                    },
+                    "id" : {
+                      "type" : "number",
+                      "description" : "댓글자 Member.Id"
+                    }
+                  },
+                  "description" : "댓글자"
+                }
+              }
+            }
+          },
+          "requester" : {
+            "type" : "object",
+            "properties" : {
+              "name" : {
+                "type" : "string",
+                "description" : "의사결정 요청자 이름"
+              },
+              "id" : {
+                "type" : "number",
+                "description" : "의사결정 요청자 Id"
+              }
+            },
+            "description" : "의사결정 요청자"
+          },
+          "createdAt" : {
+            "type" : "string",
+            "description" : "의사결정 요청 일자"
+          },
+          "assigneeList" : {
+            "type" : "array",
+            "description" : "의사결정 양수인 정보",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "name" : {
+                  "type" : "string",
+                  "description" : "양수인 이름"
+                },
+                "id" : {
+                  "type" : "number",
+                  "description" : "양수인 Member.Id"
+                },
+                "assigneeId" : {
+                  "type" : "number",
+                  "description" : "양수인 Id"
+                }
+              }
+            }
+          },
+          "id" : {
+            "type" : "number",
+            "description" : "의사결정 Id"
+          },
+          "content" : {
+            "type" : "string",
+            "description" : "의사결정 요청 내용"
           }
         }
       }

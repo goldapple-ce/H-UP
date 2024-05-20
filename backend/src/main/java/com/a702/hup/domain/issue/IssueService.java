@@ -1,5 +1,6 @@
 package com.a702.hup.domain.issue;
 
+import com.a702.hup.application.data.dto.IssueDTO;
 import com.a702.hup.domain.issue.entity.Issue;
 import com.a702.hup.domain.member.entity.Member;
 import com.a702.hup.domain.project.entity.Project;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -29,10 +31,21 @@ public class IssueService {
     }
 
     /**
+     * @author 이경태
+     * @date 2024-05-07
+     * @description 프로젝트 별 이슈 조회
+     **/
+    public List<Issue> findByProjectId(int projectId) {
+        return issueRepository.findByProjectId(projectId)
+                .orElseThrow(() -> new IssueException(ErrorCode.API_ERROR_ISSUE_NOT_FOUND));
+    }
+
+    /**
      * @author 강용민
      * @date 2024-04-26
      * @description 저장
      */
+    @Transactional
     public Issue save(Project project, Member member, String title, LocalDate startDate, LocalDate endDate) {
         return issueRepository.save(Issue.builder()
                 .project(project)
@@ -43,4 +56,18 @@ public class IssueService {
                 .build());
     }
 
+    @Transactional
+    public Issue save(Project project, Member member) {
+        return issueRepository.save(Issue.builder()
+                .project(project)
+                .member(member)
+                .build());
+    }
+
+    @Transactional
+    public Issue update(IssueDTO.Update request) {
+        Issue issue = findById(request.getIssueId());
+        issue.updateIssue(request);
+        return issue;
+    }
 }

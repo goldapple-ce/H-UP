@@ -5,6 +5,7 @@ import com.a702.hup.domain.member.entity.Member;
 import com.a702.hup.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,4 +24,15 @@ public class IssueMember extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    @Builder
+    public IssueMember(Issue issue, Member member) {
+        addRelatedIssue(issue);
+        this.member = member;
+    }
+
+    private void addRelatedIssue(Issue issue) {
+        issue.getIssueMemberList().add(this);
+        this.issue = issue;
+    }
 }
