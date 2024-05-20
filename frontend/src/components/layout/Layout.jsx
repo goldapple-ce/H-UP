@@ -1,5 +1,4 @@
-import React from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet } from 'react-router-dom';
 import styles from './Layout.module.scss';
 
 const Layout = () => {
@@ -7,7 +6,7 @@ const Layout = () => {
     <div className={styles.layout}>
       <Outlet />
     </div>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;

@@ -1,0 +1,106 @@
+.Todo {
+  margin: 0 auto;
+  width: 100%;
+  min-width: 300px;
+  border-bottom: 1px solid #333;
+  padding: 20px;
+  margin: 5px 0 10px 5px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &_header {
+    display: flex;
+  }
+  p {
+    font-size: 12px;
+    color: grey;
+    margin-right: 20px;
+    padding-top: 7px;
+  }
+
+  ul {
+    margin-left: auto;
+    display: flex;
+    flex-direction: row;
+  }
+
+  img {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    margin: 0px 5px 0 5px;
+    object-fit: cover;
+  }
+
+  h5 {
+    margin-left: 20px;
+    font-size: 1.2em;
+  }
+
+  &:hover {
+    transform: translatex(2px);
+  }
+}
+
+.h5 {
+  text-decoration: underline;
+  font-weight: 700; /* 진하게 굵은 글자 */
+  font-size: 1.2em;
+  margin-left: 5px;
+}
+
+.left_container {
+  justify-content: left;
+  align-items: center;
+  display: flex; /* 수평으로 요소들을 나란히 정렬 */
+}
+
+.right_container {
+  justify-content: right;
+  align-items: center;
+  display: flex; /* 수평으로 요소들을 나란히 정렬 */
+}
+
+.date {
+  font-size: 12px;
+}
+
+.buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.todo_assignee {
+  margin-left: 10px;
+}
+
+.userButton,
+.editButton,
+.deleteButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #e0e0e0;
+  }
+}
+
+.deleteButton {
+  background-color: #f8d7da;
+  color: #721c24;
+
+  &:hover {
+    background-color: #f5c6cb;
+  }
+}

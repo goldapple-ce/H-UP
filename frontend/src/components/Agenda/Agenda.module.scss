@@ -1,0 +1,73 @@
+@mixin clearfix {
+  &:after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+}
+
+.agenda {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 3px;
+  border-radius: 8px;
+  margin: 10px;
+
+  &__container {
+    @include clearfix;
+  }
+}
+
+$tab-label-height: 30px;
+$tab-content-height: 550px;
+
+.tab {
+  float: left;
+
+  &__group {
+    @include clearfix;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    height: auto; //$tab-label-height + $tab-content-height;
+  }
+
+  &__label {
+    display: inline-block;
+    padding: 0 20px;
+
+    font-size: 16px;
+    line-height: $tab-label-height;
+    cursor: pointer;
+
+    // Active tab styles
+    background: #fff;
+    font-weight: 600;
+  }
+
+  &__content {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+    overflow-y: auto;
+    background: #fff;
+  }
+
+  &__radio {
+    display: none;
+
+    &:not(:checked) {
+      // Inactive tab styles
+      & ~ .tab__label {
+        background: transparent;
+      }
+
+      & ~ .tab__content {
+        display: none;
+      }
+    }
+  }
+}

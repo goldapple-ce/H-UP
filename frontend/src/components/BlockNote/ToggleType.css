@@ -1,0 +1,73 @@
+.alert {
+  display: flex;
+  justify-content: flex-start;
+  align-self: center;
+  align-items: center;
+  border-radius: 4px;
+  height: 100%;
+  padding: 4px;
+  margin: 0;
+}
+
+.alert[data-alert-type='ASSIGNED'] {
+  border-left: 5px solid #e69819;
+}
+
+.alert[data-alert-type='PROGRESS'] {
+  border-left: 5px solid #540dd8;
+}
+
+.alert[data-alert-type='COMPLETED'] {
+  border-left: 5px solid #26e215;
+}
+
+.alert[data-alert-type='APPROVED'] {
+  border-left: 5px solid #9408ba;
+}
+
+.alert-icon-wrapper {
+  display: flex;
+  align-items: center;
+  border-radius: 16px;
+  margin-left: 12px;
+  height: 24px;
+  width: 24px;
+  user-select: none;
+  cursor: pointer;
+}
+
+.alert-icon[data-alert-icon-type='ASSIGNED'] {
+  color: #e69819;
+}
+
+.alert-icon[data-alert-icon-type='PROGRESS'] {
+  color: #540dd8;
+}
+
+.alert-icon[data-alert-icon-type='COMPLETED'] {
+  color: #26e215;
+}
+
+.alert-icon[data-alert-icon-type='APPROVED'] {
+  color: #9408ba;
+}
+
+.info-wrapper {
+  display: flex;
+  align-items: center;
+  flex: 3;
+  flex-direction: row;
+
+  * {
+    margin-left: 10px;
+  }
+}
+
+.name {
+  margin-left: 15px;
+}
+
+.inline-content {
+  flex: 4;
+  margin-left: 10px;
+}

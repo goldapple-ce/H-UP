@@ -1,0 +1,85 @@
+.agenda {
+  display: flex;
+  width: 95%;
+  border-radius: 8px;
+
+  &__column1 {
+    width: 70%;
+    overflow-y: auto;
+    padding-right: 20px;
+  }
+
+  &__column2 {
+    width: 30%;
+    overflow-y: auto;
+    padding-top: 20px;
+    border-left: 1px solid lightgrey;
+  }
+
+  &__list {
+    height: 600px;
+    padding: 0 15px;
+  }
+
+  &__new_list {
+    height: 600px;
+    min-width: 300px;
+    padding: 0 15px;
+
+    h4 {
+      text-align: center;
+    }
+  }
+}
+
+$tab-label-height: 40px;
+$tab-content-height: 550px;
+
+.tab {
+  float: left;
+
+  &__group {
+    position: relative;
+    height: $tab-label-height + $tab-content-height;
+  }
+
+  &__label {
+    display: inline-block;
+    padding: 0 20px;
+
+    font-size: 16px;
+    line-height: $tab-label-height;
+    cursor: pointer;
+
+    // Active tab styles
+    background: #fff;
+    font-weight: 800;
+  }
+
+  &__content {
+    position: absolute;
+    width: 100%;
+    height: $tab-content-height;
+    top: $tab-label-height;
+    left: 0;
+    right: 0;
+    overflow-y: hidden;
+    background: #fff;
+    border-top: 1px solid black;
+  }
+
+  &__radio {
+    display: none;
+
+    &:not(:checked) {
+      // Inactive tab styles
+      & ~ .tab__label {
+        background: transparent;
+      }
+
+      & ~ .tab__content {
+        display: none;
+      }
+    }
+  }
+}

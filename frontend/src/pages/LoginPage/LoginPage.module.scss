@@ -1,63 +1,92 @@
 .login_container {
+  border-style: solid;
+  border-color: #0077b6;
+  border-width: 2px;
+  padding: 20px 20px 0 20px;
+  border-radius: 8px;
+  width: 100%;
+  height: 100%;
+  margin: 250px auto 0px;
+
+  h2 {
+    margin-bottom: 20px;
+  }
+
+  form {
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    width: 300px;
-    margin: 50px auto;
-  
-    h2 {
-      margin-bottom: 20px;
+
+    div {
+      margin-bottom: 5px;
     }
-    h5 {
-        color:#0056b3;
-        cursor: pointer;
-        &:hover{
-            color:#007BFF;
-        }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 12px;
     }
-  
-    form {
+
+    input[type='userId'],
+    input[type='password'] {
       width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      
-      div {
-        margin-bottom: 5px;
-      }
-  
-      label {
-        display: block;
-        margin-bottom: 5px;
-        font-size: 12px;
-        color: red;
-      }
-  
-      input[type="userId"],
-      input[type="password"] {
-        width: 100%;
-        padding: 8px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-      }
-  
-      input[type="button"] {
-        width: 100%;
-        padding: 10px;
-        background-color: #007BFF;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-  
-        &:hover {
-          background-color: #0056b3;
-        }
+      margin-top: 10px;
+      padding: 8px;
+      border-style: solid;
+      border-color: white white #0077b6;
+    }
+
+    input:focus {
+      outline: none;
+    }
+
+    input[type='button'] {
+      width: 100px;
+      height: 40px;
+      margin-top: 15px;
+      margin-bottom: 10px;
+      background-color: #00b4d8;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: #0077b6;
       }
     }
   }
-  
+}
+
+.notMember_container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+
+  h5 {
+    color: #0077b6;
+    cursor: pointer;
+    margin: 0 50px;
+
+    &:hover {
+      color: #00b4d8;
+    }
+  }
+
+  p {
+    margin: 10px auto;
+    font-weight: bold;
+  }
+}
+
+.whole_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 500px;
+  height: auto;
+  margin: 0 auto;
+}

@@ -1,60 +1,77 @@
-import { useRecoilValue } from 'recoil';
-import KanbanList from '../Kanban/KanbanList';
-import Card from '../Kanban/Card';
+import Input from '@component/common/Input';
+import UserIcon from '@component/common/UserIcon';
+import { STATUS } from '@constant/status';
+import useInput from '@hook/useInput';
+import { issueState } from '@recoil/issue';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { issueListState } from '../../recoil/recoil';
-import styles from './Kanban.module.scss'
-import { useState } from 'react';
+import { useRecoilState } from 'recoil';
+import styles from './Kanban.module.scss';
+import KanbanIssueItem from './KanbanIssueItem';
+import KanbanList from './KanbanList';
 
-function Kanban() {
-  const kanbanList = useRecoilValue(issueListState);
-  const { TO_DO, IN_PROGRESS, DONE, NOTE } = TITLE_NAME;
-  const [selectedCategory, setSelectedCategory] = useState('TO_DO'); // Initial selected category
+export default function Kanban() {
+  const { CREATED, SELECTED, PROGRESS, COMPLETED } = STATUS;
+  const [issueList] = useRecoilState(issueState);
 
-  const cardDataHandler = (cardTitle) => {
-    return kanbanList
-      .filter((data) => data.progress === cardTitle
-      //  && data.category === selectedCategory)
-      ).map((item, index) => <Card key={item.id} item={item} />);
-  };
+  const { state: searchInput, onChange: onSearchInputChange } = useInput();
 
-  const handleCategoryChange = (event) => {
-    setSelectedCategory(event.target.value);
+  const cardDataHandler = cardTitle => {
+    return issueList
+      .filter(
+        data =>
+          data.status === cardTitle &&
+          data.title.toLowerCase().includes(searchInput),
+      )
+      .map(item => <KanbanIssueItem key={item.issueId} item={item} />);
   };
 
   return (
-    <div>
-      <div className={styles.cardDataHandler}>
-      <div className="category-dropdown">
-        <label htmlFor="category-select">Category:</label>
-        <select id="category-select" value={selectedCategory} onChange={handleCategoryChange}>
-          <option value="TO_DO">할 일</option>
-          <option value="ISSUE">이슈</option>
-        </select>
-      </div>
-        <input placeholder='검색'></input>
-        {/* <div> 담당자들 이미지 리스트 </div> */}
-      </div>
-      <section className={styles.kanbanListContainer}>
-        <DndProvider backend={HTML5Backend}>
-          <KanbanList title={TO_DO}>{cardDataHandler(TO_DO)}</KanbanList>
-          <KanbanList title={IN_PROGRESS}>
-            {cardDataHandler(IN_PROGRESS)}
-          </KanbanList>
-          <KanbanList title={NOTE}>{cardDataHandler(NOTE)}</KanbanList>
-          <KanbanList title={DONE}>{cardDataHandler(DONE)}</KanbanList>
-        </DndProvider>
-      </section>
-    </div>
+    issueList && (
+      <>
+        <div className={styles.header}>
+          <Input
+            className={styles.header__search}
+            placeholder={'이슈 검색'}
+            onChange={onSearchInputChange}
+          />
+          <div className={styles.header__imageSet}>
+            {issueList
+              .reduce((uniqueImages, data) => {
+                data.assigneeInfoList.map(info => {
+                  const imgUrl = info.img;
+                  if (
+                    !uniqueImages.some(prevImage => prevImage.id === info.id)
+                  ) {
+                    uniqueImages.push({
+                      img: imgUrl,
+                      id: info.id,
+                      name: info.name,
+                    });
+                  }
+                });
+                return uniqueImages;
+              }, [])
+              .map(image => (
+                <UserIcon key={image.id} src={image.img} alt={image.name} />
+              ))}
+          </div>
+        </div>
+        <section className={styles.kanbanListContainer}>
+          <DndProvider backend={HTML5Backend}>
+            <KanbanList title={CREATED}>{cardDataHandler(CREATED)}</KanbanList>
+            <KanbanList title={SELECTED}>
+              {cardDataHandler(SELECTED)}
+            </KanbanList>
+            <KanbanList title={PROGRESS}>
+              {cardDataHandler(PROGRESS)}
+            </KanbanList>
+            <KanbanList title={COMPLETED}>
+              {cardDataHandler(COMPLETED)}
+            </KanbanList>
+          </DndProvider>
+        </section>
+      </>
+    )
   );
 }
-
-export default Kanban;
-
-export const TITLE_NAME = {
-  TO_DO: '발의됨',
-  IN_PROGRESS: '진행중',
-  DONE: '완료',
-  NOTE: '선택됨',
-};

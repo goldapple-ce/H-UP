@@ -1,36 +1,39 @@
-.issue_container {
-    width: 95%;
-    padding: 10px;
-    border-radius: 8px;
-    margin: 10px;
-  
-    h4 {
-        padding-left: 20px;
-    }
-}
+.issue {
+  display: flex;
+  width: 95%;
+  border-radius: 8px;
 
-.issue_page {
+  &__container {
     display: flex;
-    gap: 20px;
-}
+    padding: 10px;
+    margin: 10px;
+  }
 
-.column1 {
-  width: 65%;
-  overflow-y: scroll;
-}
+  &__column1 {
+    width: 70%;
+    overflow-y: auto;
+    padding-right: 20px;
+  }
 
-.issue_section {
-  height: 600px;
-  padding: 0 15px;
-}
+  &__column2 {
+    width: 30%;
+    overflow-y: auto;
+    padding-top: 20px;
+    border-left: 1px solid lightgrey;
+  }
 
-.column2 {
-  width: 35%;
-  overflow-y: scroll;
-}
+  &__list {
+    height: 600px;
+    padding: 0 15px;
+  }
 
-.imminent_issue_section {
-  height: 600px;
-  min-width: 300px;
-  padding: 0 15px;
+  &__new_list {
+    height: 600px;
+    min-width: 300px;
+    padding: 0 15px;
+
+    h4 {
+      text-align: center;
+    }
+  }
 }

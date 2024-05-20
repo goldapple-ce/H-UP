@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
-import styles from './SignupPage.module.scss'; // SCSS 스타일 시트 임포트
-import axios from 'axios';
+import { requestIdCheck, requestSignup } from '@api/services/auth';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import styles from './SignupPage.module.scss'; // SCSS 스타일 시트 임포트
 
 function SignupPage() {
-
   const [usernameValid, setUsernameValid] = useState(true);
   const [userId, setuserId] = useState('');
   const [password, setPassword] = useState('');
@@ -12,7 +11,7 @@ function SignupPage() {
   const [name, setName] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     if (!usernameValid) {
       alert('Please use a different username.');
@@ -25,21 +24,23 @@ function SignupPage() {
     }
 
     const formData = {
-      userId:userId,
-      password:password,
-      name:name
-    }
+      userId: userId,
+      password: password,
+      name: name,
+    };
 
     try {
-      const response = await axios.post('api/member/signup', formData);
+      const response = await requestSignup(formData);
       console.log('Server Response:', response.data);
 
-      alert('회원가입 성공')
+      alert('회원가입 성공');
 
-      navigate('/ProjectPage');
-      
+      navigate('/');
     } catch (error) {
-      console.error('Signup error:', error.response ? error.response.data : error);
+      console.error(
+        'Signup error:',
+        error.response ? error.response.data : error,
+      );
     }
   };
 
@@ -49,7 +50,8 @@ function SignupPage() {
       return;
     }
     try {
-      const response = await axios.get(`api/member/check?userId=${userId}`);
+      const response = await requestIdCheck(userId);
+      console.log(response.data);
       if (response.data.available) {
         alert('ID is available.');
         setUsernameValid(true);
@@ -58,67 +60,68 @@ function SignupPage() {
         setUsernameValid(false);
       }
     } catch (error) {
-      console.error('Error checking username:', error.response ? error.response.data : error);
+      console.error(
+        'Error checking username:',
+        error.response ? error.response.data : error,
+      );
       setUsernameValid(false);
     }
   };
 
   return (
     <div className={styles.signup_container}>
-      <h2>회원 가입</h2>
+      <h2>회원가입</h2>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="userId">ID:</label>
+        <div className={styles.id_container}>
           <input
-            type="text"
-            id="userId"
+            className={styles.inputId}
+            type='text'
             value={userId}
-            onChange={(e) => setuserId(e.target.value)}
+            placeholder='ID를 입력하세요.'
+            onChange={e => setuserId(e.target.value)}
             required
           />
-          <button type="button" onClick={handleCheckUsername}>중복 확인</button>
+          <button
+            className={styles.checkId}
+            type='button'
+            onClick={handleCheckUsername}
+          >
+            중복 확인
+          </button>
         </div>
         <div>
-          <label htmlFor="password">비밀번호</label>
           <input
-            type="password"
-            id="password"
+            type='password'
+            id='password'
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            placeholder='비밀번호를 입력하세요.'
+            onChange={e => setPassword(e.target.value)}
             required
           />
         </div>
         <div>
-          <label htmlFor="passwordConfirm">비밀번호 확인</label>
           <input
-            type="password"
-            id="passwordConfirm"
+            type='password'
+            id='passwordConfirm'
             value={passwordConfirm}
-            onChange={(e) => setPasswordConfirm(e.target.value)}
+            placeholder='비밀번호를 재입력하세요.'
+            onChange={e => setPasswordConfirm(e.target.value)}
             required
           />
         </div>
         <div>
-          <label htmlFor="name">이름</label>
           <input
-            type="text"
-            id="name"
+            type='text'
+            id='name'
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            placeholder='이름을 입력하세요.'
+            onChange={e => setName(e.target.value)}
             required
           />
         </div>
-        {/* <div>
-          <label htmlFor="email">이메일</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div> */}
-        <button type="submit">가입하기</button>
+        <button className={styles.signup} type='submit'>
+          가입하기
+        </button>
       </form>
     </div>
   );
