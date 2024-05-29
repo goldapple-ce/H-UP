@@ -1,0 +1,98 @@
+.kanbanListContainer {
+  display: grid;
+  flex-direction: column;
+  justify-content: space-evenly;
+  margin: 10px 0 10px 0;
+  height: 100%;
+  // grid-template-columns: repeat(auto-fit, minmax(20%, 1fr));
+  grid-template-columns: repeat(4, 350px);
+  gap: 20px; /* Adjust spacing between columns as needed */
+
+  // overflow-y: scroll;
+  overflow-x: scroll;
+
+  /* 스크롤바의 폭 너비 */
+  &::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #0077b6; /* 스크롤바 색상 */
+    border-radius: 10px; /* 스크롤바 둥근 테두리 */
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #0076b62d; /*스크롤바 뒷 배경 색상*/
+  }
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  padding: 20px;
+  cursor: pointer;
+
+  select {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none; // 기본 CSS 제거
+
+    font-family: 'Noto Sansf KR', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1;
+
+    color: #444;
+    background-color: #fff;
+
+    padding: 0.6em 1.4em 0.5em 0.8em;
+    margin-right: 20px;
+
+    border: 1px solid #ffffff;
+    border-radius: 0.5em;
+    box-shadow: 0 1px 0 1px rgba(0, 0, 0, 0.04);
+
+    &:hover {
+      border-color: #888;
+      box-shadow: 0 0 1px 3px skyblue;
+      box-shadow: 0 0 0 3px -moz-mac-focusring;
+    }
+
+    &:focus {
+      border-color: #aaa;
+      box-shadow: 0 0 1px 3px lightblue;
+      box-shadow: 0 0 0 3px -moz-mac-focusring;
+      color: #222;
+      outline: none;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+    }
+  }
+
+  &__search {
+    border-radius: 15px;
+    border: 3px solid skyblue;
+
+    text-indent: 10px;
+  }
+
+  input:focus {
+    outline: none;
+  }
+
+  &__imageSet {
+    margin-left: 30px;
+  }
+
+  &__arrow {
+    z-index: 1;
+    width: 35px;
+    height: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

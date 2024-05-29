@@ -1,0 +1,20 @@
+$lightGray: #fafbfb;
+$fontColor: #323d45;
+$fontGray: #646f7c;
+$white: #ffffff;
+$sky: #00b8ff;
+$navy: #02469d;
+
+.addBtnWrap {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+
+  .cardAddBtn {
+    border: 0;
+    outline: 0;
+    background-color: transparent;
+    color: $fontGray;
+    cursor: pointer;
+  }
+}

@@ -1,0 +1,39 @@
+.issue {
+  display: flex;
+  width: 95%;
+  border-radius: 8px;
+
+  &__container {
+    display: flex;
+    padding: 10px;
+    margin: 10px;
+  }
+
+  &__column1 {
+    width: 70%;
+    overflow-y: auto;
+    padding-right: 20px;
+  }
+
+  &__column2 {
+    width: 30%;
+    overflow-y: auto;
+    padding-top: 20px;
+    border-left: 1px solid lightgrey;
+  }
+
+  &__list {
+    height: 600px;
+    padding: 0 15px;
+  }
+
+  &__new_list {
+    height: 600px;
+    min-width: 300px;
+    padding: 0 15px;
+
+    h4 {
+      text-align: center;
+    }
+  }
+}

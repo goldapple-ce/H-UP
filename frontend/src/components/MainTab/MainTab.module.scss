@@ -1,0 +1,100 @@
+$tab-label-height: 40px;
+$tab-content-height: 550px;
+$background-color: #00b4d837;
+$active-tab-color: $background-color;
+$inactive-tab-color: transparent;
+$inactive-tab-text-color: rgb(180, 180, 180);
+$text-color: black;
+$border-color: #00b4d876;
+
+@mixin clearfix {
+  &:after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: #f1f1f1;
+  padding: 0px;
+}
+
+.maintab_container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+}
+
+.tab {
+  display: flex;
+  flex-direction: column;
+
+  &__group {
+    @include clearfix;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    height: auto; //$tab-label-height + $tab-content-height;
+  }
+  &__label {
+    flex: 1;
+    padding: 0 20px;
+    font-size: 16px;
+    line-height: $tab-label-height;
+    cursor: pointer;
+    text-align: center;
+    margin: 0px 2px;
+
+    // Active tab styles
+    background: $active-tab-color;
+    font-weight: 800;
+  }
+
+  &__content {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+    overflow-y: auto;
+    background: #fff;
+    border-top: 3px solid $border-color;
+  }
+
+  &__radio {
+    display: none;
+
+    &:not(:checked) {
+      // Inactive tab styles
+      & ~ .tab__label {
+        background: $inactive-tab-color;
+        color: $inactive-tab-text-color;
+      }
+
+      & ~ .tab__content {
+        display: none;
+        color: $text-color;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .tab {
+    float: left;
+    width: 100%;
+    &__label {
+      padding: 0 10px;
+    }
+  }
+}
+
+.kanban {
+  width: 100%;
+}

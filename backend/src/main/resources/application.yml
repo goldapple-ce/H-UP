@@ -1,0 +1,87 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /api
+
+spring:
+  config:
+    import:
+      - optional:file:.env[.properties]
+
+  # mysql
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+
+  data:
+    # redis
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+      password: ${REDIS_PASSWORD}
+    # mongodb
+    mongodb:
+      host: ${MONGO_HOST}
+      port: ${MONGO_PORT}
+      database: ${MONGO_DATABASE}
+      username: ${MONGO_USERNAME}
+      password: ${MONGO_PASSWORD}
+      authentication-database: ${MONGO_AUTHENTICATION}
+      auto-index-creation: true
+
+  jpa:
+    hibernate:
+      ddl-auto: ${DDL_AUTO}
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+
+  cloud:
+    aws:
+      credentials:
+        access-key: ${S3_ACCESS_KEY}
+        secret-key: ${S3_SECRET_KEY}
+      region:
+        static: ap-northeast-2
+      s3:
+        bucket: ${S3_BUCKET_NAME}
+      stack:
+        auto: false
+
+# jwt
+jwt:
+  expiration:
+    access : ${JWT_EXPIRATION_ACCESS}
+    refresh: ${JWT_EXPIRATION_REFRESH}
+  secret: ${JWT_SECRET}
+
+# Swagger
+springdoc:
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+  api-docs:
+    groups:
+      enabled: true
+  swagger-ui:
+    operations-sorter: alpha    # alpha(알파벳 오름차순), method(HTTP메소드순)
+    tags-sorter: alpha          # 태그 정렬 기준
+    path: index.html      # html 문서 접속 경로
+    disable-swagger-default-url: true
+    display-query-params-without-oauth2: true
+    doc-expansion: none         # tag, operation 펼치는 방식
+  paths-to-match:
+    - /**
+
+# log
+logging:
+  level:
+    com.a702.hup.global: debug
+    sql: info

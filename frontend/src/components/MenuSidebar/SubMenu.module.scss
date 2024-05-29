@@ -1,0 +1,67 @@
+.subMenuSpan {
+  color: white;
+  font-weight: 500;
+  // margin-left: 0px;
+}
+
+.sidebarLink {
+  display: flex;
+  color: #5b5b5b;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  list-style: none;
+  height: 60px;
+  text-decoration: none;
+  font-size: 16px;
+
+  &:hover {
+    background: #70a6bb;
+    border-left: 4px solid #c1deff;
+    cursor: pointer;
+  }
+}
+
+.dropdownLink {
+  background: #4789ad;
+  height: 30px;
+  margin-left: 20px;
+  padding-left: 3rem;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  font-size: 12px;
+
+  &:hover {
+    background: #70a6bb;
+    cursor: pointer;
+  }
+}
+
+.dropdownContent {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 1s ease;
+}
+
+.dropdownContent.open {
+  max-height: 500px; /* 적절한 값으로 조정, 예를 들어 최대 높이 */
+}
+
+.dropdownLink {
+  display: block;
+  padding: 8px 16px;
+  text-decoration: none;
+  color: black;
+  /* 추가 스타일들 */
+}
+
+.sidebarLink {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  text-decoration: none;
+  color: black;
+  /* 추가 스타일들 */
+}

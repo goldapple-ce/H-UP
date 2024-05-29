@@ -1,0 +1,62 @@
+.nav_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  border-style: solid;
+  border-color: white white rgb(232, 232, 232) white;
+  height: 50px;
+  position: fixed;
+  width: 100%;
+  z-index: 1;
+
+  div:first-child {
+    justify-content: flex-start;
+  }
+  div:last-child {
+    justify-content: flex-end;
+  }
+}
+
+.flex_item {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.nav_container > div,
+.nav_container > a {
+  flex: 1;
+  text-align: center;
+  font-weight: 800;
+  font-size: 30px;
+}
+
+a:hover {
+  text-decoration: none;
+  color: #0077b6;
+}
+
+.btn_container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 3px;
+  margin-right: 10px;
+}
+
+.logo {
+  color: #00b4d8;
+  flex: 0 1 auto;
+  text-align: center;
+}
+
+.nav_container div:first-child {
+  order: 0;
+  text-align: left;
+}
+
+.nav_container div:last-child {
+  order: 2;
+  text-align: right;
+}

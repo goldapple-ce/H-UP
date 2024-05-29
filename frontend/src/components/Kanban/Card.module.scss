@@ -1,0 +1,44 @@
+$lightGray: #fafbfb;
+$fontColor: #323d45;
+$fontGray: #646f7c;
+$white: #ffffff;
+$sky: #00b8ff;
+$navy: #02469d;
+
+.cardWrap {
+  display: flex;
+  margin: 0px 4px 8px 4px;
+  border-radius: 3px;
+  cursor: pointer;
+  height: auto;
+  width: auto;
+  justify-content: space-around;
+  align-items: center;
+  overflow: hidden;
+  padding: 15px;
+  gap: 10px;
+
+  .cardHeaderWrap {
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+
+    h5 {
+      margin-top: 10px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      overflow-wrap: break-word;
+      max-height: 20px;
+    }
+  }
+
+  .cardContent {
+    margin-right: 10px;
+  }
+
+  .imageList {
+    margin-left: 100px;
+  }
+}

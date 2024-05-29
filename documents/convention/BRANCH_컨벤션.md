@@ -36,4 +36,5 @@
 
 ---
 
-해당 내용이 기능 구현이라면 `feat/member/#S10P22A603-127/LKT`로 작성합니다.
+- `feat/member/#S10P31A702-127/LKT`
+- `fix/schedule/#S10P31A702-131/LKT`
