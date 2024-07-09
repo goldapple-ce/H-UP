@@ -33,31 +33,31 @@ Notion의 문서 작성 기능과 Jira의 일정 관리 기능을 결합하여, 
 
 ## 화면
 - 로그인화면
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/14cffe68-3cd2-41ea-b1b2-4ea629dabfd2/743e4f3f-b53a-42cb-b351-786f3b979ed4/Untitled.png)
+<img width="1728" alt="login png 10-54-53-768" src="https://github.com/SSAFY-H-UP/H-UP/assets/84130518/5a939a1d-711e-4508-9f7a-3cef9abb6cf2">
 
 - 회원가입
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/14cffe68-3cd2-41ea-b1b2-4ea629dabfd2/494058a4-346f-4e63-b75d-e49dc9b9db00/Untitled.png)
+<img width="1728" alt="signupPage png 10-54-53-778" src="https://github.com/SSAFY-H-UP/H-UP/assets/84130518/40b9d319-e6d1-4fef-827a-c3807c14cfe4">
 
 - 사이드바
-    ![화면-기록-2024-05-20-오후-4.43.48.gif](https://prod-files-secure.s3.us-west-2.amazonaws.com/14cffe68-3cd2-41ea-b1b2-4ea629dabfd2/caad1df2-9a8e-470e-ba1c-46c933bfbc38/%E1%84%92%E1%85%AA%E1%84%86%E1%85%A7%E1%86%AB-%E1%84%80%E1%85%B5%E1%84%85%E1%85%A9%E1%86%A8-2024-05-20-%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE-4.43.48.gif)
-    
+- <img width="1712" alt="Sidebar png 10-54-53-777" src="https://github.com/SSAFY-H-UP/H-UP/assets/84130518/9ea28b21-e2c7-485a-98ed-38dd971f67dc">
+
 - 이슈 탭
-    ![스크린샷 2024-05-20 오후 5.30.41.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/14cffe68-3cd2-41ea-b1b2-4ea629dabfd2/82da12f0-cc8e-4dd9-a383-0267e4baa997/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA_2024-05-20_%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE_5.30.41.png)
+<img width="1728" alt="IssueTab png 10-54-53-764" src="https://github.com/SSAFY-H-UP/H-UP/assets/84130518/9317125a-6dee-45af-b1e0-86792ac1d248">
     
 - 칸반 탭
-    ![스크린샷 2024-05-20 오후 5.30.59.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/14cffe68-3cd2-41ea-b1b2-4ea629dabfd2/abc8bff8-678f-4d90-8d84-930779e1d8e3/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA_2024-05-20_%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE_5.30.59.png)
+- <img width="1728" alt="kanbanTab png 10-54-53-766" src="https://github.com/SSAFY-H-UP/H-UP/assets/84130518/925f932c-e2d6-4fb7-9b72-21757a3d4ad4">
+
+- 할일 탭
+<img width="1712" alt="TodoTab png 10-54-53-779" src="https://github.com/SSAFY-H-UP/H-UP/assets/84130518/5e93d325-ee74-449d-b53c-f755a6fa6041">
     
-- 할일
-    ![스크린샷 2024-05-20 오후 5.31.14.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/14cffe68-3cd2-41ea-b1b2-4ea629dabfd2/1e658cef-6929-4105-8f25-c33b5db1d78b/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA_2024-05-20_%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE_5.31.14.png)
-    
-- 의사결정
-    ![스크린샷 2024-05-20 오후 5.31.25.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/14cffe68-3cd2-41ea-b1b2-4ea629dabfd2/099a0319-e2a2-48cf-80f5-1c8c1ed56270/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA_2024-05-20_%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE_5.31.25.png)
+- 의사결정 탭
+<img width="1708" alt="AgendaTab png 10-54-53-749" src="https://github.com/SSAFY-H-UP/H-UP/assets/84130518/2b795461-1746-4223-807b-7e78de37408c">
     
 - 캘린더
-    ![스크린샷 2024-05-20 오후 5.31.37.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/14cffe68-3cd2-41ea-b1b2-4ea629dabfd2/0038d7c0-43d4-413e-a413-5e4f653bcf8c/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA_2024-05-20_%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE_5.31.37.png)
+- <img width="1728" alt="CalenderPage png 10-54-53-761" src="https://github.com/SSAFY-H-UP/H-UP/assets/84130518/dc8e9130-bad7-4abf-8af1-5f5d519378a2">
     
 - 이슈
-    ![화면-기록-2024-05-20-오후-5.32.10.gif](https://prod-files-secure.s3.us-west-2.amazonaws.com/14cffe68-3cd2-41ea-b1b2-4ea629dabfd2/e183abd4-2706-4c49-b59a-1f9a3fc14c51/%E1%84%92%E1%85%AA%E1%84%86%E1%85%A7%E1%86%AB-%E1%84%80%E1%85%B5%E1%84%85%E1%85%A9%E1%86%A8-2024-05-20-%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE-5.32.10.gif)
+- <img width="1715" alt="IssuePage png 10-54-53-763" src="https://github.com/SSAFY-H-UP/H-UP/assets/84130518/e513ad48-3240-42c4-9db2-1db199473065">
 
 ## Skill
 ### IDE
