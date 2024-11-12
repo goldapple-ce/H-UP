@@ -28,7 +28,7 @@ public class AgendaMemberService {
      */
     @Transactional
     public AgendaMember save(Agenda agenda, Member member) {
-        notificationService.send(member, NotificationType.MENTIONED,agenda.getIssue().getTitle()+"에서 "+agenda.getRequester().getName()+"이 당신을 멘션하셨습니다.\n 내용 : "+agenda.getContent(),"/issue/"+agenda.getIssue().getId());
+        notificationService.send(member.getId(), NotificationType.MENTIONED,agenda.getIssue().getTitle()+"에서 "+agenda.getRequester().getName()+"이 당신을 멘션하셨습니다.\n 내용 : "+agenda.getContent(),"/issue/"+agenda.getIssue().getId());
         return agendaMemberRepository.findByMemberAndAgendaAndDeletedAtIsNull(member, agenda).orElseGet(() ->
                 agendaMemberRepository.save(AgendaMember.builder()
                         .agenda(agenda)

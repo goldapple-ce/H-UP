@@ -25,19 +25,12 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 //                .setHeartbeatTime(5000); // 5초 동안 메시지 교환이 없으면 세션 종료;
     }
 
-    /**
-     * @author boyjo
-     * @date 4/27/24
-     * @method configureMessageBroker
-     * @description
-     *  - enableSimpleBroker : SimpleBroker 가 /sub 경로를 가진 메시지를 처리 (구독중인 사용자에게 보냄)
-     *  - setApplicationDestinationPrefixes : /pub 접두사를 가진 경로를 @MessageMapping 으로 라우팅
-     **/
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         registry.enableSimpleBroker("/sub");
         registry.setApplicationDestinationPrefixes("/pub");
     }
+
 }
 
 

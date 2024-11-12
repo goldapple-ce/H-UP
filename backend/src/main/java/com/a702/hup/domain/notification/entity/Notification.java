@@ -18,7 +18,7 @@ public class Notification extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    private Member member;
+    private Member receiver;
 
     @Enumerated(EnumType.STRING)
     private NotificationType type;
@@ -28,16 +28,16 @@ public class Notification extends BaseEntity {
     private String url;
 
     @Builder
-    public Notification(Member member, NotificationType type, String content, String url) {
-        addRelatedMember(member);
+    public Notification(Member receiver, NotificationType type, String content, String url) {
+        addRelatedMember(receiver);
         this.type = type;
         this.content = content;
         this.url = url;
     }
 
-    private void addRelatedMember(Member member) {
-        member.getNotificationList().add(this);
-        this.member = member;
+    private void addRelatedMember(Member receiver) {
+        receiver.getNotificationList().add(this);
+        this.receiver = receiver;
     }
 
 }

@@ -2,33 +2,35 @@ package com.a702.hup.domain.notification.entity;
 
 import com.a702.hup.application.data.response.NotificationResponse;
 import com.a702.hup.domain.member.entity.Member;
+import com.a702.hup.domain.notification.NotificationException;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+
+import static com.a702.hup.global.error.ErrorCode.API_ERROR_INTERNAL_SERVER_ERROR;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class NotificationSSE {
-    @Setter
     private String id;
-    private Member member;
+    private Member receiver;
     private SseEmitter sseEmitter;
-    private Object data;
 
-    public NotificationSSE(Member member,SseEmitter sseEmitter,NotificationResponse data){
-        this(null,member,sseEmitter,data);
+    public NotificationSSE(Member receiver){
+        this.receiver = receiver;
     }
 
-    public NotificationSSE(Member member,SseEmitter sseEmitter,String data){
-        this(null,member,sseEmitter,data);
-    }
-
-    public void setData(Object object){
-        if(object.getClass() == Notification.class){
-            this.data = NotificationResponse.from((Notification) object);
-        }else if(object.getClass() == String.class){
-            this.data = (String)object;
+    public void setSseEmitter(@NotNull SseEmitter sseEmitter){
+        if(this.sseEmitter != null){
+            throw new NotificationException(API_ERROR_INTERNAL_SERVER_ERROR);
         }
+        this.sseEmitter = sseEmitter;
+    }
+
+    public void setId(@NotNull String id){
+        this.id = id;
     }
 
 }
+
